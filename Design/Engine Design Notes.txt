@@ -1,0 +1,70 @@
+Goal: Desgin a system that allows for complex tile behaviors. Adding/overriding
+and removing should also be provided and update all necessary tiles.
+
+.
+The main component should be a simple structure that contains tiles (i.e. a dictionary/map).
+The drawback is that this structure quickly becomes too large to store millions of tiles.
+An acceleration structure may then be constructed and acts as the interface between
+tiles and actions. ( uses a Map to store tiles, and a Quadtree to aid in management of tiles; State of tiles stored in only one place)
+
+
+. ACTION QUEUE CONCEPT
+In order to efficiently achieve the goal, all 'actions' on cells shall first be contained
+in a 'queue of these actions', as there are usually less actions at any one time than tiles to store.
+We iterate through the 'queue' each game cycle and apply each action only once in a single place.
+The use of actions allows for each operation on tiles to be optimized.
+
+. INTERACTION
+The game logic may register actions( add, remove, add block, remove block, redraw, swap?, update?, etc.) that make a change in 
+the structure( and redraw tiles). Tile behaviors that will be updated from actions being applied commits more actions and 
+references other actions and the tilemap container. Actions are basically simple behaviors that actual behaviors 
+use to make more direct changes in the tilemap.
+
+. GAME ORDER
+We could separate the application of actions from the updating of the affected tiles for physical reasons that may make it redundant. 
+You could also just have tiles immdediately respond, but that is usually unnecessary. There is no avoiding the need to check the container and action queue in behaviors, but
+there must also be a queue that replaces the other to avoid recursion, so the question of separating these depends more on preference. These two are basically
+the same, the only real differences is that the 2nd option must refernce the container, current action queue, and behavior action queue because not all actions are
+applied before the tile behaviors are updated.
+ Follows this order:
+(May want to use 1st option because separating the updating could be helpful to optimize the update adjacent system)
+	. Game Logic
+	. Update tiles from previous action queue (may want to use a map to avoid updating the same tile again, although the order will be messed up)
+	. Apply current action queue, delete previous, and override previous, set current to new
+	. Draw Stuff
+	
+	. Game Logic
+	. Apply current action queue, which updates tiles, and replace current action queue with the new behavior action queue
+	. Draw Stuff
+
+. UPDATE SYSTEM
+Actions being applied will affect tiles through updating them. When an action is applied, at some point UpdateAdjacentTiles will be called. This will loop through
+a vector of positions, initially just the one center position, and call TryUpdate on the tile. The tile will then return some positions that will try to be added to another vector.
+That new vector will replace the old one and the total count will be updated.
+
+
+. OLD RECURSIVE METHOD THAT LOSES THE LAST QUEUE IF LIMIT IS REACHED
+Tile behaviors are technically applied at the same moment as the associated Action. As the action is applied, tile behavior
+may commit more Actions that get strung onto the end of the same Queue. The previous implementation used 2 queues, the first
+for whatever gamelogic had commited. Then as it iterates through, behaviors would add to the second queue. This preserves the idea
+of the present never changing but is possibly delayed by a cycle.
+The new implementation would still have two queues but they would both be applied each cycle, not one replacing the other.
+It should be NOTED that some of the actions in the CURRENT QUEUE may have already been applied when tile behaviors are applied.
+
+
+( uses a Map to store acitons, Quadtree to store tiles; State of tiles stored in the Quadtree
+ and possibly as Actions)
+
+
+
+
+
+. The term Update in my project means to apply tile behavior
+. Tile State simply refers to a tile and its properties
+
+. Commit Actions applies actions
+. Register is used to add actions to queue
+
+
+(previous idea that did not work out)\|/
+ Is the tile dormant so we skip adding it to the update queue? e.g. a sand tile surrounded by tiles cannot move

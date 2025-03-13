@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6fecd54e-58e9-4825-9e14-b61e159078b2}</ProjectGuid>
+    <RootNamespace>SandWorldAdventure</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib; glfw3dll.lib;glew32.lib%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterfaceAPI.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib; glfw3dll.lib;glew32.lib%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterfaceAPI.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\AddTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\BaseTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\SwapTileAction.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Render\Camera.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\DebugObject.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\MasterWindow.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Player.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RedrawTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RemoveTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Render\Renderer.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Render\ScreenState.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SolidTileBehavior.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Source.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\TileActionQueue.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\Tilemap.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TilemapContainer.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TilemapRenderer.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2Hasher.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2Int.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\ActionArguments\AddTileActionArgument.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\ActionArguments\BaseTileActionArgument.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\ActionArguments\SwapTileActionArgument.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\AddTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\SwapTileAction.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Render\Camera.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Chunk.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\DebugObject.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\FluidTileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Game.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\GameDelegate.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\GameEvent.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameInstance.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\IGameObject.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Layer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\MasterWindow.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\OnResizeGameEventArguments.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Player.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RedrawTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RemoveTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Render\Renderer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Render\ScreenState.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\SolidTileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tile.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\TileActionQueue.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\TileActionType.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehaviorNames.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tilemap.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapContainer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapRenderer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapRenderInfo.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\BaseTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2Hasher.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2Int.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
