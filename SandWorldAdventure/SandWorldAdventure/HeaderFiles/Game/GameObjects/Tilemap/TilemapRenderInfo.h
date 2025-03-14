@@ -1,6 +1,7 @@
 #pragma once
-#include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/Vector2.h"
+#include "HeaderFiles/Vector2Int.h"
+#include <vector>
 
 namespace SandboxEngine::Game::GameObject::Tilemap
 {

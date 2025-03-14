@@ -142,7 +142,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap::TileActionQueue
 
 		
 		// TODO: remove debug feature
-		MasterWindow::LogToConsole(L"actionQueue: " + std::to_wstring(m_CurrentActionQueue.size()) + L"; tiles: " + std::to_wstring(pTilemap->Container.GetTileBounds().X * pTilemap->Container.GetTileBounds().Y) + L"\n");
+		printf_s(("actionQueue: " + std::to_string(m_CurrentActionQueue.size()) + "; tiles: " + std::to_string(pTilemap->Container.GetTileBounds().X * pTilemap->Container.GetTileBounds().Y) + "\n").c_str());
 
 		// apply actions, update tiles, and release memory as we go
 

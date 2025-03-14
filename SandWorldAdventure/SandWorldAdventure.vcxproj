@@ -110,10 +110,10 @@
       <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib; glfw3dll.lib;glew32.lib%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib; opengl32.lib; glfw3dll.lib; glew32.lib; %(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -132,12 +132,12 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
       <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>NotSet</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib; glfw3dll.lib;glew32.lib%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib; opengl32.lib; glfw3dll.lib; glew32.lib; %(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

@@ -1,14 +1,105 @@
-#include "HeaderFiles/Game/Game.h"
+//#include "HeaderFiles/Game/Game.h"
+#include "HeaderFiles/MasterWindow.h"
 #include <iostream>
 #include <string>
 
-#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
+//#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
 
-using namespace SandboxEngine;
-using namespace SandboxEngine::Render;
-using namespace SandboxEngine::Game;
-using namespace SandboxEngine::Game::GameObject;
+//using namespace SandboxEngine;
+//using namespace SandboxEngine::Render;
+//using namespace SandboxEngine::Game;
+//using namespace SandboxEngine::Game::GameObject;
 
+// - Forward declarations -
+void InitializeGame();
+// Callbacks
+void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height);
+void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods);
+void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint);
+void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods);
+
+MasterWindow g_WndInst;
+//GraphicsPipeline::GraphicsPipeline g_Pipeline;
+
+void InitializeGame()
+{
+
+}
+
+int main(void)
+{
+	// Create the window
+	g_WndInst = {}; 
+	// Set event callbacks
+	glfwSetFramebufferSizeCallback(g_WndInst.p_glfwWindow, FrameBufferSize_Callback); // Resize event
+	glfwSetKeyCallback(g_WndInst.p_glfwWindow, Key_Callback); // Key input event
+	glfwSetCharCallback(g_WndInst.p_glfwWindow, Character_Callback); // Character input event
+	glfwSetMouseButtonCallback(g_WndInst.p_glfwWindow, MouseButton_Callback);
+
+	InitializeGame();
+
+	// Game loop
+	while (!glfwWindowShouldClose(g_WndInst.p_glfwWindow))
+	{
+		// Keep running
+
+		double time = glfwGetTime();
+
+		// - Draw to screen -
+		glClear(GL_COLOR_BUFFER_BIT); // Background
+
+		//g_Pipeline.RenderScene();
+
+		glfwSwapBuffers(g_WndInst.p_glfwWindow); // Try to swap buffers
+		glfwPollEvents(); // Poll the window system for events both to provide input to the application and to tell the windows system that the application hasn't locked up
+	}
+
+	// Release
+	//g_Pipeline.Release();
+	glfwDestroyWindow(g_WndInst.p_glfwWindow);
+	glfwTerminate();
+	exit(EXIT_SUCCESS);
+
+	return 0;
+}
+
+
+// Callbacks
+void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height)
+{
+	glViewport(0, 0, width, height); // Update the viewport to the same size as the buffer so the window coordinates are correctly computed
+
+	//SandboxEngine::Game::GameInstance::MainCamera.MainScreen.Resize(width, height); // Resize the camera
+}
+void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ENTER && action == GLFW_REPEAT) // if enter key is held down
+	{
+		std::cout << "Enter held down\n";
+	}
+}
+void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint)
+{
+	std::cout << (char)codepoint;
+	std::cout << '\n';
+}
+void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+		std::cout << "right mouse button\n";
+}
+
+
+
+
+
+
+
+
+
+#ifdef HELLO_IDGIT
+
+/*
 // Forward declarations for functions
 
 void GenerateTilemap(Time time);
@@ -130,7 +221,7 @@ void Initialize()
 	GameInstance::TimeInfo = {};
 
 	// - Subscribe to events -
-	/*OnWindowResizeEventIterator = */g_WndInst.OnResizeEvent.Subscribe(GameDelegate(OnWindowResize));
+	g_WndInst.OnResizeEvent.Subscribe(GameDelegate(OnWindowResize));
 
 
 	// - Create objects -
@@ -172,15 +263,15 @@ void Release()
 
 void GenerateTilemap(Time time)
 {
-	/*g_pTestTilemap->AddTile(50 + cos(time.CurrentTime * 2.0 + 1) * 50,
-							50 + sin(time.CurrentTime) * 50,
-							time,
-							Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, TILE_BEHAVIOR_NAMES::Sand),  true, true));
-	g_pTestTilemap->AddTile(50 + sin(time.CurrentTime * 2.0 + 1) * 50,
-							50 + cos(time.CurrentTime*5.0) * 50,
-							time,
-							Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, TILE_BEHAVIOR_NAMES::Sand), true, true));
-	*/
+	//g_pTestTilemap->AddTile(50 + cos(time.CurrentTime * 2.0 + 1) * 50,
+	//						50 + sin(time.CurrentTime) * 50,
+	//						time,
+	//						Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, TILE_BEHAVIOR_NAMES::Sand),  true, true));
+	//g_pTestTilemap->AddTile(50 + sin(time.CurrentTime * 2.0 + 1) * 50,
+	//						50 + cos(time.CurrentTime*5.0) * 50,
+	//						time,
+	//						Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, TILE_BEHAVIOR_NAMES::Sand), true, true));
+	
 
 	g_pTestTilemap->AddTile(Vector2Int(100 - int(time.CurrentTime * 10) % 100,
 		50 + sin(time.CurrentTime) * 50),
@@ -228,4 +319,5 @@ void GetTimeInfo(LARGE_INTEGER* pFrameStartTime, LARGE_INTEGER* pFrameEndTime, L
 	// Set time struct
 	pInfo->CurrentTime = (pFrameEndTime->QuadPart - pInitialTime->QuadPart) / (double)pCounterFrequency->QuadPart;
 	pInfo->FrameDeltaTime = *pDeltaTime;
-}
+}*/
+#endif
