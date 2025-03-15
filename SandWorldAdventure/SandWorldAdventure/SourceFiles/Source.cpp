@@ -1,14 +1,16 @@
-//#include "HeaderFiles/Game/Game.h"
 #include "HeaderFiles/MasterWindow.h"
 #include <iostream>
 #include <string>
 
+#include "HeaderFiles/Game/Game.h"
+
+
 //#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
 
-//using namespace SandboxEngine;
-//using namespace SandboxEngine::Render;
-//using namespace SandboxEngine::Game;
-//using namespace SandboxEngine::Game::GameObject;
+using namespace SandboxEngine;
+using namespace SandboxEngine::Render;
+using namespace SandboxEngine::Game;
+using namespace SandboxEngine::Game::GameObject;
 
 // - Forward declarations -
 void InitializeGame();
@@ -17,19 +19,18 @@ void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height);
 void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods);
 void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint);
 void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods);
+// Game stuff
+void GenerateTilemap(Time time);
+void Release();
 
-MasterWindow g_WndInst;
+// - Variables -
+MasterWindow g_WndInst = {}; // Create the window
 //GraphicsPipeline::GraphicsPipeline g_Pipeline;
-
-void InitializeGame()
-{
-
-}
+Tilemap::Tilemap* g_pTestTilemap;
+double TileXPosition = 0;
 
 int main(void)
 {
-	// Create the window
-	g_WndInst = {}; 
 	// Set event callbacks
 	glfwSetFramebufferSizeCallback(g_WndInst.p_glfwWindow, FrameBufferSize_Callback); // Resize event
 	glfwSetKeyCallback(g_WndInst.p_glfwWindow, Key_Callback); // Key input event
@@ -38,17 +39,82 @@ int main(void)
 
 	InitializeGame();
 
+	GameInstance::TimeInfo = {};
+	double oldTime = 0;
+
+	ScreenState* pMainScreen = &GameInstance::MainCamera.MainScreen;
 	// Game loop
 	while (!glfwWindowShouldClose(g_WndInst.p_glfwWindow))
 	{
 		// Keep running
 
-		double time = glfwGetTime();
-
 		// - Draw to screen -
 		glClear(GL_COLOR_BUFFER_BIT); // Background
 
-		//g_Pipeline.RenderScene();
+		// Get the current and delta times
+		oldTime = GameInstance::TimeInfo.CurrentTime;
+		GameInstance::TimeInfo.CurrentTime = glfwGetTime();
+		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
+
+		if (pMainScreen->BitmapInfo.bmiHeader.biWidth <= 0 || pMainScreen->BitmapInfo.bmiHeader.biHeight <= 0)
+			continue;
+
+		// Debug background
+		IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
+
+		// Screen background
+		Renderer::Background(pMainScreen, 0x0505ff);
+		if ((int)std::floor(GameInstance::TimeInfo.CurrentTime) % 3 == 0)
+			GameInstance::MainCamera.DrawRect(pMainScreen, g_pTestTilemap->Position.X, g_pTestTilemap->Position.Y, g_pTestTilemap->TileSize.X * g_pTestTilemap->Container.GetTileBounds().X, g_pTestTilemap->TileSize.Y * g_pTestTilemap->Container.GetTileBounds().Y, 0xffff00);
+
+
+		//GenerateTilemap(timeInfo);
+
+		// Get cursor position
+		Vector2 cursorPosition;
+		glfwGetCursorPos(g_WndInst.p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
+		Vector2 mouseWorldPosition = GameInstance::MainCamera.FromViewportToWorld(
+			GameInstance::MainCamera.FromScreenToViewport(
+				Vector2(cursorPosition.X, pMainScreen->BitmapInfo.bmiHeader.biHeight - cursorPosition.X)));
+
+		// Cursor remove tiles
+		int isMouseDown = true;//KeyboardInterface::KeyboardState::IsButtonDown(VK_LBUTTON) ? 1 : (KeyboardInterface::KeyboardState::IsButtonDown(VK_RBUTTON) ? 2 : 0);
+		if (isMouseDown != 0)
+		{
+			Vector2 mousePosition = g_pTestTilemap->FromWorldToTile(mouseWorldPosition);
+			double radius = 5;
+			for (int i = -radius; i < radius; i++)
+			{
+				for (int j = -radius; j < radius; j++)
+				{
+					if (i * i + j * j >= radius * radius)
+						continue;
+					if (isMouseDown == 1)
+						g_pTestTilemap->AddTile(Vector2Int(i, j) + mousePosition, Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
+					else
+						g_pTestTilemap->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
+				}
+			}
+		}
+
+		//GameInstance::MainCamera.Position = Vector2(50,50) / mouseWorldPosition;
+
+		GameInstance::UpdateObjects();
+		GameInstance::CompositeLayers();
+
+		//// Copy buffer to screen
+		//StretchDIBits(hdc,
+		//	0, 0, pMainScreen->BitmapInfo.bmiHeader.biWidth, pMainScreen->BitmapInfo.bmiHeader.biHeight,
+		//	0, 0, pMainScreen->BitmapInfo.bmiHeader.biWidth, pMainScreen->BitmapInfo.bmiHeader.biHeight,
+		//	pMainScreen->Data, &pMainScreen->BitmapInfo, DIB_RGB_COLORS, SRCCOPY);
+
+	//g_Pipeline.RenderScene();
+
+		glBegin(GL_TRIANGLES);
+		glVertex2f(0, 0);
+		glVertex2f(0, 1);
+		glVertex2f(2, 0);
+		glEnd();
 
 		glfwSwapBuffers(g_WndInst.p_glfwWindow); // Try to swap buffers
 		glfwPollEvents(); // Poll the window system for events both to provide input to the application and to tell the windows system that the application hasn't locked up
@@ -58,11 +124,11 @@ int main(void)
 	//g_Pipeline.Release();
 	glfwDestroyWindow(g_WndInst.p_glfwWindow);
 	glfwTerminate();
+	Release();
 	exit(EXIT_SUCCESS);
 
 	return 0;
 }
-
 
 // Callbacks
 void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height)
@@ -89,7 +155,82 @@ void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
 		std::cout << "right mouse button\n";
 }
 
+void InitializeGame()
+{
+	// Initialize game instance
+	GameInstance::Layers = {};
+	GameInstance::MainCamera = Camera(Vector2(0, 0), Vector2(100, 100), Vector2(1, 1));
+	GameInstance::TimeInfo = {};
 
+	// - Create objects -
+
+	// Create Debug object
+	GameInstance::RegisterGameObject(0, "Debug", new DebugObject(), "DebugService");
+
+	// Create tilemap
+	g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
+	// Initialize tilemap
+	g_pTestTilemap->Position = Vector2(-50, -40);
+	g_pTestTilemap->TileSize = Vector2(1, 1);
+	GameInstance::RegisterGameObject(1, "Tilemap0", g_pTestTilemap, "MainTilemap");
+
+	// Create player object
+	GameInstance::RegisterGameObject(2, "Characters", new Player(), "MainPlayer");
+
+
+
+	for (int i = 20; i < 80; i++)
+	{
+		for (int j = 20; j < 40; j++)
+		{
+			g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
+		}
+	}
+
+	//TilemapRenderer::Resize(&TestTilemap);
+}
+
+void GenerateTilemap(Time time)
+{
+	//g_pTestTilemap->AddTile(50 + cos(time.CurrentTime * 2.0 + 1) * 50,
+	//						50 + sin(time.CurrentTime) * 50,
+	//						time,
+	//						Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, TILE_BEHAVIOR_NAMES::Sand),  true, true));
+	//g_pTestTilemap->AddTile(50 + sin(time.CurrentTime * 2.0 + 1) * 50,
+	//						50 + cos(time.CurrentTime*5.0) * 50,
+	//						time,
+	//						Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, TILE_BEHAVIOR_NAMES::Sand), true, true));
+
+
+	g_pTestTilemap->AddTile(Vector2Int(100 - int(time.CurrentTime * 10) % 100,
+		50 + sin(time.CurrentTime) * 50),
+		Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0x00fddf, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
+
+	if (int(time.CurrentTime) % 20 < 10)
+	{
+		for (unsigned int i = (sin(time.CurrentTime) + 1) * 10; i < 50 + 10 * (sin(time.CurrentTime) + 1); i++)
+		{
+			UINT color = (unsigned int)(i % 6 >= 3 ? 0xff0000 : 0x00ff00);
+			if ((int)floor(TileXPosition) % 6 >= 3)
+				color = 0x00ff00;
+			int behavior = color == 0xff0000 ? Tilemap::TILE_BEHAVIOR_NAMES::Solid : Tilemap::TILE_BEHAVIOR_NAMES::Sand;
+
+			g_pTestTilemap->AddTile(Vector2Int((int)floor(TileXPosition) % 60, i),
+				Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(color, behavior), true, true));
+		}
+		TileXPosition += 5 * time.FrameDeltaTime;
+	}
+
+	g_pTestTilemap->RemoveTile(Vector2Int(100 - int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
+	g_pTestTilemap->RemoveTile(Vector2Int(int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
+}
+
+void Release()
+{
+	GameInstance::Release();
+
+	//g_pTestTilemap->Release();
+}
 
 
 
