@@ -23,9 +23,9 @@
 #include <Windows.h>
 #include "HeaderFiles/Vector2.h"
 #include "HeaderFiles/Vector2Hasher.h"
-#include "HeaderFiles/Render/ScreenState.h"
-#include "HeaderFiles/Render/Renderer.h"
-#include "HeaderFiles/Render/Camera.h"
+//#include "HeaderFiles/Render/ScreenState.h"
+//#include "HeaderFiles/Render/Renderer.h"
+//#include "HeaderFiles/Render/Camera.h"
 
 #include "HeaderFiles/Game/GameObjects/IGameObject.h"
 #include "HeaderFiles/Game/Layer.h"

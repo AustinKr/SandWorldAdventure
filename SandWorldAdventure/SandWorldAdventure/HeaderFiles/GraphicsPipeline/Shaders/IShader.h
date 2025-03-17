@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-namespace GraphicsPipeline::Shaders
+namespace SandboxEngine::GraphicsPipeline::Shaders
 {
 	struct IShader
 	{

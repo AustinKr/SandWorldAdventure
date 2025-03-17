@@ -3,16 +3,18 @@
 #include <string>
 
 #include "HeaderFiles/Game/Game.h"
-
+#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
+#include "HeaderFiles/RenderLayerNames.h"
 
 //#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
 
 using namespace SandboxEngine;
-using namespace SandboxEngine::Render;
+//using namespace SandboxEngine::Render;
 using namespace SandboxEngine::Game;
 using namespace SandboxEngine::Game::GameObject;
 
 // - Forward declarations -
+void InitializeShaders();
 void InitializeGame();
 // Callbacks
 void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height);
@@ -25,7 +27,7 @@ void Release();
 
 // - Variables -
 MasterWindow g_WndInst = {}; // Create the window
-//GraphicsPipeline::GraphicsPipeline g_Pipeline;
+GraphicsPipeline::GraphicsPipeline2D g_Pipeline = {}; // Create the pipeline
 Tilemap::Tilemap* g_pTestTilemap;
 double TileXPosition = 0;
 
@@ -37,12 +39,12 @@ int main(void)
 	glfwSetCharCallback(g_WndInst.p_glfwWindow, Character_Callback); // Character input event
 	glfwSetMouseButtonCallback(g_WndInst.p_glfwWindow, MouseButton_Callback);
 
+	InitializeShaders();
 	InitializeGame();
 
 	GameInstance::TimeInfo = {};
 	double oldTime = 0;
 
-	ScreenState* pMainScreen = &GameInstance::MainCamera.MainScreen;
 	// Game loop
 	while (!glfwWindowShouldClose(g_WndInst.p_glfwWindow))
 	{
@@ -51,13 +53,11 @@ int main(void)
 		// - Draw to screen -
 		glClear(GL_COLOR_BUFFER_BIT); // Background
 
+		/*
 		// Get the current and delta times
 		oldTime = GameInstance::TimeInfo.CurrentTime;
 		GameInstance::TimeInfo.CurrentTime = glfwGetTime();
 		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
-
-		if (pMainScreen->BitmapInfo.bmiHeader.biWidth <= 0 || pMainScreen->BitmapInfo.bmiHeader.biHeight <= 0)
-			continue;
 
 		// Debug background
 		IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
@@ -95,26 +95,13 @@ int main(void)
 						g_pTestTilemap->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
 				}
 			}
-		}
+		}*/
 
 		//GameInstance::MainCamera.Position = Vector2(50,50) / mouseWorldPosition;
 
-		GameInstance::UpdateObjects();
-		GameInstance::CompositeLayers();
+		GameInstance::UpdateObjects(); // Apply physics and logic to objects
 
-		//// Copy buffer to screen
-		//StretchDIBits(hdc,
-		//	0, 0, pMainScreen->BitmapInfo.bmiHeader.biWidth, pMainScreen->BitmapInfo.bmiHeader.biHeight,
-		//	0, 0, pMainScreen->BitmapInfo.bmiHeader.biWidth, pMainScreen->BitmapInfo.bmiHeader.biHeight,
-		//	pMainScreen->Data, &pMainScreen->BitmapInfo, DIB_RGB_COLORS, SRCCOPY);
-
-	//g_Pipeline.RenderScene();
-
-		glBegin(GL_TRIANGLES);
-		glVertex2f(0, 0);
-		glVertex2f(0, 1);
-		glVertex2f(2, 0);
-		glEnd();
+		g_Pipeline.RenderScene(); // Render the scene
 
 		glfwSwapBuffers(g_WndInst.p_glfwWindow); // Try to swap buffers
 		glfwPollEvents(); // Poll the window system for events both to provide input to the application and to tell the windows system that the application hasn't locked up
@@ -155,29 +142,39 @@ void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
 		std::cout << "right mouse button\n";
 }
 
+void InitializeShaders()
+{
+	g_Pipeline.Initialize();
+	
+	// Create layers
+	g_Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
+	g_Pipeline.InsertLayer(RENDERLAYERS_Objects, { "Objects" });
+	g_Pipeline.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
+	g_Pipeline.InsertLayer(RENDERLAYERS_Debug, {"Debug"});
+}
 void InitializeGame()
 {
 	// Initialize game instance
-	GameInstance::Layers = {};
-	GameInstance::MainCamera = Camera(Vector2(0, 0), Vector2(100, 100), Vector2(1, 1));
+	GameInstance::GameObjectsRegistry = {};
 	GameInstance::TimeInfo = {};
 
 	// - Create objects -
-
-	// Create Debug object
-	GameInstance::RegisterGameObject(0, "Debug", new DebugObject(), "DebugService");
+	
+	GraphicsPipeline::Mesh* pDebugObjMesh = new GraphicsPipeline::Mesh(); // Create its mesh
+	g_Pipeline.GetLayer(RENDERLAYERS_Debug).Meshes.push_back(pDebugObjMesh); // Register the mesh
+	GameInstance::RegisterGameObject("DebugService", new DebugObject(pDebugObjMesh)); // Create Debug object
 
 	// Create tilemap
 	g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
 	// Initialize tilemap
 	g_pTestTilemap->Position = Vector2(-50, -40);
 	g_pTestTilemap->TileSize = Vector2(1, 1);
-	GameInstance::RegisterGameObject(1, "Tilemap0", g_pTestTilemap, "MainTilemap");
+	GameInstance::RegisterGameObject("MainTilemap", g_pTestTilemap);
 
 	// Create player object
-	GameInstance::RegisterGameObject(2, "Characters", new Player(), "MainPlayer");
+	GameInstance::RegisterGameObject("MainPlayer", new Player());
 
-
+	// TODO: Put objects on their render layer
 
 	for (int i = 20; i < 80; i++)
 	{

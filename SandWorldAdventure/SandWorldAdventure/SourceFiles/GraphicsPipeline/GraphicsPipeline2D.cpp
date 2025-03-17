@@ -2,7 +2,7 @@
 #include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
 #include <fstream>
 
-namespace GraphicsPipeline
+namespace SandboxEngine::GraphicsPipeline
 {
 	int GraphicsPipeline2D::CompileShaders()
 	{
@@ -32,7 +32,11 @@ namespace GraphicsPipeline
 
 	void GraphicsPipeline2D::InsertLayer(int index, RenderLayer& rLayer)
 	{
-		m_Layers.insert(m_Layers.begin() + index, rLayer); 
+		m_Layers.insert(m_Layers.begin() + index, rLayer);
+	}
+	void GraphicsPipeline2D::InsertLayer(int index, RenderLayer&& rLayer)
+	{
+		m_Layers.insert(m_Layers.begin() + index, rLayer);
 	}
 	RenderLayer& GraphicsPipeline2D::GetLayer(int index)
 	{
@@ -76,8 +80,6 @@ namespace GraphicsPipeline
 	{
 		// Create the vertex buffer that will be used for the shaders
 		glGenBuffers(1, &m_VertexBufferName); // use bufferName = glGet(GL_ARRAY_BUFFER) to get the buffer name
-		/*glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferName);
-		glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(GraphicsPipeline::Vertex), GetSceneTriangles(), GL_STATIC_DRAW);*/
 
 		// Generate the array that will be used to draw triangles
 		glGenVertexArrays(1, &mp_VertexArray);
@@ -115,28 +117,28 @@ namespace GraphicsPipeline
 		{
 			//TODO: Cameras will sort meshes based on distance
 
-			for (auto& mesh : layer.Meshes)
+			for (auto pMesh : layer.Meshes)
 			{
-				for (int s = 0; s < mesh.Shaders.size() / 3; s++) // mesh.Shaders should be a multiple of 3
+				for (int s = 0; s < pMesh->Shaders.size() / 3; s++) // mesh.Shaders should be a multiple of 3
 				{
-					for (int i = mesh.Shaders[s]; i < mesh.Shaders[s+1]; i++)
+					for (int i = pMesh->Shaders[s]; i < pMesh->Shaders[s+1]; i++)
 					{
 						int triangle = i * 3;
 
 						// Set data into a continuous collection
-						vertexBuffer[0] = mesh.Vertices[mesh.Triangles[triangle]];
-						vertexBuffer[0].pos *= mesh.Scale * ActiveCamera.Scale; // scale
-						vertexBuffer[0].pos += mesh.Origin - ActiveCamera.Origin; // offset
+						vertexBuffer[0] = pMesh->Vertices[pMesh->Triangles[triangle]];
+						vertexBuffer[0].pos *= pMesh->Scale * ActiveCamera.Scale; // scale
+						vertexBuffer[0].pos += pMesh->Origin - ActiveCamera.Origin; // offset
 
-						vertexBuffer[1] = mesh.Vertices[mesh.Triangles[triangle + 1]];
-						vertexBuffer[1].pos *= mesh.Scale * ActiveCamera.Scale; // scale
-						vertexBuffer[1].pos += mesh.Origin - ActiveCamera.Origin; // offset
+						vertexBuffer[1] = pMesh->Vertices[pMesh->Triangles[triangle + 1]];
+						vertexBuffer[1].pos *= pMesh->Scale * ActiveCamera.Scale; // scale
+						vertexBuffer[1].pos += pMesh->Origin - ActiveCamera.Origin; // offset
 						
-						vertexBuffer[2] = mesh.Vertices[mesh.Triangles[triangle + 2]];
-						vertexBuffer[2].pos *= mesh.Scale * ActiveCamera.Scale; // scale
-						vertexBuffer[2].pos += mesh.Origin - ActiveCamera.Origin; // offset
+						vertexBuffer[2] = pMesh->Vertices[pMesh->Triangles[triangle + 2]];
+						vertexBuffer[2].pos *= pMesh->Scale * ActiveCamera.Scale; // scale
+						vertexBuffer[2].pos += pMesh->Origin - ActiveCamera.Origin; // offset
 
-						Shaders::Shader* pShader = TryGetShader<Shaders::Shader>(mesh.Shaders[s+2]); // Get the shader
+						Shaders::Shader* pShader = TryGetShader<Shaders::Shader>(pMesh->Shaders[s+2]); // Get the shader
 						pShader->UpdateVertexData(m_VertexBufferName, mp_VertexArray, vertexBuffer, 3);
 
 						glUseProgram(pShader->GetProgram()); // Set the program
@@ -148,19 +150,20 @@ namespace GraphicsPipeline
 				}
 			}
 		}
-
-
-		/*Shaders::OpaqueShader* pShader = TryGetShader<Shaders::OpaqueShader>(0);
-
-		glUseProgram(pShader->GetProgram());
-		glBindVertexArray(pShader->p_VertexArray);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glUniform1f(pShader->p_UniformTime, glfwGetTime());*/
 	}
 
 	void GraphicsPipeline2D::Release()
 	{
+		// Release all mesh data
+		for (RenderLayer& layer : m_Layers)
+		{
+			for (Mesh* pMesh : layer.Meshes)
+			{
+				delete(pMesh);
+			}
+		}
+
+		// Release shaders
 		for (Shaders::IShader* pShaderObject : m_AllShaderObjects) // Loops through all shader objects
 		{
 			pShaderObject->Release(); // Delete memory and Detach from program

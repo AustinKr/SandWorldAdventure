@@ -2,7 +2,7 @@
 #include "Math.h"
 #include <vector>
 
-namespace GraphicsPipeline
+namespace SandboxEngine::GraphicsPipeline
 {
 	class Mesh
 	{

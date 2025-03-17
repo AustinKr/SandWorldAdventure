@@ -3,13 +3,14 @@
 #include <vector>
 #include <string>
 
-namespace GraphicsPipeline
+namespace SandboxEngine::GraphicsPipeline
 {
 	class RenderLayer
 	{
 	public:
 		std::string Name;
-		std::vector<Mesh> Meshes;
+		// Contains the addresses of each mesh
+		std::vector<Mesh*> Meshes;
 
 		inline RenderLayer() : Name({}), Meshes({}) {}
 		inline RenderLayer(std::string name) : Name(name), Meshes({}) {}

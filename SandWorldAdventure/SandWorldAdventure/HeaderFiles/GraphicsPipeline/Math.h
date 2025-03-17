@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GraphicsPipeline
+namespace SandboxEngine::GraphicsPipeline
 {
 	// Types that are used within the shader code
 	struct float2

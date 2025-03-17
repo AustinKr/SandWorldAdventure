@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-namespace GraphicsPipeline
+namespace SandboxEngine::GraphicsPipeline
 {
 	// TODO: Rename this to GraphicsPipeline2D
 	// A generic pipeline that allows the easy creation and dynamic use of shaders
@@ -35,6 +35,7 @@ namespace GraphicsPipeline
 		}
 
 		void InsertLayer(int index, RenderLayer& rLayer);
+		void InsertLayer(int index, RenderLayer&& rLayer);
 		RenderLayer& GetLayer(int index);
 		int GetLayersCount();
 

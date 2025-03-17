@@ -1,6 +1,5 @@
 #pragma once
 #include "HeaderFiles/Time.h"
-#include "HeaderFiles/Render/ScreenState.h"
 
 namespace SandboxEngine::Game::GameObject
 {
@@ -8,7 +7,6 @@ namespace SandboxEngine::Game::GameObject
 	{
 	public:
 		virtual void Update(Time time) = 0;
-		virtual void CopyScreen(Render::ScreenState* pMainScreen) = 0;
 		virtual void Release() = 0;
 	};
 }

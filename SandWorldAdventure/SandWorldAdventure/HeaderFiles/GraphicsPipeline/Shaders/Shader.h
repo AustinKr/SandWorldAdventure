@@ -2,7 +2,7 @@
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipelineFramework.h"
 #include "IShader.h"
 
-namespace GraphicsPipeline::Shaders
+namespace SandboxEngine::GraphicsPipeline::Shaders
 {
 	struct Shader : IShader
 	{

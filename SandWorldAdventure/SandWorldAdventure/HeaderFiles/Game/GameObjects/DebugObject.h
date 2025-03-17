@@ -1,5 +1,6 @@
 #pragma once
 #include "IGameObject.h"
+#include "HeaderFiles/GraphicsPipeline/Mesh.h"
 
 namespace SandboxEngine::Game::GameObject
 {
@@ -7,14 +8,19 @@ namespace SandboxEngine::Game::GameObject
 	{
 	private:
 		int _i = 0;
+		GraphicsPipeline::Mesh* mp_Mesh;
 	public:
-		static const UINT NULL_DEBUG_COLOR;
-		Render::ScreenState DebugScreen;
 
-		DebugObject();
+		inline DebugObject() : _i(0), mp_Mesh(nullptr)
+		{
+			/*nothing*/
+		}
+		inline DebugObject(GraphicsPipeline::Mesh* pMesh) : _i(0), mp_Mesh(pMesh)
+		{
+			/*nothing*/
+		}
 
 		void Update(Time time) override;
-		void CopyScreen(Render::ScreenState* pMainScreen) override;
 		void Release() override;
 	};
 }

@@ -7,7 +7,6 @@ namespace SandboxEngine::Game::GameObject
 	{
 		// Inherited via IGameObject
 		void Update(Time time) override;
-		void CopyScreen(Render::ScreenState* pMainScreen) override;
 		void Release() override;
 	};
 }

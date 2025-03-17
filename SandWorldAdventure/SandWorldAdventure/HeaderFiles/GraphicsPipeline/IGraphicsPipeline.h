@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GraphicsPipeline
+namespace SandboxEngine::GraphicsPipeline
 {
 	// Provides the simple layout for very basic functions needed by the application to use shaders
 	class IGraphicsPipeline

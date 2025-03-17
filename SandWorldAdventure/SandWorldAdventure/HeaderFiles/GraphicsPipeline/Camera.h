@@ -1,7 +1,7 @@
 #pragma once
 #include "Math.h"
 
-namespace GraphicsPipeline
+namespace SandboxEngine::GraphicsPipeline
 {
 	struct Camera
 	{

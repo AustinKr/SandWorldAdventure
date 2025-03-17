@@ -1,7 +1,7 @@
 #include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 
-namespace GraphicsPipeline::Shaders
+namespace SandboxEngine::GraphicsPipeline::Shaders
 {
 	Shader::Shader() : mp_VertexShader(0), mp_FragmentShader(0), mp_Program(0), mp_VPosition(0), /*mp_VColor(0),*/ p_UniformTime(0)
 	{
