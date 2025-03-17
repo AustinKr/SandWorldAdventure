@@ -1,12 +1,7 @@
-#include "GraphicsPipeline2D.h"
-#include "Shaders/Shader.h"
+#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
 #include <fstream>
 
-/*
-. Compile shaders and allow them to load their own shader(s) code
-	. Individually compile each shader
-. Create program
-*/
 namespace GraphicsPipeline
 {
 	int GraphicsPipeline2D::CompileShaders()

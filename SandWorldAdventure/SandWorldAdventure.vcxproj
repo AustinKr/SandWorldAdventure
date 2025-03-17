@@ -152,6 +152,8 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\Shader.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Render\Camera.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\DebugObject.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp" />
@@ -190,6 +192,15 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Camera.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipeline2D.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipelineFramework.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\IGraphicsPipeline.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShader.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Math.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Mesh.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\Shader.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Render\Camera.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Chunk.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\DebugObject.h" />

@@ -1,6 +1,5 @@
-#include "Shader.h"
-#include "src/GraphicsPipeline/GraphicsPipeline2D.h"
-#include "src/framework.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
+#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 
 namespace GraphicsPipeline::Shaders
 {

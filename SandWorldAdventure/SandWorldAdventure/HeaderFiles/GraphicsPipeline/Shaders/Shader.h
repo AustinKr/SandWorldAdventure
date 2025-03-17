@@ -1,5 +1,5 @@
 #pragma once
-#include "src/GraphicsPipeline/GraphicsPipelineFramework.h"
+#include "HeaderFiles/GraphicsPipeline/GraphicsPipelineFramework.h"
 #include "IShader.h"
 
 namespace GraphicsPipeline::Shaders
@@ -7,6 +7,8 @@ namespace GraphicsPipeline::Shaders
 	struct Shader : IShader
 	{
 	private:
+		const char* PROJECT_DIRECTORY = "C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/";
+
 		GLuint mp_VertexShader;
 		GLuint mp_FragmentShader;
 
