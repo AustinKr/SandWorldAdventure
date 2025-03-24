@@ -85,9 +85,8 @@ namespace SandboxEngine::GraphicsPipeline
 		glGenVertexArrays(1, &mp_VertexArray);
 
 		// - Add shaders -
-		Shaders::Shader* pShader = new Shaders::Shader();
-		RegisterShader(pShader);
-
+		RegisterShader(new Shaders::Shader()); // GP2D_BASE_SHADER
+		
 		// - Compile -
 		int shadersErrorCode = CompileShaders();
 		if (shadersErrorCode != GraphicsPipeline::IGraphicsPipeline::GP_SUCCESS)
@@ -109,7 +108,7 @@ namespace SandboxEngine::GraphicsPipeline
 		}
 	}
 
-	void GraphicsPipeline2D::RenderScene()
+	void GraphicsPipeline2D::RenderScene() // TODO: Print errors when information is missing!
 	{
 		Vertex vertexBuffer[3] = { {}, {}, {} };
 
@@ -117,13 +116,15 @@ namespace SandboxEngine::GraphicsPipeline
 		{
 			//TODO: Cameras will sort meshes based on distance
 
-			for (auto pMesh : layer.Meshes)
+			for (int m = 0; m < layer.MeshesCount(); m++)
 			{
+				Mesh* pMesh = layer.MeshAt(m);
+
 				for (int s = 0; s < pMesh->Shaders.size() / 3; s++) // mesh.Shaders should be a multiple of 3
 				{
-					for (int i = pMesh->Shaders[s]; i < pMesh->Shaders[s+1]; i++)
+					for (int i = pMesh->Shaders[s*3]; i < pMesh->Shaders[s*3 + 1]; i++) // Iterate through the triangles specified by the  Shaders  collection
 					{
-						int triangle = i * 3;
+						int triangle = i * 3; // Get the index
 
 						// Set data into a continuous collection
 						vertexBuffer[0] = pMesh->Vertices[pMesh->Triangles[triangle]];
@@ -138,7 +139,7 @@ namespace SandboxEngine::GraphicsPipeline
 						vertexBuffer[2].pos *= pMesh->Scale * ActiveCamera.Scale; // scale
 						vertexBuffer[2].pos += pMesh->Origin - ActiveCamera.Origin; // offset
 
-						Shaders::Shader* pShader = TryGetShader<Shaders::Shader>(pMesh->Shaders[s+2]); // Get the shader
+						Shaders::Shader* pShader = TryGetShader<Shaders::Shader>(pMesh->Shaders[s*3 + 2]); // Get the shader
 						pShader->UpdateVertexData(m_VertexBufferName, mp_VertexArray, vertexBuffer, 3);
 
 						glUseProgram(pShader->GetProgram()); // Set the program
@@ -157,9 +158,9 @@ namespace SandboxEngine::GraphicsPipeline
 		// Release all mesh data
 		for (RenderLayer& layer : m_Layers)
 		{
-			for (Mesh* pMesh : layer.Meshes)
+			for (int m = 0; m < layer.MeshesCount(); m++)
 			{
-				delete(pMesh);
+				delete(layer.MeshAt(m));
 			}
 		}
 

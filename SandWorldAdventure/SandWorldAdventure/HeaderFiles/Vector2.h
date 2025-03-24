@@ -23,6 +23,7 @@ namespace SandboxEngine
 		static double GetMagnitudeSqrd(Vector2 v);
 		double GetMagnitudeSqrd();
 		Vector2 Normalize();
+		static Vector2 Normalize(Vector2 v);
 
 		bool operator==(const Vector2& v) const;
 		bool operator<(const Vector2& v);

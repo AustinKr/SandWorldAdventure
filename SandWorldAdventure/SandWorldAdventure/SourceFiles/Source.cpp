@@ -1,3 +1,5 @@
+// This file contains the entry point and initializes everything. It also contains game logic
+
 #include "HeaderFiles/MasterWindow.h"
 #include <iostream>
 #include <string>
@@ -5,6 +7,8 @@
 #include "HeaderFiles/Game/Game.h"
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 #include "HeaderFiles/RenderLayerNames.h"
+
+// TODO: ! Probably deactivate the tilemap and test out the graphics pipeline. Then start fixing the tilemap rendering system. !
 
 //#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
 
@@ -22,13 +26,13 @@ void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mo
 void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint);
 void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods);
 // Game stuff
-void GenerateTilemap(Time time);
+//void GenerateTilemap(Time time);
 void Release();
 
 // - Variables -
 MasterWindow g_WndInst = {}; // Create the window
-GraphicsPipeline::GraphicsPipeline2D g_Pipeline = {}; // Create the pipeline
-Tilemap::Tilemap* g_pTestTilemap;
+Player* pPlayer = nullptr;
+//Tilemap::Tilemap* g_pTestTilemap;
 double TileXPosition = 0;
 
 int main(void)
@@ -53,12 +57,12 @@ int main(void)
 		// - Draw to screen -
 		glClear(GL_COLOR_BUFFER_BIT); // Background
 
-		/*
 		// Get the current and delta times
 		oldTime = GameInstance::TimeInfo.CurrentTime;
 		GameInstance::TimeInfo.CurrentTime = glfwGetTime();
 		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
 
+		/*
 		// Debug background
 		IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
 
@@ -101,14 +105,13 @@ int main(void)
 
 		GameInstance::UpdateObjects(); // Apply physics and logic to objects
 
-		g_Pipeline.RenderScene(); // Render the scene
+		GameInstance::Pipeline.RenderScene(); // Render the scene
 
 		glfwSwapBuffers(g_WndInst.p_glfwWindow); // Try to swap buffers
 		glfwPollEvents(); // Poll the window system for events both to provide input to the application and to tell the windows system that the application hasn't locked up
 	}
 
 	// Release
-	//g_Pipeline.Release();
 	glfwDestroyWindow(g_WndInst.p_glfwWindow);
 	glfwTerminate();
 	Release();
@@ -130,6 +133,23 @@ void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mo
 	{
 		std::cout << "Enter held down\n";
 	}
+	
+	if (pPlayer == nullptr)
+		return;
+
+	if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+		pPlayer->AccY = 1;
+	else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+		pPlayer->AccY = -1;
+	else if ((key == GLFW_KEY_UP && action == GLFW_RELEASE) || (key == GLFW_KEY_DOWN && action == GLFW_RELEASE))
+		pPlayer->AccY = 0;
+
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+		pPlayer->AccX = 1;
+	else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+		pPlayer->AccX = -1;
+	else if ((key == GLFW_KEY_LEFT && action == GLFW_RELEASE) || (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE))
+		pPlayer->AccX = 0;
 }
 void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint)
 {
@@ -144,13 +164,13 @@ void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
 
 void InitializeShaders()
 {
-	g_Pipeline.Initialize();
+	GameInstance::Pipeline.Initialize();
 	
 	// Create layers
-	g_Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
-	g_Pipeline.InsertLayer(RENDERLAYERS_Objects, { "Objects" });
-	g_Pipeline.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
-	g_Pipeline.InsertLayer(RENDERLAYERS_Debug, {"Debug"});
+	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
+	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Objects, { "Objects" });
+	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
+	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Debug, {"Debug"});
 }
 void InitializeGame()
 {
@@ -159,68 +179,64 @@ void InitializeGame()
 	GameInstance::TimeInfo = {};
 
 	// - Create objects -
-	
-	GraphicsPipeline::Mesh* pDebugObjMesh = new GraphicsPipeline::Mesh(); // Create its mesh
-	g_Pipeline.GetLayer(RENDERLAYERS_Debug).Meshes.push_back(pDebugObjMesh); // Register the mesh
-	GameInstance::RegisterGameObject("DebugService", new DebugObject(pDebugObjMesh)); // Create Debug object
+	GameInstance::RegisterGameObject("DebugService", new DebugObject()); // Create Debug object
+	pPlayer = new Player();
+	GameInstance::RegisterGameObject("MainPlayer", pPlayer); // Create player object (player will create its mesh)
 
-	// Create tilemap
-	g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
-	// Initialize tilemap
-	g_pTestTilemap->Position = Vector2(-50, -40);
-	g_pTestTilemap->TileSize = Vector2(1, 1);
-	GameInstance::RegisterGameObject("MainTilemap", g_pTestTilemap);
+	//// Create tilemap
+	//g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
+	//// Initialize tilemap
+	//g_pTestTilemap->Position = Vector2(-50, -40);
+	//g_pTestTilemap->TileSize = Vector2(1, 1);
+	//GameInstance::RegisterGameObject("MainTilemap", g_pTestTilemap);
 
-	// Create player object
-	GameInstance::RegisterGameObject("MainPlayer", new Player());
+	//// TODO: Put objects on their render layer
 
-	// TODO: Put objects on their render layer
-
-	for (int i = 20; i < 80; i++)
-	{
-		for (int j = 20; j < 40; j++)
-		{
-			g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
-		}
-	}
+	//for (int i = 20; i < 80; i++)
+	//{
+	//	for (int j = 20; j < 40; j++)
+	//	{
+	//		g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
+	//	}
+	//}
 
 	//TilemapRenderer::Resize(&TestTilemap);
 }
-
-void GenerateTilemap(Time time)
-{
-	//g_pTestTilemap->AddTile(50 + cos(time.CurrentTime * 2.0 + 1) * 50,
-	//						50 + sin(time.CurrentTime) * 50,
-	//						time,
-	//						Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, TILE_BEHAVIOR_NAMES::Sand),  true, true));
-	//g_pTestTilemap->AddTile(50 + sin(time.CurrentTime * 2.0 + 1) * 50,
-	//						50 + cos(time.CurrentTime*5.0) * 50,
-	//						time,
-	//						Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, TILE_BEHAVIOR_NAMES::Sand), true, true));
-
-
-	g_pTestTilemap->AddTile(Vector2Int(100 - int(time.CurrentTime * 10) % 100,
-		50 + sin(time.CurrentTime) * 50),
-		Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0x00fddf, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
-
-	if (int(time.CurrentTime) % 20 < 10)
-	{
-		for (unsigned int i = (sin(time.CurrentTime) + 1) * 10; i < 50 + 10 * (sin(time.CurrentTime) + 1); i++)
-		{
-			UINT color = (unsigned int)(i % 6 >= 3 ? 0xff0000 : 0x00ff00);
-			if ((int)floor(TileXPosition) % 6 >= 3)
-				color = 0x00ff00;
-			int behavior = color == 0xff0000 ? Tilemap::TILE_BEHAVIOR_NAMES::Solid : Tilemap::TILE_BEHAVIOR_NAMES::Sand;
-
-			g_pTestTilemap->AddTile(Vector2Int((int)floor(TileXPosition) % 60, i),
-				Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(color, behavior), true, true));
-		}
-		TileXPosition += 5 * time.FrameDeltaTime;
-	}
-
-	g_pTestTilemap->RemoveTile(Vector2Int(100 - int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
-	g_pTestTilemap->RemoveTile(Vector2Int(int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
-}
+//
+//void GenerateTilemap(Time time)
+//{
+//	g_pTestTilemap->AddTile(50 + cos(time.CurrentTime * 2.0 + 1) * 50,
+//							50 + sin(time.CurrentTime) * 50,
+//							time,
+//							Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, TILE_BEHAVIOR_NAMES::Sand),  true, true));
+//	g_pTestTilemap->AddTile(50 + sin(time.CurrentTime * 2.0 + 1) * 50,
+//							50 + cos(time.CurrentTime*5.0) * 50,
+//							time,
+//							Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, TILE_BEHAVIOR_NAMES::Sand), true, true));
+//
+//
+//	g_pTestTilemap->AddTile(Vector2Int(100 - int(time.CurrentTime * 10) % 100,
+//		50 + sin(time.CurrentTime) * 50),
+//		Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0x00fddf, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
+//
+//	if (int(time.CurrentTime) % 20 < 10)
+//	{
+//		for (unsigned int i = (sin(time.CurrentTime) + 1) * 10; i < 50 + 10 * (sin(time.CurrentTime) + 1); i++)
+//		{
+//			UINT color = (unsigned int)(i % 6 >= 3 ? 0xff0000 : 0x00ff00);
+//			if ((int)floor(TileXPosition) % 6 >= 3)
+//				color = 0x00ff00;
+//			int behavior = color == 0xff0000 ? Tilemap::TILE_BEHAVIOR_NAMES::Solid : Tilemap::TILE_BEHAVIOR_NAMES::Sand;
+//
+//			g_pTestTilemap->AddTile(Vector2Int((int)floor(TileXPosition) % 60, i),
+//				Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(color, behavior), true, true));
+//		}
+//		TileXPosition += 5 * time.FrameDeltaTime;
+//	}
+//
+//	g_pTestTilemap->RemoveTile(Vector2Int(100 - int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
+//	g_pTestTilemap->RemoveTile(Vector2Int(int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
+//}
 
 void Release()
 {

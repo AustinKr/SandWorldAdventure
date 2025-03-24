@@ -13,9 +13,9 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		// TODO: Might want to check for errors throughout
 		
 		// Load shaders' code
-		std::string vertexShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("src/GraphicsPipeline/Shaders/Vertex/ShaderVert.glsl").c_str());
+		std::string vertexShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("Shaders/Vertex/ShaderVert.glsl").c_str());
 		const char* vertexShaderCodeChar = vertexShaderCode.c_str();
-		std::string fragmentShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("src/GraphicsPipeline/Shaders/Fragment/ShaderFrag.glsl").c_str());
+		std::string fragmentShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("Shaders/Fragment/ShaderFrag.glsl").c_str());
 		const char* fragmentShaderCodeChar = fragmentShaderCode.c_str();
 
 		// The default vertex shader

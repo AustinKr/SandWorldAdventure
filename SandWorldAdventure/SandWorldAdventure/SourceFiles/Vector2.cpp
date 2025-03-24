@@ -14,7 +14,8 @@ namespace SandboxEngine
 	double Vector2::GetMagnitudeSqrd(Vector2 v) { return v.X * v.X + v.Y * v.Y; }
 	double Vector2::GetMagnitudeSqrd() { return GetMagnitudeSqrd(*this); }
 
-	Vector2 Vector2::Normalize() { return *this / sqrt(GetMagnitudeSqrd()); }
+	Vector2 Vector2::Normalize() { return GetMagnitudeSqrd() == 0 ? Vector2(0,0) : (*this / sqrt(GetMagnitudeSqrd())); }
+	Vector2 Vector2::Normalize(Vector2 v) { return v.Normalize(); }
 
 	bool Vector2::operator==(const Vector2& v) const
 	{

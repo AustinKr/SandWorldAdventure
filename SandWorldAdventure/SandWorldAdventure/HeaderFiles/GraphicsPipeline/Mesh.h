@@ -14,11 +14,11 @@ namespace SandboxEngine::GraphicsPipeline
 
 		// The vertices in the mesh
 		std::vector<Vertex> Vertices;
-		// Note: all shaders here are expected to inherit  Shader
 		// Every 3 are the indices of each vertex(in Vertices) of a triangle
 		std::vector<int> Triangles;
 
-		// 1st: Head of whole triangle;
+		// Note: all shaders here are expected to inherit  Shader
+		// 1st: Head of triangle;
 		// 2nd: count; 
 		// 3rd: shader
 		std::vector<int> Shaders;

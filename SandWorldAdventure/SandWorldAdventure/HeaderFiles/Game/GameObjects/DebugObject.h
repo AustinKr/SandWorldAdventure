@@ -11,14 +11,7 @@ namespace SandboxEngine::Game::GameObject
 		GraphicsPipeline::Mesh* mp_Mesh;
 	public:
 
-		inline DebugObject() : _i(0), mp_Mesh(nullptr)
-		{
-			/*nothing*/
-		}
-		inline DebugObject(GraphicsPipeline::Mesh* pMesh) : _i(0), mp_Mesh(pMesh)
-		{
-			/*nothing*/
-		}
+		DebugObject();
 
 		void Update(Time time) override;
 		void Release() override;

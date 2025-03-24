@@ -7,8 +7,8 @@
 
 namespace SandboxEngine::GraphicsPipeline
 {
-	// TODO: Rename this to GraphicsPipeline2D
 	// A generic pipeline that allows the easy creation and dynamic use of shaders
+	// Stores all meshes and shaders.
 	// Uses the GLFW3 and GLEW libraries.
 	class GraphicsPipeline2D : IGraphicsPipeline
 	{
@@ -27,6 +27,11 @@ namespace SandboxEngine::GraphicsPipeline
 		/// <returns> The count of shaders that failed to create programs </returns>
 		virtual int CreatePrograms() override;
 	public:
+		enum
+		{
+			GP2D_BASE_SHADER = 0
+		};
+
 		Camera ActiveCamera;
 
 		inline GraphicsPipeline2D() : m_VertexBufferName(0), mp_VertexArray(0), m_Layers({}), ActiveCamera({}), m_AllShaderObjects({})
@@ -61,6 +66,7 @@ namespace SandboxEngine::GraphicsPipeline
 		// Assumes the shaders all inherit  Shader
 		virtual void RenderScene() override;
 
+		// Releases all mesh and shader data
 		virtual void Release() override;
 	};
 }
