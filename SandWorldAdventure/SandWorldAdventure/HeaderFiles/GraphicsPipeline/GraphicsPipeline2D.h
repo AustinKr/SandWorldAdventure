@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+#define GRAPHICS_PIPELINE2D_H
 namespace SandboxEngine::GraphicsPipeline
 {
 	// A generic pipeline that allows the easy creation and dynamic use of shaders

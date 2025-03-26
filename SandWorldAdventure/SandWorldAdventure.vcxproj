@@ -146,6 +146,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\Mesh.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\Shader.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\DebugObject.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp" />
@@ -164,9 +165,10 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipeline2D.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipelineFramework.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\IGraphicsPipeline.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\IMesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShader.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Math.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Mesh.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\Mesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\Shader.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\DebugObject.h" />

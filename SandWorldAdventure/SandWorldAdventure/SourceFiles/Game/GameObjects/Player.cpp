@@ -1,4 +1,5 @@
 #include "HeaderFiles/Game/GameObjects/Player.h"
+#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 #include "HeaderFiles/Vector2Int.h"
 #include "HeaderFiles/Game/GameInstance.h"
 #include "HeaderFiles/RenderLayerNames.h"
@@ -11,6 +12,7 @@ namespace SandboxEngine::Game::GameObject
 		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
 		GameInstance::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh); // Register the mesh
 
+		mp_Mesh->Scale = GraphicsPipeline::float2(.5f, .5f);
 		mp_Mesh->Vertices =
 		{
 			{{ 0, 0 }, {0, 0, 0}},

@@ -110,45 +110,15 @@ namespace SandboxEngine::GraphicsPipeline
 
 	void GraphicsPipeline2D::RenderScene() // TODO: Print errors when information is missing!
 	{
-		Vertex vertexBuffer[3] = { {}, {}, {} };
-
 		for (auto& layer : m_Layers)
 		{
 			//TODO: Cameras will sort meshes based on distance
 
 			for (int m = 0; m < layer.MeshesCount(); m++)
 			{
-				Mesh* pMesh = layer.MeshAt(m);
+				IMesh* pMesh = layer.MeshAt(m);
 
-				for (int s = 0; s < pMesh->Shaders.size() / 3; s++) // mesh.Shaders should be a multiple of 3
-				{
-					for (int i = pMesh->Shaders[s*3]; i < pMesh->Shaders[s*3 + 1]; i++) // Iterate through the triangles specified by the  Shaders  collection
-					{
-						int triangle = i * 3; // Get the index
-
-						// Set data into a continuous collection
-						vertexBuffer[0] = pMesh->Vertices[pMesh->Triangles[triangle]];
-						vertexBuffer[0].pos *= pMesh->Scale * ActiveCamera.Scale; // scale
-						vertexBuffer[0].pos += pMesh->Origin - ActiveCamera.Origin; // offset
-
-						vertexBuffer[1] = pMesh->Vertices[pMesh->Triangles[triangle + 1]];
-						vertexBuffer[1].pos *= pMesh->Scale * ActiveCamera.Scale; // scale
-						vertexBuffer[1].pos += pMesh->Origin - ActiveCamera.Origin; // offset
-						
-						vertexBuffer[2] = pMesh->Vertices[pMesh->Triangles[triangle + 2]];
-						vertexBuffer[2].pos *= pMesh->Scale * ActiveCamera.Scale; // scale
-						vertexBuffer[2].pos += pMesh->Origin - ActiveCamera.Origin; // offset
-
-						Shaders::Shader* pShader = TryGetShader<Shaders::Shader>(pMesh->Shaders[s*3 + 2]); // Get the shader
-						pShader->UpdateVertexData(m_VertexBufferName, mp_VertexArray, vertexBuffer, 3);
-
-						glUseProgram(pShader->GetProgram()); // Set the program
-						glUniform1f(pShader->p_UniformTime, glfwGetTime()); // Set the time
-
-						// Draw triangles
-						glDrawArrays(GL_TRIANGLES, 0, 3);
-					}
-				}
+				pMesh->Render(this, m_VertexBufferName, mp_VertexArray);
 			}
 		}
 	}
@@ -160,9 +130,10 @@ namespace SandboxEngine::GraphicsPipeline
 		{
 			for (int m = 0; m < layer.MeshesCount(); m++)
 			{
-				delete(layer.MeshAt(m));
+				layer.MeshAt(m)->Release();
 			}
 		}
+		m_Layers.clear();
 
 		// Release shaders
 		for (Shaders::IShader* pShaderObject : m_AllShaderObjects) // Loops through all shader objects

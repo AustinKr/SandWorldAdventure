@@ -1,10 +1,11 @@
 #pragma once
-#include "Math.h"
+#include "IMesh.h"
+#include "HeaderFiles/GraphicsPipeline/Math.h"
 #include <vector>
 
 namespace SandboxEngine::GraphicsPipeline
 {
-	class Mesh
+	class Mesh : public IMesh
 	{
 	public:
 		// This gets added to the vertex positions when rendering
@@ -23,7 +24,9 @@ namespace SandboxEngine::GraphicsPipeline
 		// 3rd: shader
 		std::vector<int> Shaders;
 
-		Mesh() : Origin({}), Scale({1,1}), Vertices({}), Triangles({})
-		{}
+		Mesh();
+		
+		virtual void Render(GraphicsPipeline::GraphicsPipeline2D* pPipeline, GLuint vertexBufferName, GLuint pVertexArray) override;
+		virtual void Release() override;
 	};
 }

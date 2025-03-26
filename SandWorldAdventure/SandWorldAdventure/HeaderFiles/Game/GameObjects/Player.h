@@ -1,6 +1,6 @@
 #pragma once
 #include "IGameObject.h"
-#include "HeaderFiles/GraphicsPipeline/Mesh.h"
+#include "HeaderFiles/GraphicsPipeline/Meshes/Mesh.h"
 #include "HeaderFiles/Vector2.h"
 
 namespace SandboxEngine::Game::GameObject
