@@ -1,5 +1,5 @@
 #pragma once
-#include "HeaderFiles/Vector2.h"
+#include "HeaderFiles/Math.h"
 #include <Windows.h>
 
 namespace SandboxEngine::Game::GameObject::Tilemap

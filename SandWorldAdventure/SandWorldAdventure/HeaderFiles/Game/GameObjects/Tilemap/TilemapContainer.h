@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
 #include "Chunk.h"
-#include "HeaderFiles/Vector2.h"
-#include "HeaderFiles/Vector2Int.h"
+#include "HeaderFiles/Math.h"
 
 namespace SandboxEngine::Game::GameObject::Tilemap
 {

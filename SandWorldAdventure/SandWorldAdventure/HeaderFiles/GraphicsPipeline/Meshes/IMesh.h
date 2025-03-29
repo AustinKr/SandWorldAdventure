@@ -12,6 +12,7 @@ namespace SandboxEngine::GraphicsPipeline
 	{
 	public:
 		virtual void Render(GraphicsPipeline::GraphicsPipeline2D* pPipeline, GLuint vertexBufferName, GLuint pVertexArray) = 0;
+		// Calls delete(this) and releases any buffer or other data
 		virtual void Release() = 0;
 	};
 }

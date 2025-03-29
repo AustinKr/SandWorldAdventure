@@ -4,7 +4,7 @@
 #include "HeaderFiles/Game/GameObjects/Tilemap/Chunk.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionType.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionQueue.h"
-#include "HeaderFiles/Vector2Hasher.h"
+#include "HeaderFiles/Math.h"
 #include <unordered_map>
 
 #ifndef TILEMAP_H

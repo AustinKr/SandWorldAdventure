@@ -21,8 +21,8 @@ namespace SandboxEngine::GraphicsPipeline
 
 				// Set data into a continuous collection
 				vertexBuffer[0] = Vertices[Triangles[triangle]];
-				vertexBuffer[0].pos *= Scale * pPipeline->ActiveCamera.Scale; // scale
-				vertexBuffer[0].pos += Origin - pPipeline->ActiveCamera.Origin; // offset
+				vertexBuffer[0].pos *= Scale * float2(pPipeline->ActiveCamera.Scale); // scale
+				vertexBuffer[0].pos += Origin - float2(pPipeline->ActiveCamera.Origin); // offset
 
 				vertexBuffer[1] = Vertices[Triangles[triangle + 1]];
 				vertexBuffer[1].pos *= Scale * pPipeline->ActiveCamera.Scale; // scale

@@ -21,8 +21,7 @@
 
 #include <vector>
 #include <Windows.h>
-#include "HeaderFiles/Vector2.h"
-#include "HeaderFiles/Vector2Hasher.h"
+#include "HeaderFiles/Math.h"
 //#include "HeaderFiles/Render/ScreenState.h"
 //#include "HeaderFiles/Render/Renderer.h"
 //#include "HeaderFiles/Render/Camera.h"

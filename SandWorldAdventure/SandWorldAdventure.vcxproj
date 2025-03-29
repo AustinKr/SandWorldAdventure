@@ -145,29 +145,61 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\AddTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\BaseTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RedrawTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RemoveTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\SwapTileAction.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\TileActionQueue.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SolidTileBehavior.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\Tilemap.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\Mesh.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\TilemapMesh.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\Shader.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\DebugObject.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\MasterWindow.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Player.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Math.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Source.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2.cpp" />
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2Hasher.cpp" />
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2Int.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Chunk.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tile.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\ActionArguments\AddTileActionArgument.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\ActionArguments\BaseTileActionArgument.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\ActionArguments\SwapTileActionArgument.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\AddTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\BaseTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RedrawTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\RemoveTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\SwapTileAction.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\TileActionQueue.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\TileActionType.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\FluidTileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\SolidTileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehaviorNames.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tilemap.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapContainer.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Camera.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipeline2D.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipelineFramework.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\IGraphicsPipeline.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\IMesh.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\TilemapMesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShader.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Math.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Math.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\Mesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\Shader.h" />
@@ -185,9 +217,6 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Player.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\RenderLayerNames.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2Hasher.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2Int.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

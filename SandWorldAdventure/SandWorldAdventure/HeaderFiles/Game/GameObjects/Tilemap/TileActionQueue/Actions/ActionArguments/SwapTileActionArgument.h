@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseTileActionArgument.h"
-#include "HeaderFiles/Vector2Int.h"
+#include "HeaderFiles/Math.h"
 
 namespace SandboxEngine::Game::GameObject::Tilemap::TileActionQueue
 {

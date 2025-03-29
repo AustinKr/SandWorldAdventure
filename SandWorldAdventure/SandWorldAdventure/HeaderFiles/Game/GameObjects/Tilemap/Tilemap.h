@@ -1,9 +1,9 @@
 #pragma once
 
-#include "HeaderFiles/Vector2Hasher.h"
+#include "HeaderFiles/Math.h"
 #include "HeaderFiles/Game/GameObjects/IGameObject.h"
+#include "HeaderFiles/GraphicsPipeline/Meshes/TilemapMesh.h"
 
-#include "HeaderFiles/Game/GameObjects/Tilemap/TilemapRenderInfo.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TilemapContainer.h"
 
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionQueue.h"
@@ -19,13 +19,12 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	class Tilemap : public IGameObject
 	{
 	public:
-		TilemapRenderInfo RenderInformation;
+		GraphicsPipeline::TilemapMesh* p_Mesh;
 		TileActionQueue::TileActionQueue ActionQueueInstance;
 		TilemapContainer Container;
 		Vector2 Position;
 		Vector2 TileSize;
 
-	public:
 		Tilemap(Vector2Int chunkBounds);
 		Tilemap();
 
@@ -34,8 +33,6 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		/// Trys to update all chunks and tiles
 		/// </summary>
 		virtual void Update(Time time) override;
-		// Inherited via IGameObject
-		virtual void CopyScreen(Render::ScreenState* pMainScreen) override;
 		// Inherited via IGameObject
 		virtual void Release() override;
 
@@ -57,5 +54,3 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 
 	};
 }
-
-// GOOD FOR NEW IMPLEMENTATION

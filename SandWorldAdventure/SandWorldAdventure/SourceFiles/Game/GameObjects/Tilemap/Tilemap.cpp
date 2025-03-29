@@ -1,22 +1,25 @@
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/BaseTileAction.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionQueue.h"
-#include "HeaderFiles/Vector2.h"
-#include "HeaderFiles/Vector2Int.h"
 
-#include "HeaderFiles/Game/GameObjects/Tilemap/TilemapRenderer.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileBehaviors/TileBehavior.h"
 
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/RemoveTileAction.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/AddTileAction.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/SwapTileAction.h"
 
+#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h" // Needed for IMesh.h
+#include "HeaderFiles/Game/GameInstance.h"
+#include "HeaderFiles/RenderLayerNames.h"
+
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
 	Tilemap::Tilemap()
 	{
+		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
+		GameInstance::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
+
 		ActionQueueInstance = {};
-		RenderInformation = {};
 		Container = {};
 		Container.AssignChunks(Vector2Int());
 		Position = Vector2(0, 0);
@@ -24,8 +27,10 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	}
 	Tilemap::Tilemap(Vector2Int chunkBounds)
 	{
+		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
+		GameInstance::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
+
 		ActionQueueInstance = {};
-		RenderInformation = {};
 		Container = {};
 		Container.AssignChunks(chunkBounds);
 		Position = Vector2(0, 0);
@@ -75,17 +80,16 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		*ActionQueueInstance.GetQueue() = std::move(tileBehaviorActionQueue);
 	}
 	// Inherited via IGameObject
-	void Tilemap::CopyScreen(Render::ScreenState * pMainScreen)
-	{
-		// Update the activity of chunks, actually resize states when necessary, and copy their screens over to the window screen
-		TilemapRenderer::Render(this);
-	}
-	// Inherited via IGameObject
 	void Tilemap::Release()
 	{
 		TileBehavior::ReleaseTileBehaviors();
-		TilemapRenderer::ReleaseChunks(this);
 		ActionQueueInstance.Release();
+
+		if (p_Mesh != nullptr)
+		{
+			GameInstance::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).UnregisterMesh(p_Mesh);
+			p_Mesh = nullptr;
+		}
 	}
 
 	bool Tilemap::AddTile(Vector2Int tilePosition, TileActionQueue::AddTileActionArgument arguments, TileActionQueue::TileActionQueue::ACTION_QUEUE* pActionQueue)

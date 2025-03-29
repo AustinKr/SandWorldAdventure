@@ -2,10 +2,7 @@
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/BaseTileAction.h" // for forward declarations in TileActionQueue.h
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h" // for forward declarations in TileActionQueue.h
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileBehaviors/TileBehavior.h"
-#include "HeaderFiles/Game/GameObjects/DebugObject.h" 
-#include "HeaderFiles/Render/Renderer.h" 
-#include "HeaderFiles/Vector2Int.h"
-#include "HeaderFiles/Vector2.h"
+#include "HeaderFiles/Game/GameObjects/DebugObject.h"
 #include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/Game/GameInstance.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <optional>
-#include "HeaderFiles/Vector2Hasher.h"
+#include "HeaderFiles/Math.h"
 #include "HeaderFiles/Time.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/Chunk.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/ActionArguments/BaseTileActionArgument.h"

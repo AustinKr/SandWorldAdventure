@@ -1,6 +1,4 @@
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/SwapTileAction.h"
-#include "HeaderFiles/Vector2Int.h" // For forward decl from Vector2Hasher.h
-#include "HeaderFiles/Vector2.h" // For forward decl from Vector2Hasher.h
+#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/BaseTileAction.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionQueue.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "HeaderFiles/GraphicsPipeline/Math.h"
+#include "HeaderFiles/Math.h"
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipelineFramework.h"
 #include <vector>
 #include <string>

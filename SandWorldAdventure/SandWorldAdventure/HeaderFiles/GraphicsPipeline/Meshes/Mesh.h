@@ -1,6 +1,6 @@
 #pragma once
 #include "IMesh.h"
-#include "HeaderFiles/GraphicsPipeline/Math.h"
+#include "HeaderFiles/Math.h"
 #include <vector>
 
 namespace SandboxEngine::GraphicsPipeline

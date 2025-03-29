@@ -4,8 +4,6 @@
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileBehaviors/SolidTileBehavior.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionQueue.h"
-#include "HeaderFiles/Vector2Int.h" // for tilemap.h and tileactionqueue.h
-#include "HeaderFiles/Vector2.h" // for tilemap.h and tileactionqueue.h
 
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
