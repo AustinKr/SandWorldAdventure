@@ -2,16 +2,19 @@
 #include "IMesh.h"
 #include "HeaderFiles/Game/GameObjects/IGameObject.h"
 
-#include "HeaderFiles/Game/GameObjects/Tilemap/Chunk.h"
+#include "Quadtree.h"
+#include "HeaderFiles/Game/GameObjects/Tilemap/StaticQuadtreeTypes.h"
 
 namespace SandboxEngine::GraphicsPipeline
 {
 	class TilemapMesh : public IMesh
 	{
 	private:
+		// Note: this object will always be a tilemap- IGameObject* is only used for simplicity
 		Game::GameObject::IGameObject* mp_Tilemap;
-		
-		Game::GameObject::Tilemap::Chunk* CreateOnScreenTilesBuffer();
+		static const Vertex m_Verts[4];
+
+		Game::GameObject::Tilemap::StaticQuadtree&& CreateOnScreenTilesBuffer();
 	public:
 		TilemapMesh(Game::GameObject::IGameObject* pTilemap);
 

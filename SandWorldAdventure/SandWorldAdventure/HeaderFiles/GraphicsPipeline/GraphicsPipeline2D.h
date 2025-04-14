@@ -30,7 +30,8 @@ namespace SandboxEngine::GraphicsPipeline
 	public:
 		enum
 		{
-			GP2D_BASE_SHADER = 0
+			GP2D_BASE_SHADER = 0,
+			GP2D_TILEMAP_SHADER = 1
 		};
 
 		Camera ActiveCamera;

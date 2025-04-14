@@ -6,6 +6,8 @@
 
 namespace SandboxEngine::Game::GameObject::Tilemap::TileActionQueue
 {
+	//TODO: RedrawTileAction shouldn't be needed at all
+
 	RedrawTileAction::RedrawTileAction()
 	{
 		ActionType = TileActionType::Redraw;
@@ -18,11 +20,11 @@ namespace SandboxEngine::Game::GameObject::Tilemap::TileActionQueue
 
 	void RedrawTileAction::Apply(Tilemap* pTilemap, Vector2Int tilePosition, Time time, TileActionQueue::ACTION_QUEUE* pCurrentActionQueue)
 	{
-		TilemapContainer::TILE_INFO tileInfo = pTilemap->Container.GetTileInChunk(tilePosition);
+		//TilemapContainer::TILE_INFO tileInfo = pTilemap->Container.GetTileInChunk(tilePosition);
 
-		// Update bitmap
-		if (tileInfo.second != nullptr && tileInfo.first->Bitmap.has_value())
-			TilemapRenderer::ChangeTileData(pTilemap, tilePosition.X, tilePosition.Y, tileInfo.second->HasValue ? tileInfo.second->Color : TILEMAP_BITMAP_NULL_TILE_COLOR);
+		//// Update bitmap
+		//if (tileInfo.second != nullptr && tileInfo.first->Bitmap.has_value())
+		//	TilemapRenderer::ChangeTileData(pTilemap, tilePosition.X, tilePosition.Y, tileInfo.second->HasValue ? tileInfo.second->Color : TILEMAP_BITMAP_NULL_TILE_COLOR);
 
 	}
 

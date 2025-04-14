@@ -1,5 +1,6 @@
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 #include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShader.h"
 #include <fstream>
 
 namespace SandboxEngine::GraphicsPipeline
@@ -86,6 +87,7 @@ namespace SandboxEngine::GraphicsPipeline
 
 		// - Add shaders -
 		RegisterShader(new Shaders::Shader()); // GP2D_BASE_SHADER
+		RegisterShader(new Shaders::TilemapShader()); // GP2D_TILEMAP_SHADER
 		
 		// - Compile -
 		int shadersErrorCode = CompileShaders();

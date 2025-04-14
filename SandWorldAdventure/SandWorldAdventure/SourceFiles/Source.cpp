@@ -8,31 +8,30 @@
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 #include "HeaderFiles/RenderLayerNames.h"
 
-// TODO: ! Probably deactivate the tilemap and test out the graphics pipeline. Then start fixing the tilemap rendering system. !
-
 //#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
 
 using namespace SandboxEngine;
-//using namespace SandboxEngine::Render;
 using namespace SandboxEngine::Game;
 using namespace SandboxEngine::Game::GameObject;
 
 // - Forward declarations -
-void InitializeShaders();
+void InitializeGraphics();
 void InitializeGame();
 // Callbacks
 void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height);
 void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods);
 void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint);
 void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods);
-// Game stuff
-//void GenerateTilemap(Time time);
+
 void Release();
+
+// Game stuff
+void GenerateTilemap();
 
 // - Variables -
 MasterWindow g_WndInst = {}; // Create the window
 Player* pPlayer = nullptr;
-//Tilemap::Tilemap* g_pTestTilemap;
+Tilemap::Tilemap* g_pTestTilemap;
 double TileXPosition = 0;
 
 int main(void)
@@ -43,7 +42,7 @@ int main(void)
 	glfwSetCharCallback(g_WndInst.p_glfwWindow, Character_Callback); // Character input event
 	glfwSetMouseButtonCallback(g_WndInst.p_glfwWindow, MouseButton_Callback);
 
-	InitializeShaders();
+	InitializeGraphics();
 	InitializeGame();
 
 	GameInstance::TimeInfo = {};
@@ -61,7 +60,8 @@ int main(void)
 		oldTime = GameInstance::TimeInfo.CurrentTime;
 		GameInstance::TimeInfo.CurrentTime = glfwGetTime();
 		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
-
+		
+		GenerateTilemap();
 		/*
 		// Debug background
 		IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
@@ -162,7 +162,7 @@ void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
 		std::cout << "right mouse button\n";
 }
 
-void InitializeShaders()
+void InitializeGraphics()
 {
 	GameInstance::Pipeline.Initialize();
 	
@@ -183,66 +183,58 @@ void InitializeGame()
 	pPlayer = new Player();
 	GameInstance::RegisterGameObject("MainPlayer", pPlayer); // Create player object (player will create its mesh)
 
-	//// Create tilemap
-	//g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
-	//// Initialize tilemap
-	//g_pTestTilemap->Position = Vector2(-50, -40);
-	//g_pTestTilemap->TileSize = Vector2(1, 1);
-	//GameInstance::RegisterGameObject("MainTilemap", g_pTestTilemap);
+	// Create tilemap
+	g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
+	// Initialize tilemap
+	g_pTestTilemap->Position = Vector2(-50, -40);
+	g_pTestTilemap->TileSize = Vector2(1, 1);
+	GameInstance::RegisterGameObject("MainTilemap", g_pTestTilemap);
 
-	//// TODO: Put objects on their render layer
-
-	//for (int i = 20; i < 80; i++)
-	//{
-	//	for (int j = 20; j < 40; j++)
-	//	{
-	//		g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
-	//	}
-	//}
-
-	//TilemapRenderer::Resize(&TestTilemap);
+	for (int i = 20; i < 80; i++)
+	{
+		for (int j = 20; j < 40; j++)
+		{
+			g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
+		}
+	}
 }
-//
-//void GenerateTilemap(Time time)
-//{
-//	g_pTestTilemap->AddTile(50 + cos(time.CurrentTime * 2.0 + 1) * 50,
-//							50 + sin(time.CurrentTime) * 50,
-//							time,
-//							Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, TILE_BEHAVIOR_NAMES::Sand),  true, true));
-//	g_pTestTilemap->AddTile(50 + sin(time.CurrentTime * 2.0 + 1) * 50,
-//							50 + cos(time.CurrentTime*5.0) * 50,
-//							time,
-//							Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, TILE_BEHAVIOR_NAMES::Sand), true, true));
-//
-//
-//	g_pTestTilemap->AddTile(Vector2Int(100 - int(time.CurrentTime * 10) % 100,
-//		50 + sin(time.CurrentTime) * 50),
-//		Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0x00fddf, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
-//
-//	if (int(time.CurrentTime) % 20 < 10)
-//	{
-//		for (unsigned int i = (sin(time.CurrentTime) + 1) * 10; i < 50 + 10 * (sin(time.CurrentTime) + 1); i++)
-//		{
-//			UINT color = (unsigned int)(i % 6 >= 3 ? 0xff0000 : 0x00ff00);
-//			if ((int)floor(TileXPosition) % 6 >= 3)
-//				color = 0x00ff00;
-//			int behavior = color == 0xff0000 ? Tilemap::TILE_BEHAVIOR_NAMES::Solid : Tilemap::TILE_BEHAVIOR_NAMES::Sand;
-//
-//			g_pTestTilemap->AddTile(Vector2Int((int)floor(TileXPosition) % 60, i),
-//				Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(color, behavior), true, true));
-//		}
-//		TileXPosition += 5 * time.FrameDeltaTime;
-//	}
-//
-//	g_pTestTilemap->RemoveTile(Vector2Int(100 - int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
-//	g_pTestTilemap->RemoveTile(Vector2Int(int(time.CurrentTime * 50) % 100, int(time.CurrentTime * .2) % 3));
-//}
+
+void GenerateTilemap()
+{
+	/*g_pTestTilemap->AddTile(Vector2Int(50 + cos(GameInstance::TimeInfo.CurrentTime * 2.0 + 1) * 50,
+										50 + sin(GameInstance::TimeInfo.CurrentTime) * 50),
+							Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, Tilemap::TILE_BEHAVIOR_NAMES::Sand),  true, true));
+	g_pTestTilemap->AddTile(Vector2Int(50 + sin(GameInstance::TimeInfo.CurrentTime * 2.0 + 1) * 50,
+										50 + cos(GameInstance::TimeInfo.CurrentTime*5.0) * 50),
+							Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));*/
+
+
+	g_pTestTilemap->AddTile(Vector2Int(100 - int(GameInstance::TimeInfo.CurrentTime * 10) % 100,
+										50 + sin(GameInstance::TimeInfo.CurrentTime) * 50),
+		Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0x00fddf, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
+
+	if (int(GameInstance::TimeInfo.CurrentTime) % 20 < 10)
+	{
+		for (unsigned int i = (sin(GameInstance::TimeInfo.CurrentTime) + 1) * 10; i < 50 + 10 * (sin(GameInstance::TimeInfo.CurrentTime) + 1); i++)
+		{
+			UINT color = (unsigned int)(i % 6 >= 3 ? 0xff0000 : 0x00ff00);
+			if ((int)floor(TileXPosition) % 6 >= 3)
+				color = 0x00ff00;
+			int behavior = color == 0xff0000 ? Tilemap::TILE_BEHAVIOR_NAMES::Solid : Tilemap::TILE_BEHAVIOR_NAMES::Sand;
+
+			g_pTestTilemap->AddTile(Vector2Int((int)floor(TileXPosition) % 60, i),
+				Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(color, behavior), true, true));
+		}
+		TileXPosition += 5 * GameInstance::TimeInfo.FrameDeltaTime;
+	}
+
+	g_pTestTilemap->RemoveTile(Vector2Int(100 - int(GameInstance::TimeInfo.CurrentTime * 50) % 100, int(GameInstance::TimeInfo.CurrentTime * .2) % 3));
+	g_pTestTilemap->RemoveTile(Vector2Int(int(GameInstance::TimeInfo.CurrentTime * 50) % 100, int(GameInstance::TimeInfo.CurrentTime * .2) % 3));
+}
 
 void Release()
 {
 	GameInstance::Release();
-
-	//g_pTestTilemap->Release();
 }
 
 

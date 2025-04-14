@@ -1,30 +1,31 @@
-#include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShader.h"
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 
 namespace SandboxEngine::GraphicsPipeline::Shaders
 {
-	Shader::Shader() : mp_VertexShader(0), mp_FragmentShader(0), mp_Program(0), mp_Position(0), mp_UVPosition(0), p_UniformTime(0)
+	TilemapShader::TilemapShader() : mp_VertexShader(0), mp_FragmentShader(0), mp_Program(0), mp_Position(0), mp_UVPosition(0), 
+				mp_QuadtreeBufferName(0),	p_UniformTime(0), p_UniformTilemapBounds(0), p_UniformTilemapOrigin(0), p_UniformTilemapWorldSize(0)
 	{
 		/*nothing*/
 	}
 
-	int Shader::Compile(IGraphicsPipeline* pPipeline)
+	int TilemapShader::Compile(IGraphicsPipeline* pPipeline)
 	{
 		// TODO: Might want to check for errors throughout
-		
+
 		// Load shaders' code
-		std::string vertexShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("Shaders/Vertex/ShaderVert.glsl").c_str());
+		std::string vertexShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("Shaders/Vertex/TilemapVert.glsl").c_str());
 		const char* vertexShaderCodeChar = vertexShaderCode.c_str();
-		std::string fragmentShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("Shaders/Fragment/ShaderFrag.glsl").c_str());
+		std::string fragmentShaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append("Shaders/Fragment/TilemapFrag.glsl").c_str());
 		const char* fragmentShaderCodeChar = fragmentShaderCode.c_str();
 
-		// The default vertex shader
+		// The vertex shader
 		mp_VertexShader = glCreateShader(GL_VERTEX_SHADER);
 		if (mp_VertexShader == 0)
 			return -1;
 		glShaderSource(mp_VertexShader, 1, &vertexShaderCodeChar, NULL);
-		
-		// The default fragment shader
+
+		// The fragment shader
 		mp_FragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		if (mp_FragmentShader == 0)
 			return -1;
@@ -38,7 +39,16 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		GLint compileStatusVert = 0, compileStatusFrag = 0;
 		glGetShaderiv(mp_VertexShader, GL_COMPILE_STATUS, &compileStatusVert);
 		glGetShaderiv(mp_FragmentShader, GL_COMPILE_STATUS, &compileStatusFrag);
-		if (compileStatusVert == GL_FALSE || compileStatusFrag == GL_FALSE)
+		
+		int returnCode = -1;
+		if (compileStatusVert == GL_FALSE && compileStatusFrag == GL_FALSE)
+			returnCode = 3;
+		else if (compileStatusVert == GL_FALSE)
+			returnCode = 1;
+		else if (compileStatusFrag == GL_FALSE)
+			returnCode = 2;
+		
+		if(returnCode != -1)
 		{
 			// Get the lengths
 			GLint vertexInfoLogLength = 0, fragmentInfoLogLength = 0;
@@ -46,7 +56,7 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 			glGetShaderiv(mp_FragmentShader, GL_INFO_LOG_LENGTH, &fragmentInfoLogLength);
 
 			// Get the strings and print
-			GLchar *pVertexInfoLog = NULL, *pFragmentInfoLog = NULL;
+			GLchar* pVertexInfoLog = NULL, * pFragmentInfoLog = NULL;
 			if (vertexInfoLogLength != 0)
 			{
 				pVertexInfoLog = (GLchar*)malloc(vertexInfoLogLength * sizeof(GLchar));
@@ -54,6 +64,7 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 				if (pVertexInfoLog != NULL)
 					fprintf(stderr, pVertexInfoLog);
 				fprintf(stderr, "\n");
+				free(pVertexInfoLog);
 			}
 			if (fragmentInfoLogLength != 0)
 			{
@@ -62,24 +73,25 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 				if (pFragmentInfoLog != NULL)
 					fprintf(stderr, pFragmentInfoLog);
 				fprintf(stderr, "\n");
+				free(pFragmentInfoLog);
 			}
-			return -1;
+			return returnCode;
 		}
 		return IGraphicsPipeline::GP_SUCCESS;
 	}
-	int Shader::CreateProgram(IGraphicsPipeline* pPipeline)
+	int TilemapShader::CreateProgram(IGraphicsPipeline* pPipeline)
 	{
 		// Create the program
 		mp_Program = glCreateProgram();
 		// Link the shaders
 		glAttachShader(mp_Program, mp_VertexShader);
 		glAttachShader(mp_Program, mp_FragmentShader);
-		// ?
+		
 		glLinkProgram(mp_Program);
 
 		return IGraphicsPipeline::GP_SUCCESS;
 	}
-	void Shader::Release()
+	void TilemapShader::Release()
 	{
 		glDetachShader(mp_Program, mp_FragmentShader);
 		glDetachShader(mp_Program, mp_VertexShader);
@@ -88,30 +100,65 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		glDeleteProgram(mp_Program);
 		mp_Program = 0;
 	}
-	int Shader::UpdateVertexData(GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, int count)
+
+	GLuint TilemapShader::GetProgram()
+	{
+		return mp_Program;
+	}
+
+	std::string TilemapShader::GetName()
+	{
+		return "TilemapShader";
+	}
+
+	int TilemapShader::UpdateVertexData(GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, Game::GameObject::Tilemap::StaticQuadtree* pQuadtree)
 	{
 		int returnCode = IGraphicsPipeline::GP_SUCCESS;
 
-		// Set gl buffer data
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferName);
-		glBufferData(GL_ARRAY_BUFFER, count * sizeof(Vertex), pVertexBuffer, GL_STATIC_DRAW);
+		int myArray[4] = { 0,1,2,3 };
 		
+		// Create the tilemap quadtree buffer
+		glGenBuffers(1, &mp_QuadtreeBufferName);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, mp_QuadtreeBufferName);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(myArray)/*sizeof(*pQuadtree)*/, myArray/*pQuadtree*/, GL_STREAM_DRAW); // Mutable buffer storage
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, mp_QuadtreeBufferName);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); // unbind
+		
+		// glBufferData deletes any pre-existing data
+		// Set gl vertex buffer data
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferName);
+		glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), pVertexBuffer, GL_STREAM_DRAW); // Mutable buffer storage
 		glBindVertexArray(pVertexArray);
 
 		// Get the variables we know are contained in the now-linked program
 		mp_Position = glGetAttribLocation(mp_Program, "vPos");
 		mp_UVPosition = glGetAttribLocation(mp_Program, "vUVCoord");
-		p_UniformTime = glGetUniformLocation(mp_Program, "Time");
-		/*if (p_UniformTime == -1)
+		// TODO: Probably remove time
+		p_UniformTime = glGetUniformLocation(mp_Program, "Time"); // optional
+		p_UniformTilemapOrigin = glGetUniformLocation(mp_Program, "TilemapOrigin");
+		p_UniformTilemapBounds = glGetUniformLocation(mp_Program, "TilemapBounds");
+		p_UniformTilemapWorldSize = glGetUniformLocation(mp_Program, "TilemapWorldSize");
+		
+		if (p_UniformTilemapOrigin == -1)
 		{
 			returnCode = -1;
-			fprintf(stderr, "failed to find location of shader p_UniformTime variable!\n");
-		}*/
+			fprintf(stderr, "failed to find location of shader p_UniformTilemapOrigin variable!\n");
+		}
+		if (p_UniformTilemapBounds == -1)
+		{
+			returnCode = -1;
+			fprintf(stderr, "failed to find location of shader p_UniformTilemapBounds variable!\n");
+		}
+		if (p_UniformTilemapWorldSize == -1)
+		{
+			returnCode = -1;
+			fprintf(stderr, "failed to find location of shader p_UniformTilemapWorldSize variable!\n");
+		}
 
 		if (mp_Position == -1)
 		{
 			returnCode = -1;
-			fprintf(stderr, "failed to find location of shader mp_VPosition variable!\n");
+			fprintf(stderr, "failed to find location of shader mp_Position variable!\n");
 		}
 		else
 		{
@@ -131,15 +178,5 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 				sizeof(Vertex), (void*)offsetof(Vertex, uvCoord));
 		}
 		return returnCode;
-	}
-
-	GLuint Shader::GetProgram()
-	{
-		return mp_Program;
-	}
-
-	std::string Shader::GetName()
-	{
-		return "Shader";
 	}
 }

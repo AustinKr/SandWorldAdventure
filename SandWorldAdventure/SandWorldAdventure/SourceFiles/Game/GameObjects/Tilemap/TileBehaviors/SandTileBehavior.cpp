@@ -18,9 +18,9 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		if (pTile == nullptr) // pTile should never be nullptr
 			return false;
 
-		// Update bitmap (order doesnt matter in this case)
-		if (pChunk->Bitmap.has_value())
-			TilemapRenderer::ChangeTileData(pTilemap, tilePosition.X, tilePosition.Y, pTile->HasValue ? pTile->Color : TILEMAP_BITMAP_NULL_TILE_COLOR);
+		//// Update bitmap (order doesnt matter in this case)
+		//if (pChunk->Bitmap.has_value())
+		//	TilemapRenderer::ChangeTileData(pTilemap, tilePosition.X, tilePosition.Y, pTile->HasValue ? pTile->Color : TILEMAP_BITMAP_NULL_TILE_COLOR);
 
 		if (!pTilemap->Container.ContainsTile(tilePosition - Vector2Int(0, 1)) && pTilemap->SwapTiles(TileActionQueue::SwapTileActionArgument(true, tilePosition, tilePosition - Vector2(0, 1), false), pTileBehaviorActionQueue))
 			return true;

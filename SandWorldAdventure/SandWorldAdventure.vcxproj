@@ -76,11 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;C:\dev\C++ Projects\Tools\BVHStructures\Quadtree\src\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,13 +93,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;C:\dev\C++ Projects\Tools\BVHStructures\Quadtree\src\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -107,13 +111,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;C:\dev\C++ Projects\Tools\BVHStructures\Quadtree\src\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib; opengl32.lib; glfw3dll.lib; glew32.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -129,15 +133,15 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;C:\dev\C++ Projects\Tools\BVHStructures\Quadtree\src\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib; opengl32.lib; glfw3dll.lib; glew32.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -199,6 +203,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\IMesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\TilemapMesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShader.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TilemapShader.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Math.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\Mesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h" />
@@ -216,7 +221,19 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\OnResizeGameEventArguments.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Player.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\RenderLayerNames.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\StaticQuadtreeTypes.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\TilemapShader.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
+    <None Include="SandWorldAdventure\Shaders\Vertex\TilemapVert.glsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SandWorldAdventure\Shaders\Fragment\ShaderFrag.glsl" />
+    <None Include="SandWorldAdventure\Shaders\Fragment\TilemapFrag.glsl" />
+    <None Include="SandWorldAdventure\Shaders\Vertex\ShaderVert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

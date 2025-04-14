@@ -149,14 +149,14 @@ namespace SandboxEngine::Game::GameObject::Tilemap::TileActionQueue
 		for (queueIterator = m_CurrentActionQueue.cbegin(); queueIterator != m_CurrentActionQueue.cend(); queueIterator++)
 		{
 			// TODO: Remove debug feature
-			IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
-			if (p_debugService != nullptr)
-			{
-				// TODO: Make debug functions to draw to a screen
-				Vector2 tileScreenPos = GameInstance::MainCamera.FromViewportToScreen(GameInstance::MainCamera.FromWorldToViewport(pTilemap->FromTileToWorld(queueIterator->first)));
-				Vector2 tileScreenSize = GameInstance::MainCamera.FromViewportToScreen(GameInstance::MainCamera.FromWorldToViewport(pTilemap->TileSize, false), false);
-				Render::Renderer::DrawRectPixels(&((GameObject::DebugObject*)p_debugService)->DebugScreen, tileScreenPos.X, tileScreenPos.Y, tileScreenSize.X, tileScreenSize.Y, 0xff00f9);
-			}
+			//IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
+			//if (p_debugService != nullptr)
+			//{
+			//	// TODO: Make debug functions to draw to a screen
+			//	Vector2 tileScreenPos = GameInstance::MainCamera.FromViewportToScreen(GameInstance::MainCamera.FromWorldToViewport(pTilemap->FromTileToWorld(queueIterator->first)));
+			//	Vector2 tileScreenSize = GameInstance::MainCamera.FromViewportToScreen(GameInstance::MainCamera.FromWorldToViewport(pTilemap->TileSize, false), false);
+			//	Render::Renderer::DrawRectPixels(&((GameObject::DebugObject*)p_debugService)->DebugScreen, tileScreenPos.X, tileScreenPos.Y, tileScreenSize.X, tileScreenSize.Y, 0xff00f9);
+			//}
 
 			if (queueIterator->second == nullptr) // Shouldnt ever be null in this stage. (unless I changed the design so that game logic may need to add these to the queue)
 				continue;

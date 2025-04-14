@@ -2,9 +2,11 @@
 #include "HeaderFiles/Math.h"
 #include <Windows.h>
 
+//#include "Quadtree.h"
+
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
-	struct Tile
+	struct Tile// : public Quadtree::IQuadtreeData
 	{
 	public:
 		UINT Color;
@@ -32,5 +34,21 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			Motion = Vector2(0, 0);
 			LastMoveTime = 0;
 		}
+
+		//// Do a check that returns whether the geometry of this element intersects with the node bounds
+		//inline virtual bool IntersectsNodeBounds(Quadtree::Vector2 dataOrigin, Quadtree::Vector2 nodeBottomLeft, Quadtree::Vector2 nodeSize) override
+		//{
+		//	return false;
+		//}
+		//// Set the bottom left corner and top right corner to the bounding box around the geometry of this element
+		//inline virtual void GetBoundingBox(Quadtree::Vector2 dataOrigin, Quadtree::Vector2* pBottomLeft, Quadtree::Vector2* pTopRight) override
+		//{
+		//	*pBottomLeft = Quadtree::Vector2(0, 0);
+		//	*pTopRight = Quadtree::Vector2(0, 0);
+		//}
+		//inline virtual void Release() override
+		//{
+		//	// Nothing
+		//}
 	};
 }

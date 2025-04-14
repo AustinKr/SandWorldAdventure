@@ -18,10 +18,10 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		if (pTile == nullptr) // pTile should never be nullptr
 			return false;
 
-		// Update bitmap
-		if (pChunk->Bitmap.has_value())
-			TilemapRenderer::ChangeTileData(pTilemap, tilePosition.X, tilePosition.Y, pTile->HasValue ? pTile->Color : TILEMAP_BITMAP_NULL_TILE_COLOR);
-		
+		//// Update bitmap
+		//if (pChunk->Bitmap.has_value())
+		//	TilemapRenderer::ChangeTileData(pTilemap, tilePosition.X, tilePosition.Y, pTile->HasValue ? pTile->Color : TILEMAP_BITMAP_NULL_TILE_COLOR);
+		//
 		// Give adjacent tiles to update with base behavior
 		return TileBehavior::TryUpdate(pTilemap, tilePosition, pTile, pChunk, pTileBehaviorActionQueue, tileActionArguments, time);
 	}

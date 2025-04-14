@@ -7,15 +7,13 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 	struct Shader : IShader
 	{
 	private:
-		const char* PROJECT_DIRECTORY = "C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/";
-
 		GLuint mp_VertexShader;
 		GLuint mp_FragmentShader;
 
 		GLuint mp_Program;
 
 		// position  member of Vertex
-		GLint mp_VPosition;
+		GLint mp_Position;
 		// uvCoord  member of Vertex
 		GLint mp_UVPosition;
 	public:
@@ -26,7 +24,8 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 
 		virtual int Compile(IGraphicsPipeline* pPipeline) override;
 		virtual int CreateProgram(IGraphicsPipeline* pPipeline) override;
-		virtual int UpdateVertexData(GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, int count) override;
+		// Generates(if necessary) and sets the data of vertex buffers and arrays, and enables the attributes.
+		int UpdateVertexData(GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, int count);
 		virtual void Release() override;
 
 		virtual GLuint GetProgram() override;
