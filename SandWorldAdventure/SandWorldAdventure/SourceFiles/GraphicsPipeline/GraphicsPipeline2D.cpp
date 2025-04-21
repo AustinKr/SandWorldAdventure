@@ -1,6 +1,7 @@
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
-#include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
-#include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShader.h"
+#include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/ShaderInformation.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShaderInformation.h"
 #include <fstream>
 
 namespace SandboxEngine::GraphicsPipeline
@@ -8,7 +9,7 @@ namespace SandboxEngine::GraphicsPipeline
 	int GraphicsPipeline2D::CompileShaders()
 	{
 		int failedCount = IGraphicsPipeline::GP_SUCCESS;
-		for (Shaders::IShader* pShaderObject : m_AllShaderObjects)
+		for (ShaderTypes::IShaderType* pShaderObject : m_AllShaderObjects)
 		{
 			if (pShaderObject->Compile(this) == IGraphicsPipeline::GP_SUCCESS)
 				continue;
@@ -17,19 +18,19 @@ namespace SandboxEngine::GraphicsPipeline
 		}
 		return failedCount;
 	}
-	int GraphicsPipeline2D::CreatePrograms()
-	{
-		int failedCount = IGraphicsPipeline::GP_SUCCESS;
-		// TODO: Could try to compile all shaders, and then report which ones didn't compile
-		for (Shaders::IShader* pShaderObject : m_AllShaderObjects)
-		{
-			if (pShaderObject->CreateProgram(this) == IGraphicsPipeline::GP_SUCCESS)
-				continue;
-			fprintf(stderr, ("Shader object failed to create program: " + pShaderObject->GetName() + "\n").c_str());
-			failedCount++;
-		}
-		return failedCount;
-	}
+	//int GraphicsPipeline2D::CreatePrograms()
+	//{
+	//	int failedCount = IGraphicsPipeline::GP_SUCCESS;
+	//	// TODO: Could try to compile all shaders, and then report which ones didn't compile
+	//	for (Shaders::IShader* pShaderObject : m_AllShaderObjects)
+	//	{
+	//		if (pShaderObject->CreateProgram(this) == IGraphicsPipeline::GP_SUCCESS)
+	//			continue;
+	//		fprintf(stderr, ("Shader object failed to create program: " + pShaderObject->GetName() + "\n").c_str());
+	//		failedCount++;
+	//	}
+	//	return failedCount;
+	//}
 
 	void GraphicsPipeline2D::InsertLayer(int index, RenderLayer& rLayer)
 	{
@@ -72,9 +73,56 @@ namespace SandboxEngine::GraphicsPipeline
 		return dataString;
 	}
 
-	void GraphicsPipeline2D::RegisterShader(Shaders::IShader* pShader)
+	void GraphicsPipeline2D::RegisterShader(ShaderTypes::IShaderType* pShader)
 	{
 		m_AllShaderObjects.push_back(pShader);
+	}
+	int GraphicsPipeline2D::CompileShader(GLuint* ppShader, const char* pShaderCode)
+	{
+		// Create the shader
+		*ppShader = glCreateShader(GL_VERTEX_SHADER);
+		if (*ppShader == 0)
+			return -1;
+		glShaderSource(*ppShader, 1, &pShaderCode, NULL);
+		glCompileShader(*ppShader);
+
+		// Check for compile errors
+		GLint compileStatus = 0;
+		glGetShaderiv(*ppShader, GL_COMPILE_STATUS, &compileStatus);
+		if (compileStatus != GL_FALSE)
+			return IGraphicsPipeline::GP_SUCCESS;
+
+		// Get the length of the message
+		GLint infoLogLength = 0;
+		glGetShaderiv(*ppShader, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+		// Get the string and print to console
+		GLchar* pInfoLog = NULL;
+		if (infoLogLength != 0)
+		{
+			pInfoLog = (GLchar*)malloc(infoLogLength * sizeof(GLchar));
+			glGetShaderInfoLog(*ppShader, infoLogLength, NULL, pInfoLog);
+			if (pInfoLog != NULL)
+				fprintf(stderr, pInfoLog);
+			fprintf(stderr, "\n");
+		}
+
+		return -1;
+	}
+
+	GLint GraphicsPipeline2D::TryEnableVertexAttribute(GLuint program, std::string name, GLint size, GLenum type, GLsizei stride, const void* pAttribute)
+	{
+		GLint location = glGetAttribLocation(program, name.c_str());
+
+		if (location == -1)
+		{
+			fprintf(stderr, std::string("failed to find location of shader attribute ").append(name).append("\n").c_str());
+			return -1;
+		}
+		glEnableVertexAttribArray(location); // Enable the attribute to be accessed and used for rendering
+		glVertexAttribPointer(location, size, type, GL_FALSE,
+			sizeof(Vertex), (void*)offsetof(Vertex, pos));
+		return location;
 	}
 
 	void GraphicsPipeline2D::Initialize()
@@ -86,8 +134,8 @@ namespace SandboxEngine::GraphicsPipeline
 		glGenVertexArrays(1, &mp_VertexArray);
 
 		// - Add shaders -
-		RegisterShader(new Shaders::Shader()); // GP2D_BASE_SHADER
-		RegisterShader(new Shaders::TilemapShader()); // GP2D_TILEMAP_SHADER
+		RegisterShader(new ShaderTypes::ShaderType("TestShader", "Shaders/DefaultShader.shader", new Shaders::ShaderInformation())); // GP2D_BASE_SHADER
+		RegisterShader(new ShaderTypes::ShaderType("TilemapShader", "Shaders/TilemapShader.shader", new Shaders::TilemapShaderInformation())); // GP2D_TILEMAP_SHADER
 		
 		// - Compile -
 		int shadersErrorCode = CompileShaders();
@@ -96,15 +144,6 @@ namespace SandboxEngine::GraphicsPipeline
 			fprintf(stderr, std::string("GraphicsPipline::CompileShaders failed!  Returned code: ").append(std::to_string(shadersErrorCode)).append("\n").c_str());
 #if _DEBUG
 			throw std::exception("Failed to compile shader!");
-#endif
-			//exit(EXIT_FAILURE);
-		}
-		shadersErrorCode = CreatePrograms();
-		if (shadersErrorCode != GraphicsPipeline::IGraphicsPipeline::GP_SUCCESS)
-		{
-			fprintf(stderr, std::string("GraphicsPipline::CreateProgram() failed!  Returned code: ").append(std::to_string(shadersErrorCode)).append("\n").c_str());
-#if _DEBUG
-			throw std::exception("Failed to create program!");
 #endif
 			//exit(EXIT_FAILURE);
 		}
@@ -138,7 +177,7 @@ namespace SandboxEngine::GraphicsPipeline
 		m_Layers.clear();
 
 		// Release shaders
-		for (Shaders::IShader* pShaderObject : m_AllShaderObjects) // Loops through all shader objects
+		for (ShaderTypes::IShaderType* pShaderObject : m_AllShaderObjects) // Loops through all shader objects
 		{
 			pShaderObject->Release(); // Delete memory and Detach from program
 		}

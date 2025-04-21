@@ -6,11 +6,9 @@ namespace SandboxEngine::GraphicsPipeline
 	class IGraphicsPipeline
 	{
 	private:
-		// Create and compile shader code at runtime.
+		// Create and compile shader code at runtime and create a program for each shader.
 		/// <returns> The error code. 0 means it was successful </returns>
 		virtual int CompileShaders() = 0;
-		// Create a program and link it to the shaders. Also allow the passage of any needed arrays or buffers
-		virtual int CreatePrograms() = 0;
 
 	public:
 		static const int GP_SUCCESS = 0;
@@ -23,7 +21,5 @@ namespace SandboxEngine::GraphicsPipeline
 
 		// Clean up shaders
 		virtual void Release() = 0;
-
-		// TODO: Functions: PassInOrUpdateSceneTriangleOrOtherData() -> this would occur each game cycle at runtime and will handle dynamically sending data through buffers
 	};
 }

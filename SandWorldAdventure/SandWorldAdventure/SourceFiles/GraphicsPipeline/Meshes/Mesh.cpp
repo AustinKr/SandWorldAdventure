@@ -1,5 +1,6 @@
 #include "HeaderFiles/GraphicsPipeline/Meshes/Mesh.h"
-#include "HeaderFiles/GraphicsPipeline/Shaders/Shader.h"
+#include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/ShaderInformation.h"
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 
 namespace SandboxEngine::GraphicsPipeline
@@ -32,11 +33,11 @@ namespace SandboxEngine::GraphicsPipeline
 				vertexBuffer[2].pos *= Scale * pPipeline->ActiveCamera.Scale; // scale
 				vertexBuffer[2].pos += Origin - pPipeline->ActiveCamera.Origin; // offset
 
-				Shaders::Shader* pShader = pPipeline->TryGetShader<Shaders::Shader>(Shaders[s * 3 + 2]); // Get the shader
-				pShader->UpdateVertexData(vertexBufferName, pVertexArray, vertexBuffer, 3);
+				ShaderTypes::ShaderType* pShader = pPipeline->TryGetShader<ShaderTypes::ShaderType>(Shaders[s * 3 + 2]); // Get the shader
+				((Shaders::ShaderInformation*)pShader->p_ShaderInformation)->UpdateVertexData(pPipeline, vertexBufferName, pVertexArray, vertexBuffer, 3);
+				glUniform1f(((Shaders::ShaderInformation*)pShader->p_ShaderInformation)->p_UniformTime, glfwGetTime()); // Set the time
 
 				glUseProgram(pShader->GetProgram()); // Set the program
-				glUniform1f(pShader->p_UniformTime, glfwGetTime()); // Set the time
 
 				// Draw triangles
 				glDrawArrays(GL_TRIANGLES, 0, 3);

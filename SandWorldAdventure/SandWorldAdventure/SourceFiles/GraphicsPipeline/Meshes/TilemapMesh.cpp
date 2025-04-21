@@ -1,6 +1,7 @@
 #include "HeaderFiles/GraphicsPipeline/Meshes/TilemapMesh.h"
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h" // Needed for IMesh.h
-#include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShader.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShaderInformation.h"
+#include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
 
 #include "HeaderFiles/Game/GameInstance.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
@@ -96,10 +97,11 @@ namespace SandboxEngine::GraphicsPipeline
 
 	void TilemapMesh::Render(GraphicsPipeline::GraphicsPipeline2D* pPipeline, GLuint vertexBufferName, GLuint pVertexArray)
 	{
-		StaticQuadtree quadtree = CreateOnScreenTilesBuffer();
+		//StaticQuadtree quadtree = CreateOnScreenTilesBuffer();
 
-		Shaders::TilemapShader* pShader = pPipeline->TryGetShader<Shaders::TilemapShader>(GraphicsPipeline::GraphicsPipeline2D::GP2D_TILEMAP_SHADER); // Get the shader
-		pShader->UpdateVertexData(vertexBufferName, pVertexArray, m_Verts, &quadtree); // Pass in vertex buffer data and quadtree of tilemap
+		ShaderTypes::ShaderType* pShader = pPipeline->TryGetShader<ShaderTypes::ShaderType>(GraphicsPipeline::GraphicsPipeline2D::GP2D_TILEMAP_SHADER); // Get the shader
+		Shaders::TilemapShaderInformation* pShaderInformation = (Shaders::TilemapShaderInformation*)pShader->p_ShaderInformation;
+		pShaderInformation->UpdateVertexData(pPipeline, vertexBufferName, pVertexArray, m_Verts, nullptr/*&quadtree*/); // Pass in vertex buffer data and quadtree of tilemap
 
 		Vector2Int bounds = ((Tilemap*)mp_Tilemap)->Container.GetTileBounds();
 		Vector2 tilemapOriginCoord = pPipeline->ActiveCamera.WorldToViewport(((Tilemap*)mp_Tilemap)->Position); // Convert the origin to viewport
@@ -107,24 +109,24 @@ namespace SandboxEngine::GraphicsPipeline
 
 		glUseProgram(pShader->GetProgram()); // Set the program
 		// Set Uniform variables
-		glUniform1f(pShader->p_UniformTime, glfwGetTime()); // Set the time
-		glUniform2d(pShader->p_UniformTilemapOrigin, tilemapOriginCoord.X, tilemapOriginCoord.Y); // Set the tilemap origin
-		glUniform2i(pShader->p_UniformTilemapBounds, bounds.X, bounds.Y); // Set the tilemap columns and rows
-		glUniform2d(pShader->p_UniformTilemapWorldSize, tilemapWorldSizeCoord.X, tilemapWorldSizeCoord.Y); // Set the tilemap world size
+		glUniform1f(pShaderInformation->p_UniformTime, glfwGetTime()); // Set the time
+		glUniform2d(pShaderInformation->p_UniformTilemapOrigin, tilemapOriginCoord.X, tilemapOriginCoord.Y); // Set the tilemap origin
+		glUniform2i(pShaderInformation->p_UniformTilemapBounds, bounds.X, bounds.Y); // Set the tilemap columns and rows
+		glUniform2d(pShaderInformation->p_UniformTilemapWorldSize, tilemapWorldSizeCoord.X, tilemapWorldSizeCoord.Y); // Set the tilemap world size
 		
 		// Draw quads
 		glDrawArrays(GL_QUADS, 0, 4);
 
-		// Free quadtree
-		for (int i = 0; i < quadtree.NodeCount; i++)
-		{
-			if (!quadtree.p_NodesBegin[i].IsLeaf && quadtree.p_NodesBegin[i].p_Data != 0x0)
-			{
-				free((int*)quadtree.p_NodesBegin[i].p_Data);
-				quadtree.p_NodesBegin[i].p_Data = 0x0;
-			}
-		}
-		free(quadtree.p_NodesBegin);
+		//// Free quadtree
+		//for (int i = 0; i < quadtree.NodeCount; i++)
+		//{
+		//	if (!quadtree.p_NodesBegin[i].IsLeaf && quadtree.p_NodesBegin[i].p_Data != 0x0)
+		//	{
+		//		free((int*)quadtree.p_NodesBegin[i].p_Data);
+		//		quadtree.p_NodesBegin[i].p_Data = 0x0;
+		//	}
+		//}
+		//free(quadtree.p_NodesBegin);
 	}
 
 	void TilemapMesh::Release()

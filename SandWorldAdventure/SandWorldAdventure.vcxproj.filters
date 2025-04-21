@@ -63,12 +63,6 @@
     <ClCompile Include="SandWorldAdventure\SourceFiles\MasterWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Render\Renderer.cpp">
-      <Filter>Source Files\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Render\ScreenState.cpp">
-      <Filter>Source Files\Render</Filter>
-    </ClCompile>
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.cpp">
       <Filter>Source Files\Game\GameObjects\Tilemap\TileBehaviors</Filter>
     </ClCompile>
@@ -83,12 +77,6 @@
     </ClCompile>
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TilemapContainer.cpp">
       <Filter>Source Files\Game\GameObjects\Tilemap</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TilemapRenderer.cpp">
-      <Filter>Source Files\Game\GameObjects\Tilemap</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Render\Camera.cpp">
-      <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp">
       <Filter>Source Files\Game</Filter>
@@ -114,15 +102,6 @@
     <ClCompile Include="SandWorldAdventure\SourceFiles\Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2Int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Vector2Hasher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\SwapTileAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -132,12 +111,30 @@
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\TilemapMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\ShaderTypes\ShaderType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\ShaderInformation.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\MasterWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h">
@@ -161,20 +158,8 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapContainer.h">
       <Filter>Header Files\Game\GameObjects\Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapRenderer.h">
-      <Filter>Header Files\Game\GameObjects\Tilemap</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapRenderInfo.h">
-      <Filter>Header Files\Game\GameObjects\Tilemap</Filter>
-    </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Game.h">
       <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Render\Renderer.h">
-      <Filter>Header Files\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Render\ScreenState.h">
-      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\GameDelegate.h">
       <Filter>Header Files\GameEvents</Filter>
@@ -188,17 +173,8 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\FluidTileBehavior.h">
       <Filter>Header Files\Game\GameObjects\Tilemap\TileBehaviors</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2Hasher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Layer.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameInstance.h">
       <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Render\Camera.h">
-      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Player.h">
       <Filter>Header Files\Game\GameObjects</Filter>
@@ -227,9 +203,6 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\TileActionQueue.h">
       <Filter>Header Files\Game\GameObjects\Tilemap\TileActionQueue</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Vector2Int.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehaviorNames.h">
       <Filter>Header Files\Game\GameObjects\Tilemap\TileBehaviors</Filter>
     </ClInclude>
@@ -251,5 +224,57 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileActionQueue\Actions\TileActionPointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipeline2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipelineFramework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\IGraphicsPipeline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\IMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\TilemapMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\ShaderTypes\IShaderType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\ShaderTypes\ShaderType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\RenderLayerNames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\StaticQuadtreeTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\ShaderInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShaderInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SandWorldAdventure\Shaders\TilemapShader.shader" />
+    <None Include="SandWorldAdventure\Shaders\DefaultShader.shader" />
   </ItemGroup>
 </Project>

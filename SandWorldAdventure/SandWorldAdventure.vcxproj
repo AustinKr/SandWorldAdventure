@@ -164,7 +164,8 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\Mesh.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\TilemapMesh.cpp" />
-    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\Shader.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\ShaderTypes\ShaderType.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\DebugObject.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\MasterWindow.cpp" />
@@ -202,12 +203,13 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\IGraphicsPipeline.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\IMesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\TilemapMesh.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShader.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TilemapShader.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\ShaderInformation.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\ShaderTypes\IShaderType.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Math.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\Mesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\Shader.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\ShaderTypes\ShaderType.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\DebugObject.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Game.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\GameDelegate.h" />
@@ -223,17 +225,14 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\RenderLayerNames.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\StaticQuadtreeTypes.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h" />
-    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\TilemapShader.cpp">
-      <FileType>CppHeader</FileType>
-    </ClCompile>
-    <None Include="SandWorldAdventure\Shaders\Vertex\TilemapVert.glsl">
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\ShaderInformation.cpp" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShaderInformation.h" />
+    <None Include="SandWorldAdventure\Shaders\TilemapShader.shader">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SandWorldAdventure\Shaders\Fragment\ShaderFrag.glsl" />
-    <None Include="SandWorldAdventure\Shaders\Fragment\TilemapFrag.glsl" />
-    <None Include="SandWorldAdventure\Shaders\Vertex\ShaderVert.glsl" />
+    <None Include="SandWorldAdventure\Shaders\DefaultShader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

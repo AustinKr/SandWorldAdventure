@@ -4,19 +4,16 @@
 #include <vector>
 #include <string>
 
-namespace SandboxEngine::GraphicsPipeline::Shaders
+namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 {
-	struct IShader
+	struct IShaderType
 	{
 	public:
 		const char* PROJECT_DIRECTORY = "C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/";
 
-		// Creates and compiles shaders from shader code
+		// Creates and compiles shaders from shader code. Also creates a program and attaches shader to it.
 		virtual int Compile(IGraphicsPipeline* pPipeline) = 0;
-		// Creates the program, attaches the shaders to it, and defines variables used in the shaders
-		virtual int CreateProgram(IGraphicsPipeline* pPipeline) = 0;
 		
-		//virtual int UpdateVertexData(GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, int count) = 0;
 		// Deletes this object (and any other associated that should also be deleted). Also deattach from the program.
 		virtual void Release() = 0;
 

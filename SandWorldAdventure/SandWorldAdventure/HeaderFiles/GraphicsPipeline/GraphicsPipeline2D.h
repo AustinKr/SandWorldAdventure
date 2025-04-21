@@ -11,10 +11,10 @@ namespace SandboxEngine::GraphicsPipeline
 	// A generic pipeline that allows the easy creation and dynamic use of shaders
 	// Stores all meshes and shaders.
 	// Uses the GLFW3 and GLEW libraries.
-	class GraphicsPipeline2D : IGraphicsPipeline
+	class GraphicsPipeline2D : public IGraphicsPipeline
 	{
 	private:
-		std::vector<Shaders::IShader*> m_AllShaderObjects;
+		std::vector<ShaderTypes::IShaderType*> m_AllShaderObjects;
 
 		std::vector<RenderLayer> m_Layers;
 
@@ -25,8 +25,6 @@ namespace SandboxEngine::GraphicsPipeline
 		// Compiles the collection of shaders
 		/// <returns> The count of shaders that failed to compile </returns>
 		virtual int CompileShaders() override;
-		/// <returns> The count of shaders that failed to create programs </returns>
-		virtual int CreatePrograms() override;
 	public:
 		enum
 		{
@@ -50,17 +48,25 @@ namespace SandboxEngine::GraphicsPipeline
 		static std::string LoadShaderCodeFromFile(const char* fullFilePath);
 
 		// Use this to add shaders that need to be compiled
-		void RegisterShader(Shaders::IShader* pShader);
-		
+		void RegisterShader(ShaderTypes::IShaderType* pShader);
+		// Used to compile shaders
+		int CompileShader(GLuint* ppShader, const char* pShaderCode);
+
 		template<typename TYPE>
 		inline TYPE* TryGetShader(int id) 
 		{
 			if (id >= m_AllShaderObjects.size())
 				return nullptr;
-			Shaders::IShader* pShader = m_AllShaderObjects[id];
+			ShaderTypes::IShaderType* pShader = m_AllShaderObjects[id];
 			return (TYPE*)pShader;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns>The location of the attribute</returns>
+		GLint TryEnableVertexAttribute(GLuint program, std::string name, GLint size, GLenum type, GLsizei stride, const void* pAttribute);
+		
 		// Note: add shaders before calling this function because they are only compiled after this point
 		virtual void Initialize() override;
 
