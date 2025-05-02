@@ -22,20 +22,23 @@ namespace SandboxEngine::GraphicsPipeline
 
 				// Set data into a continuous collection
 				vertexBuffer[0] = Vertices[Triangles[triangle]];
-				vertexBuffer[0].pos *= Scale * float2(pPipeline->ActiveCamera.Scale); // scale
-				vertexBuffer[0].pos += Origin - float2(pPipeline->ActiveCamera.Origin); // offset
+				// Scale and offset
+				vertexBuffer[0].pos = vertexBuffer[0].pos * Scale + Origin - float2(pPipeline->ActiveCamera.Origin);
+				vertexBuffer[0].pos /= float2(pPipeline->ActiveCamera.Scale * pPipeline->ActiveCamera.WORLD_UNITS);
 
 				vertexBuffer[1] = Vertices[Triangles[triangle + 1]];
-				vertexBuffer[1].pos *= Scale * pPipeline->ActiveCamera.Scale; // scale
-				vertexBuffer[1].pos += Origin - pPipeline->ActiveCamera.Origin; // offset
+				// Scale and offset
+				vertexBuffer[1].pos = vertexBuffer[1].pos * Scale + Origin - float2(pPipeline->ActiveCamera.Origin);
+				vertexBuffer[1].pos /= float2(pPipeline->ActiveCamera.Scale * pPipeline->ActiveCamera.WORLD_UNITS);
 
 				vertexBuffer[2] = Vertices[Triangles[triangle + 2]];
-				vertexBuffer[2].pos *= Scale * pPipeline->ActiveCamera.Scale; // scale
-				vertexBuffer[2].pos += Origin - pPipeline->ActiveCamera.Origin; // offset
+				// Scale and offset
+				vertexBuffer[2].pos = vertexBuffer[2].pos * Scale + Origin - float2(pPipeline->ActiveCamera.Origin);
+				vertexBuffer[2].pos /= float2(pPipeline->ActiveCamera.Scale * pPipeline->ActiveCamera.WORLD_UNITS);
 
 				ShaderTypes::ShaderType* pShader = pPipeline->TryGetShader<ShaderTypes::ShaderType>(Shaders[s * 3 + 2]); // Get the shader
 				((Shaders::ShaderInformation*)pShader->p_ShaderInformation)->UpdateVertexData(pPipeline, vertexBufferName, pVertexArray, vertexBuffer, 3);
-				glUniform1f(((Shaders::ShaderInformation*)pShader->p_ShaderInformation)->p_UniformTime, glfwGetTime()); // Set the time
+				//glUniform1f(((Shaders::ShaderInformation*)pShader->p_ShaderInformation)->p_UniformTime, glfwGetTime()); // Set the time
 
 				glUseProgram(pShader->GetProgram()); // Set the program
 

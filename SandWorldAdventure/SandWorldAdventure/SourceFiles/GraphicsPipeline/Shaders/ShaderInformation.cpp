@@ -15,9 +15,9 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 
 		// Get the variables we know are contained in the now-linked program
 
-		p_Position = ((GraphicsPipeline2D*)pPipeline)->TryEnableVertexAttribute(p_Program, "vPos", 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, pos));
-		p_UVPosition = ((GraphicsPipeline2D*)pPipeline)->TryEnableVertexAttribute(p_Program, "vUvCoord", 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, uvCoord));
-		p_UniformTime = glGetUniformLocation(p_Program, "Time");
+		p_Position = ((GraphicsPipeline2D*)pPipeline)->TryEnableVertexAttribute(p_Program, "vPos", 2, GL_FLOAT, sizeof(Vertex), (const void*)offsetof(Vertex, pos));
+		p_UVPosition = ((GraphicsPipeline2D*)pPipeline)->TryEnableVertexAttribute(p_Program, "vUvCoord", 3, GL_FLOAT, sizeof(Vertex), (const void*)offsetof(Vertex, uvCoord));
+		//p_UniformTime = glGetUniformLocation(p_Program, "Time");
 		/*if (p_UniformTime == -1)
 		{
 			returnCode = -1;

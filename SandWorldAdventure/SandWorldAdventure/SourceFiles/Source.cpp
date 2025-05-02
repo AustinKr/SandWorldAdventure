@@ -62,24 +62,13 @@ int main(void)
 		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
 		
 		GenerateTilemap();
-		/*
-		// Debug background
-		IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
 
-		// Screen background
-		Renderer::Background(pMainScreen, 0x0505ff);
-		if ((int)std::floor(GameInstance::TimeInfo.CurrentTime) % 3 == 0)
-			GameInstance::MainCamera.DrawRect(pMainScreen, g_pTestTilemap->Position.X, g_pTestTilemap->Position.Y, g_pTestTilemap->TileSize.X * g_pTestTilemap->Container.GetTileBounds().X, g_pTestTilemap->TileSize.Y * g_pTestTilemap->Container.GetTileBounds().Y, 0xffff00);
-
-
-		//GenerateTilemap(timeInfo);
-
+		int screenW, screenH;
+		glfwGetWindowSize(g_WndInst.p_glfwWindow, &screenW, &screenH);
 		// Get cursor position
 		Vector2 cursorPosition;
 		glfwGetCursorPos(g_WndInst.p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
-		Vector2 mouseWorldPosition = GameInstance::MainCamera.FromViewportToWorld(
-			GameInstance::MainCamera.FromScreenToViewport(
-				Vector2(cursorPosition.X, pMainScreen->BitmapInfo.bmiHeader.biHeight - cursorPosition.X)));
+		Vector2 mouseWorldPosition = GameInstance::Pipeline.ActiveCamera.ViewportToWorld(Vector2(cursorPosition.X, screenH - cursorPosition.X) / Vector2(screenW, screenH));
 
 		// Cursor remove tiles
 		int isMouseDown = true;//KeyboardInterface::KeyboardState::IsButtonDown(VK_LBUTTON) ? 1 : (KeyboardInterface::KeyboardState::IsButtonDown(VK_RBUTTON) ? 2 : 0);
@@ -99,8 +88,7 @@ int main(void)
 						g_pTestTilemap->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
 				}
 			}
-		}*/
-
+		}
 		//GameInstance::MainCamera.Position = Vector2(50,50) / mouseWorldPosition;
 
 		GameInstance::UpdateObjects(); // Apply physics and logic to objects
@@ -165,7 +153,8 @@ void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
 void InitializeGraphics()
 {
 	GameInstance::Pipeline.Initialize();
-	
+	GameInstance::Pipeline.ActiveCamera.Scale = Vector2(25, 25);
+
 	// Create layers
 	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
 	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Objects, { "Objects" });

@@ -11,7 +11,7 @@ namespace SandboxEngine::Game::GameObject
 		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
 		GameInstance::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh); // Register the mesh
 
-		mp_Mesh->Scale = float2(.5f, .5f);
+		mp_Mesh->Scale = float2(1.0f, 1.0f);
 		mp_Mesh->Vertices =
 		{
 			{{ 0, 0 }, {0, 0, 0}},

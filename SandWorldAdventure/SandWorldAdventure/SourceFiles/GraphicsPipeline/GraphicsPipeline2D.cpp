@@ -77,10 +77,10 @@ namespace SandboxEngine::GraphicsPipeline
 	{
 		m_AllShaderObjects.push_back(pShader);
 	}
-	int GraphicsPipeline2D::CompileShader(GLuint* ppShader, const char* pShaderCode)
+	int GraphicsPipeline2D::CompileShader(GLuint* ppShader, GLenum shaderType, const char* pShaderCode)
 	{
 		// Create the shader
-		*ppShader = glCreateShader(GL_VERTEX_SHADER);
+		*ppShader = glCreateShader(shaderType);
 		if (*ppShader == 0)
 			return -1;
 		glShaderSource(*ppShader, 1, &pShaderCode, NULL);
@@ -110,18 +110,17 @@ namespace SandboxEngine::GraphicsPipeline
 		return -1;
 	}
 
-	GLint GraphicsPipeline2D::TryEnableVertexAttribute(GLuint program, std::string name, GLint size, GLenum type, GLsizei stride, const void* pAttribute)
+	GLint GraphicsPipeline2D::TryEnableVertexAttribute(GLuint program, const char* const pName, GLint size, GLenum type, GLsizei stride, const void* pAttribute)
 	{
-		GLint location = glGetAttribLocation(program, name.c_str());
+		GLint location = glGetAttribLocation(program, pName);
 
 		if (location == -1)
 		{
-			fprintf(stderr, std::string("failed to find location of shader attribute ").append(name).append("\n").c_str());
+			fprintf(stderr, std::to_string(program).append(std::string("; failed to find location of shader attribute ").append(pName).append("\n")).c_str());
 			return -1;
 		}
 		glEnableVertexAttribArray(location); // Enable the attribute to be accessed and used for rendering
-		glVertexAttribPointer(location, size, type, GL_FALSE,
-			sizeof(Vertex), (void*)offsetof(Vertex, pos));
+		glVertexAttribPointer(location, size, type, GL_FALSE, stride, pAttribute);
 		return location;
 	}
 

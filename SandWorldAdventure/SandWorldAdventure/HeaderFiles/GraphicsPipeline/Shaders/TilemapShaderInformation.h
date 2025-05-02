@@ -12,6 +12,11 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		GLint p_UniformTilemapBounds;
 		GLint p_UniformTilemapWorldSize;
 
-		int UpdateVertexData(IGraphicsPipeline* pPipeline, GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, Game::GameObject::Tilemap::StaticQuadtree* pQuadtree);
+		//GLint p_UnifromNodeCount;
+		//GLint p_UniformRootNodeOrigin; 
+		//GLint p_UniformRootNodeSize;
+		//GLint p_UniformLeafDepth;
+
+		int UpdateVertexData(IGraphicsPipeline* pPipeline, GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, Game::GameObject::Tilemap::StaticQuadtree* const pQuadtree);
 	};
 }

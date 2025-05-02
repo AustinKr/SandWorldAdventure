@@ -4,6 +4,7 @@
 
 namespace SandboxEngine::GraphicsPipeline::Shaders
 {
+	// TODO: Possibly rename to- more accurately- BaseShaderInformation
 	struct IShaderInformation
 	{
 	public:
@@ -11,9 +12,6 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		GLint p_Position;
 		// uvCoord  member of Vertex
 		GLint p_UVPosition;
-
-		// The global time variable
-		GLint p_UniformTime;
 
 		// The program
 		GLuint p_Program;

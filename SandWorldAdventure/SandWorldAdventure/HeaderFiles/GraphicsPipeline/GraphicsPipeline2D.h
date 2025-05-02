@@ -50,7 +50,7 @@ namespace SandboxEngine::GraphicsPipeline
 		// Use this to add shaders that need to be compiled
 		void RegisterShader(ShaderTypes::IShaderType* pShader);
 		// Used to compile shaders
-		int CompileShader(GLuint* ppShader, const char* pShaderCode);
+		int CompileShader(GLuint* ppShader, GLenum shaderType, const char* pShaderCode);
 
 		template<typename TYPE>
 		inline TYPE* TryGetShader(int id) 
@@ -65,7 +65,12 @@ namespace SandboxEngine::GraphicsPipeline
 		/// 
 		/// </summary>
 		/// <returns>The location of the attribute</returns>
-		GLint TryEnableVertexAttribute(GLuint program, std::string name, GLint size, GLenum type, GLsizei stride, const void* pAttribute);
+		GLint TryEnableVertexAttribute(GLuint program,
+			const char* const pName,
+			GLint size, 
+			GLenum type, 
+			GLsizei stride, 
+			const void* pAttribute);
 		
 		// Note: add shaders before calling this function because they are only compiled after this point
 		virtual void Initialize() override;

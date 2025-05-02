@@ -9,14 +9,14 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 		size_t endIndex= code.find("#ENDVERTEX");
 		if (startIndex == std::string::npos || endIndex == std::string::npos)
 			return false;
-		*pVertCode = code.substr(startIndex, endIndex - startIndex).c_str();
+		*pVertCode = code.substr(startIndex, endIndex - startIndex);
 
 		//code = code.substr(endIndex, code.length()); // Shorten the length to search for the fragment tags. Note: this would force there to be an order in which vertex comes before fragment
 		startIndex = code.find("#FRAGMENT") + 10; // 10 characters in tag
 		endIndex = code.find("#ENDFRAGMENT");
 		if (startIndex == std::string::npos || endIndex == std::string::npos)
 			return false;
-		*pFragCode = code.substr(startIndex, endIndex - startIndex).c_str();
+		*pFragCode = code.substr(startIndex, endIndex - startIndex);
 
 		return true;
 	}
@@ -43,8 +43,8 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 		const char* vertexShaderCodeChar = m_VertexShaderCode.c_str();
 		const char* fragmentShaderCodeChar = m_FragmentShaderCode.c_str();
 		// Compile
-		returnCodeA = ((GraphicsPipeline2D*)pPipeline)->CompileShader(&mp_VertexShader, vertexShaderCodeChar);
-		returnCodeB = ((GraphicsPipeline2D*)pPipeline)->CompileShader(&mp_FragmentShader,fragmentShaderCodeChar);
+		returnCodeA = ((GraphicsPipeline2D*)pPipeline)->CompileShader(&mp_VertexShader, GL_VERTEX_SHADER, vertexShaderCodeChar);
+		returnCodeB = ((GraphicsPipeline2D*)pPipeline)->CompileShader(&mp_FragmentShader, GL_FRAGMENT_SHADER,fragmentShaderCodeChar);
 
 		// Create the program
 		p_ShaderInformation->p_Program = glCreateProgram();
@@ -53,18 +53,26 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 		glAttachShader(p_ShaderInformation->p_Program, mp_FragmentShader);
 		glLinkProgram(p_ShaderInformation->p_Program);
 
+		// Check for link error
+		GLint param;
+		glGetProgramiv(p_ShaderInformation->p_Program, GL_LINK_STATUS, &param);
+		if (param == false)
+		{
+			fprintf(stderr, ("shader program failed to link: " + GetName() + "\n").c_str());
+			return -1;
+		}
 		return returnCodeA == -1 ? -1 : returnCodeB;
 	}
 	void ShaderType::Release()
 	{
-		delete(p_ShaderInformation);
-
 		glDetachShader(p_ShaderInformation->p_Program, mp_FragmentShader);
 		glDetachShader(p_ShaderInformation->p_Program, mp_VertexShader);
-		delete(this);
 
 		glDeleteProgram(p_ShaderInformation->p_Program);
 		p_ShaderInformation->p_Program = 0;
+
+		delete(p_ShaderInformation);
+		delete(this);
 	}
 	
 
