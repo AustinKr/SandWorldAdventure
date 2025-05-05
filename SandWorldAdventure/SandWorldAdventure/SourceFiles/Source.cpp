@@ -153,7 +153,7 @@ void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
 void InitializeGraphics()
 {
 	GameInstance::Pipeline.Initialize();
-	GameInstance::Pipeline.ActiveCamera.Scale = Vector2(25, 25);
+	GameInstance::Pipeline.ActiveCamera.Scale = Vector2(100, 100);
 
 	// Create layers
 	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });

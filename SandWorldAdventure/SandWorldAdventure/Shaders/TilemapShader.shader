@@ -17,10 +17,12 @@
     
     struct QuadtreeNode
     {
-        int Index;// Index relative to this node's parents
-    	bool IsLeaf;
-        //TODO: Separate data
-    	unsigned int p_Data; // Could be 0( no child or leaf data), index array of 4 in buffer to child node, or leaf data( a tile color to be interpreted as an unsigned integer)
+		int Index; // Index relative to this node's parents
+		bool IsNull; // If set to true, TileColor and ChildrenIndices will be not have values
+		bool IsLeaf;
+
+		vec3 TileColor; // Only is initialized if IsLeaf
+		int ChildrenIndicies[4]; // Null if IsLeaf
     };
 
     layout(std430, binding = 0) buffer QuadtreeBlock
@@ -34,57 +36,60 @@
     }; // No instance identifier, so these are global variables
 
     // Uniform variables
-    uniform dvec2 TilemapOrigin;
-    uniform ivec2 TilemapBounds;
-    uniform dvec2 TilemapWorldSize;
+    uniform dvec2 TilemapOrigin; // In screen coordinates
+    uniform ivec2 TilemapBounds; 
 
     in vec3 uv;
     out vec4 fragment;
     
     void main()
     {
-        /*unsigned int i = int(floor(uv.x * 100.0));
-        if(Nodes.length() > 0 && i < Nodes.length() && i >= 0)
-            fragment = vec4(0, Nodes[i].p_Data, 0, 1);
-        else
-            fragment = vec4(1,0,0,1);
+        int index = int(floor(uv.x * float(Nodes.length())));
+        fragment = vec4(Nodes[index].TileColor, 1);
+        return;
 
-        return;*/
-        
-        int tileX = int(floor((double(uv.x) - TilemapOrigin.x) * double(TilemapBounds.x) / TilemapWorldSize.x));
-        int tileY = int(floor((double(uv.y) - TilemapOrigin.y) * double(TilemapBounds.y) / TilemapWorldSize.y));
+
+        int tileX = int(floor((double(uv.x) - TilemapOrigin.x) * double(TilemapBounds.x)));
+        int tileY = int(floor((double(uv.y) - TilemapOrigin.y) * double(TilemapBounds.y)));
 
         //// Test tileXY
         //fragment = vec4(float(tileX) / float(TilemapBounds.x), float(tileY) / float(TilemapBounds.y), 0, 1);
         //return;
 
+
         // Start at the root node, iterate through each node containing the tile
         int i = 0;
-        vec2 currentNodeOrigin = RootNodeOrigin; // Starts as the root node
+        vec2 parentNodeOrigin = RootNodeOrigin; // Starts as the root node
         for(int d = 1; d < LeafDepth; d++)
         {
-            if(Nodes[i].p_Data == 0)
+            if(Nodes[i].IsNull) // We should reach the end of the loop for a success- not a null node 
             {
                 i = -1;
                 break;
             }
             // Eq. for the size of a node given the depth(d): s = RootSize / pow(2, d);
-            double currentNodeSize = RootNodeSize / float(pow(2, d));
+            float currentNodeSize = RootNodeSize / float(pow(2, d));
             // Convert tile position to node position (relative to its parent)
-            int nodeC = int(floor(double(tileX - currentNodeOrigin.x) / currentNodeSize));
-            int nodeY = int(floor(double(tileY - currentNodeOrigin.y) / currentNodeSize));
-
+            int nodeC = int(floor(float(tileX - parentNodeOrigin.x) / currentNodeSize));
+            int nodeY = int(floor(float(tileY - parentNodeOrigin.y) / currentNodeSize));
+            
             // Use the column and row to add to the index
             i += nodeC + nodeY * 2;
             // Update the parent position
-            currentNodeOrigin = vec2(currentNodeOrigin.x + nodeC * currentNodeSize, currentNodeOrigin.y + nodeY * currentNodeSize); // Set it to the parent origin plus the distance of relative nodes, in the base unit(tiles)
+            parentNodeOrigin = vec2(parentNodeOrigin.x + nodeC * currentNodeSize, parentNodeOrigin.y + nodeY * currentNodeSize); // Set it to the parent origin plus the distance of relative nodes, in the base unit(tiles)
+            if(parentNodeOrigin.x < RootNodeOrigin.x || parentNodeOrigin.y < RootNodeOrigin.y ||
+                parentNodeOrigin.x + currentNodeSize > RootNodeSize || parentNodeOrigin.y + currentNodeSize > RootNodeSize)
+            {
+                i = -1;
+                break;
+            }
         }
         if(i == -1)
             fragment = vec4(1,0,1,1); // null color
         else if (i >= Nodes.length())
             fragment = vec4(.5,0,.5,1); // null color
         else
-            fragment = vec4(Nodes[i].p_Data, 0, 0, 1);//TODO: Parse color if possible
+            fragment = vec4(Nodes[i].TileColor, 1);
             
         //float greyscale = (float(tileX) + float(tileY)) / 2.0 / float(max(TilemapBounds.y, TilemapBounds.x));
         //fragment = vec4(greyscale,greyscale,greyscale,1 );

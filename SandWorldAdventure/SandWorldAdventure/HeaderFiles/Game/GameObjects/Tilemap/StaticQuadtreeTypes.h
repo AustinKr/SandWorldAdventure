@@ -35,20 +35,29 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 
 	struct StaticQuadtreeNode
 	{
-		// Index relative to this node's parents
-		int Index;
+		int Index; // Index relative to this node's parents
+		bool IsNull; // If set to true, TileColor and ChildrenIndices will be not have values
 		bool IsLeaf;
-		//TODO: I dont think pointers may be sent to the gpu- use separate fields instead
-		unsigned int p_Data; // Could be 0( no child or leaf data), index array of 4 in buffer to child node, or leaf data( a tile color to be interpreted as an unsigned integer)
+
+		float3 TileColor; // Only is initialized if IsLeaf
+		int ChildrenIndicies[4]; // Null if IsLeaf
+
+		inline StaticQuadtreeNode() :Index(0), IsNull(0), IsLeaf(0), TileColor({})
+		{
+			ChildrenIndicies[0] = 0;
+			ChildrenIndicies[1] = 0;
+			ChildrenIndicies[2] = 0;
+			ChildrenIndicies[3] = 0;
+		}
 	};
 	struct StaticQuadtree
 	{
+		StaticQuadtreeNode* p_NodesBegin; // This is the only item that will be in the buffer
+		int NodeCount; // Additional(not included in shader)
+		
+		// These are sent as uniforms
 		float2 RootOrigin;
 		float RootSize;
 		int LeafDepth;
-
-		StaticQuadtreeNode *p_NodesBegin;
-
-		int NodeCount; // Additional(not included in shader)
 	};
 }

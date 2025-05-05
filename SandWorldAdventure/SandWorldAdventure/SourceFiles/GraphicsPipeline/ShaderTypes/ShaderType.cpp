@@ -53,6 +53,12 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 		glAttachShader(p_ShaderInformation->p_Program, mp_FragmentShader);
 		glLinkProgram(p_ShaderInformation->p_Program);
 
+		// Release shaders
+		glDetachShader(p_ShaderInformation->p_Program, mp_FragmentShader);
+		glDetachShader(p_ShaderInformation->p_Program, mp_VertexShader);
+		glDeleteShader(mp_FragmentShader);
+		glDeleteShader(mp_VertexShader);
+
 		// Check for link error
 		GLint param;
 		glGetProgramiv(p_ShaderInformation->p_Program, GL_LINK_STATUS, &param);
@@ -65,9 +71,6 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 	}
 	void ShaderType::Release()
 	{
-		glDetachShader(p_ShaderInformation->p_Program, mp_FragmentShader);
-		glDetachShader(p_ShaderInformation->p_Program, mp_VertexShader);
-
 		glDeleteProgram(p_ShaderInformation->p_Program);
 		p_ShaderInformation->p_Program = 0;
 

@@ -3,7 +3,13 @@
 
 namespace SandboxEngine::GraphicsPipeline::Shaders
 {
-	int TilemapShaderInformation::UpdateVertexData(IGraphicsPipeline* pPipeline, GLuint vertexBufferName, GLuint pVertexArray, const Vertex* pVertexBuffer, Game::GameObject::Tilemap::StaticQuadtree* const pQuadtree)
+	int TilemapShaderInformation::UpdateVertexData(
+		IGraphicsPipeline* pPipeline, 
+		GLuint vertexBufferName,
+		GLuint pVertexArray,
+		const Vertex* pVertexBuffer,
+		Game::GameObject::Tilemap::StaticQuadtreeNode* const pQuadtreeBegin,
+		int quadtreeNodesCount)
 	{
 		int returnCode = IGraphicsPipeline::GP_SUCCESS;
 
@@ -12,14 +18,11 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		glGenBuffers(1, &mp_QuadtreeBufferName);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, mp_QuadtreeBufferName);
 		// Set data
-		int firstDataSize = sizeof(float) * 2 + sizeof(float) + sizeof(int),
-			arrayDataSize = sizeof(Game::GameObject::Tilemap::StaticQuadtreeNode) * pQuadtree->NodeCount;
-		glBufferData(GL_SHADER_STORAGE_BUFFER, firstDataSize + arrayDataSize, pQuadtree, GL_STREAM_DRAW); // Set the first block of data
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, firstDataSize, arrayDataSize, pQuadtree->p_NodesBegin); // Set the second(node array)
+		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Game::GameObject::Tilemap::StaticQuadtreeNode) * quadtreeNodesCount, pQuadtreeBegin, GL_STREAM_DRAW); // Set the block of data
 		// Bind to gl block
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, mp_QuadtreeBufferName);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); // unbind
-
+		
 		// glBufferData deletes any pre-existing data
 		// Set gl vertex buffer data
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferName);
@@ -32,11 +35,9 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		//TODO: Make a system to add uniform variables by one method
 		p_UniformTilemapOrigin = glGetUniformLocation(p_Program, "TilemapOrigin");
 		p_UniformTilemapBounds = glGetUniformLocation(p_Program, "TilemapBounds");
-		p_UniformTilemapWorldSize = glGetUniformLocation(p_Program, "TilemapWorldSize");
-		/*p_UnifromNodeCount = glGetUniformLocation(p_Program, "NodeCount");
 		p_UniformRootNodeOrigin = glGetUniformLocation(p_Program, "RootNodeOrign");
 		p_UniformRootNodeSize = glGetUniformLocation(p_Program, "RootNodeSize");
-		p_UniformLeafDepth = glGetUniformLocation(p_Program, "LeafDepth");*/
+		p_UniformLeafDepth = glGetUniformLocation(p_Program, "LeafDepth");
 
 		if (p_UniformTilemapOrigin == -1)
 		{
@@ -48,21 +49,22 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 			returnCode = -1;
 			fprintf(stderr, "failed to find location of shader p_UniformTilemapBounds variable!\n");
 		}
-		if (p_UniformTilemapWorldSize == -1)
-		{
-			returnCode = -1;
-			fprintf(stderr, "failed to find location of shader p_UniformTilemapWorldSize variable!\n");
-		}
 
-	/*	if (p_UniformRootNodeOrigin == -1)
+		if (p_UniformRootNodeOrigin == -1)
 		{
 			returnCode = -1;
 			fprintf(stderr, "failed to find location of shader p_UniformRootNodeOrigin variable!\n");
-		}if (p_UniformRootNodeSize == -1)
+		}
+		if (p_UniformRootNodeSize == -1)
 		{
 			returnCode = -1;
 			fprintf(stderr, "failed to find location of shader p_UniformRootNodeOrigin variable!\n");
-		}*/
+		}
+		if (p_UniformLeafDepth == -1)
+		{
+			returnCode = -1;
+			fprintf(stderr, "failed to find location of shader p_UniformLeafDepth variable!\n");
+		}
 
 		return returnCode;
 	}
