@@ -157,6 +157,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		return std::make_pair(distance, hitTileInfo); // Should always be 0, nullptr
 	}
 
+	// TODO: This can be Vector2Int
 	Vector2 Tilemap::FromWorldToTile(Vector2 world)
 	{
 		world -= Position;

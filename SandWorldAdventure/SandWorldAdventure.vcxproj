@@ -226,7 +226,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\StaticQuadtreeTypes.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\ShaderInformation.cpp" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShaderInformation.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\BaseShaderInformation.h" />
     <None Include="SandWorldAdventure\Shaders\TilemapShader.shader">
       <FileType>Document</FileType>
     </None>

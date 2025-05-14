@@ -10,13 +10,13 @@ namespace SandboxEngine::GraphicsPipeline
 	class TilemapMesh : public IMesh
 	{
 	private:
-		typedef unsigned int TILE_DATA_TYPE; // A color (?first 2 bits: red; second 2: green; third 2: blue?)
+		typedef unsigned int TILE_DATA_TYPE; // A color (first 8 bits: red; second 8: green; third 8: blue; fourth 16: alpha unused)
 
 		// Note: this object will always be a tilemap- IGameObject* is only used for simplicity
 		Game::GameObject::IGameObject* mp_Tilemap;
 		static const Vertex m_Verts[4];
 
-		Game::GameObject::Tilemap::StaticQuadtree CreateOnScreenTilesBuffer();
+		std::pair<TILE_DATA_TYPE* const, std::pair<Vector2Int, Vector2Int>> CreateOnScreenTilesBuffer();
 
 		//TODO: Remove quadtree function because textures would work better
 		template<typename Iter>

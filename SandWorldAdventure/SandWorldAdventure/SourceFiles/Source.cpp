@@ -33,6 +33,8 @@ MasterWindow g_WndInst = {}; // Create the window
 Player* pPlayer = nullptr;
 Tilemap::Tilemap* g_pTestTilemap;
 double TileXPosition = 0;
+bool g_ShouldBreakTile = false;
+bool g_ShouldAddTile = false;
 
 int main(void)
 {
@@ -61,18 +63,18 @@ int main(void)
 		GameInstance::TimeInfo.CurrentTime = glfwGetTime();
 		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
 		
-		GenerateTilemap();
 
-		int screenW, screenH;
-		glfwGetWindowSize(g_WndInst.p_glfwWindow, &screenW, &screenH);
+		
 		// Get cursor position
 		Vector2 cursorPosition;
 		glfwGetCursorPos(g_WndInst.p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
-		Vector2 mouseWorldPosition = GameInstance::Pipeline.ActiveCamera.ViewportToWorld(Vector2(cursorPosition.X, screenH - cursorPosition.X) / Vector2(screenW, screenH));
+		Vector2 mouseWorldPosition = 
+			GameInstance::Pipeline.ActiveCamera.ViewportToWorld(
+				GameInstance::Pipeline.ActiveCamera.ScreenToViewport(
+					Vector2(cursorPosition.X, GameInstance::Pipeline.ActiveCamera.ScreenSize.Y - cursorPosition.Y)));
 
 		// Cursor remove tiles
-		int isMouseDown = true;//KeyboardInterface::KeyboardState::IsButtonDown(VK_LBUTTON) ? 1 : (KeyboardInterface::KeyboardState::IsButtonDown(VK_RBUTTON) ? 2 : 0);
-		if (isMouseDown != 0)
+		if (g_ShouldBreakTile || g_ShouldAddTile)
 		{
 			Vector2 mousePosition = g_pTestTilemap->FromWorldToTile(mouseWorldPosition);
 			double radius = 5;
@@ -82,13 +84,16 @@ int main(void)
 				{
 					if (i * i + j * j >= radius * radius)
 						continue;
-					if (isMouseDown == 1)
-						g_pTestTilemap->AddTile(Vector2Int(i, j) + mousePosition, Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
+
+					if (g_ShouldAddTile)
+						g_pTestTilemap->AddTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
 					else
 						g_pTestTilemap->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
 				}
 			}
 		}
+		
+
 		//GameInstance::MainCamera.Position = Vector2(50,50) / mouseWorldPosition;
 
 		GameInstance::UpdateObjects(); // Apply physics and logic to objects
@@ -112,8 +117,7 @@ int main(void)
 void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height)
 {
 	glViewport(0, 0, width, height); // Update the viewport to the same size as the buffer so the window coordinates are correctly computed
-
-	//SandboxEngine::Game::GameInstance::MainCamera.MainScreen.Resize(width, height); // Resize the camera
+	Game::GameInstance::Pipeline.ActiveCamera.ScreenSize = Vector2Int(width, height);
 }
 void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
 {
@@ -138,6 +142,16 @@ void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mo
 		pPlayer->AccX = -1;
 	else if ((key == GLFW_KEY_LEFT && action == GLFW_RELEASE) || (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE))
 		pPlayer->AccX = 0;
+
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS)
+		g_ShouldBreakTile = true;
+	if (key == GLFW_KEY_Q && action == GLFW_RELEASE)
+		g_ShouldBreakTile = false;
+
+	if (key == GLFW_KEY_E && action == GLFW_PRESS)
+		g_ShouldAddTile = true;
+	if (key == GLFW_KEY_E && action == GLFW_RELEASE)
+		g_ShouldAddTile = false;
 }
 void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint)
 {
@@ -153,7 +167,11 @@ void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
 void InitializeGraphics()
 {
 	GameInstance::Pipeline.Initialize();
-	GameInstance::Pipeline.ActiveCamera.Scale = Vector2(100, 100);
+	int width, height;
+	glfwGetWindowSize(g_WndInst.p_glfwWindow, &width, &height);
+	Game::GameInstance::Pipeline.ActiveCamera.ScreenSize = Vector2Int(width, height);
+	GameInstance::Pipeline.ActiveCamera.Scale = Vector2(250, 250);
+	GameInstance::Pipeline.ActiveCamera.Origin = Vector2(0, 0);
 
 	// Create layers
 	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
@@ -175,30 +193,36 @@ void InitializeGame()
 	// Create tilemap
 	g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
 	// Initialize tilemap
-	g_pTestTilemap->Position = Vector2(-50, -40);
+	g_pTestTilemap->Position = Vector2(-100, -100);
 	g_pTestTilemap->TileSize = Vector2(1, 1);
 	GameInstance::RegisterGameObject("MainTilemap", g_pTestTilemap);
 
-	for (int i = 20; i < 80; i++)
-	{
-		for (int j = 20; j < 40; j++)
-		{
-			g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) * 50, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
-		}
-	}
+	GenerateTilemap();
 }
 
 void GenerateTilemap()
 {
-	/*g_pTestTilemap->AddTile(Vector2Int(50 + cos(GameInstance::TimeInfo.CurrentTime * 2.0 + 1) * 50,
-										50 + sin(GameInstance::TimeInfo.CurrentTime) * 50),
-							Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, Tilemap::TILE_BEHAVIOR_NAMES::Sand),  true, true));
-	g_pTestTilemap->AddTile(Vector2Int(50 + sin(GameInstance::TimeInfo.CurrentTime * 2.0 + 1) * 50,
-										50 + cos(GameInstance::TimeInfo.CurrentTime*5.0) * 50),
-							Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));*/
+	for (int i = 0; i < 25; i++)
+	{
+		for (int j = 0; j < 50; j++)
+		{
+			//(unsigned int)(i*j / 10000.0 * 272) << 8 & 0x0000ff00 | 0x000000ff
+			unsigned int col = i * j % 2 == 0 ? 0x00ff00ff : 0x0000ffff;
+			if (i + j * 25*50 == 25*50- 1)
+				col = 0xffff00ff;
+			g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
+		}
+	}
+
+	//g_pTestTilemap->AddTile(Vector2Int(50 + cos(GameInstance::TimeInfo.CurrentTime * 2.0 + 1) * 50,
+	//									50 + sin(GameInstance::TimeInfo.CurrentTime) * 50),
+	//						Tilemap::TileActionQueue::AddTileActionArgument( true, Tilemap::Tile(0xf00000, Tilemap::TILE_BEHAVIOR_NAMES::Sand),  true, true));
+	//g_pTestTilemap->AddTile(Vector2Int(50 + sin(GameInstance::TimeInfo.CurrentTime * 2.0 + 1) * 50,
+	//									50 + cos(GameInstance::TimeInfo.CurrentTime*5.0) * 50),
+	//						Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0xd0d000, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
 
 
-	g_pTestTilemap->AddTile(Vector2Int(100 - int(GameInstance::TimeInfo.CurrentTime * 10) % 100,
+	/*g_pTestTilemap->AddTile(Vector2Int(100 - int(GameInstance::TimeInfo.CurrentTime * 10) % 100,
 										50 + sin(GameInstance::TimeInfo.CurrentTime) * 50),
 		Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(0x00fddf, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
 
@@ -218,7 +242,7 @@ void GenerateTilemap()
 	}
 
 	g_pTestTilemap->RemoveTile(Vector2Int(100 - int(GameInstance::TimeInfo.CurrentTime * 50) % 100, int(GameInstance::TimeInfo.CurrentTime * .2) % 3));
-	g_pTestTilemap->RemoveTile(Vector2Int(int(GameInstance::TimeInfo.CurrentTime * 50) % 100, int(GameInstance::TimeInfo.CurrentTime * .2) % 3));
+	g_pTestTilemap->RemoveTile(Vector2Int(int(GameInstance::TimeInfo.CurrentTime * 50) % 100, int(GameInstance::TimeInfo.CurrentTime * .2) % 3));*/
 }
 
 void Release()

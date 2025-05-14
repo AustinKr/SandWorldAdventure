@@ -5,7 +5,7 @@
 
 namespace SandboxEngine::Game::GameObject
 {
-	Player::Player() : AccX(0), AccY(0), m_Vel({}), m_Dampening(.9)
+	Player::Player() : AccX(0), AccY(0), m_Vel({}), m_Dampening(.98)
 	{
 		// GraphicsPipeline2D::Release() releases registered mesh data
 		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
@@ -41,7 +41,7 @@ namespace SandboxEngine::Game::GameObject
 
 	void Player::Update(Time time)
 	{
-		m_Vel += Vector2::Normalize(Vector2(AccX, AccY)) * time.FrameDeltaTime * 3.0;
+		m_Vel += Vector2::Normalize(Vector2(AccX, AccY) * 2.0) * time.FrameDeltaTime * 3.0;
 
 		SetPosition(GetPosition() + m_Vel * time.FrameDeltaTime);
 

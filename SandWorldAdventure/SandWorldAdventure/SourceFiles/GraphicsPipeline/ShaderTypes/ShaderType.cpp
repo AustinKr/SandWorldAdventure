@@ -21,7 +21,7 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 		return true;
 	}
 
-	ShaderType::ShaderType(std::string name, std::string filepath, Shaders::IShaderInformation* pShaderInformation) : m_Name(name), mp_VertexShader(0), mp_FragmentShader(0), p_ShaderInformation(pShaderInformation)
+	ShaderType::ShaderType(std::string name, std::string filepath, Shaders::BaseShaderInformation* pShaderInformation) : m_Name(name), mp_VertexShader(0), mp_FragmentShader(0), p_ShaderInformation(pShaderInformation)
 	{
 		// Load shaders' code
 		std::string shaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append(filepath).c_str());
@@ -52,6 +52,7 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 		glAttachShader(p_ShaderInformation->p_Program, mp_VertexShader);
 		glAttachShader(p_ShaderInformation->p_Program, mp_FragmentShader);
 		glLinkProgram(p_ShaderInformation->p_Program);
+		p_ShaderInformation->UpdateUniformVariables(pPipeline);
 
 		// Release shaders
 		glDetachShader(p_ShaderInformation->p_Program, mp_FragmentShader);

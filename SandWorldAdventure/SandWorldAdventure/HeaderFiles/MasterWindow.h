@@ -9,6 +9,7 @@ class MasterWindow
 {
 private:
 	void InitializeWindow();
+	// TODO: USe this function or delete it
 	void InitializeShaders();
 
 public:

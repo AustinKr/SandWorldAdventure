@@ -269,7 +269,7 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\IShaderInformation.h">
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\BaseShaderInformation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

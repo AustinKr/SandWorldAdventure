@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 #define GRAPHICS_PIPELINE2D_H
 namespace SandboxEngine::GraphicsPipeline
@@ -15,8 +16,8 @@ namespace SandboxEngine::GraphicsPipeline
 	{
 	private:
 		std::vector<ShaderTypes::IShaderType*> m_AllShaderObjects;
-
 		std::vector<RenderLayer> m_Layers;
+		std::unordered_map<std::string, GLint> m_UniformVariableLocations;
 
 		GLuint m_VertexBufferName;
 		// The vertex array that contains vertices to draw with glDrawArrays()
@@ -34,7 +35,7 @@ namespace SandboxEngine::GraphicsPipeline
 
 		Camera ActiveCamera;
 
-		inline GraphicsPipeline2D() : m_VertexBufferName(0), mp_VertexArray(0), m_Layers({}), ActiveCamera({}), m_AllShaderObjects({})
+		inline GraphicsPipeline2D() : m_VertexBufferName(0), mp_VertexArray(0), m_Layers{}, ActiveCamera{}, m_AllShaderObjects{}, m_UniformVariableLocations{}
 		{
 			/*nothing*/
 		}
@@ -61,6 +62,8 @@ namespace SandboxEngine::GraphicsPipeline
 			return (TYPE*)pShader;
 		}
 
+		void TryPrintGlError();
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -71,7 +74,9 @@ namespace SandboxEngine::GraphicsPipeline
 			GLenum type, 
 			GLsizei stride, 
 			const void* pAttribute);
-		
+		int UpdateUniformLocation(int program, std::string name);
+		GLint GetUniformLocation(std::string name);
+
 		// Note: add shaders before calling this function because they are only compiled after this point
 		virtual void Initialize() override;
 

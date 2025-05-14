@@ -110,6 +110,39 @@ namespace SandboxEngine::GraphicsPipeline
 		return -1;
 	}
 
+	void GraphicsPipeline2D::TryPrintGlError()
+	{
+		int err = glGetError();
+		if (err == GL_NO_ERROR)
+			return;
+
+		switch (err)
+		{
+		case GL_INVALID_ENUM:
+			fprintf(stderr, "error: invalid enum!\n");
+			break;
+		case GL_INVALID_VALUE:
+			fprintf(stderr, "error: invalid value!\n");
+			break;
+		case GL_INVALID_OPERATION:
+			fprintf(stderr, "error: invalid operation!\n");
+			break;
+		case GL_INVALID_FRAMEBUFFER_OPERATION:
+			fprintf(stderr, "error: invalid framebuffer operation!\n");
+			break;
+		case GL_OUT_OF_MEMORY:
+			fprintf(stderr, "error: out of memory!\n");
+			break;
+		case GL_STACK_UNDERFLOW:
+			fprintf(stderr, "error: stack underflow!\n");
+			break;
+		case GL_STACK_OVERFLOW:
+			fprintf(stderr, "error: stack overflow!\n");
+			break;
+		}
+		TryPrintGlError();
+	}
+
 	GLint GraphicsPipeline2D::TryEnableVertexAttribute(GLuint program, const char* const pName, GLint size, GLenum type, GLsizei stride, const void* pAttribute)
 	{
 		GLint location = glGetAttribLocation(program, pName);
@@ -122,6 +155,27 @@ namespace SandboxEngine::GraphicsPipeline
 		glEnableVertexAttribArray(location); // Enable the attribute to be accessed and used for rendering
 		glVertexAttribPointer(location, size, type, GL_FALSE, stride, pAttribute);
 		return location;
+	}
+	int GraphicsPipeline2D::UpdateUniformLocation(int program, std::string name)
+	{
+		GLint loc = glGetUniformLocation(program, name.c_str());
+		if (m_UniformVariableLocations.contains(name))
+			m_UniformVariableLocations.at(name) = loc;
+		else
+			m_UniformVariableLocations.insert(std::make_pair(name, loc));
+
+		if (loc == -1)
+		{
+			fprintf(stderr, std::string("failed to find location of uniform shader variable: ").append(name).append("\n").c_str());
+			return -1;
+		}
+		return 1;
+	}
+	GLint GraphicsPipeline2D::GetUniformLocation(std::string name)
+	{
+		if (m_UniformVariableLocations.contains(name))
+			return m_UniformVariableLocations.at(name);
+		return -1;
 	}
 
 	void GraphicsPipeline2D::Initialize()

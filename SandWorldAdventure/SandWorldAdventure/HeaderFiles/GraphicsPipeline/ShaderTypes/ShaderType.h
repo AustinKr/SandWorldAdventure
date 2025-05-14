@@ -1,7 +1,7 @@
 #pragma once
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipelineFramework.h"
 #include "IShaderType.h"
-#include "HeaderFiles/GraphicsPipeline/Shaders/IShaderInformation.h" 
+#include "HeaderFiles/GraphicsPipeline/Shaders/BaseShaderInformation.h" 
 #include <string>
 
 namespace SandboxEngine::GraphicsPipeline::ShaderTypes
@@ -19,13 +19,13 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 
 		bool ParseCode(std::string code, std::string *pVertCode, std::string *pFragCode);
 	public:
-		Shaders::IShaderInformation* const p_ShaderInformation;
+		Shaders::BaseShaderInformation* const p_ShaderInformation;
 
 		/// <summary>
 		/// The filepath relative to this project. e.g. "Shaders/DefaultShader.shader"
 		/// </summary>
 		/// <param name="filepath"></param>
-		ShaderType(std::string name, std::string filepath, Shaders::IShaderInformation* pShaderInformation);
+		ShaderType(std::string name, std::string filepath, Shaders::BaseShaderInformation* pShaderInformation);
 
 		virtual int Compile(IGraphicsPipeline* pPipeline) override;
 		

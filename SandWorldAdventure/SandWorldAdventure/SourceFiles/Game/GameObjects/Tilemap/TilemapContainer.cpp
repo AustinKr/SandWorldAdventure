@@ -157,7 +157,9 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		addedChunks.Y += 1;
 
 		// Go through the needed chunks and add them
-		if (addedChunks.X > 0)
+
+		// Really all you need to check is the tiles width because: if tiles width is 0, it will still be 1 in added chunks which is incorrect
+		if (addedWidthTiles > 0 && addedChunks.X > 0)
 		{
 			Chunk newChunk;
 			std::vector<Chunk>::const_iterator iterator;
@@ -176,7 +178,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			m_ChunkBounds.X += addedChunks.X;
 			m_TileBounds.X = m_ChunkBounds.X * CHUNK_SIZE.X;
 		}
-		if (addedChunks.Y > 0)
+		if (addedHeightTiles > 0 && addedChunks.Y > 0)
 		{
 			Chunk newChunk;
 			for (int h = m_ChunkBounds.Y; h < addedChunks.Y + m_ChunkBounds.Y; h++)

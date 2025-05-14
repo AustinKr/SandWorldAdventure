@@ -4,8 +4,7 @@
 
 namespace SandboxEngine::GraphicsPipeline::Shaders
 {
-	// TODO: Possibly rename to- more accurately- BaseShaderInformation
-	struct IShaderInformation
+	struct BaseShaderInformation
 	{
 	public:
 		// position  member of Vertex
@@ -15,5 +14,9 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 
 		// The program
 		GLuint p_Program;
+
+		virtual void Release() = 0;
+		// Used after the program is linked
+		virtual int UpdateUniformVariables(IGraphicsPipeline* pPipeline) = 0;
 	};
 }

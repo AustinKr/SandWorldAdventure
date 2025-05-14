@@ -133,6 +133,7 @@ namespace SandboxEngine
 		return Vector2Int(X / other.X, Y / other.Y);
 	}
 
+	// TODO: THese should be ints
 	Vector2Int Vector2Int::operator *(double other) const
 	{
 		return Vector2Int(X * other, Y * other);

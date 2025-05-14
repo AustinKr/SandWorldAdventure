@@ -17,13 +17,6 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 
 		p_Position = ((GraphicsPipeline2D*)pPipeline)->TryEnableVertexAttribute(p_Program, "vPos", 2, GL_FLOAT, sizeof(Vertex), (const void*)offsetof(Vertex, pos));
 		p_UVPosition = ((GraphicsPipeline2D*)pPipeline)->TryEnableVertexAttribute(p_Program, "vUvCoord", 3, GL_FLOAT, sizeof(Vertex), (const void*)offsetof(Vertex, uvCoord));
-		//p_UniformTime = glGetUniformLocation(p_Program, "Time");
-		/*if (p_UniformTime == -1)
-		{
-			returnCode = -1;
-			fprintf(stderr, "failed to find location of shader p_UniformTime variable!\n");
-		}*/
-
 		return returnCode;
 	}
 }

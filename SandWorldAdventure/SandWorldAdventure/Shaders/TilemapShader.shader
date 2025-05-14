@@ -15,35 +15,66 @@
 #FRAGMENT
     #version 430
     
-    struct QuadtreeNode
-    {
-		int Index; // Index relative to this node's parents
-		bool IsNull; // If set to true, TileColor and ChildrenIndices will be not have values
-		bool IsLeaf;
+  //   struct QuadtreeNode
+  //   {
+		// int Index; // Index relative to this node's parents
+		// bool IsNull; // If set to true, TileColor and ChildrenIndices will be not have values
+		// bool IsLeaf;
 
-		vec3 TileColor; // Only is initialized if IsLeaf
-		int ChildrenIndicies[4]; // Null if IsLeaf
-    };
+		// vec3 TileColor; // Only is initialized if IsLeaf
+		// int ChildrenIndicies[4]; // Null if IsLeaf
+  //   };
 
-    layout(std430, binding = 0) buffer QuadtreeBlock
-    {
-        //int NodeCount;
-        vec2 RootNodeOrigin; // TODO: This should combine with tilemaporigin when the quadtree is specialized for bitmaps; 
-        float RootNodeSize; // TODO: This should combine with tilemapbounds when the quadtree is specialized for bitmaps
-        int LeafDepth;
+  //   layout(std430, binding = 0) buffer QuadtreeBlock
+  //   {
+  //       //int NodeCount;
+  //       vec2 RootNodeOrigin; // TODO: This should combine with tilemaporigin when the quadtree is specialized for bitmaps; 
+  //       float RootNodeSize; // TODO: This should combine with tilemapbounds when the quadtree is specialized for bitmaps
+  //       int LeafDepth;
         
-    	QuadtreeNode Nodes[];
-    }; // No instance identifier, so these are global variables
+  //   	QuadtreeNode Nodes[];
+  //   }; // No instance identifier, so these are global variables
+
+    const vec4 NULL_COLOR = vec4(0,0,0,0);
+
+    uniform sampler2D TilemapTex;
 
     // Uniform variables
-    uniform dvec2 TilemapOrigin; // In screen coordinates
-    uniform ivec2 TilemapBounds; 
+    // TODO: make these double to decrease the chance of error
+    uniform vec2 TexOriginCoord; // In viewport/uv coordinates
+    uniform vec2 TexSizeCoord; // In viewport/uv coordinates
+    uniform ivec2 TexSize; // Width and height
 
     in vec3 uv;
     out vec4 fragment;
     
     void main()
     {
+        /*
+        1 uv = Swh / Sxy
+        (Px, Py) = (W, H) / (Sx, Sy) * (u, v)
+
+        */
+        
+        fragment = NULL_COLOR;
+
+        // Make sure texture isn't null
+        if(TexSize.x == 0 || TexSize.y == 0)
+            return;
+
+        // Transformation to texture pixel xy
+        vec2 pos = /* floor( */(uv.xy - TexOriginCoord) * vec2(TexSize) / TexSizeCoord;//); 
+        // Normalise
+        pos.x /= float(TexSize.x);
+        pos.y /= float(TexSize.y);
+
+        if(pos.x >= 0.0 && 
+            pos.y >= 0.0 && 
+            pos.x < 1.0 && 
+            pos.y < 1.0)
+            fragment = texture(TilemapTex, pos);
+
+        /*
         int index = int(floor(uv.x * float(Nodes.length())));
         fragment = vec4(Nodes[index].TileColor, 1);
         return;
@@ -93,6 +124,6 @@
             
         //float greyscale = (float(tileX) + float(tileY)) / 2.0 / float(max(TilemapBounds.y, TilemapBounds.x));
         //fragment = vec4(greyscale,greyscale,greyscale,1 );
-        
+        */
     }
 #ENDFRAGMENT
