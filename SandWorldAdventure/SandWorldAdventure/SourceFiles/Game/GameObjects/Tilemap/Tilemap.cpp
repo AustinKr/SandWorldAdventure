@@ -8,8 +8,7 @@
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/AddTileAction.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/SwapTileAction.h"
 
-#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h" // Needed for IMesh.h
-#include "HeaderFiles/Game/GameInstance.h"
+#include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/RenderLayerNames.h"
 
 namespace SandboxEngine::Game::GameObject::Tilemap
@@ -17,7 +16,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	Tilemap::Tilemap()
 	{
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
-		GameInstance::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
+		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
 
 		ActionQueueInstance = {};
 		Container = {};
@@ -28,7 +27,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	Tilemap::Tilemap(Vector2Int chunkBounds)
 	{
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
-		GameInstance::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
+		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
 
 		ActionQueueInstance = {};
 		Container = {};
@@ -87,7 +86,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 
 		if (p_Mesh != nullptr)
 		{
-			GameInstance::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).UnregisterMesh(p_Mesh);
+			MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).UnregisterMesh(p_Mesh);
 			p_Mesh = nullptr;
 		}
 	}

@@ -13,6 +13,8 @@ namespace SandboxEngine::Game::GameObject
 	public:
 		double AccX;
 		double AccY;
+		double Speed;
+		double CameraFollowSpeed;
 
 		Player();
 		

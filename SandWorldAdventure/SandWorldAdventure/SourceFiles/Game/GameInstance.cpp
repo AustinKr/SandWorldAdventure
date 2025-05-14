@@ -4,7 +4,6 @@
 namespace SandboxEngine::Game
 {
 	std::vector<std::pair<std::string, GameObject::IGameObject*>> GameInstance::GameObjectsRegistry;
-	GraphicsPipeline::GraphicsPipeline2D GameInstance::Pipeline;
 	Time GameInstance::TimeInfo;
 
 	void GameInstance::RegisterGameObject(std::string objectName, const GameObject::IGameObject* pGameObject)
@@ -27,8 +26,6 @@ namespace SandboxEngine::Game
 			pObj->Release(); 
 			delete(pObj);
 		});
-
-		Pipeline.Release();
 	}
 
 	void GameInstance::WhereAllObjects(void(*func)(std::vector<std::pair<std::string, GameObject::IGameObject*>>::const_iterator objIter))

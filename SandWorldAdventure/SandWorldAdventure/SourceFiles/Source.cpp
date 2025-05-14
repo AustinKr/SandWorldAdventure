@@ -5,8 +5,6 @@
 #include <string>
 
 #include "HeaderFiles/Game/Game.h"
-#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
-#include "HeaderFiles/RenderLayerNames.h"
 
 //#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
 
@@ -15,21 +13,12 @@ using namespace SandboxEngine::Game;
 using namespace SandboxEngine::Game::GameObject;
 
 // - Forward declarations -
-void InitializeGraphics();
 void InitializeGame();
-// Callbacks
-void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height);
-void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods);
-void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint);
-void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods);
-
 void Release();
-
 // Game stuff
 void GenerateTilemap();
 
 // - Variables -
-MasterWindow g_WndInst = {}; // Create the window
 Player* pPlayer = nullptr;
 Tilemap::Tilemap* g_pTestTilemap;
 double TileXPosition = 0;
@@ -38,20 +27,17 @@ bool g_ShouldAddTile = false;
 
 int main(void)
 {
-	// Set event callbacks
-	glfwSetFramebufferSizeCallback(g_WndInst.p_glfwWindow, FrameBufferSize_Callback); // Resize event
-	glfwSetKeyCallback(g_WndInst.p_glfwWindow, Key_Callback); // Key input event
-	glfwSetCharCallback(g_WndInst.p_glfwWindow, Character_Callback); // Character input event
-	glfwSetMouseButtonCallback(g_WndInst.p_glfwWindow, MouseButton_Callback);
+	// Creates a window and nearly everything else necessary relating to openGL
+	MasterWindow::InitializeWindow();
 
-	InitializeGraphics();
+	// Initialize Game
 	InitializeGame();
 
 	GameInstance::TimeInfo = {};
 	double oldTime = 0;
 
 	// Game loop
-	while (!glfwWindowShouldClose(g_WndInst.p_glfwWindow))
+	while (!glfwWindowShouldClose(MasterWindow::p_glfwWindow))
 	{
 		// Keep running
 
@@ -63,15 +49,35 @@ int main(void)
 		GameInstance::TimeInfo.CurrentTime = glfwGetTime();
 		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
 		
-
+		// TODO: Run this code in a game class or global function
 		
+		if (pPlayer != nullptr)
+		{
+			if (MasterWindow::GetKeyState(GLFW_KEY_UP))
+				pPlayer->AccY = 1;
+			else if (MasterWindow::GetKeyState(GLFW_KEY_DOWN))
+				pPlayer->AccY = -1;
+			else// if (!MasterWindow::GetKeyState(GLFW_KEY_UP) && !MasterWindow::GetKeyState(GLFW_KEY_DOWN))
+				pPlayer->AccY = 0;
+
+			if (MasterWindow::GetKeyState(GLFW_KEY_RIGHT))
+				pPlayer->AccX = 1;
+			else if (MasterWindow::GetKeyState(GLFW_KEY_LEFT))
+				pPlayer->AccX = -1;
+			else
+				pPlayer->AccX = 0;
+
+			g_ShouldBreakTile = MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_1);
+			g_ShouldAddTile = MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_2);
+		}
+
 		// Get cursor position
 		Vector2 cursorPosition;
-		glfwGetCursorPos(g_WndInst.p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
+		glfwGetCursorPos(MasterWindow::p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
 		Vector2 mouseWorldPosition = 
-			GameInstance::Pipeline.ActiveCamera.ViewportToWorld(
-				GameInstance::Pipeline.ActiveCamera.ScreenToViewport(
-					Vector2(cursorPosition.X, GameInstance::Pipeline.ActiveCamera.ScreenSize.Y - cursorPosition.Y)));
+			MasterWindow::Pipeline.ActiveCamera.ViewportToWorld(
+				MasterWindow::Pipeline.ActiveCamera.ScreenToViewport(
+					Vector2(cursorPosition.X, MasterWindow::Pipeline.ActiveCamera.ScreenSize.Y - cursorPosition.Y)));
 
 		// Cursor remove tiles
 		if (g_ShouldBreakTile || g_ShouldAddTile)
@@ -93,92 +99,22 @@ int main(void)
 			}
 		}
 		
-
-		//GameInstance::MainCamera.Position = Vector2(50,50) / mouseWorldPosition;
-
 		GameInstance::UpdateObjects(); // Apply physics and logic to objects
 
-		GameInstance::Pipeline.RenderScene(); // Render the scene
+		MasterWindow::Pipeline.RenderScene(); // Render the scene
 
-		glfwSwapBuffers(g_WndInst.p_glfwWindow); // Try to swap buffers
+		glfwSwapBuffers(MasterWindow::p_glfwWindow); // Try to swap buffers
 		glfwPollEvents(); // Poll the window system for events both to provide input to the application and to tell the windows system that the application hasn't locked up
 	}
 
 	// Release
-	glfwDestroyWindow(g_WndInst.p_glfwWindow);
-	glfwTerminate();
 	Release();
+	glfwTerminate();
 	exit(EXIT_SUCCESS);
 
 	return 0;
 }
 
-// Callbacks
-void FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height)
-{
-	glViewport(0, 0, width, height); // Update the viewport to the same size as the buffer so the window coordinates are correctly computed
-	Game::GameInstance::Pipeline.ActiveCamera.ScreenSize = Vector2Int(width, height);
-}
-void Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_ENTER && action == GLFW_REPEAT) // if enter key is held down
-	{
-		std::cout << "Enter held down\n";
-	}
-	
-	if (pPlayer == nullptr)
-		return;
-
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-		pPlayer->AccY = 1;
-	else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-		pPlayer->AccY = -1;
-	else if ((key == GLFW_KEY_UP && action == GLFW_RELEASE) || (key == GLFW_KEY_DOWN && action == GLFW_RELEASE))
-		pPlayer->AccY = 0;
-
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-		pPlayer->AccX = 1;
-	else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-		pPlayer->AccX = -1;
-	else if ((key == GLFW_KEY_LEFT && action == GLFW_RELEASE) || (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE))
-		pPlayer->AccX = 0;
-
-	if (key == GLFW_KEY_Q && action == GLFW_PRESS)
-		g_ShouldBreakTile = true;
-	if (key == GLFW_KEY_Q && action == GLFW_RELEASE)
-		g_ShouldBreakTile = false;
-
-	if (key == GLFW_KEY_E && action == GLFW_PRESS)
-		g_ShouldAddTile = true;
-	if (key == GLFW_KEY_E && action == GLFW_RELEASE)
-		g_ShouldAddTile = false;
-}
-void Character_Callback(GLFWwindow* pWindow, unsigned int codepoint)
-{
-	std::cout << (char)codepoint;
-	std::cout << '\n';
-}
-void MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
-{
-	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
-		std::cout << "right mouse button\n";
-}
-
-void InitializeGraphics()
-{
-	GameInstance::Pipeline.Initialize();
-	int width, height;
-	glfwGetWindowSize(g_WndInst.p_glfwWindow, &width, &height);
-	Game::GameInstance::Pipeline.ActiveCamera.ScreenSize = Vector2Int(width, height);
-	GameInstance::Pipeline.ActiveCamera.Scale = Vector2(250, 250);
-	GameInstance::Pipeline.ActiveCamera.Origin = Vector2(0, 0);
-
-	// Create layers
-	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
-	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Objects, { "Objects" });
-	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
-	GameInstance::Pipeline.InsertLayer(RENDERLAYERS_Debug, {"Debug"});
-}
 void InitializeGame()
 {
 	// Initialize game instance
@@ -248,6 +184,7 @@ void GenerateTilemap()
 void Release()
 {
 	GameInstance::Release();
+	MasterWindow::Release();
 }
 
 

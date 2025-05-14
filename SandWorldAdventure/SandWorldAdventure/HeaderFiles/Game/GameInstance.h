@@ -5,8 +5,6 @@
 #include <vector>
 #include "HeaderFiles/Game/GameObjects/IGameObject.h"
 
-#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
-
 namespace SandboxEngine::Game
 {
 	static class GameInstance
@@ -15,8 +13,6 @@ namespace SandboxEngine::Game
 		// TODO: Could replace with quadtree
 		// TODO: Could replace with a hierarchy where objects are parented and group to other objects
 		static std::vector<std::pair<std::string, GameObject::IGameObject*>> GameObjectsRegistry;
-		// The graphics pipeline
-		static GraphicsPipeline::GraphicsPipeline2D Pipeline;
 		// Time
 		static Time TimeInfo;
 

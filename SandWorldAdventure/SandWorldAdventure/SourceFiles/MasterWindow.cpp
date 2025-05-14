@@ -1,96 +1,152 @@
 //#include "HeaderFiles/Game/GameInstance.h"
 #include "HeaderFiles/MasterWindow.h"
+#include "HeaderFiles/RenderLayerNames.h"
+#include "HeaderFiles/Math.h"
 #include <iostream>
 
 //#include "KeyboardInterfaceAPI/Headers/KeyboardInterface/KeyboardState.h"
 
-MasterWindow::MasterWindow() : p_glfwWindow(NULL)
+
+namespace SandboxEngine
 {
-	///*nothing*/
-	//TODO: This may not run because it is in a constructor
+	std::unordered_map<int, int> MasterWindow::m_KeyStates;
 
-	// - Set hints -
-	glfwInitHint(GLFW_PLATFORM, GLFW_ANY_PLATFORM);
+	const char* const MasterWindow::p_WindowTitle = "Sand World Adventure GL";
+	GLFWwindow* MasterWindow::p_glfwWindow;
 
-	// Version of GLFW is 3.4 and we want to use the matching client API version of the window's context. This will throw an error if the client does not have the correct version of opengl.
-	glfwInitHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwInitHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	SandboxEngine::GraphicsPipeline::GraphicsPipeline2D MasterWindow::Pipeline;
 
-	// TODO: What is this?
-	glfwInitHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	if (!glfwInit())
-		// Initialization failed
-		exit(EXIT_FAILURE);
-
-	std::cout << glfwGetVersionString();
-	std::cout << "\n";
-
-	// - Initialize -
-	InitializeWindow();
-	if (p_glfwWindow == nullptr)
-		exit(EXIT_FAILURE);
-
-	// Initialize glew
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
+	int MasterWindow::InitializeGLFW()
 	{
-		/* Problem: glewInit failed, something is seriously wrong. */
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		// - Set hints -
+		glfwInitHint(GLFW_PLATFORM, GLFW_ANY_PLATFORM);
+
+		// Version of GLFW is 3.4 and we want to use the matching client API version of the window's context. This will throw an error if the client does not have the correct version of opengl.
+		glfwInitHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwInitHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+
+		// TODO: What is this?
+		glfwInitHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+		return glfwInit();
 	}
-
-	InitializeShaders();
-}
-
-void MasterWindow::InitializeWindow()
-{
-	p_glfwWindow = glfwCreateWindow(800, 600, p_WindowTitle, NULL, NULL);
-	if (!p_glfwWindow)
+	void MasterWindow::CreateMainWindow()
 	{
-		// Window or OpenGL context creation failed
-		glfwTerminate();
-		p_glfwWindow = nullptr;
+		p_glfwWindow = glfwCreateWindow(800, 600, p_WindowTitle, NULL, NULL);
+		if (!p_glfwWindow)
+		{
+			// Window or OpenGL context creation failed
+			glfwTerminate();
+			p_glfwWindow = nullptr;
+			return;
+		}
+		glfwMakeContextCurrent(p_glfwWindow);  // Makes the context of the window current for the calling thread
+		glfwSwapInterval(1); // Set the time between buffer swaps
+
+		// Update the viewport with the size of the frame buffer
+		int width = 0, height = 0;
+		glfwGetFramebufferSize(p_glfwWindow, &width, &height);
+		glViewport(0, 0, width, height);
+
+		glClearColor(0.3f, 0.3f, 0.8f, 1.0f); // Set clear color
+
 		return;
 	}
-	glfwMakeContextCurrent(p_glfwWindow);  // Makes the context of the window current for the calling thread
-	glfwSwapInterval(1); // Set the time between buffer swaps
+	void MasterWindow::SetEventCallbacks()
+	{
+		// Set event callbacks
+		glfwSetFramebufferSizeCallback(p_glfwWindow, FrameBufferSize_Callback); // Resize event
+		glfwSetKeyCallback(p_glfwWindow, Key_Callback); // Key input event
+		glfwSetCharCallback(p_glfwWindow, Character_Callback); // Character input event
+		glfwSetMouseButtonCallback(p_glfwWindow, MouseButton_Callback);
+	}
+	void MasterWindow::InitializeGraphics()
+	{
+		Pipeline.Initialize();
+		int width, height;
+		glfwGetWindowSize(p_glfwWindow, &width, &height);
+		Pipeline.ActiveCamera.ScreenSize = SandboxEngine::Vector2Int(width, height);
+		Pipeline.ActiveCamera.Scale = SandboxEngine::Vector2(250, 250);
+		Pipeline.ActiveCamera.Origin = SandboxEngine::Vector2(0, 0);
 
-	// Update the viewport with the size of the frame buffer
-	int width = 0, height = 0;
-	glfwGetFramebufferSize(p_glfwWindow, &width, &height);
-	glViewport(0, 0, width, height);
+		// Create layers
+		Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
+		Pipeline.InsertLayer(RENDERLAYERS_Objects, { "Objects" });
+		Pipeline.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
+		Pipeline.InsertLayer(RENDERLAYERS_Debug, { "Debug" });
+	}
 
-	glClearColor(0.3f, 0.3f, 0.8f, 1.0f); // Set clear color
+	// Callbacks
+	void MasterWindow::FrameBufferSize_Callback(GLFWwindow* pWindow, int width, int height)
+	{
+		glViewport(0, 0, width, height); // Update the viewport to the same size as the buffer so the window coordinates are correctly computed
+		Pipeline.ActiveCamera.ScreenSize = SandboxEngine::Vector2Int(width, height);
+	}
+	void MasterWindow::Key_Callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
+	{
+		if (action != GLFW_PRESS && action != GLFW_RELEASE)
+			return;
+		
+		if (m_KeyStates.contains(key))
+			m_KeyStates.at(key) = action;
+		else
+			m_KeyStates.insert(std::make_pair(key, action));
+	}
+	void MasterWindow::Character_Callback(GLFWwindow* pWindow, unsigned int codepoint)
+	{
+		std::cout << (char)codepoint;
+		std::cout << '\n';
+	}
+	void MasterWindow::MouseButton_Callback(GLFWwindow* pWindow, int button, int action, int mods)
+	{
+		if (action != GLFW_PRESS && action != GLFW_RELEASE)
+			return;
 
-	return;
-}
+		if (m_KeyStates.contains(button))
+			m_KeyStates.at(button) = action;
+		else
+			m_KeyStates.insert(std::make_pair(button, action));
+	}
 
-void MasterWindow::InitializeShaders()
-{
-//	// Create the pipline
-//	g_Pipeline = GraphicsPipeline::GraphicsPipeline();
-//
-//	// Add shaders
-//	GraphicsPipeline::Shaders::OpaqueShader* pOpaqueShader = new GraphicsPipeline::Shaders::OpaqueShader();
-//	g_Pipeline.RegisterShader(pOpaqueShader);
-//
-//	// Compile
-//	int shadersErrorCode = g_Pipeline.CompileShaders();
-//	if (shadersErrorCode != GraphicsPipeline::IGraphicsPipeline::GP_SUCCESS)
-//	{
-//		fprintf(stderr, std::string("GraphicsPipline::CompileShaders failed!  Returned code: ").append(std::to_string(shadersErrorCode)).append("\n").c_str());
-//#if _DEBUG
-//		throw std::exception("Failed to compile shader!");
-//#endif
-//		//exit(EXIT_FAILURE);
-//	}
-//	shadersErrorCode = g_Pipeline.CreateProgram();
-//	if (shadersErrorCode != GraphicsPipeline::IGraphicsPipeline::GP_SUCCESS)
-//	{
-//		fprintf(stderr, std::string("GraphicsPipline::CreateProgram() failed!  Returned code: ").append(std::to_string(shadersErrorCode)).append("\n").c_str());
-//#if _DEBUG
-//		throw std::exception("Failed to create program!");
-//#endif
-//		//exit(EXIT_FAILURE);
-//	}
+	void MasterWindow::InitializeWindow()
+	{
+		// Initialize GLFW
+		if (!InitializeGLFW())
+			exit(EXIT_FAILURE);
+		std::cout << glfwGetVersionString();
+		std::cout << "\n";
+
+		// Create window
+		CreateMainWindow();
+		if (p_glfwWindow == nullptr)
+			exit(EXIT_FAILURE);
+		
+		// Initialize glew
+		GLenum err = glewInit();
+		if (GLEW_OK != err)
+		{
+			/* Problem: glewInit failed, something is seriously wrong. */
+			fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		}
+
+		// Register events
+		SetEventCallbacks();
+
+		// Initialize grahpics
+		InitializeGraphics();
+	}
+
+	void MasterWindow::Release()
+	{
+		Pipeline.Release();
+		glfwDestroyWindow(MasterWindow::p_glfwWindow);
+	}
+
+	int MasterWindow::GetKeyState(int glfwKey)
+	{
+		if (m_KeyStates.contains(glfwKey))
+			return m_KeyStates.at(glfwKey);
+
+		return GLFW_RELEASE;
+	}
 }

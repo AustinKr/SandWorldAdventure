@@ -14,11 +14,11 @@
 #define TILEMAP_H
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
-	const int MAX_RAYCAST_STEPS = 600; // TODO: Move this into tilemap
-
 	class Tilemap : public IGameObject
 	{
 	public:
+		const int MAX_RAYCAST_STEPS = 600;
+
 		GraphicsPipeline::TilemapMesh* p_Mesh;
 		TileActionQueue::TileActionQueue ActionQueueInstance;
 		TilemapContainer Container;

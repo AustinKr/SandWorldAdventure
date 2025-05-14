@@ -19,26 +19,34 @@ namespace SandboxEngine::GraphicsPipeline
 			/*nothing*/
 		}
 
-		inline Vector2 ViewportToWorld(Vector2 viewport)
+		inline Vector2 ViewportToWorld(Vector2 viewport, bool applyOffsets = true)
 		{
-			viewport -= Vector2(.5, .5);
-			viewport *= Scale * WORLD_UNITS;
-			return viewport + Origin;
+			if (applyOffsets)
+				viewport -= Vector2(.5, .5); // Center
+			viewport *= Scale * WORLD_UNITS; // Scale
+			if (applyOffsets)
+				viewport += Origin;			 // Camera origin
+
+			return viewport;
 		}
-		// TODO: Add a boolean to only transform through scale
-		inline Vector2 WorldToViewport(Vector2 worldPosition)
+		inline Vector2 WorldToViewport(Vector2 worldPosition, bool applyOffsets = true)
 		{
-			worldPosition -= Origin;
-			return worldPosition / (Scale * double(WORLD_UNITS)) + Vector2(.5, .5);
+			if (applyOffsets)
+				worldPosition -= Origin;					// Camera origin
+			worldPosition /= (Scale * double(WORLD_UNITS)); // Scale
+			if(applyOffsets)
+				worldPosition += Vector2(.5, .5);			// Center
+			
+			return worldPosition;
 		}
 
 		inline Vector2 ScreenToViewport(Vector2Int screen)
 		{
-			return (Vector2)screen / (Vector2)ScreenSize;// (screen / ScreenSize + Vector2(1, 1)) / 2.0;
+			return (Vector2)screen / (Vector2)ScreenSize;
 		}
 		inline Vector2Int ViewportToScreen(Vector2 viewport)
 		{
-			return viewport *ScreenSize;// (viewport * 2.0 - Vector2(1, 1))* ScreenSize;
+			return viewport *ScreenSize;
 		}
 	};
 }

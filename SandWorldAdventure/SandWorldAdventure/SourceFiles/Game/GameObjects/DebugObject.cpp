@@ -1,5 +1,5 @@
 #include "HeaderFiles/Game/GameObjects/DebugObject.h"
-#include "HeaderFiles/Game/GameInstance.h"
+#include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/RenderLayerNames.h"
 
 namespace SandboxEngine::Game::GameObject
@@ -7,7 +7,7 @@ namespace SandboxEngine::Game::GameObject
 	DebugObject::DebugObject()
 	{
 		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
-		GameInstance::Pipeline.GetLayer(RENDERLAYERS_Debug).RegisterMesh(mp_Mesh); // Register the mesh
+		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Debug).RegisterMesh(mp_Mesh); // Register the mesh
 
 		// TODO: Add verts
 	}
@@ -27,6 +27,6 @@ namespace SandboxEngine::Game::GameObject
 	{
 		// Not realy necessary unless object is for some reason deleted prior to the application termination
 
-		GameInstance::Pipeline.GetLayer(RENDERLAYERS_Debug).UnregisterMesh(mp_Mesh); // Unregister the mesh
+		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Debug).UnregisterMesh(mp_Mesh); // Unregister the mesh
 	}
 }

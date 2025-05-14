@@ -3,7 +3,7 @@
 #include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShaderInformation.h"
 #include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
 
-#include "HeaderFiles/Game/GameInstance.h"
+#include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
 #include <vector>
 #include <algorithm>
@@ -23,7 +23,7 @@ namespace SandboxEngine::GraphicsPipeline
 	std::pair<TilemapMesh::TILE_DATA_TYPE* const, std::pair<Vector2Int, Vector2Int>> TilemapMesh::CreateOnScreenTilesBuffer()
 	{
 		Tilemap *pTilemap = ((Tilemap*)mp_Tilemap);
-		GraphicsPipeline::Camera *const pCamera= &Game::GameInstance::Pipeline.ActiveCamera;
+		GraphicsPipeline::Camera *const pCamera = &MasterWindow::Pipeline.ActiveCamera;
 
 		// Find the two tile positions that correspond to the bottom left and top right of the screen
 		Vector2Int bottomLeft = std::clamp(pTilemap->FromWorldToTile(
@@ -137,8 +137,7 @@ namespace SandboxEngine::GraphicsPipeline
 					((Tilemap*)mp_Tilemap)->FromTileToWorld(buffer.second.first)); // Convert the origin to viewport
 			tilemapTextureSizeCoord =
 				pPipeline->ActiveCamera.WorldToViewport(
-					((Tilemap*)mp_Tilemap)->FromTileToWorld(buffer.second.second) - ((Tilemap*)mp_Tilemap)->Position + pPipeline->ActiveCamera.Origin) 
-				- Vector2(.5,.5);
+					((Tilemap*)mp_Tilemap)->FromTileToWorld(buffer.second.second) - ((Tilemap*)mp_Tilemap)->Position, false);
 		}
 
 		glUseProgram(pShader->GetProgram()); // Set the program

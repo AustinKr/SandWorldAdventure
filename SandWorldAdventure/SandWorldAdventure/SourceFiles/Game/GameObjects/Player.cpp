@@ -1,17 +1,16 @@
 #include "HeaderFiles/Game/GameObjects/Player.h"
-#include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
-#include "HeaderFiles/Game/GameInstance.h"
+#include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/RenderLayerNames.h"
 
 namespace SandboxEngine::Game::GameObject
 {
-	Player::Player() : AccX(0), AccY(0), m_Vel({}), m_Dampening(.98)
+	Player::Player() : AccX(0), AccY(0), m_Vel({}), m_Dampening(.98), Speed{80.0}, CameraFollowSpeed{2}
 	{
 		// GraphicsPipeline2D::Release() releases registered mesh data
 		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
-		GameInstance::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh); // Register the mesh
+		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh); // Register the mesh
 
-		mp_Mesh->Scale = float2(1.0f, 1.0f);
+		mp_Mesh->Scale = float2(15.0f, 30.0f);
 		mp_Mesh->Vertices =
 		{
 			{{ 0, 0 }, {0, 0, 0}},
@@ -41,9 +40,10 @@ namespace SandboxEngine::Game::GameObject
 
 	void Player::Update(Time time)
 	{
-		m_Vel += Vector2::Normalize(Vector2(AccX, AccY) * 2.0) * time.FrameDeltaTime * 3.0;
+		m_Vel += Vector2::Normalize(Vector2(AccX, AccY)) * time.FrameDeltaTime * Speed;
 
 		SetPosition(GetPosition() + m_Vel * time.FrameDeltaTime);
+		MasterWindow::Pipeline.ActiveCamera.Origin += (GetPosition() - MasterWindow::Pipeline.ActiveCamera.Origin) * time.FrameDeltaTime * CameraFollowSpeed;
 
 		m_Vel.X *= m_Dampening;
 		m_Vel.Y *= m_Dampening;
@@ -52,6 +52,6 @@ namespace SandboxEngine::Game::GameObject
 	{
 		// Not realy necessary unless player is for some reason deleted prior to the application termination
 
-		GameInstance::Pipeline.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
+		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
 	}
 }
