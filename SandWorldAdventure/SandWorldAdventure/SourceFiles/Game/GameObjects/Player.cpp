@@ -25,7 +25,7 @@ namespace SandboxEngine::Game::GameObject
 		};
 		mp_Mesh->Shaders =
 		{
-			0, 2, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER
+			0, 2, GraphicsPipeline::GraphicsPipeline2D::GP2D_PLAYER_SHADER
 		};
 	}
 

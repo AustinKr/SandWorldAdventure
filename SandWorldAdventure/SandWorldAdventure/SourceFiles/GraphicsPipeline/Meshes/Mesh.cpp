@@ -5,7 +5,7 @@
 
 namespace SandboxEngine::GraphicsPipeline
 {
-	Mesh::Mesh() : Origin({}), Scale({ 1,1 }), Vertices({}), Triangles({})
+	Mesh::Mesh() : Origin({}), Scale({ 1,1 }), Vertices({}), Triangles({}), Shaders{}
 	{
 		/*nothing*/
 	}
@@ -21,25 +21,20 @@ namespace SandboxEngine::GraphicsPipeline
 				int triangle = i * 3; // Get the index
 
 				// Set data into a continuous collection
+				// Apply scaling a transformation from world to viewport to open gl coordinates where (-1, -1) is the bottom left corner of the screen and (1, 1) is the top right.
+
 				vertexBuffer[0] = Vertices[Triangles[triangle]];
-				// Scale and offset
-				vertexBuffer[0].pos = vertexBuffer[0].pos * Scale + Origin - float2(pPipeline->ActiveCamera.Origin);
-				vertexBuffer[0].pos /= float2(pPipeline->ActiveCamera.Scale * pPipeline->ActiveCamera.WORLD_UNITS);
+				vertexBuffer[0].pos = pPipeline->ActiveCamera.WorldToViewport(vertexBuffer[0].pos * Scale + Origin) * 2.0 - Vector2(1, 1);
 
 				vertexBuffer[1] = Vertices[Triangles[triangle + 1]];
-				// Scale and offset
-				vertexBuffer[1].pos = vertexBuffer[1].pos * Scale + Origin - float2(pPipeline->ActiveCamera.Origin);
-				vertexBuffer[1].pos /= float2(pPipeline->ActiveCamera.Scale * pPipeline->ActiveCamera.WORLD_UNITS);
+				vertexBuffer[1].pos = pPipeline->ActiveCamera.WorldToViewport(vertexBuffer[1].pos * Scale + Origin) * 2.0 - Vector2(1, 1);
 
 				vertexBuffer[2] = Vertices[Triangles[triangle + 2]];
-				// Scale and offset
-				vertexBuffer[2].pos = vertexBuffer[2].pos * Scale + Origin - float2(pPipeline->ActiveCamera.Origin);
-				vertexBuffer[2].pos /= float2(pPipeline->ActiveCamera.Scale * pPipeline->ActiveCamera.WORLD_UNITS);
+				vertexBuffer[2].pos = pPipeline->ActiveCamera.WorldToViewport(vertexBuffer[2].pos * Scale + Origin) * 2.0 - Vector2(1, 1);
 
 				ShaderTypes::ShaderType* pShader = pPipeline->TryGetShader<ShaderTypes::ShaderType>(Shaders[s * 3 + 2]); // Get the shader
 				((Shaders::ShaderInformation*)pShader->p_ShaderInformation)->UpdateVertexData(pPipeline, vertexBufferName, pVertexArray, vertexBuffer, 3);
-				//glUniform1f(((Shaders::ShaderInformation*)pShader->p_ShaderInformation)->p_UniformTime, glfwGetTime()); // Set the time
-
+				
 				glUseProgram(pShader->GetProgram()); // Set the program
 
 				// Draw triangles

@@ -149,7 +149,11 @@ namespace SandboxEngine::GraphicsPipeline
 
 		if (location == -1)
 		{
+#ifdef _DEBUG
+#ifdef  _PRINT_MISSING_GLSL_LOCATIONS
 			fprintf(stderr, std::to_string(program).append(std::string("; failed to find location of shader attribute ").append(pName).append("\n")).c_str());
+#endif
+#endif
 			return -1;
 		}
 		glEnableVertexAttribArray(location); // Enable the attribute to be accessed and used for rendering
@@ -166,7 +170,11 @@ namespace SandboxEngine::GraphicsPipeline
 
 		if (loc == -1)
 		{
+#ifdef _DEBUG
+#ifdef  _PRINT_MISSING_GLSL_LOCATIONS
 			fprintf(stderr, std::string("failed to find location of uniform shader variable: ").append(name).append("\n").c_str());
+#endif
+#endif
 			return -1;
 		}
 		return 1;
@@ -187,8 +195,9 @@ namespace SandboxEngine::GraphicsPipeline
 		glGenVertexArrays(1, &mp_VertexArray);
 
 		// - Add shaders -
-		RegisterShader(new ShaderTypes::ShaderType("TestShader", "Shaders/DefaultShader.shader", new Shaders::ShaderInformation())); // GP2D_BASE_SHADER
+		RegisterShader(new ShaderTypes::ShaderType("DefaultShader", "Shaders/DefaultShader.shader", new Shaders::ShaderInformation())); // GP2D_BASE_SHADER
 		RegisterShader(new ShaderTypes::ShaderType("TilemapShader", "Shaders/TilemapShader.shader", new Shaders::TilemapShaderInformation())); // GP2D_TILEMAP_SHADER
+		RegisterShader(new ShaderTypes::ShaderType("PlayerShader", "Shaders/PlayerShader.shader", new Shaders::ShaderInformation())); // GP2D_PLAYER_SHADER
 		
 		// - Compile -
 		int shadersErrorCode = CompileShaders();
@@ -208,11 +217,9 @@ namespace SandboxEngine::GraphicsPipeline
 		{
 			//TODO: Cameras will sort meshes based on distance
 
-			for (int m = 0; m < layer.MeshesCount(); m++)
+			for(auto meshIter = layer.begin(); meshIter != layer.end(); meshIter++)
 			{
-				IMesh* pMesh = layer.MeshAt(m);
-
-				pMesh->Render(this, m_VertexBufferName, mp_VertexArray);
+				meshIter->second->Render(this, m_VertexBufferName, mp_VertexArray);
 			}
 		}
 	}
@@ -222,9 +229,9 @@ namespace SandboxEngine::GraphicsPipeline
 		// Release all mesh data
 		for (RenderLayer& layer : m_Layers)
 		{
-			for (int m = 0; m < layer.MeshesCount(); m++)
+			for (auto meshIter = layer.begin(); meshIter != layer.end(); meshIter++)
 			{
-				layer.MeshAt(m)->Release();
+				meshIter->second->Release();
 			}
 		}
 		m_Layers.clear();

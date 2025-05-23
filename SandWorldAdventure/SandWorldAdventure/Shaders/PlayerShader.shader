@@ -4,6 +4,7 @@
     in vec3 vUvCoord;
 
     out vec3 uv; 
+    out vec3 color;
     void main()
     {
         gl_Position = vec4(vPos, 0, 1);
@@ -13,12 +14,11 @@
 #FRAGMENT
     #version 330
 
-    uniform vec3 ShadeColor;
-
     in vec3 uv;
     out vec4 fragment;
     void main()
     {
-        fragment = vec4(ShadeColor, 1);
+        float greyscale = (uv.x + uv.y) / 2.0f;
+        fragment = vec4(greyscale,greyscale/2.0f,greyscale/2.0f,1 );
     }
 #ENDFRAGMENT

@@ -5,10 +5,6 @@
 #include "HeaderFiles/GraphicsPipeline/Meshes/TilemapMesh.h"
 
 #include "HeaderFiles/Game/GameObjects/Tilemap/TilemapContainer.h"
-
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionQueue.h"
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/ActionArguments/AddTileActionArgument.h"
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/ActionArguments/SwapTileActionArgument.h"
 #include <unordered_map>
 
 #define TILEMAP_H
@@ -16,11 +12,31 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 {
 	class Tilemap : public IGameObject
 	{
-	public:
-		const int MAX_RAYCAST_STEPS = 600;
+	private:
+		// A collection of new tiles that will replace the tilemap at the end of each game cycle
+		std::unordered_map<
+			Vector2Int,
+			Tile,
+			Vector2Hasher> m_PendingNewTiles;
 
+		const int MAX_RAYCAST_STEPS = 600;
+		const int MAX_ADJACENT_TILES = 3000;
+		const Vector2Int ADJACENT_TILE_POSITIONS[8] =
+		{
+			Vector2Int(-1,-1),
+			Vector2Int(0,-1),
+			Vector2Int(1,-1),
+
+			Vector2Int(-1,1),
+			Vector2Int(0,1),
+			Vector2Int(1,1),
+
+			Vector2Int(-1,0),
+			Vector2Int(1,0),
+		};
+	public:
+		
 		GraphicsPipeline::TilemapMesh* p_Mesh;
-		TileActionQueue::TileActionQueue ActionQueueInstance;
 		TilemapContainer Container;
 		Vector2 Position;
 		Vector2 TileSize;
@@ -36,9 +52,12 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		// Inherited via IGameObject
 		virtual void Release() override;
 
-		bool AddTile(Vector2Int tilePosition, TileActionQueue::AddTileActionArgument arguments = {}, TileActionQueue::TileActionQueue::ACTION_QUEUE* pActionQueue = nullptr);
-		bool RemoveTile(Vector2Int tilePosition, TileActionQueue::BaseTileActionArgument arguments = {}, TileActionQueue::TileActionQueue::ACTION_QUEUE* pActionQueue = nullptr);
-		bool SwapTiles(TileActionQueue::SwapTileActionArgument swapArguments, TileActionQueue::TileActionQueue::ACTION_QUEUE* pActionQueue = nullptr);
+		//Set and remove are basically equivalent- the only major difference is the functionality or convenience they provide
+		bool SetTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride = true);
+		//Set and remove are basically equivalent- the only major difference is the functionality or convenience they provide
+		bool RemoveTile(Vector2Int tilePosition);
+		bool SwapTiles(Vector2Int tilePositionA, Vector2Int tilePositionB);
+		bool WillContainTile(Vector2Int tilePosition);
 
 		/// <summary>
 		/// 

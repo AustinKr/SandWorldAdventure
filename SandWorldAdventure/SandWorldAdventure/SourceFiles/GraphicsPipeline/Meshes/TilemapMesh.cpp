@@ -56,8 +56,8 @@ namespace SandboxEngine::GraphicsPipeline
 			{
 				tileInfo = pTilemap->Container.GetTileInChunk(bottomLeft + Vector2(px, py));
 				// Get the pixel color
-				pixelColor = 0xff00ffff;
-				if (tileInfo.second != nullptr)
+				pixelColor = 0x0;//0xff00ffff
+				if (tileInfo.second != nullptr && tileInfo.second->HasValue)
 					pixelColor = tileInfo.second->Color;
 				// Assign the pixel color
 				pTiles[px + py * textureSize.X] = pixelColor;

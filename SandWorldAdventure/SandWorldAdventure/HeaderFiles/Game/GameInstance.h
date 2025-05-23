@@ -1,9 +1,9 @@
 #pragma once
 #include "HeaderFiles/Time.h"
+#include "HeaderFiles/Game/GameObjects/DebugObject.h"
 #include <map>
 #include <string>
 #include <vector>
-#include "HeaderFiles/Game/GameObjects/IGameObject.h"
 
 namespace SandboxEngine::Game
 {
@@ -15,6 +15,8 @@ namespace SandboxEngine::Game
 		static std::vector<std::pair<std::string, GameObject::IGameObject*>> GameObjectsRegistry;
 		// Time
 		static Time TimeInfo;
+		// Debug service
+		static GameObject::DebugObject* p_DebugServiceObject;
 
 		// Adds the address of the object to the registry with a name
 		static void RegisterGameObject(std::string objectName, const GameObject::IGameObject* pGameObject);

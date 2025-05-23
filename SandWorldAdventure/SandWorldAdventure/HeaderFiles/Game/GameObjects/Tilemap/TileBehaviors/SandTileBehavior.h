@@ -9,12 +9,8 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		virtual bool TryUpdate(
 			Tilemap* pTilemap,
 			Vector2Int tilePosition,
-			Tile* pTile,
-			Chunk* pChunk,
-			TileActionQueue::TileActionQueue::ACTION_QUEUE* pTileBehaviorActionQueue,
-			TileActionQueue::BaseTileActionArgument tileActionArguments,
-			Time time) override;
+			TilemapContainer::TILE_INFO tileInfo,
+			Time time,
+			TileActionTypes action) override;
 	};
 }
-
-// GOOD FOR NEW IMPLEMENTATION

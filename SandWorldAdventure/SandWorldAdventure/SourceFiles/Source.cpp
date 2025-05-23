@@ -1,6 +1,9 @@
 // This file contains the entry point and initializes everything. It also contains game logic
 
 #include "HeaderFiles/MasterWindow.h"
+#include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/ShaderInformation.h"
+
 #include <iostream>
 #include <string>
 
@@ -20,7 +23,7 @@ void GenerateTilemap();
 
 // - Variables -
 Player* pPlayer = nullptr;
-Tilemap::Tilemap* g_pTestTilemap;
+Tilemap::Tilemap* gp_TestTilemap;
 double TileXPosition = 0;
 bool g_ShouldBreakTile = false;
 bool g_ShouldAddTile = false;
@@ -82,7 +85,7 @@ int main(void)
 		// Cursor remove tiles
 		if (g_ShouldBreakTile || g_ShouldAddTile)
 		{
-			Vector2 mousePosition = g_pTestTilemap->FromWorldToTile(mouseWorldPosition);
+			Vector2 mousePosition = gp_TestTilemap->FromWorldToTile(mouseWorldPosition);
 			double radius = 5;
 			for (int i = -radius; i < radius; i++)
 			{
@@ -92,13 +95,27 @@ int main(void)
 						continue;
 
 					if (g_ShouldAddTile)
-						g_pTestTilemap->AddTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile((i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff, Tilemap::TILE_BEHAVIOR_NAMES::Sand), true, true));
+					{
+						UINT color = 0xFFE082FF;// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff;
+						gp_TestTilemap->SetTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::Tile(color, Tilemap::TILE_BEHAVIOR_NAMES::Sand));
+					}
 					else
-						g_pTestTilemap->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
+						gp_TestTilemap->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
 				}
 			}
 		}
-		
+
+		// Set color of default shader
+		GraphicsPipeline::ShaderTypes::ShaderType* pShader = MasterWindow::Pipeline.TryGetShader<GraphicsPipeline::ShaderTypes::ShaderType>(GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+		GraphicsPipeline::Shaders::ShaderInformation* shaderInfo = ((GraphicsPipeline::Shaders::ShaderInformation*)pShader->p_ShaderInformation);
+		shaderInfo->SetShadeColor(&MasterWindow::Pipeline, float3(1, 0, 1));
+		/*
+		Vector2 tr = gp_TestTilemap->FromTileToWorld(gp_TestTilemap->Container.GetTileBounds()),
+			bl = gp_TestTilemap->Position;
+		GameInstance::p_DebugServiceObject->CreateRectangle(bl - Vector2(5, 5), bl + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+		GameInstance::p_DebugServiceObject->CreateRectangle(tr - Vector2(5, 5), tr + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+		GameInstance::p_DebugServiceObject->CreateRectangle(Vector2(60, -80), Vector2(110, -60), 3, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);*/
+
 		GameInstance::UpdateObjects(); // Apply physics and logic to objects
 
 		MasterWindow::Pipeline.RenderScene(); // Render the scene
@@ -122,31 +139,32 @@ void InitializeGame()
 	GameInstance::TimeInfo = {};
 
 	// - Create objects -
-	GameInstance::RegisterGameObject("DebugService", new DebugObject()); // Create Debug object
+	GameInstance::p_DebugServiceObject = new DebugObject(); // Create Debug object
+	GameInstance::RegisterGameObject("DebugService", GameInstance::p_DebugServiceObject);
 	pPlayer = new Player();
 	GameInstance::RegisterGameObject("MainPlayer", pPlayer); // Create player object (player will create its mesh)
 
 	// Create tilemap
-	g_pTestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
+	gp_TestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
 	// Initialize tilemap
-	g_pTestTilemap->Position = Vector2(-100, -100);
-	g_pTestTilemap->TileSize = Vector2(1, 1);
-	GameInstance::RegisterGameObject("MainTilemap", g_pTestTilemap);
+	gp_TestTilemap->Position = Vector2(-100, -100);
+	gp_TestTilemap->TileSize = Vector2(1, 1);
+	GameInstance::RegisterGameObject("MainTilemap", gp_TestTilemap);
 
 	GenerateTilemap();
 }
 
 void GenerateTilemap()
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		for (int j = 0; j < 50; j++)
 		{
 			//(unsigned int)(i*j / 10000.0 * 272) << 8 & 0x0000ff00 | 0x000000ff
 			unsigned int col = i * j % 2 == 0 ? 0x00ff00ff : 0x0000ffff;
-			if (i + j * 25*50 == 25*50- 1)
+			if (i + j * 50 * 50 == 50 * 50 - 1)
 				col = 0xffff00ff;
-			g_pTestTilemap->AddTile(Vector2Int(i, j), Tilemap::TileActionQueue::AddTileActionArgument(true, Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Sand), false, true));
+			gp_TestTilemap->SetTile(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid));
 		}
 	}
 

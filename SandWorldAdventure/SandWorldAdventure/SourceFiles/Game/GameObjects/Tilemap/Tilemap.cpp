@@ -1,15 +1,8 @@
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/BaseTileAction.h"
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/TileActionQueue.h"
-
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileBehaviors/TileBehavior.h"
-
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/RemoveTileAction.h"
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/AddTileAction.h"
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileActionQueue/Actions/SwapTileAction.h"
-
 #include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/RenderLayerNames.h"
+#include "HeaderFiles/Game/GameInstance.h"
 
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
@@ -18,7 +11,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
 		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
 
-		ActionQueueInstance = {};
+		m_PendingNewTiles = {};
 		Container = {};
 		Container.AssignChunks(Vector2Int());
 		Position = Vector2(0, 0);
@@ -29,7 +22,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
 		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
 
-		ActionQueueInstance = {};
+		m_PendingNewTiles = {};
 		Container = {};
 		Container.AssignChunks(chunkBounds);
 		Position = Vector2(0, 0);
@@ -39,50 +32,75 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	// Inherited via IGameObject
 	void Tilemap::Update(Time time)
 	{
-		//TileActionQueue::BaseTileAction::ACTION_QUEUE newActionQueue = {};
-		//TileActionQueue::BaseTileAction::ACTION_QUEUE::const_iterator queueIterator;
-		//MasterWindow::LogToConsole(L"actionQueue: " + std::to_wstring(m_ActionQueue.size()) + L"; tiles: " + std::to_wstring(Container.GetTilesDimensions().X * Container.GetTilesDimensions().Y) + L"\n");
-		//for (queueIterator = m_ActionQueue.cbegin(); queueIterator != m_ActionQueue.cend(); queueIterator++)
-		//{
-		//	// TODO: Remove debug feature
-		//	IGameObject* p_debugService = GameInstance::Layers[0].Objects["DebugService"];
-		//	if (p_debugService != nullptr)
-		//	{
-		//		Vector2 tileScreenPos = GameInstance::MainCamera.FromViewportToScreen(GameInstance::MainCamera.FromWorldToViewport(FromTileToWorld(queueIterator->first)));
-		//		Vector2 tileScreenSize = GameInstance::MainCamera.FromViewportToScreen(GameInstance::MainCamera.FromWorldToViewport(TileSize, false), false);
-		//		Renderer::DrawRectPixels(&((GameObject::DebugObject*)p_debugService)->DebugScreen, tileScreenPos.X, tileScreenPos.Y, tileScreenSize.X, tileScreenSize.Y, 0xff00f9);
-		//	}
+		std::unordered_map<
+			Vector2Int,
+			TileBehavior::TileActionTypes,
+			Vector2Hasher> tilesToUpdateDict = {}; // Used to check if a position is already here
+		std::vector<Vector2Int> tilesToUpdateList = {}; // Used to iterate in chronological order
+		TilemapContainer::TILE_INFO tileInfo; // This placeholder is reused
 
-		//	// Apply and unregister
-		//	((TileActionQueue::BaseTileAction*)queueIterator->second)->Apply(this, queueIterator->first, &newActionQueue, time);
-		//	delete(queueIterator->second);
-		//}
-		//m_ActionQueue.clear();
-		//m_ActionQueue = newActionQueue;
+		// - Apply pending tile changes -
+		for (auto& iter : m_PendingNewTiles)
+		{
+			if (tilesToUpdateList.size() + 1 > MAX_ADJACENT_TILES) // This check really shouldn't be needed mostly
+				break;
 
+			if (iter.second.HasValue)
+			{
+				tileInfo = Container.AddTile(iter.first, iter.second, time.CurrentTime); // Make change in container
+				if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_ADD)).second)
+					tilesToUpdateList.push_back(iter.first);
+				continue;
+			}
 
+			Container.RemoveTile(iter.first);
+			if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_REMOVE)).second)
+				tilesToUpdateList.push_back(iter.first);
+		}
+		m_PendingNewTiles.clear();
 
-		// With this implementation, tile behaviors do not immediately react to changes
+		fprintf(stdout, std::to_string(tilesToUpdateDict.size()).append("\n").c_str());
 
-		// Update the tiles and adjacent tiles of those actions
-		TileActionQueue::TileActionQueue::ACTION_QUEUE tileBehaviorActionQueue = {};
-		int updated = 0;
-		ActionQueueInstance.UpdateAdjacentTiles(ActionQueueInstance.CommitActions(this, time), &tileBehaviorActionQueue, this, time, &updated);
+		// - Update blocks of adjacent tiles -
+		Vector2Int currentAdjPosition, currentPosition;
+		for (int i = 0; i < tilesToUpdateList.size(); i++)
+		{
+			currentPosition = tilesToUpdateList.at(i);
+			tileInfo = Container.GetTileInChunk(currentPosition);
+			if (tileInfo.second == nullptr || !TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, currentPosition, tileInfo, time, tilesToUpdateDict.at(currentPosition)))
+				continue;
+			
+			// Debug feature -
+			/*
+			Vector2 currentWorldPosition = FromTileToWorld(currentPosition);
+			GameInstance::p_DebugServiceObject->CreateRectangle(currentWorldPosition + TileSize * 0.375, currentWorldPosition + TileSize * 0.75, .01, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+			*/
+			// -
+
+			if (tilesToUpdateList.size() + 8 > MAX_ADJACENT_TILES)
+			{
+				fprintf(stdout, std::string("Reached max adjacent tiles limit!! ").append(std::to_string(time.CurrentTime)).append("\n").c_str());
+				break;
+			}
+			for (int ii = 0; ii < 8; ii++)
+			{
+				currentAdjPosition = currentPosition + ADJACENT_TILE_POSITIONS[ii];
+				
+				if (tilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_UPDATE)).second)
+					tilesToUpdateList.push_back(currentAdjPosition);
+			}
+		}
+
+		fprintf(stdout, std::to_string(tilesToUpdateList.size()).append("\n").c_str());
 		
-		//if (!ActionQueueInstance.UpdateTilesFromActionQueue(ActionQueueInstance.CommitActions(this, time), &tileBehaviorActionQueue, this, time, &updated))
-		//{
-		//	// Did not make it through all actions, so there is possibilty that they did not get released
-		//	TileActionQueue::TileActionQueue::Release(ActionQueueInstance.GetQueue()); // could also just use ActionQueueInstance.Release(), or stay with the explicit expression
-		//}
+		// TODO: Make this more efficient cause we are reaching our limit way way too fast
 
-		// Override the current action queue( the one that was just applied) with the tile behavior action queue that will be applied next cycle
-		*ActionQueueInstance.GetQueue() = std::move(tileBehaviorActionQueue);
+		// TODO: Store adjacent tiles overflow and update them next cycle?
 	}
 	// Inherited via IGameObject
 	void Tilemap::Release()
 	{
 		TileBehavior::ReleaseTileBehaviors();
-		ActionQueueInstance.Release();
 
 		if (p_Mesh != nullptr)
 		{
@@ -91,52 +109,74 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		}
 	}
 
-	bool Tilemap::AddTile(Vector2Int tilePosition, TileActionQueue::AddTileActionArgument arguments, TileActionQueue::TileActionQueue::ACTION_QUEUE* pActionQueue)
+	bool Tilemap::SetTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride)
 	{
-		TileActionQueue::AddTileAction* pTileAction = new TileActionQueue::AddTileAction(arguments);
-		return TileActionQueue::TileActionQueue::RegisterTileAction(this, tilePosition, pTileAction, pActionQueue != nullptr ? pActionQueue : ActionQueueInstance.GetQueue());
-	}
-	bool Tilemap::RemoveTile(Vector2Int tilePosition, TileActionQueue::BaseTileActionArgument arguments, TileActionQueue::TileActionQueue::ACTION_QUEUE* pActionQueue)
-	{
-		TileActionQueue::RemoveTileAction* pTileAction = new TileActionQueue::RemoveTileAction(arguments);
-		return TileActionQueue::TileActionQueue::RegisterTileAction(this, tilePosition, pTileAction, pActionQueue != nullptr ? pActionQueue : ActionQueueInstance.GetQueue());
-	}
+		if (tilePosition.X < 0 || tilePosition.Y < 0)
+			return false;
+		if (!shouldOverride && Container.ContainsTile(tilePosition))
+			return false;
 
-	bool Tilemap::SwapTiles(TileActionQueue::SwapTileActionArgument swapArguments, TileActionQueue::TileActionQueue::ACTION_QUEUE* pActionQueue)
+		if (m_PendingNewTiles.contains(tilePosition))
+		{
+			if (!shouldOverride && m_PendingNewTiles.at(tilePosition).HasValue)
+				return false;
+
+			m_PendingNewTiles.at(tilePosition) = newTile;
+			return true;
+		}
+		m_PendingNewTiles.insert(std::make_pair(tilePosition, newTile));
+		return true;
+	}
+	bool Tilemap::RemoveTile(Vector2Int tilePosition)
 	{
-		TileActionQueue::SwapTileAction* pTileAction = new TileActionQueue::SwapTileAction(swapArguments);
-		return pTileAction->Register(this, {}, pActionQueue != nullptr ? pActionQueue : ActionQueueInstance.GetQueue());
+		Tile tile = {};
+		tile.HasValue = false;
+
+		if (m_PendingNewTiles.contains(tilePosition))
+		{
+			if (!Container.ContainsTile(tilePosition))
+			{	// Erase whatever is here because this is a removal and there is already nothing in the container
+				bool value = m_PendingNewTiles.at(tilePosition).HasValue;
+				m_PendingNewTiles.erase(tilePosition);
+				return value;
+			}
+			m_PendingNewTiles.at(tilePosition) = tile; // Else override the value
+		}
+		else if (!Container.ContainsTile(tilePosition))
+			return false;
+		else
+			m_PendingNewTiles.insert(std::make_pair(tilePosition, tile));
+		return true;
+	}
+	bool Tilemap::SwapTiles(Vector2Int tilePositionA, Vector2Int tilePositionB)
+	{
+		if (tilePositionA.X < 0 || tilePositionA.Y < 0 ||
+			tilePositionB.X < 0 || tilePositionB.Y < 0 ||
+			(tilePositionA == tilePositionB))
+			return false;
+
+		TilemapContainer::TILE_INFO existingA = Container.GetTileInChunk(tilePositionA);
+		TilemapContainer::TILE_INFO existingB = Container.GetTileInChunk(tilePositionB);
+
+		if (existingA.second == nullptr && existingB.second == nullptr)
+			return false;
+		// Swap
+
+		if (existingB.second == nullptr || !existingB.second->HasValue)
+			RemoveTile(tilePositionA); // Remove because it is equivalent to tileB
+		else
+			SetTile(tilePositionA, *existingB.second, true); // Set to tileB (override is true because tileA still exists)
 		
-		//// If there is an add action at A or B, that should be used instead of the tile in the container? The answer is no because this would complicate things and is really more of a preference.
+		if (existingA.second == nullptr || !existingA.second->HasValue)
+			RemoveTile(tilePositionB); // Remove
+		else
+			SetTile(tilePositionB, *existingA.second, true); // Set
 
-		//// These check if it is within bounds
-		//Tile* pTile1 = Container.GetTileInChunk(positionA.X, positionA.Y);
-		//if (pTile1 == nullptr)
-		//	return false;
-		//Tile* pTile2 = Container.GetTileInChunk(positionB.X, positionB.Y);
-		//if (pTile2 == nullptr)
-		//	return false;
-
-		//// Edge cases
-		//if ((!pTile1->HasValue && !pTile2->HasValue) ||
-		//	(positionA == positionB))
-		//	return false;
-
-		//if (!forceSwap)
-		//{
-		//	// Make sure we dont override an existing AddAction
-		//	std::optional<bool> tile1Exists = ActionQueueInstance.WillContainTile(positionA, pActionQueue);
-		//	std::optional<bool> tile2Exists = ActionQueueInstance.WillContainTile(positionB, pActionQueue);
-		//	if ((tile1Exists.has_value() && tile1Exists.value()) ||
-		//		(tile2Exists.has_value() && tile2Exists.value()))
-		//		return false;
-		//}
-
-		//// These will override any existing action
-		//AddTile(positionA.X, positionA.Y, time, TileActionQueue::AddTileActionArgument(true, *pTile2, true, false), pActionQueue); //TODO: WHat about empty tiles?
-		//AddTile(positionB.X, positionB.Y, time, TileActionQueue::AddTileActionArgument(true, *pTile1, true, false), pActionQueue);
-
-		//return true;
+		return true; 
+	}
+	bool Tilemap::WillContainTile(Vector2Int tilePosition)
+	{
+		return Container.ContainsTile(tilePosition) && (!m_PendingNewTiles.contains(tilePosition) || m_PendingNewTiles.at(tilePosition).HasValue);
 	}
 
 	std::pair<double, TilemapContainer::TILE_INFO> Tilemap::Raycast(Vector2 origin, Vector2 direction, double end)
@@ -146,14 +186,16 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		Vector2 currentPosition;
 		double distance = 0;
 		TilemapContainer::TILE_INFO hitTileInfo = std::make_pair(nullptr, nullptr);
-		for (distance = 1; distance < floor(end) + 1 && distance < MAX_RAYCAST_STEPS; distance++)
+		for (distance = 1; distance < floor(end) && distance < MAX_RAYCAST_STEPS; distance++)
 		{
 			currentPosition = origin + Vector2(.5, .5) + direction * distance;
 			hitTileInfo = Container.GetTileInChunk(currentPosition);
-			if (hitTileInfo.second == nullptr || hitTileInfo.second->HasValue)
+			if (hitTileInfo.second == nullptr)
+				continue;
+			if (hitTileInfo.second->HasValue)
 				return std::make_pair(distance - 1, hitTileInfo);
 		}
-		return std::make_pair(distance, hitTileInfo); // Should always be 0, nullptr
+		return std::make_pair(distance, hitTileInfo);
 	}
 
 	// TODO: This can be Vector2Int

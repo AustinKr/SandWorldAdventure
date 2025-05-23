@@ -43,7 +43,7 @@
     // TODO: make these double to decrease the chance of error
     uniform vec2 TexOriginCoord; // In viewport/uv coordinates
     uniform vec2 TexSizeCoord; // In viewport/uv coordinates
-    uniform ivec2 TexSize; // Width and height
+    uniform ivec2 TexSize; // Width and height( TODO: Possibly not needed although is it used to ensure the texture exists)
 
     in vec3 uv;
     out vec4 fragment;
@@ -62,17 +62,17 @@
         if(TexSize.x == 0 || TexSize.y == 0)
             return;
 
+        
         // Transformation to texture pixel xy
-        vec2 pos = /* floor( */(uv.xy - TexOriginCoord) * vec2(TexSize) / TexSizeCoord;//); 
-        // Normalise
-        pos.x /= float(TexSize.x);
-        pos.y /= float(TexSize.y);
+        vec2 pos = (uv.xy - TexOriginCoord) / TexSizeCoord;
 
         if(pos.x >= 0.0 && 
             pos.y >= 0.0 && 
             pos.x < 1.0 && 
             pos.y < 1.0)
             fragment = texture(TilemapTex, pos);
+
+
 
         /*
         int index = int(floor(uv.x * float(Nodes.length())));

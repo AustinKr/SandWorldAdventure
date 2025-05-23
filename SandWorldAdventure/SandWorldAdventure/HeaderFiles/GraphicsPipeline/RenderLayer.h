@@ -1,62 +1,68 @@
 #pragma once
 #include "Meshes/IMesh.h"
-#include <vector>
 #include <string>
+#include <unordered_map>
+#include <optional> 
 
 namespace SandboxEngine::GraphicsPipeline
 {
 	class RenderLayer
 	{
+	public: typedef unsigned long UID;
+
 	private:
 		// Contains the addresses of each mesh
-		std::vector<IMesh*> m_Meshes;
+		std::unordered_map<UID, IMesh*> m_Meshes; // TODO: Could further divide frontground and background with a map of int, iMesh*
+		UID m_Next;
 	public:
 		std::string Name;
 
-		inline RenderLayer() : Name({}), m_Meshes({}) {}
-		inline RenderLayer(std::string name) : Name(name), m_Meshes({}) {}
+		inline RenderLayer() : Name({}), m_Meshes({}), m_Next{ 0 } {}
+		inline RenderLayer(std::string name) : Name(name), m_Meshes({}), m_Next{ 0 } {}
 
 		inline int MeshesCount()
 		{
 			return m_Meshes.size();
 		}
 
-		inline IMesh* MeshAt(int index)
+		inline IMesh* MeshAt(UID identifier)
 		{
-			return m_Meshes.at(index);
+			if (!m_Meshes.contains(identifier))
+				return nullptr;
+			return m_Meshes.at(identifier);
 		}
+		inline std::unordered_map<UID, IMesh*>::iterator begin() { return m_Meshes.begin(); }
+		inline std::unordered_map<UID, IMesh*>::iterator end() { return m_Meshes.end(); }
 
-		inline void RegisterMesh(int i, IMesh* pMesh)
+		inline std::optional<UID> RegisterMesh(IMesh* pMesh)
 		{
-			if (i < 0 || i >= m_Meshes.size())
-				return;
+			auto pair = m_Meshes.insert(std::make_pair(m_Next++, pMesh));
+			if (!pair.second)
+				return {};
 
-			m_Meshes.insert(m_Meshes.begin() + i, pMesh);
+			return pair.first->first;
 		}
-		inline void RegisterMesh(IMesh* pMesh)
+		inline bool UnregisterMesh(UID identifier)
 		{
-			m_Meshes.push_back(pMesh);
-		}
-		inline void UnregisterMesh(int i)
-		{
-			if (i < 0 || i >= m_Meshes.size())
-				return;
+			if (!m_Meshes.contains(identifier))
+				return false;
 
-			delete(m_Meshes[i]);
-			m_Meshes.erase(m_Meshes.begin() + i);
+			m_Meshes[identifier]->Release();
+			m_Meshes.erase(identifier);
+			return true;
 		}
-		inline void UnregisterMesh(IMesh* pMesh)
+		inline bool UnregisterMesh(IMesh* pMesh)
 		{
-			std::vector<IMesh*>::iterator iter;
-			for (int i = 0; i < m_Meshes.size(); i++)
+			for (auto& iter : m_Meshes)
 			{
-				iter = m_Meshes.begin() + i;
-				if (*iter != pMesh)
+				if (iter.second != pMesh)
 					continue;
 
-				pMesh->Release();
-				m_Meshes.erase(iter);
+				iter.second->Release();
+				m_Meshes.erase(iter.first);
+				return true;
 			}
+			return false;
 		}
 	};
 }

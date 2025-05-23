@@ -66,7 +66,7 @@ namespace SandboxEngine
 		int width, height;
 		glfwGetWindowSize(p_glfwWindow, &width, &height);
 		Pipeline.ActiveCamera.ScreenSize = SandboxEngine::Vector2Int(width, height);
-		Pipeline.ActiveCamera.Scale = SandboxEngine::Vector2(250, 250);
+		Pipeline.ActiveCamera.Scale = SandboxEngine::Vector2(150, 150);
 		Pipeline.ActiveCamera.Origin = SandboxEngine::Vector2(0, 0);
 
 		// Create layers

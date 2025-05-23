@@ -1,4 +1,7 @@
 #pragma once
+
+//#define _PRINT_MISSING_GLSL_LOCATIONS // Used in graphics pipeline2D
+
 #include "GraphicsPipelineFramework.h"
 #include "RenderLayer.h"
 #include "Camera.h"
@@ -30,7 +33,8 @@ namespace SandboxEngine::GraphicsPipeline
 		enum
 		{
 			GP2D_BASE_SHADER = 0,
-			GP2D_TILEMAP_SHADER = 1
+			GP2D_TILEMAP_SHADER = 1,
+			GP2D_PLAYER_SHADER = 2,
 		};
 
 		Camera ActiveCamera;
