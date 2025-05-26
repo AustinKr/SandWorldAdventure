@@ -56,6 +56,9 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		bool SetTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride = true);
 		//Set and remove are basically equivalent- the only major difference is the functionality or convenience they provide
 		bool RemoveTile(Vector2Int tilePosition);
+
+		// TODO: Create AddTiles and AddTileBlock functions in tilemap
+
 		bool SwapTiles(Vector2Int tilePositionA, Vector2Int tilePositionB);
 		bool WillContainTile(Vector2Int tilePosition);
 

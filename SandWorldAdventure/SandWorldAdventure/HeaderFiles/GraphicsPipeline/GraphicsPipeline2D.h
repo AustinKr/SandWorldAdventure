@@ -18,6 +18,8 @@ namespace SandboxEngine::GraphicsPipeline
 	class GraphicsPipeline2D : public IGraphicsPipeline
 	{
 	private:
+		typedef unsigned int UINT;
+
 		std::vector<ShaderTypes::IShaderType*> m_AllShaderObjects;
 		std::vector<RenderLayer> m_Layers;
 		std::unordered_map<std::string, GLint> m_UniformVariableLocations;
@@ -90,5 +92,13 @@ namespace SandboxEngine::GraphicsPipeline
 
 		// Releases all mesh and shader data
 		virtual void Release() override;
+
+
+		static inline UINT RGBA_To_UINT(int r, int g, int b, int a)
+		{
+			// Each channel is 8 bits.
+			return ((r & 0xff) << 24) + ((g & 0xff) << 16) + ((b & 0xff) << 8)
+				+ (a & 0xff);
+		}
 	};
 }

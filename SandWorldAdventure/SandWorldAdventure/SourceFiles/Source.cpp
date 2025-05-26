@@ -17,6 +17,7 @@ using namespace SandboxEngine::Game::GameObject;
 
 // - Forward declarations -
 void InitializeGame();
+void RunGameLoopCycle();
 void Release();
 // Game stuff
 void GenerateTilemap();
@@ -25,8 +26,9 @@ void GenerateTilemap();
 Player* pPlayer = nullptr;
 Tilemap::Tilemap* gp_TestTilemap;
 double TileXPosition = 0;
-bool g_ShouldBreakTile = false;
-bool g_ShouldAddTile = false;
+
+Tilemap::Tile* gp_TestArrayOfTiles;
+std::vector<std::pair<Vector2Int, Tilemap::Tile>> g_TestVecOfTiles;
 
 int main(void)
 {
@@ -52,72 +54,8 @@ int main(void)
 		GameInstance::TimeInfo.CurrentTime = glfwGetTime();
 		GameInstance::TimeInfo.FrameDeltaTime = GameInstance::TimeInfo.CurrentTime - oldTime;
 		
-		// TODO: Run this code in a game class or global function
-		
-		if (pPlayer != nullptr)
-		{
-			if (MasterWindow::GetKeyState(GLFW_KEY_UP))
-				pPlayer->AccY = 1;
-			else if (MasterWindow::GetKeyState(GLFW_KEY_DOWN))
-				pPlayer->AccY = -1;
-			else// if (!MasterWindow::GetKeyState(GLFW_KEY_UP) && !MasterWindow::GetKeyState(GLFW_KEY_DOWN))
-				pPlayer->AccY = 0;
-
-			if (MasterWindow::GetKeyState(GLFW_KEY_RIGHT))
-				pPlayer->AccX = 1;
-			else if (MasterWindow::GetKeyState(GLFW_KEY_LEFT))
-				pPlayer->AccX = -1;
-			else
-				pPlayer->AccX = 0;
-
-			g_ShouldBreakTile = MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_1);
-			g_ShouldAddTile = MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_2);
-		}
-
-		// Get cursor position
-		Vector2 cursorPosition;
-		glfwGetCursorPos(MasterWindow::p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
-		Vector2 mouseWorldPosition = 
-			MasterWindow::Pipeline.ActiveCamera.ViewportToWorld(
-				MasterWindow::Pipeline.ActiveCamera.ScreenToViewport(
-					Vector2(cursorPosition.X, MasterWindow::Pipeline.ActiveCamera.ScreenSize.Y - cursorPosition.Y)));
-
-		// Cursor remove tiles
-		if (g_ShouldBreakTile || g_ShouldAddTile)
-		{
-			Vector2 mousePosition = gp_TestTilemap->FromWorldToTile(mouseWorldPosition);
-			double radius = 5;
-			for (int i = -radius; i < radius; i++)
-			{
-				for (int j = -radius; j < radius; j++)
-				{
-					if (i * i + j * j >= radius * radius)
-						continue;
-
-					if (g_ShouldAddTile)
-					{
-						UINT color = 0xFFE082FF;// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff;
-						gp_TestTilemap->SetTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::Tile(color, Tilemap::TILE_BEHAVIOR_NAMES::Sand));
-					}
-					else
-						gp_TestTilemap->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
-				}
-			}
-		}
-
-		// Set color of default shader
-		GraphicsPipeline::ShaderTypes::ShaderType* pShader = MasterWindow::Pipeline.TryGetShader<GraphicsPipeline::ShaderTypes::ShaderType>(GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
-		GraphicsPipeline::Shaders::ShaderInformation* shaderInfo = ((GraphicsPipeline::Shaders::ShaderInformation*)pShader->p_ShaderInformation);
-		shaderInfo->SetShadeColor(&MasterWindow::Pipeline, float3(1, 0, 1));
-		/*
-		Vector2 tr = gp_TestTilemap->FromTileToWorld(gp_TestTilemap->Container.GetTileBounds()),
-			bl = gp_TestTilemap->Position;
-		GameInstance::p_DebugServiceObject->CreateRectangle(bl - Vector2(5, 5), bl + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
-		GameInstance::p_DebugServiceObject->CreateRectangle(tr - Vector2(5, 5), tr + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
-		GameInstance::p_DebugServiceObject->CreateRectangle(Vector2(60, -80), Vector2(110, -60), 3, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);*/
-
+		RunGameLoopCycle(); // Game loop
 		GameInstance::UpdateObjects(); // Apply physics and logic to objects
-
 		MasterWindow::Pipeline.RenderScene(); // Render the scene
 
 		glfwSwapBuffers(MasterWindow::p_glfwWindow); // Try to swap buffers
@@ -139,10 +77,6 @@ void InitializeGame()
 	GameInstance::TimeInfo = {};
 
 	// - Create objects -
-	GameInstance::p_DebugServiceObject = new DebugObject(); // Create Debug object
-	GameInstance::RegisterGameObject("DebugService", GameInstance::p_DebugServiceObject);
-	pPlayer = new Player();
-	GameInstance::RegisterGameObject("MainPlayer", pPlayer); // Create player object (player will create its mesh)
 
 	// Create tilemap
 	gp_TestTilemap = new Tilemap::Tilemap(Vector2Int(1, 1));
@@ -150,12 +84,68 @@ void InitializeGame()
 	gp_TestTilemap->Position = Vector2(-100, -100);
 	gp_TestTilemap->TileSize = Vector2(1, 1);
 	GameInstance::RegisterGameObject("MainTilemap", gp_TestTilemap);
-
 	GenerateTilemap();
+
+	GameInstance::p_DebugServiceObject = new DebugObject(); // Create Debug object
+	GameInstance::RegisterGameObject("DebugService", GameInstance::p_DebugServiceObject);
+	pPlayer = new Player(gp_TestTilemap);
+	GameInstance::RegisterGameObject("MainPlayer", pPlayer); // Create player object (player will create its mesh)
+
+}
+
+void RunGameLoopCycle()
+{
+	// Set color of default shader
+	GraphicsPipeline::ShaderTypes::ShaderType* pShader = MasterWindow::Pipeline.TryGetShader<GraphicsPipeline::ShaderTypes::ShaderType>(GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+	GraphicsPipeline::Shaders::ShaderInformation* shaderInfo = ((GraphicsPipeline::Shaders::ShaderInformation*)pShader->p_ShaderInformation);
+	shaderInfo->SetShadeColor(&MasterWindow::Pipeline, float3(1, 0, 1));
+	/*
+	Vector2 tr = gp_TestTilemap->FromTileToWorld(gp_TestTilemap->Container.GetTileBounds()),
+		bl = gp_TestTilemap->Position;
+	GameInstance::p_DebugServiceObject->CreateRectangle(bl - Vector2(5, 5), bl + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+	GameInstance::p_DebugServiceObject->CreateRectangle(tr - Vector2(5, 5), tr + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+	GameInstance::p_DebugServiceObject->CreateRectangle(Vector2(60, -80), Vector2(110, -60), 3, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);*/
+}
+
+void Release()
+{
+	GameInstance::Release();
+	MasterWindow::Release();
 }
 
 void GenerateTilemap()
 {
+	// temp-
+	int width = 300;
+	gp_TestArrayOfTiles = (Tilemap::Tile*)malloc(width * 500 * sizeof(Tilemap::Tile));
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < 500; j++)
+		{
+			unsigned int col = i * j % 2 == 0 ? 0x00ff00ff : 0x0000ffff;
+			gp_TestArrayOfTiles[i + j * width] = {col, Tilemap::TILE_BEHAVIOR_NAMES::Solid};
+		}
+	}
+	g_TestVecOfTiles = {};
+	int s = 200;
+	for (int i = 0; i < s; i++)
+	{
+		for (int j = 0; j < s; j++)
+		{
+			Vector2 diff = Vector2(s, s) / 2.0 - Vector2(i, j);
+			if (diff.GetMagnitudeSqrd() > pow((double)s / 2.0, 2.0))
+				continue;
+
+			unsigned int col = i * j % 2 == 0 ? 0x0f0fffff : 0xffff00ff;
+			g_TestVecOfTiles.push_back(std::make_pair(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid)));
+		}
+	}
+
+	gp_TestTilemap->Container.AddBlockOfTiles(gp_TestArrayOfTiles, Vector2Int(50, 50), Vector2Int(300, 500), GameInstance::TimeInfo.CurrentTime);
+	gp_TestTilemap->Container.AddTiles(g_TestVecOfTiles.begin(), g_TestVecOfTiles.end(), Vector2Int(200, 200), GameInstance::TimeInfo.CurrentTime);
+
+	// -
+
 	for (int i = 0; i < 50; i++)
 	{
 		for (int j = 0; j < 50; j++)
@@ -199,11 +189,6 @@ void GenerateTilemap()
 	g_pTestTilemap->RemoveTile(Vector2Int(int(GameInstance::TimeInfo.CurrentTime * 50) % 100, int(GameInstance::TimeInfo.CurrentTime * .2) % 3));*/
 }
 
-void Release()
-{
-	GameInstance::Release();
-	MasterWindow::Release();
-}
 
 
 

@@ -10,13 +10,16 @@ namespace SandboxEngine::Game::GameObject
 		GraphicsPipeline::Mesh* mp_Mesh;
 		Vector2 m_Vel;
 		double m_Dampening;
+		bool m_ShouldBreakTile;
+		bool m_ShouldAddTile;
+		IGameObject* const mp_Tilemap;
 	public:
 		double AccX;
 		double AccY;
 		double Speed;
 		double CameraFollowSpeed;
 
-		Player();
+		Player(IGameObject* pTilemap);
 		
 		// Retrieves the position of the player object. Note: The player shares its position with its mesh origin
 		Vector2 GetPosition();

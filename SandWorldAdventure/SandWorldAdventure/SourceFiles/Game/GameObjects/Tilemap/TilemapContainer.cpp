@@ -95,7 +95,6 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		return tileInfo;
 	}
 
-
 	void TilemapContainer::SwapTiles(TILE_INFO tileInfoA, Vector2Int positionA, TILE_INFO tileInfoB, Vector2Int positionB)
 	{
 		if (tileInfoA.second == nullptr || tileInfoB.second == nullptr)

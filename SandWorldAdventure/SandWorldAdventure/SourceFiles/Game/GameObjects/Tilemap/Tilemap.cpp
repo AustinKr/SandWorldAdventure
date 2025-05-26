@@ -94,7 +94,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		fprintf(stdout, std::to_string(tilesToUpdateList.size()).append("\n").c_str());
 		
 		// TODO: Make this more efficient cause we are reaching our limit way way too fast
-
+		// TODO: Could try to use addblock of tiles wherever we can using an algorithm to sort and group pending tile changes
 		// TODO: Store adjacent tiles overflow and update them next cycle?
 	}
 	// Inherited via IGameObject
