@@ -89,7 +89,7 @@ namespace SandboxEngine::Game::GameObject
 					{
 						float fac = float(abs(i * j)) / float(radius * radius);
 						UINT color = GraphicsPipeline::GraphicsPipeline2D::RGBA_To_UINT(0xff - 40 * fac, 0xe0 - 40 * fac, 0x82 + 60 * fac, 255);// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff; //0xFFE082FF
-						((Tilemap::Tilemap*)mp_Tilemap)->SetTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::Tile(color, Tilemap::TILE_BEHAVIOR_NAMES::Sand));
+						((Tilemap::Tilemap*)mp_Tilemap)->AddTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::Tile(color, Tilemap::TILE_BEHAVIOR_NAMES::Sand));
 					}
 					else
 						((Tilemap::Tilemap*)mp_Tilemap)->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));

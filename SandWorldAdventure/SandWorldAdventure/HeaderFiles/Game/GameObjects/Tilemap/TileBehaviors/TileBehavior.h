@@ -11,8 +11,8 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		enum TileActionTypes
 		{
 			TILE_ACTION_ADD = 1,
-			TILE_ACTION_UPDATE = 2,
-			TILE_ACTION_REMOVE = 4,
+			TILE_ACTION_REMOVE = 2,
+			TILE_ACTION_UPDATE = 4,
 		};
 
 		static const TileBehavior* TILE_BEHAVIORS[2];

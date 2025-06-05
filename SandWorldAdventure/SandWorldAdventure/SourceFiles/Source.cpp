@@ -27,9 +27,6 @@ Player* pPlayer = nullptr;
 Tilemap::Tilemap* gp_TestTilemap;
 double TileXPosition = 0;
 
-Tilemap::Tile* gp_TestArrayOfTiles;
-std::vector<std::pair<Vector2Int, Tilemap::Tile>> g_TestVecOfTiles;
-
 int main(void)
 {
 	// Creates a window and nearly everything else necessary relating to openGL
@@ -105,6 +102,34 @@ void RunGameLoopCycle()
 	GameInstance::p_DebugServiceObject->CreateRectangle(bl - Vector2(5, 5), bl + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
 	GameInstance::p_DebugServiceObject->CreateRectangle(tr - Vector2(5, 5), tr + Vector2(5, 5), 1, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
 	GameInstance::p_DebugServiceObject->CreateRectangle(Vector2(60, -80), Vector2(110, -60), 3, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);*/
+
+
+	/*if ((int)floor(GameInstance::TimeInfo.CurrentTime) % 2 == 0)
+	{
+		int s = 100;
+		for (int i = 0; i < s; i++)
+		{
+			for (int j = 0; j < s; j++)
+			{
+				Vector2 diff = Vector2(s, s) / 2.0 - Vector2(i, j);
+				if (diff.GetMagnitudeSqrd() > pow((double)s / 2.0, 2.0))
+					continue;
+
+				unsigned int col = i * j % 2 == 0 ? 0x0f0fffff : 0xffff00ff;
+				gp_TestTilemap->AddTile(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid));
+			}
+		}
+
+		int width = 120;
+		for (int i = 0; i < width; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				gp_TestTilemap->RemoveTile(Vector2Int(i + 20, j + 50));
+			}
+		}
+	}*/
+	//gp_TestTilemap->Container.RemoveTiles(gp_TestVecOfTileRemovals.begin(), gp_TestVecOfTileRemovals.end(), Vector2Int(20, 50));
 }
 
 void Release()
@@ -115,37 +140,6 @@ void Release()
 
 void GenerateTilemap()
 {
-	// temp-
-	int width = 300;
-	gp_TestArrayOfTiles = (Tilemap::Tile*)malloc(width * 500 * sizeof(Tilemap::Tile));
-	for (int i = 0; i < width; i++)
-	{
-		for (int j = 0; j < 500; j++)
-		{
-			unsigned int col = i * j % 2 == 0 ? 0x00ff00ff : 0x0000ffff;
-			gp_TestArrayOfTiles[i + j * width] = {col, Tilemap::TILE_BEHAVIOR_NAMES::Solid};
-		}
-	}
-	g_TestVecOfTiles = {};
-	int s = 200;
-	for (int i = 0; i < s; i++)
-	{
-		for (int j = 0; j < s; j++)
-		{
-			Vector2 diff = Vector2(s, s) / 2.0 - Vector2(i, j);
-			if (diff.GetMagnitudeSqrd() > pow((double)s / 2.0, 2.0))
-				continue;
-
-			unsigned int col = i * j % 2 == 0 ? 0x0f0fffff : 0xffff00ff;
-			g_TestVecOfTiles.push_back(std::make_pair(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid)));
-		}
-	}
-
-	gp_TestTilemap->Container.AddBlockOfTiles(gp_TestArrayOfTiles, Vector2Int(50, 50), Vector2Int(300, 500), GameInstance::TimeInfo.CurrentTime);
-	gp_TestTilemap->Container.AddTiles(g_TestVecOfTiles.begin(), g_TestVecOfTiles.end(), Vector2Int(200, 200), GameInstance::TimeInfo.CurrentTime);
-
-	// -
-
 	for (int i = 0; i < 50; i++)
 	{
 		for (int j = 0; j < 50; j++)
@@ -154,7 +148,7 @@ void GenerateTilemap()
 			unsigned int col = i * j % 2 == 0 ? 0x00ff00ff : 0x0000ffff;
 			if (i + j * 50 * 50 == 50 * 50 - 1)
 				col = 0xffff00ff;
-			gp_TestTilemap->SetTile(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid));
+			gp_TestTilemap->AddTile(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid));
 		}
 	}
 

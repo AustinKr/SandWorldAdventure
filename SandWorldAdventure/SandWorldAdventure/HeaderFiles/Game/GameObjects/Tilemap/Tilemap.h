@@ -13,27 +13,20 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	class Tilemap : public IGameObject
 	{
 	private:
-		// A collection of new tiles that will replace the tilemap at the end of each game cycle
-		std::unordered_map<
-			Vector2Int,
-			Tile,
-			Vector2Hasher> m_PendingNewTiles;
+		static const int MAX_RAYCAST_STEPS;
+		static const int MAX_ADJACENT_TILES;
+		static const Vector2Int ADJACENT_TILE_POSITIONS[8];
 
-		const int MAX_RAYCAST_STEPS = 600;
-		const int MAX_ADJACENT_TILES = 3000;
-		const Vector2Int ADJACENT_TILE_POSITIONS[8] =
-		{
-			Vector2Int(-1,-1),
-			Vector2Int(0,-1),
-			Vector2Int(1,-1),
+		//// A collection of new tiles that will replace the tilemap at the end of each game cycle
 
-			Vector2Int(-1,1),
-			Vector2Int(0,1),
-			Vector2Int(1,1),
+		// TODO: Could make structs to store this information
 
-			Vector2Int(-1,0),
-			Vector2Int(1,0),
-		};
+		Vector2Int m_GreatestTileAdditionKey;
+		Vector2Int m_LeastTileRemovalKey;
+		// the second parameter is not used(char)
+		std::unordered_map<Vector2Int, char, Vector2Hasher> m_PendingTileRemovals;
+		std::unordered_map<Vector2Int, Tile, Vector2Hasher> m_PendingTileAdditions;
+
 	public:
 		
 		GraphicsPipeline::TilemapMesh* p_Mesh;
@@ -52,9 +45,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		// Inherited via IGameObject
 		virtual void Release() override;
 
-		//Set and remove are basically equivalent- the only major difference is the functionality or convenience they provide
-		bool SetTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride = true);
-		//Set and remove are basically equivalent- the only major difference is the functionality or convenience they provide
+		bool AddTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride = true);
 		bool RemoveTile(Vector2Int tilePosition);
 
 		// TODO: Create AddTiles and AddTileBlock functions in tilemap

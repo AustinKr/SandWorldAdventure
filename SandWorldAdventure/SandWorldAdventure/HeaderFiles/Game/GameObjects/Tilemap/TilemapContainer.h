@@ -2,6 +2,7 @@
 #include <vector>
 #include "Chunk.h"
 #include "HeaderFiles/Math.h"
+#include "HeaderFiles/Time.h"
 
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
@@ -93,14 +94,20 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 
 			return true;
 		}
-		template<typename Iter>
-		// Expects Iter to be of std::pair<Vector2Int, Tile>
-		//  and assumes that no tile has a key value < (0,0) on either axis
-		inline bool AddTiles(Iter tilesBegin, Iter tilesEnd, Vector2Int boundingBoxValue, double currentTime)
+		/// <summary>
+		/// Expects Iter to be of std::pair<Vector2Int, Tile>
+		/// Expects LambdaFunction to have the arguments (TILE_INFO tileInfo, Vector2Int tilePosition, Time timeInfo, unsigned int action)
+		///  and assumes that no tile has a key value < (0,0) on either axis
+		/// </summary>
+		/// <typeparam name="Iter"></typeparam>
+		/// <param name="greatestTileKey">The top right bounding box value of the collection</param>
+		/// <returns></returns>
+		template<typename Iter, typename LambdaFunction>
+		inline bool AddTiles(Iter tilesBegin, Iter tilesEnd, Vector2Int greatestTileKey, Time timeInfo, LambdaFunction OnAdd)
 		{
 			// try create more space
-			if (!IsTileInBounds(boundingBoxValue))
-				TryCreateChunks(boundingBoxValue);
+			if (!IsTileInBounds(greatestTileKey))
+				TryCreateChunks(greatestTileKey);
 
 			Chunk* pChunk;
 			Tile* pExistingTile;
@@ -116,11 +123,48 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 				// Change tile
 				*pExistingTile = currentIterator->second;
 				pExistingTile->HasValue = true;
-				pExistingTile->LastMoveTime = currentTime; // For physics
+				pExistingTile->LastMoveTime = timeInfo.CurrentTime; // For physics
+
+				// Allow extra functionality
+				OnAdd(std::make_pair(pChunk, pExistingTile), currentIterator->first, timeInfo, 1);
 			}
 
 			return true;
 		}
+		
+		// Expects Iter to be of std::pair<Vector2Int, unused>
+		// Expects LambdaFunction to have the arguments (TILE_INFO tileInfo, Vector2Int tilePosition, Time timeInfo, unsigned int action)
+		template<typename Iter, typename LambdaFunction>
+		inline bool RemoveTiles(Iter tilesBegin, Iter tilesEnd, Vector2Int leastTileKey, Time timeInfo, LambdaFunction OnRemove)
+		{
+			if (leastTileKey.X >= GetTileBounds().X ||
+				leastTileKey.Y >= GetTileBounds().Y)
+				return false;
+
+			Vector2Int chunkPosition;
+			Chunk* pChunk;
+			Tile* pExistingTile;
+			for (Iter currentIterator = tilesBegin; currentIterator != tilesEnd; currentIterator++)
+			{
+				if (currentIterator->first.X >= GetTileBounds().X ||
+					currentIterator->first.Y >= GetTileBounds().Y)
+					continue;
+				chunkPosition = TileToChunkCoordinates(currentIterator->first);
+				pChunk = GetChunk(chunkPosition.Y * GetChunkBounds().X + chunkPosition.X);
+				if (!IsChunkInitialized(pChunk))
+					continue;
+				pExistingTile = GetTileInChunk(pChunk, currentIterator->first);
+
+				// Change tile
+				if (pExistingTile->HasValue)
+					pChunk->NonEmptyTilesCount--;
+				pExistingTile->HasValue = false;
+
+				// Allow extra functionality
+				OnRemove(std::make_pair(pChunk, pExistingTile), currentIterator->first, timeInfo, 2);
+			}
+		}
+
 
 		// Swaps the tiles stored at each position (does not update). Also note that the swap will still occur even if both tiles are empty
 		void SwapTiles(TILE_INFO tileInfoA, Vector2Int positionA, TILE_INFO tileInfoB, Vector2Int positionB);

@@ -6,24 +6,37 @@
 
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
-	Tilemap::Tilemap()
+
+	const int Tilemap::MAX_RAYCAST_STEPS = 600;
+	const int Tilemap::MAX_ADJACENT_TILES = 8000;
+	const Vector2Int Tilemap::ADJACENT_TILE_POSITIONS[8] =
+	{
+		Vector2Int(-1,-1),
+		Vector2Int(0,-1),
+		Vector2Int(1,-1),
+
+		Vector2Int(-1,1),
+		Vector2Int(0,1),
+		Vector2Int(1,1),
+
+		Vector2Int(-1,0),
+		Vector2Int(1,0),
+	};
+
+	Tilemap::Tilemap() : m_PendingTileRemovals{}, m_PendingTileAdditions{}, Container{}
 	{
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
 		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
 
-		m_PendingNewTiles = {};
-		Container = {};
 		Container.AssignChunks(Vector2Int());
 		Position = Vector2(0, 0);
 		TileSize = Vector2(0, 0);
 	}
-	Tilemap::Tilemap(Vector2Int chunkBounds)
+	Tilemap::Tilemap(Vector2Int chunkBounds) : m_PendingTileRemovals{}, m_PendingTileAdditions{}, Container{}
 	{
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
 		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
 
-		m_PendingNewTiles = {};
-		Container = {};
 		Container.AssignChunks(chunkBounds);
 		Position = Vector2(0, 0);
 		TileSize = Vector2(0, 0);
@@ -32,51 +45,110 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	// Inherited via IGameObject
 	void Tilemap::Update(Time time)
 	{
+
+		//// - Apply pending tile changes -
+		//for (auto& iter : m_PendingNewTiles)
+		//{
+		//	if (tilesToUpdateList.size() + 1 > MAX_ADJACENT_TILES) // This check really shouldn't be needed mostly
+		//		break;
+
+		//	if (iter.second.HasValue)
+		//	{
+		//		tileInfo = Container.AddTile(iter.first, iter.second, time.CurrentTime); // Make change in container
+		//		if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_ADD)).second)
+		//			tilesToUpdateList.push_back(iter.first);
+		//		continue;
+		//	}
+
+		//	Container.RemoveTile(iter.first);
+		//	if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_REMOVE)).second)
+		//		tilesToUpdateList.push_back(iter.first);
+		//}
+		//m_PendingNewTiles.clear();
+
+
+		/*
+		if (m_TilesToUpdateDict.size() + 8 > MAX_ADJACENT_TILES)
+			{
+				fprintf(stdout, "Reached max adjacent tiles limit!!\n");
+				return false;
+			}
+			*/
+
 		std::unordered_map<
-			Vector2Int,
-			TileBehavior::TileActionTypes,
+			Vector2Int, // Position
+			unsigned int, // Action
 			Vector2Hasher> tilesToUpdateDict = {}; // Used to check if a position is already here
 		std::vector<Vector2Int> tilesToUpdateList = {}; // Used to iterate in chronological order
-		TilemapContainer::TILE_INFO tileInfo; // This placeholder is reused
 
-		// - Apply pending tile changes -
-		for (auto& iter : m_PendingNewTiles)
+		auto OnTileChange = [&](TilemapContainer::TILE_INFO tileInfo, Vector2Int tilePosition, Time timeInfo, unsigned int action)
 		{
-			if (tilesToUpdateList.size() + 1 > MAX_ADJACENT_TILES) // This check really shouldn't be needed mostly
-				break;
+			if (!TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, tilePosition, tileInfo, timeInfo, (TileBehavior::TileActionTypes)action))
+				return;
+			// Add to collections so we can update adjacent
+			tilesToUpdateDict.insert(std::make_pair(tilePosition, action));
+			tilesToUpdateList.push_back(tilePosition);
 
-			if (iter.second.HasValue)
-			{
-				tileInfo = Container.AddTile(iter.first, iter.second, time.CurrentTime); // Make change in container
-				if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_ADD)).second)
-					tilesToUpdateList.push_back(iter.first);
-				continue;
-			}
+			//// So it won't try to be updated again. action == Add(1) or Remove(2)
+			//if (tilesToUpdateDict.contains(tilePosition))
+			//	tilesToUpdateDict[tilePosition] = action;
+			//else
+			//	tilesToUpdateDict.insert(std::make_pair(tilePosition, action));
 
-			Container.RemoveTile(iter.first);
-			if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_REMOVE)).second)
-				tilesToUpdateList.push_back(iter.first);
-		}
-		m_PendingNewTiles.clear();
+			//// Update the tile
+			//if (!TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, tilePosition, tileInfo, timeInfo, (TileBehavior::TileActionTypes)action))
+			//	return;
 
-		fprintf(stdout, std::to_string(tilesToUpdateDict.size()).append("\n").c_str());
+			//// Insert adjacent
+			//Vector2Int currentAdjPosition;
+			//for (int i = 0; i < 8; i++)
+			//{
+			//	currentAdjPosition = tilePosition + ADJACENT_TILE_POSITIONS[i];
+
+			//	/*if (m_TilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_UPDATE)).second)
+			//		m_TilesToUpdateList.push_back(currentAdjPosition);*/
+			//	tilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_UPDATE));
+			//}
+		};
+
+		fprintf(stdout, std::to_string(m_PendingTileRemovals.size()).append(" r\n").c_str());
+		fprintf(stdout, std::to_string(m_PendingTileAdditions.size()).append(" a\n").c_str());
+
+		Container.RemoveTiles(m_PendingTileRemovals.begin(), m_PendingTileRemovals.end(), m_LeastTileRemovalKey, time, OnTileChange);
+		m_PendingTileRemovals.clear();
+
+		Container.AddTiles(m_PendingTileAdditions.begin(), m_PendingTileAdditions.end(), m_GreatestTileAdditionKey, time, OnTileChange);
+		m_PendingTileAdditions.clear();
+
+
+
+		//fprintf(stdout, std::to_string(tilesToUpdateDict.size()).append("\n").c_str());
+		//fprintf(stdout, std::to_string(tilesToUpdateList.size()).append("\n").c_str());
 
 		// - Update blocks of adjacent tiles -
 		Vector2Int currentAdjPosition, currentPosition;
+		TilemapContainer::TILE_INFO tileInfo;
 		for (int i = 0; i < tilesToUpdateList.size(); i++)
 		{
 			currentPosition = tilesToUpdateList.at(i);
-			tileInfo = Container.GetTileInChunk(currentPosition);
-			if (tileInfo.second == nullptr || !TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, currentPosition, tileInfo, time, tilesToUpdateDict.at(currentPosition)))
-				continue;
-			
-			// Debug feature -
-			/*
-			Vector2 currentWorldPosition = FromTileToWorld(currentPosition);
-			GameInstance::p_DebugServiceObject->CreateRectangle(currentWorldPosition + TileSize * 0.375, currentWorldPosition + TileSize * 0.75, .01, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
-			*/
-			// -
+			// Try update
+			if (tilesToUpdateDict[currentPosition] == TileBehavior::TILE_ACTION_UPDATE)
+			{
+				// Update tile
 
+				tileInfo = Container.GetTileInChunk(currentPosition);
+				if (tileInfo.second == nullptr || !TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, currentPosition, tileInfo, time, (TileBehavior::TileActionTypes)tilesToUpdateDict[currentPosition]))
+					continue; // Continue and don't append adjacent
+
+				// Debug feature -
+				/*
+				Vector2 currentWorldPosition = FromTileToWorld(currentPosition);
+				GameInstance::p_DebugServiceObject->CreateRectangle(currentWorldPosition + TileSize * 0.375, currentWorldPosition + TileSize * 0.75, .01, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+				*/
+				// -
+			}
+			
+			// Append adjacent
 			if (tilesToUpdateList.size() + 8 > MAX_ADJACENT_TILES)
 			{
 				fprintf(stdout, std::string("Reached max adjacent tiles limit!! ").append(std::to_string(time.CurrentTime)).append("\n").c_str());
@@ -91,11 +163,10 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			}
 		}
 
-		fprintf(stdout, std::to_string(tilesToUpdateList.size()).append("\n").c_str());
-		
 		// TODO: Make this more efficient cause we are reaching our limit way way too fast
-		// TODO: Could try to use addblock of tiles wherever we can using an algorithm to sort and group pending tile changes
-		// TODO: Store adjacent tiles overflow and update them next cycle?
+		// TODO: #1 Use gpu to get adjacent tiles and then update after
+		// TODO: #2 Could try to use addblock of tiles wherever we can using an algorithm to sort and group pending tile changes. acceleration structure possibly
+		// TODO: #3 Store adjacent tiles overflow and update them next cycle?
 	}
 	// Inherited via IGameObject
 	void Tilemap::Release()
@@ -109,43 +180,71 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		}
 	}
 
-	bool Tilemap::SetTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride)
+	bool Tilemap::AddTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride)
 	{
-		if (tilePosition.X < 0 || tilePosition.Y < 0)
+		if (tilePosition.X < 0 || tilePosition.Y < 0) // So it doesn't try to add into void
 			return false;
-		if (!shouldOverride && Container.ContainsTile(tilePosition))
+		if (!shouldOverride && Container.ContainsTile(tilePosition)) // Don't override existing container tiles if !shouldOverride
 			return false;
 
-		if (m_PendingNewTiles.contains(tilePosition))
+		newTile.HasValue = true; // Make sure it is known as addition
+
+		if (m_PendingTileAdditions.contains(tilePosition))
 		{
-			if (!shouldOverride && m_PendingNewTiles.at(tilePosition).HasValue)
+			if (!shouldOverride && m_PendingTileAdditions.at(tilePosition).HasValue) // Don't override existing additions if !shouldOverride
 				return false;
 
-			m_PendingNewTiles.at(tilePosition) = newTile;
+			m_PendingTileAdditions.at(tilePosition) = newTile; // Override
 			return true;
 		}
-		m_PendingNewTiles.insert(std::make_pair(tilePosition, newTile));
+
+		// Erase any existing removal
+		if (m_PendingTileRemovals.contains(tilePosition))
+			m_PendingTileRemovals.erase(tilePosition);
+		// Insert addition
+		m_PendingTileAdditions.insert(std::make_pair(tilePosition, newTile));
+		// For optimisation
+		if (m_PendingTileAdditions.size() == 0)
+			m_GreatestTileAdditionKey = tilePosition;
+		else
+		{
+			m_GreatestTileAdditionKey = { 
+				max(m_GreatestTileAdditionKey.X, tilePosition.X),
+				max(m_GreatestTileAdditionKey.Y, tilePosition.Y) };
+		}
 		return true;
 	}
 	bool Tilemap::RemoveTile(Vector2Int tilePosition)
 	{
-		Tile tile = {};
-		tile.HasValue = false;
-
-		if (m_PendingNewTiles.contains(tilePosition))
+		if (m_PendingTileRemovals.contains(tilePosition))
+			return false; // Nothing to override, removals don't have any data. Leave it the same
+		
+		// Find whether we should remove
+		bool shouldRemoveTile = false;
+		if (Container.ContainsTile(tilePosition))
+			shouldRemoveTile = true;
+		if (m_PendingTileAdditions.contains(tilePosition))
 		{
-			if (!Container.ContainsTile(tilePosition))
-			{	// Erase whatever is here because this is a removal and there is already nothing in the container
-				bool value = m_PendingNewTiles.at(tilePosition).HasValue;
-				m_PendingNewTiles.erase(tilePosition);
-				return value;
-			}
-			m_PendingNewTiles.at(tilePosition) = tile; // Else override the value
+			m_PendingTileAdditions.erase(tilePosition); // Erase any existing addition
+
+			if (!shouldRemoveTile) // Don't insert a removal if there is nothing in the container to remove, and we stopped the existing addition before it was applied
+				return true;
 		}
-		else if (!Container.ContainsTile(tilePosition))
+		if (!shouldRemoveTile)
 			return false;
+
+		// Insert removal
+		m_PendingTileRemovals.insert(std::make_pair(tilePosition, '\0')); // Remove tile! (Second param unused.)
+		// For optimisation
+		if (m_PendingTileRemovals.size() == 0)
+			m_LeastTileRemovalKey = tilePosition;
 		else
-			m_PendingNewTiles.insert(std::make_pair(tilePosition, tile));
+		{
+			m_LeastTileRemovalKey = {
+				min(m_LeastTileRemovalKey.X, tilePosition.X),
+				min(m_LeastTileRemovalKey.Y, tilePosition.Y) };
+		}
+
 		return true;
 	}
 	bool Tilemap::SwapTiles(Vector2Int tilePositionA, Vector2Int tilePositionB)
@@ -165,18 +264,18 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		if (existingB.second == nullptr || !existingB.second->HasValue)
 			RemoveTile(tilePositionA); // Remove because it is equivalent to tileB
 		else
-			SetTile(tilePositionA, *existingB.second, true); // Set to tileB (override is true because tileA still exists)
+			AddTile(tilePositionA, *existingB.second, true); // Set to tileB (override is true because tileA still exists)
 		
 		if (existingA.second == nullptr || !existingA.second->HasValue)
 			RemoveTile(tilePositionB); // Remove
 		else
-			SetTile(tilePositionB, *existingA.second, true); // Set
+			AddTile(tilePositionB, *existingA.second, true); // Set
 
 		return true; 
 	}
 	bool Tilemap::WillContainTile(Vector2Int tilePosition)
 	{
-		return Container.ContainsTile(tilePosition) && (!m_PendingNewTiles.contains(tilePosition) || m_PendingNewTiles.at(tilePosition).HasValue);
+		return Container.ContainsTile(tilePosition) || m_PendingTileAdditions.contains(tilePosition);
 	}
 
 	std::pair<double, TilemapContainer::TILE_INFO> Tilemap::Raycast(Vector2 origin, Vector2 direction, double end)
