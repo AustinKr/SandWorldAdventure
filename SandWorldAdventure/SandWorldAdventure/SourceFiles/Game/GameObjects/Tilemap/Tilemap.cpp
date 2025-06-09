@@ -3,6 +3,7 @@
 #include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/RenderLayerNames.h"
 #include "HeaderFiles/Game/GameInstance.h"
+#include <optional>
 
 namespace SandboxEngine::Game::GameObject::Tilemap
 {
@@ -88,42 +89,19 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			// Add to collections so we can update adjacent
 			tilesToUpdateDict.insert(std::make_pair(tilePosition, action));
 			tilesToUpdateList.push_back(tilePosition);
-
-			//// So it won't try to be updated again. action == Add(1) or Remove(2)
-			//if (tilesToUpdateDict.contains(tilePosition))
-			//	tilesToUpdateDict[tilePosition] = action;
-			//else
-			//	tilesToUpdateDict.insert(std::make_pair(tilePosition, action));
-
-			//// Update the tile
-			//if (!TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, tilePosition, tileInfo, timeInfo, (TileBehavior::TileActionTypes)action))
-			//	return;
-
-			//// Insert adjacent
-			//Vector2Int currentAdjPosition;
-			//for (int i = 0; i < 8; i++)
-			//{
-			//	currentAdjPosition = tilePosition + ADJACENT_TILE_POSITIONS[i];
-
-			//	/*if (m_TilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_UPDATE)).second)
-			//		m_TilesToUpdateList.push_back(currentAdjPosition);*/
-			//	tilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_UPDATE));
-			//}
 		};
 
 		fprintf(stdout, std::to_string(m_PendingTileRemovals.size()).append(" r\n").c_str());
 		fprintf(stdout, std::to_string(m_PendingTileAdditions.size()).append(" a\n").c_str());
+		
+		// Move the pending tiles into private collections to iterate
+		std::unordered_map<Vector2Int, char, Vector2Hasher> oldPendingTileRemovals = std::move(m_PendingTileRemovals);
+		std::unordered_map<Vector2Int, Tile, Vector2Hasher> oldPendingTileAdditions = std::move(m_PendingTileAdditions);
+		m_PendingTileRemovals = {}, m_PendingTileAdditions = {}; // Clear up pending tiles for next game cycle
 
-		Container.RemoveTiles(m_PendingTileRemovals.begin(), m_PendingTileRemovals.end(), m_LeastTileRemovalKey, time, OnTileChange);
-		m_PendingTileRemovals.clear();
-
-		Container.AddTiles(m_PendingTileAdditions.begin(), m_PendingTileAdditions.end(), m_GreatestTileAdditionKey, time, OnTileChange);
-		m_PendingTileAdditions.clear();
-
-
-
-		//fprintf(stdout, std::to_string(tilesToUpdateDict.size()).append("\n").c_str());
-		//fprintf(stdout, std::to_string(tilesToUpdateList.size()).append("\n").c_str());
+		Container.RemoveTiles(oldPendingTileRemovals.begin(), oldPendingTileRemovals.end(), m_LeastTileRemovalKey, time, OnTileChange);
+		Container.AddTiles(oldPendingTileAdditions.begin(), oldPendingTileAdditions.end(), m_GreatestTileAdditionKey, time, OnTileChange);
+		
 
 		// - Update blocks of adjacent tiles -
 		Vector2Int currentAdjPosition, currentPosition;
@@ -140,16 +118,16 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 				if (tileInfo.second == nullptr || !TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, currentPosition, tileInfo, time, (TileBehavior::TileActionTypes)tilesToUpdateDict[currentPosition]))
 					continue; // Continue and don't append adjacent
 
-				// Debug feature -
-				/*
-				Vector2 currentWorldPosition = FromTileToWorld(currentPosition);
-				GameInstance::p_DebugServiceObject->CreateRectangle(currentWorldPosition + TileSize * 0.375, currentWorldPosition + TileSize * 0.75, .01, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
-				*/
-				// -
+				//// Debug feature -
+				//
+				//Vector2 currentWorldPosition = FromTileToWorld(currentPosition);
+				//GameInstance::p_DebugServiceObject->CreateRectangle(currentWorldPosition + TileSize * 0.375, currentWorldPosition + TileSize * 0.75, .01, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
+				//
+				//// -
 			}
 			
 			// Append adjacent
-			if (tilesToUpdateList.size() + 8 > MAX_ADJACENT_TILES)
+			if (tilesToUpdateList.size() + 8 > MAX_ADJACENT_TILES) // TODO: Better way to check for the limit if you calculate it and designate space first(this reduces checks)
 			{
 				fprintf(stdout, std::string("Reached max adjacent tiles limit!! ").append(std::to_string(time.CurrentTime)).append("\n").c_str());
 				break;
@@ -253,23 +231,37 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			tilePositionB.X < 0 || tilePositionB.Y < 0 ||
 			(tilePositionA == tilePositionB))
 			return false;
+		
+		Tile *pExistingTileA = Container.GetTileInChunk(tilePositionA).second,
+			 *pExistingTileB = Container.GetTileInChunk(tilePositionB).second;
 
-		TilemapContainer::TILE_INFO existingA = Container.GetTileInChunk(tilePositionA);
-		TilemapContainer::TILE_INFO existingB = Container.GetTileInChunk(tilePositionB);
+		std::optional<Tile> tileA = {}, tileB = {};
 
-		if (existingA.second == nullptr && existingB.second == nullptr)
-			return false;
+		if (pExistingTileA != nullptr) // Try get from existing container tile
+			tileA = *pExistingTileA;
+		else if(m_PendingTileAdditions.contains(tilePositionA)) // Try get from pending tile additions
+			tileA = m_PendingTileAdditions[tilePositionA]; // Copy tile
+
+		if (pExistingTileB != nullptr) // Try get from existing container tile
+			tileB = *pExistingTileB;
+		else if (m_PendingTileAdditions.contains(tilePositionB)) // Try get from pending tile additions
+			tileB = m_PendingTileAdditions[tilePositionB]; // Copy tile
+
+		if ((!tileA.has_value() && !tileB.has_value()) ||
+			(!tileA.value().HasValue && !tileB.value().HasValue))
+			return false; // Couldn't find tiles to swap
+
 		// Swap
 
-		if (existingB.second == nullptr || !existingB.second->HasValue)
-			RemoveTile(tilePositionA); // Remove because it is equivalent to tileB
+		if (tileB.has_value() && tileB.value().HasValue)
+			AddTile(tilePositionA, tileB.value(), true);// Set to tileB (override is true because tileA still exists)
 		else
-			AddTile(tilePositionA, *existingB.second, true); // Set to tileB (override is true because tileA still exists)
-		
-		if (existingA.second == nullptr || !existingA.second->HasValue)
-			RemoveTile(tilePositionB); // Remove
+			RemoveTile(tilePositionA); // Equivalent to tileB
+
+		if (tileA.has_value() && tileA.value().HasValue)
+			AddTile(tilePositionB, tileA.value(), true);// Set to tileA (override is true because tileB still exists)
 		else
-			AddTile(tilePositionB, *existingA.second, true); // Set
+			RemoveTile(tilePositionB); // Equivalent to tileA
 
 		return true; 
 	}

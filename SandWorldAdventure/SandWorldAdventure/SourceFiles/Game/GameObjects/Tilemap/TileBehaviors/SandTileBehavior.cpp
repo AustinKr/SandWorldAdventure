@@ -30,7 +30,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		if (tileInfo.second != nullptr && tileInfo.second->HasValue)
 		{
 			if (!pTilemap->WillContainTile(tilePosition - Vector2Int(0, 1)))
-				pTilemap->AddTile(tilePosition - Vector2Int(0,1), *tileInfo.second, false);// pTilemap->SwapTiles(tilePosition, tilePosition - Vector2Int(0, 1)); // Note: nothing has actually changed yet at this point
+				/*pTilemap->AddTile(tilePosition - Vector2Int(0,1), *tileInfo.second, false);*/ pTilemap->SwapTiles(tilePosition, tilePosition - Vector2Int(0, 1)); // Note: nothing has actually changed yet at this point
 		/*	else if(!pTilemap->WillContainTile(tilePosition - Vector2Int(1, 0)))
 				pTilemap->SwapTiles(tilePosition, tilePosition - Vector2Int(1, 0));
 			else if (!pTilemap->WillContainTile(tilePosition + Vector2Int(1, 0)))
