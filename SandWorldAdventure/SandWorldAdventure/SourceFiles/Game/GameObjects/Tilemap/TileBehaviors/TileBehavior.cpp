@@ -11,21 +11,6 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		(TileBehavior*)new SandTileBehavior(),
 	};
 
-	double TileBehavior::TryStepMoveTile(
-		Tilemap* pTilemap,
-		Vector2 tilePosition,
-		Vector2 direction,
-		double end)
-	{
-		std::pair<double, TilemapContainer::TILE_INFO> hit = pTilemap->Raycast(tilePosition, direction, end);
-		if (hit.first < 1)
-			return 0;
-		// Raycast succeeded !
-
-		Vector2 newTilePosition = direction * hit.first + tilePosition;
-		pTilemap->SwapTiles(tilePosition, newTilePosition);
-		return hit.first;
-	}
 
 	TileBehavior* TileBehavior::GetTileBehavior(int behaviorIndex)
 	{

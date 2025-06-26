@@ -23,7 +23,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 
 		Vector2Int m_GreatestTileAdditionKey;
 		Vector2Int m_LeastTileRemovalKey;
-		// the second parameter is not used(char)
+		// This is also to be used for refreshes if char == '\1'
 		std::unordered_map<Vector2Int, char, Vector2Hasher> m_PendingTileRemovals;
 		std::unordered_map<Vector2Int, Tile, Vector2Hasher> m_PendingTileAdditions;
 
@@ -51,6 +51,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		// TODO: Create AddTiles and AddTileBlock functions in tilemap
 
 		bool SwapTiles(Vector2Int tilePositionA, Vector2Int tilePositionB);
+		void RefreshTile(Vector2Int tilePosition);
 		bool WillContainTile(Vector2Int tilePosition);
 
 		/// <summary>
@@ -62,6 +63,11 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		/// <returns>the distance traveled before it hit the tile(or null) in front which is returned through tile info</returns>
 		std::pair<double, TilemapContainer::TILE_INFO> Raycast(Vector2 origin, Vector2 direction, double end);
 		
+		double TryStepMoveTile(
+			Vector2 tilePosition,
+			Vector2 direction,
+			double end);
+
 		Vector2 FromWorldToTile(Vector2 world);
 		Vector2 FromTileToWorld(Vector2 tile);
 

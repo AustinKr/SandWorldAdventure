@@ -84,6 +84,8 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 
 		auto OnTileChange = [&](TilemapContainer::TILE_INFO tileInfo, Vector2Int tilePosition, Time timeInfo, unsigned int action)
 		{
+			// TODO: Not all pending tile changes are applied at this point and are completly unkown to the currently updated tiles
+
 			if (!TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, tilePosition, tileInfo, timeInfo, (TileBehavior::TileActionTypes)action))
 				return;
 			// Add to collections so we can update adjacent
@@ -110,7 +112,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		{
 			currentPosition = tilesToUpdateList.at(i);
 			// Try update
-			if (tilesToUpdateDict[currentPosition] == TileBehavior::TILE_ACTION_UPDATE)
+			if (tilesToUpdateDict[currentPosition] == TileBehavior::TILE_ACTION_REFRESH)
 			{
 				// Update tile
 
@@ -136,7 +138,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			{
 				currentAdjPosition = currentPosition + ADJACENT_TILE_POSITIONS[ii];
 				
-				if (tilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_UPDATE)).second)
+				if (tilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_REFRESH)).second)
 					tilesToUpdateList.push_back(currentAdjPosition);
 			}
 		}
@@ -195,8 +197,12 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	bool Tilemap::RemoveTile(Vector2Int tilePosition)
 	{
 		if (m_PendingTileRemovals.contains(tilePosition))
-			return false; // Nothing to override, removals don't have any data. Leave it the same
-		
+		{
+			if (m_PendingTileRemovals.at(tilePosition) != '\1')
+				return false; // Nothing to override, removals don't have any data. Leave it the same
+			m_PendingTileRemovals.erase(tilePosition); // Erase the tile refresh
+		}
+
 		// Find whether we should remove
 		bool shouldRemoveTile = false;
 		if (Container.ContainsTile(tilePosition))
@@ -212,7 +218,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			return false;
 
 		// Insert removal
-		m_PendingTileRemovals.insert(std::make_pair(tilePosition, '\0')); // Remove tile! (Second param unused.)
+		m_PendingTileRemovals.insert(std::make_pair(tilePosition, '\0')); // Remove tile!
 		// For optimisation
 		if (m_PendingTileRemovals.size() == 0)
 			m_LeastTileRemovalKey = tilePosition;
@@ -247,8 +253,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		else if (m_PendingTileAdditions.contains(tilePositionB)) // Try get from pending tile additions
 			tileB = m_PendingTileAdditions[tilePositionB]; // Copy tile
 
-		if ((!tileA.has_value() && !tileB.has_value()) ||
-			(!tileA.value().HasValue && !tileB.value().HasValue))
+		if ((!tileA.has_value() && !tileB.has_value()))
 			return false; // Couldn't find tiles to swap
 
 		// Swap
@@ -265,6 +270,10 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 
 		return true; 
 	}
+	void Tilemap::RefreshTile(Vector2Int tilePosition)
+	{
+		m_PendingTileRemovals.insert(std::make_pair(tilePosition, '\1')); // char == '\1' for refreshes
+	}
 	bool Tilemap::WillContainTile(Vector2Int tilePosition)
 	{
 		return Container.ContainsTile(tilePosition) || m_PendingTileAdditions.contains(tilePosition);
@@ -277,16 +286,32 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		Vector2 currentPosition;
 		double distance = 0;
 		TilemapContainer::TILE_INFO hitTileInfo = std::make_pair(nullptr, nullptr);
-		for (distance = 1; distance < floor(end) && distance < MAX_RAYCAST_STEPS; distance++)
+		for (distance; (distance + 1) < floor(end) && distance < MAX_RAYCAST_STEPS; distance++)
 		{
-			currentPosition = origin + Vector2(.5, .5) + direction * distance;
+			currentPosition = origin + Vector2(.5, .5) + direction * (distance+1); // (distance+1) so that the tile we are starting from is skipped
+			if (!Container.IsTileInBounds(currentPosition) || WillContainTile(currentPosition))
+				return std::make_pair(distance, TilemapContainer::TILE_INFO(nullptr, nullptr));
 			hitTileInfo = Container.GetTileInChunk(currentPosition);
-			if (hitTileInfo.second == nullptr)
-				continue;
-			if (hitTileInfo.second->HasValue)
-				return std::make_pair(distance - 1, hitTileInfo);
+			if (hitTileInfo.second != nullptr && hitTileInfo.second->HasValue)
+				return std::make_pair(distance, hitTileInfo);
 		}
-		return std::make_pair(distance, hitTileInfo);
+
+		return std::make_pair(distance, std::make_pair(nullptr, nullptr)); // Either made it all the way to the end or didn't iterate at all
+	}
+
+	double Tilemap::TryStepMoveTile(
+		Vector2 tilePosition,
+		Vector2 direction,
+		double end)
+	{
+		std::pair<double, TilemapContainer::TILE_INFO> hit = Raycast(tilePosition, direction, end);
+		if (hit.first < 1)
+			return 0;
+		// Raycast succeeded !
+
+		Vector2 newTilePosition = direction * hit.first + tilePosition;
+		SwapTiles(tilePosition, newTilePosition);
+		return hit.first;
 	}
 
 	// TODO: This can be Vector2Int

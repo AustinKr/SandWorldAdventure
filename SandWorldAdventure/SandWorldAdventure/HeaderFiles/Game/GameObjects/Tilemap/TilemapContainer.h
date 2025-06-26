@@ -132,7 +132,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			return true;
 		}
 		
-		// Expects Iter to be of std::pair<Vector2Int, unused>
+		// Expects Iter to be of std::pair<Vector2Int, char>
 		// Expects LambdaFunction to have the arguments (TILE_INFO tileInfo, Vector2Int tilePosition, Time timeInfo, unsigned int action)
 		template<typename Iter, typename LambdaFunction>
 		inline bool RemoveTiles(Iter tilesBegin, Iter tilesEnd, Vector2Int leastTileKey, Time timeInfo, LambdaFunction OnRemove)
@@ -155,13 +155,15 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 					continue;
 				pExistingTile = GetTileInChunk(pChunk, currentIterator->first);
 
-				// Change tile
-				if (pExistingTile->HasValue)
-					pChunk->NonEmptyTilesCount--;
-				pExistingTile->HasValue = false;
-
+				if (currentIterator->second != '\1') // when char == '\1' it is a tile refresh
+				{
+					// Change tile
+					if (pExistingTile->HasValue)
+						pChunk->NonEmptyTilesCount--;
+					pExistingTile->HasValue = false;
+				}
 				// Allow extra functionality
-				OnRemove(std::make_pair(pChunk, pExistingTile), currentIterator->first, timeInfo, 2);
+				OnRemove(std::make_pair(pChunk, pExistingTile), currentIterator->first, timeInfo, currentIterator->second == '\1' ? 4 : 2); // 4 is refresh, 2 is remove
 			}
 		}
 

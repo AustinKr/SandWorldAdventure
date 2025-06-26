@@ -12,17 +12,11 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		{
 			TILE_ACTION_ADD = 1,
 			TILE_ACTION_REMOVE = 2,
-			TILE_ACTION_UPDATE = 4,
+			TILE_ACTION_REFRESH = 4,
 		};
 
 		static const TileBehavior* TILE_BEHAVIORS[2];
 		
-		static double TryStepMoveTile(
-			Tilemap* pTilemap,
-			Vector2 tilePosition, 
-			Vector2 direction, 
-			double end);
-
 		static TileBehavior* GetTileBehavior(int behaviorIndex);
 		static void ReleaseTileBehaviors();
 
