@@ -9,7 +9,6 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 	struct IShaderType
 	{
 	public:
-		const char* PROJECT_DIRECTORY = "C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/";
 
 		// Creates and compiles shaders from shader code. Also creates a program and attaches shader to it.
 		virtual int Compile(IGraphicsPipeline* pPipeline) = 0;

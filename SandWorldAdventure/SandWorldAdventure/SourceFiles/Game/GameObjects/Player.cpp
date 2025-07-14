@@ -13,7 +13,7 @@ namespace SandboxEngine::Game::GameObject
 
 		// GraphicsPipeline2D::Release() releases registered mesh data
 		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
-		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh); // Register the mesh
+		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh, 0); // Register the mesh
 
 		mp_Mesh->Scale = float2(15.0f, 30.0f);
 		mp_Mesh->Vertices =

@@ -13,12 +13,12 @@
 #FRAGMENT
     #version 330
 
-    uniform vec3 ShadeColor;
+    uniform vec4 ShadeColor;
 
     in vec3 uv;
     out vec4 fragment;
     void main()
     {
-        fragment = vec4(ShadeColor, 1);
+        fragment = vec4(ShadeColor);
     }
 #ENDFRAGMENT

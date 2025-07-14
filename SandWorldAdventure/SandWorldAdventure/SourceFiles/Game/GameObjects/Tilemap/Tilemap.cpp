@@ -27,7 +27,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	Tilemap::Tilemap() : m_PendingTileRemovals{}, m_PendingTileAdditions{}, Container{}
 	{
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
-		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
+		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh, 0);
 
 		Container.AssignChunks(Vector2Int());
 		Position = Vector2(0, 0);
@@ -36,7 +36,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	Tilemap::Tilemap(Vector2Int chunkBounds) : m_PendingTileRemovals{}, m_PendingTileAdditions{}, Container{}
 	{
 		p_Mesh = new GraphicsPipeline::TilemapMesh(this);
-		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh);
+		MasterWindow::Pipeline.GetLayer(RenderLayerNames::RENDERLAYERS_Tilemap0).RegisterMesh(p_Mesh, 0);
 
 		Container.AssignChunks(chunkBounds);
 		Position = Vector2(0, 0);

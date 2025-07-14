@@ -24,7 +24,7 @@ namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 	ShaderType::ShaderType(std::string name, std::string filepath, Shaders::BaseShaderInformation* pShaderInformation) : m_Name(name), mp_VertexShader(0), mp_FragmentShader(0), p_ShaderInformation(pShaderInformation)
 	{
 		// Load shaders' code
-		std::string shaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(PROJECT_DIRECTORY).append(filepath).c_str());
+		std::string shaderCode = GraphicsPipeline2D::LoadShaderCodeFromFile(std::string(GraphicsPipeline2D::PROJECT_DIRECTORY).append(filepath).c_str());
 		
 		if (!ParseCode(shaderCode, &m_VertexShaderCode, &m_FragmentShaderCode))
 		{

@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include "Texture.h"
 
 #define GRAPHICS_PIPELINE2D_H
 namespace SandboxEngine::GraphicsPipeline
@@ -32,19 +33,19 @@ namespace SandboxEngine::GraphicsPipeline
 		/// <returns> The count of shaders that failed to compile </returns>
 		virtual int CompileShaders() override;
 	public:
+		static const char* PROJECT_DIRECTORY;
+		
 		enum
 		{
 			GP2D_BASE_SHADER = 0,
 			GP2D_TILEMAP_SHADER = 1,
 			GP2D_PLAYER_SHADER = 2,
+			GP2D_TEXTURE_SHADER = 3
 		};
 
 		Camera ActiveCamera;
 
-		inline GraphicsPipeline2D() : m_VertexBufferName(0), mp_VertexArray(0), m_Layers{}, ActiveCamera{}, m_AllShaderObjects{}, m_UniformVariableLocations{}
-		{
-			/*nothing*/
-		}
+		GraphicsPipeline2D();
 
 		void InsertLayer(int index, RenderLayer& rLayer);
 		void InsertLayer(int index, RenderLayer&& rLayer);

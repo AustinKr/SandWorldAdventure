@@ -56,6 +56,7 @@ namespace SandboxEngine
 		Vector2Int(int x, int y);
 
 		operator Vector2() const;
+		operator float2() const;
 
 		static int GetMagnitudeSqrd(Vector2Int v);
 		int GetMagnitudeSqrd() const;
@@ -94,6 +95,7 @@ namespace SandboxEngine
 		float Y;
 
 		operator Vector2() const;
+		operator Vector2Int() const;
 		
 		float2 operator *(float other) const;
 		float2 operator /(float other) const;

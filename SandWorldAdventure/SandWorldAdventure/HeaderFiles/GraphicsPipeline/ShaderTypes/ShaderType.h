@@ -7,6 +7,7 @@
 namespace SandboxEngine::GraphicsPipeline::ShaderTypes
 {
 	// The default shader used for most objects that provides fragment and vertex shader capabilities
+	//TODO: Rename to something like DefaultShaderType or GeometryShaderType/ShapeShaderType or VertexFragmentShaderType
 	struct ShaderType : IShaderType
 	{
 	private:

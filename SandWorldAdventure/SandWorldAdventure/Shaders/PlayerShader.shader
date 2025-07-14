@@ -18,7 +18,7 @@
     out vec4 fragment;
     void main()
     {
-        float greyscale = (uv.x + uv.y) / 2.0f;
-        fragment = vec4(greyscale,greyscale/2.0f,greyscale/2.0f,1 );
+        float greyscale = 0.5f;
+        fragment = vec4(greyscale,greyscale,greyscale, 1 );
     }
 #ENDFRAGMENT

@@ -1,24 +1,23 @@
 #pragma once
 #include "Meshes/IMesh.h"
 #include <string>
-#include <unordered_map>
-#include <optional> 
+#include <map>
 
 namespace SandboxEngine::GraphicsPipeline
 {
 	class RenderLayer
 	{
-	public: typedef unsigned long UID;
+	public: typedef int UID;
 
 	private:
 		// Contains the addresses of each mesh
-		std::unordered_map<UID, IMesh*> m_Meshes; // TODO: Could further divide frontground and background with a map of int, iMesh*
-		UID m_Next;
+		std::map<UID, IMesh*> m_Meshes;
+		
 	public:
 		std::string Name;
 
-		inline RenderLayer() : Name({}), m_Meshes({}), m_Next{ 0 } {}
-		inline RenderLayer(std::string name) : Name(name), m_Meshes({}), m_Next{ 0 } {}
+		inline RenderLayer() : Name({}), m_Meshes({}) {}
+		inline RenderLayer(std::string name) : Name(name), m_Meshes({}) {}
 
 		inline int MeshesCount()
 		{
@@ -31,16 +30,12 @@ namespace SandboxEngine::GraphicsPipeline
 				return nullptr;
 			return m_Meshes.at(identifier);
 		}
-		inline std::unordered_map<UID, IMesh*>::iterator begin() { return m_Meshes.begin(); }
-		inline std::unordered_map<UID, IMesh*>::iterator end() { return m_Meshes.end(); }
+		inline std::map<UID, IMesh*>::iterator begin() { return m_Meshes.begin(); }
+		inline std::map<UID, IMesh*>::iterator end() { return m_Meshes.end(); }
 
-		inline std::optional<UID> RegisterMesh(IMesh* pMesh)
+		inline bool RegisterMesh(IMesh* pMesh, UID id)
 		{
-			auto pair = m_Meshes.insert(std::make_pair(m_Next++, pMesh));
-			if (!pair.second)
-				return {};
-
-			return pair.first->first;
+			return m_Meshes.insert(std::make_pair(id, pMesh)).second;
 		}
 		inline bool UnregisterMesh(UID identifier)
 		{

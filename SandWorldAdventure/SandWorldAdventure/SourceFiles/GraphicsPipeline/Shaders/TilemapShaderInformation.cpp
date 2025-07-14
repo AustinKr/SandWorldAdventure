@@ -4,15 +4,13 @@
 namespace SandboxEngine::GraphicsPipeline::Shaders
 {
 	int TilemapShaderInformation::UpdateVertexData(
-		IGraphicsPipeline* pPipeline,
+		IGraphicsPipeline *pPipeline,
 		GLuint vertexBufferName,
 		GLuint pVertexArray,
 		const Vertex* pVertexBuffer,
 		std::pair<unsigned int* const, Vector2Int> tilemapBuffer)
 	{
 		int returnCode = IGraphicsPipeline::GP_SUCCESS;
-
-		// TODO: (Maybe) Use a texture and simply send a limited amount of detail in tiles instead of a quadtree because it is less data most of the time
 		
 		if (tilemapBuffer.first != nullptr)
 		{
@@ -34,6 +32,7 @@ namespace SandboxEngine::GraphicsPipeline::Shaders
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferName);
 		glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), pVertexBuffer, GL_STREAM_DRAW); // Mutable buffer storage
 		glBindVertexArray(pVertexArray);
+		((GraphicsPipeline2D*)pPipeline)->TryPrintGlError();
 
 		// Get the variables we know are contained in the linked program
 		p_Position = ((GraphicsPipeline2D*)pPipeline)->TryEnableVertexAttribute(p_Program, "vPos", 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, pos));

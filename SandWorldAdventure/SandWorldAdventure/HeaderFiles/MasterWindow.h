@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
+#include "HeaderFiles/GUISystem/GUISystem.h"
 
 namespace SandboxEngine
 {
@@ -20,6 +21,7 @@ namespace SandboxEngine
 		static void CreateMainWindow();
 		static void SetEventCallbacks();
 		static void InitializeGraphics();
+		static void InitializeGUI();
 
 		// Callbacks
 
@@ -33,10 +35,15 @@ namespace SandboxEngine
 
 		// The graphics pipeline
 		static SandboxEngine::GraphicsPipeline::GraphicsPipeline2D Pipeline;
+		// The graphical user interface system
+		static SandboxEngine::GUISystem::GUISystem UserInterfaceSystem;
 
 		// Initializes glfw and glew and creates a window.
 		static void InitializeWindow();
 		static void Release();
+
+		static Vector2Int GetScreenSize();
+		static void SetScreenSize(Vector2Int size);
 
 		/// <returns>GLFW_RELEASE or GLFW_PRESS and includes mouse buttons</returns>
 		static int GetKeyState(int glfwKey);

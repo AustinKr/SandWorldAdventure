@@ -96,6 +96,10 @@ namespace SandboxEngine
 	{
 		return Vector2(X, Y);
 	}
+	Vector2Int::operator float2() const
+	{
+		return float2(X, Y);
+	}
 
 	int Vector2Int::GetMagnitudeSqrd(Vector2Int v) { return v.X * v.X + v.Y * v.Y; }
 	int Vector2Int::GetMagnitudeSqrd() const { return GetMagnitudeSqrd(*this); }
@@ -186,6 +190,10 @@ namespace SandboxEngine
 	float2::operator Vector2() const
 	{
 		return Vector2(X, Y);
+	}
+	float2::operator Vector2Int() const
+	{
+		return Vector2Int(X, Y);
 	}
 
 	float2 float2::operator *(float other) const

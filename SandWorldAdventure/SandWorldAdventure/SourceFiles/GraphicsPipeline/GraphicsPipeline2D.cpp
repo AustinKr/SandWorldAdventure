@@ -1,11 +1,19 @@
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
 #include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
 #include "HeaderFiles/GraphicsPipeline/Shaders/ShaderInformation.h"
+#include "HeaderFiles/GraphicsPipeline/Shaders/TextureShaderInformation.h"
 #include "HeaderFiles/GraphicsPipeline/Shaders/TilemapShaderInformation.h"
 #include <fstream>
 
 namespace SandboxEngine::GraphicsPipeline
 {
+	const char* GraphicsPipeline2D::PROJECT_DIRECTORY = "C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/";
+
+	GraphicsPipeline2D::GraphicsPipeline2D() : m_VertexBufferName(0), mp_VertexArray(0), m_Layers{}, ActiveCamera{}, m_AllShaderObjects{}, m_UniformVariableLocations{}
+	{
+		/*nothing*/
+	}
+
 	int GraphicsPipeline2D::CompileShaders()
 	{
 		int failedCount = IGraphicsPipeline::GP_SUCCESS;
@@ -72,6 +80,68 @@ namespace SandboxEngine::GraphicsPipeline
 
 		return dataString;
 	}
+	/**
+	Texture GraphicsPipeline2D::LoadPNGTextureFromFile(const char* fullFilePath)
+	{
+		
+		//Header(1byte) + 4
+		//ascii IDHR(1byte) + 4
+		//width(4bytes)
+		//height(4bytes)
+		//(1byte each) bit depth, colr type, compression method, filter method, interlace method
+		//
+
+
+		std::ifstream inputStream(fullFilePath, std::ios::binary); // TODO: Could reuse the input stream
+		if (!inputStream.is_open())
+		{
+			fprintf(stderr, std::string("Failed to open PNG file path: ").append(fullFilePath).c_str());
+#ifdef _DEBUG
+			throw std::invalid_argument("Invalid file path!");
+#endif
+			return {};
+		}
+		// Get begin, end, and size
+		std::streampos begin, end;
+		begin = inputStream.tellg();;
+		end = inputStream.seekg(0, std::ios::end).tellg();
+		int size = end - begin - 12 - 17; // Skip the header(8) + 4, and skip the idhr chunk(17)
+		
+		// Read
+		char *pData = new char[17];
+		inputStream.seekg(12, std::ios::beg);
+		inputStream.read(pData, 17);
+		
+		unsigned short width = pData[7], height = pData[11], 
+					   bitDepth = pData[12], colorType = pData[13], 
+						compression = pData[14], filter = pData[15],
+						interlace = pData[16]; // 13 bytes total
+
+		for (int i = 0; i < size; i++)
+		{
+			fprintf(stdout, std::to_string((unsigned int)pData[i]).append(" | ").c_str());
+		}
+		delete[](pData);
+
+		//TODO: Put only pixel color information in tex.Data
+		inputStream.seekg(12 + 17, std::ios::beg);
+		char* pPixels = new char[size];
+		inputStream.read(pPixels, size);
+
+		// Close
+		inputStream.close();
+
+		Texture tex = Texture{ pPixels, size };
+		tex.Size = Vector2Int(width, height);
+
+		for (int i = 0; i < size; i++)
+		{
+			fprintf(stdout, std::to_string((unsigned int)pPixels[i]).append(" | ").c_str());
+		}
+
+		return tex;
+	}**/
+
 
 	void GraphicsPipeline2D::RegisterShader(ShaderTypes::IShaderType* pShader)
 	{
@@ -106,7 +176,8 @@ namespace SandboxEngine::GraphicsPipeline
 				fprintf(stderr, pInfoLog);
 			fprintf(stderr, "\n");
 		}
-
+		TryPrintGlError();
+			
 		return -1;
 	}
 
@@ -154,10 +225,12 @@ namespace SandboxEngine::GraphicsPipeline
 			fprintf(stderr, std::to_string(program).append(std::string("; failed to find location of shader attribute ").append(pName).append("\n")).c_str());
 #endif
 #endif
+			TryPrintGlError();
 			return -1;
 		}
 		glEnableVertexAttribArray(location); // Enable the attribute to be accessed and used for rendering
 		glVertexAttribPointer(location, size, type, GL_FALSE, stride, pAttribute);
+		TryPrintGlError();
 		return location;
 	}
 	int GraphicsPipeline2D::UpdateUniformLocation(int program, std::string name)
@@ -175,8 +248,10 @@ namespace SandboxEngine::GraphicsPipeline
 			fprintf(stderr, std::string("failed to find location of uniform shader variable: ").append(name).append("\n").c_str());
 #endif
 #endif
+			TryPrintGlError();
 			return -1;
 		}
+		TryPrintGlError();
 		return 1;
 	}
 	GLint GraphicsPipeline2D::GetUniformLocation(std::string name)
@@ -194,11 +269,13 @@ namespace SandboxEngine::GraphicsPipeline
 		// Generate the array that will be used to draw triangles
 		glGenVertexArrays(1, &mp_VertexArray);
 
-		// - Add shaders -
+		// - Add shaders(order dependent) -
 		RegisterShader(new ShaderTypes::ShaderType("DefaultShader", "Shaders/DefaultShader.shader", new Shaders::ShaderInformation())); // GP2D_BASE_SHADER
 		RegisterShader(new ShaderTypes::ShaderType("TilemapShader", "Shaders/TilemapShader.shader", new Shaders::TilemapShaderInformation())); // GP2D_TILEMAP_SHADER
 		RegisterShader(new ShaderTypes::ShaderType("PlayerShader", "Shaders/PlayerShader.shader", new Shaders::ShaderInformation())); // GP2D_PLAYER_SHADER
-		
+		// TODO: Actually send texture to shader
+		RegisterShader(new ShaderTypes::ShaderType("TextureShader", "Shaders/TextureShader.shader", new Shaders::TextureShaderInformation())); // GP2D_TEXTURE_SHADER
+
 		// - Compile -
 		int shadersErrorCode = CompileShaders();
 		if (shadersErrorCode != GraphicsPipeline::IGraphicsPipeline::GP_SUCCESS)
@@ -219,6 +296,7 @@ namespace SandboxEngine::GraphicsPipeline
 
 			for(auto meshIter = layer.begin(); meshIter != layer.end(); meshIter++)
 			{
+				TryPrintGlError();
 				meshIter->second->Render(this, m_VertexBufferName, mp_VertexArray);
 			}
 		}

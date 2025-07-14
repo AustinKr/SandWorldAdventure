@@ -149,6 +149,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\FileUtility.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SolidTileBehavior.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.cpp" />
@@ -157,10 +158,15 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\Mesh.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\TilemapMesh.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\TextureShaderInformation.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\ShaderTypes\ShaderType.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\DebugObject.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Texture.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Elements\GUIElement.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Elements\GUISprite.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\GUISystem.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\MasterWindow.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Player.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Math.cpp" />
@@ -170,6 +176,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\FileUtility.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Chunk.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tile.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\FluidTileBehavior.h" />
@@ -186,8 +193,13 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\IMesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\TilemapMesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\ShaderInformation.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TextureShaderInformation.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\ShaderTypes\IShaderType.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ElementAlignmentFlags.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Elements\GUIElement.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Elements\GUISprite.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUISystem.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Math.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\Mesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h" />
@@ -209,7 +221,9 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\ShaderInformation.cpp" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\BaseShaderInformation.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Texture.h" />
     <None Include="SandWorldAdventure\Shaders\PlayerShader.shader" />
+    <None Include="SandWorldAdventure\Shaders\TextureShader.shader" />
     <None Include="SandWorldAdventure\Shaders\TilemapShader.shader">
       <FileType>Document</FileType>
     </None>

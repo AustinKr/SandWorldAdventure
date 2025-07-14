@@ -120,7 +120,7 @@ namespace SandboxEngine::GraphicsPipeline
 	{
 		//StaticQuadtree quadtree = CreateOnScreenTilesBuffer();
 		auto buffer = CreateOnScreenTilesBuffer();
-
+		
 		// Get the shader and its information which allows us to communicate with specific glsl code
 		ShaderTypes::ShaderType* pShader = pPipeline->TryGetShader<ShaderTypes::ShaderType>(GraphicsPipeline::GraphicsPipeline2D::GP2D_TILEMAP_SHADER);
 		Shaders::TilemapShaderInformation* pShaderInformation = (Shaders::TilemapShaderInformation*)pShader->p_ShaderInformation;

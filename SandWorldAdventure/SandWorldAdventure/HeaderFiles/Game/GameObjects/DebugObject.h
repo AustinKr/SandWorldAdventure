@@ -11,7 +11,7 @@ namespace SandboxEngine::Game::GameObject
 	private:
 		// <pair<mesh uid, lifetime>>
 		std::vector<std::pair<unsigned long, double>> m_Meshes;
-	
+		int m_NextID;
 	public:
 
 		DebugObject();

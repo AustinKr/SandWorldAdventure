@@ -5,7 +5,7 @@
 
 namespace SandboxEngine::Game::GameObject
 {
-	DebugObject::DebugObject() : m_Meshes{}
+	DebugObject::DebugObject() : m_Meshes{}, m_NextID{0}
 	{
 	}
 
@@ -39,9 +39,9 @@ namespace SandboxEngine::Game::GameObject
 
 	void DebugObject::CreatePolygon(GraphicsPipeline::IMesh* pMesh, double lifeTime)
 	{
-		std::optional<unsigned long> uid = MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Debug).RegisterMesh(pMesh); // Register the mesh
-		if(uid.has_value())
-			m_Meshes.push_back(std::make_pair(uid.value(), lifeTime));
+		bool succeeded = MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Debug).RegisterMesh(pMesh, m_NextID++); // Register the mesh
+		if(succeeded)
+			m_Meshes.push_back(std::make_pair(m_NextID, lifeTime));
 	}
 	void DebugObject::CreateRectangle(Vector2 bottomLeft, Vector2 topRight, double lifeTime, int shader)
 	{

@@ -1,6 +1,7 @@
 // This file contains the entry point and initializes everything. It also contains game logic
 
 #include "HeaderFiles/MasterWindow.h"
+#include "HeaderFiles/GUISystem/Elements/GUIElement.h"
 #include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
 #include "HeaderFiles/GraphicsPipeline/Shaders/ShaderInformation.h"
 
@@ -92,10 +93,6 @@ void InitializeGame()
 
 void RunGameLoopCycle()
 {
-	// Set color of default shader
-	GraphicsPipeline::ShaderTypes::ShaderType* pShader = MasterWindow::Pipeline.TryGetShader<GraphicsPipeline::ShaderTypes::ShaderType>(GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
-	GraphicsPipeline::Shaders::ShaderInformation* shaderInfo = ((GraphicsPipeline::Shaders::ShaderInformation*)pShader->p_ShaderInformation);
-	shaderInfo->SetShadeColor(&MasterWindow::Pipeline, float3(1, 0, 1));
 	/*
 	Vector2 tr = gp_TestTilemap->FromTileToWorld(gp_TestTilemap->Container.GetTileBounds()),
 		bl = gp_TestTilemap->Position;
