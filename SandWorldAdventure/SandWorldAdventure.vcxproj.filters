@@ -114,10 +114,7 @@
     <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\GUISystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Elements\GUIElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Elements\GUISprite.cpp">
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\GUIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Shaders\TextureShaderInformation.cpp">
@@ -127,6 +124,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SandWorldAdventure\SourceFiles\FileUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\GUIHierarchy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Components\GUISpriteComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Components\GUIButtonComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -239,10 +245,7 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUISystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Elements\GUIElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Elements\GUISprite.h">
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TextureShaderInformation.h">
@@ -255,6 +258,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ElementAlignmentFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ButtonEventFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\EventHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\DelegateTypes\IEventDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\DelegateTypes\IGUIButtonEventDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUIHierarchy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUITransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\IGUIComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\GUISpriteComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUISystemFramework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\GUIButtonComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

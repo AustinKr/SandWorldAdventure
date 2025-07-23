@@ -164,8 +164,10 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\DebugObject.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameInstance.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Texture.cpp" />
-    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Elements\GUIElement.cpp" />
-    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Elements\GUISprite.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Components\GUIButtonComponent.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Components\GUISpriteComponent.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\GUIElement.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\GUIHierarchy.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\GUISystem.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\MasterWindow.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Player.cpp" />
@@ -176,6 +178,9 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\DelegateTypes\IGUIButtonEventDelegate.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\EventHandler.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\DelegateTypes\IEventDelegate.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\FileUtility.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Chunk.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tile.h" />
@@ -196,10 +201,16 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TextureShaderInformation.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Shaders\TilemapShaderInformation.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\ShaderTypes\IShaderType.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ButtonEventFlags.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\GUIButtonComponent.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\GUISpriteComponent.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\IGUIComponent.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ElementAlignmentFlags.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Elements\GUIElement.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Elements\GUISprite.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUIElement.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUIHierarchy.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUISystem.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUISystemFramework.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUITransform.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Math.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Meshes\Mesh.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\RenderLayer.h" />

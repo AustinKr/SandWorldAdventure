@@ -1,7 +1,9 @@
 // This file contains the entry point and initializes everything. It also contains game logic
 
 #include "HeaderFiles/MasterWindow.h"
-#include "HeaderFiles/GUISystem/Elements/GUIElement.h"
+#include "HeaderFiles/GUISystem/Components/GUISpriteComponent.h"
+#include "HeaderFiles/GUISystem/Components/GUIButtonComponent.h"
+#include "HeaderFiles/RenderLayerNames.h"
 #include "HeaderFiles/GraphicsPipeline/ShaderTypes/ShaderType.h"
 #include "HeaderFiles/GraphicsPipeline/Shaders/ShaderInformation.h"
 
@@ -16,8 +18,32 @@ using namespace SandboxEngine;
 using namespace SandboxEngine::Game;
 using namespace SandboxEngine::Game::GameObject;
 
+// Temporary struct
+struct TestButtonEventDelegate : Event::IGUIButtonEventDelegate
+{
+	TestButtonEventDelegate() : IGUIButtonEventDelegate()
+	{
+		/*nothing*/
+	}
+	TestButtonEventDelegate(int flags) : IGUIButtonEventDelegate(flags)
+	{
+		/*nothing*/
+	}
+
+	virtual void Invoke(void *pArgs) override
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			fprintf(stdout, "\n\n\nButton Pressed!\n\n");
+		}
+		Sleep(100);
+	}
+};
+
 // - Forward declarations -
 void InitializeGame();
+void InitializeGraphics();
+void InitializeGUI();
 void RunGameLoopCycle();
 void Release();
 // Game stuff
@@ -32,8 +58,8 @@ int main(void)
 {
 	// Creates a window and nearly everything else necessary relating to openGL
 	MasterWindow::InitializeWindow();
-
-	// Initialize Game
+	InitializeGraphics();
+	InitializeGUI();
 	InitializeGame();
 
 	GameInstance::TimeInfo = {};
@@ -89,6 +115,58 @@ void InitializeGame()
 	pPlayer = new Player(gp_TestTilemap);
 	GameInstance::RegisterGameObject("MainPlayer", pPlayer); // Create player object (player will create its mesh)
 
+}
+void InitializeGraphics()
+{
+	// Initialize camera
+	int width, height;
+	glfwGetWindowSize(MasterWindow::p_glfwWindow, &width, &height);
+	MasterWindow::Pipeline.ActiveCamera.ScreenSize = SandboxEngine::Vector2Int(width, height);
+	MasterWindow::Pipeline.ActiveCamera.Scale = SandboxEngine::Vector2(150, 150);
+	MasterWindow::Pipeline.ActiveCamera.Origin = SandboxEngine::Vector2(0, 0);
+
+	// Create layers
+	MasterWindow::Pipeline.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
+	MasterWindow::Pipeline.InsertLayer(RENDERLAYERS_Objects, { "Objects" });
+	MasterWindow::Pipeline.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
+	MasterWindow::Pipeline.InsertLayer(RENDERLAYERS_GUI, { "GUI" });
+	MasterWindow::Pipeline.InsertLayer(RENDERLAYERS_Debug, { "Debug" });
+
+	// TODO: Game specific shaders(those that are not basic and required for every graphics pipeline) should really be registered here
+}
+void InitializeGUI()
+{
+	// Create button component
+	auto pButton = new GUISystem::Components::GUIButtonComponent();
+	// Subscribe event
+	pButton->ButtonEventHandler.SubscribeEvent(new TestButtonEventDelegate());
+
+	// Create element
+	GUISystem::GUIElement* pTestElement = new GUISystem::GUIElement(&MasterWindow::UserInterfaceSystem, GUISystem::GUIHierarchy::NULL_UID);
+	// Register componenets
+	pTestElement->RegisterComponent(new GUISystem::Components::GUISpriteComponent(0, std::string(GraphicsPipeline::GraphicsPipeline2D::PROJECT_DIRECTORY).append("Resources/GUI/Background.bmp").c_str()));
+	pTestElement->RegisterComponent(pButton);
+	// Set transform
+	pTestElement->SetTransform({ 0.1,0 }, {.5, .8}, true);
+	// Register element
+	MasterWindow::UserInterfaceSystem.p_Hierarchy->RegisterElement(pTestElement);
+
+	// Other operations
+	GUISystem::GUITransform globalCoord = pTestElement->GetTransform();
+	pTestElement->SetTransform(globalCoord.GlobalPosition, globalCoord.GlobalScale, false);
+
+
+
+	//GUISystem::GUISprite* pElement = new GUISystem::GUISprite(&MasterWindow::UserInterfaceSystem, 0, std::string(GraphicsPipeline::GraphicsPipeline2D::PROJECT_DIRECTORY).append("Resources/GUI/Background.bmp").c_str());
+	//pElement->SetPosition(Vector2(25, 25), GUISystem::ALIGNMENT_LEFT | GUISystem::ALIGNMENT_BOTTOM);
+	//pElement->SetScale(Vector2(100, -100), GUISystem::ALIGNMENT_LEFT | GUISystem::ALIGNMENT_TOP);
+	//MasterWindow::UserInterfaceSystem.RegisterElement(pElement); // Needed for resizing and other stuff
+
+	//GUISystem::GUIButton* pButton = new GUISystem::GUIButton(&MasterWindow::UserInterfaceSystem);
+	//pButton->SetPosition({ 0, 0 });
+	//pButton->SetScale({ 200, 200 });
+	//pButton->ButtonEventHandler.SubscribeEvent(new TestButtonEventDelegate());
+	//MasterWindow::UserInterfaceSystem.RegisterElement(pButton);
 }
 
 void RunGameLoopCycle()

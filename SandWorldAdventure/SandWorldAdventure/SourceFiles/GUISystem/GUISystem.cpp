@@ -1,44 +1,37 @@
-#include "HeaderFiles/GUISystem/GUISystem.h"
-#include "HeaderFiles/GUISystem/Elements/GUIElement.h"
+#include "HeaderFiles/GUISystem/GUISystemFramework.h"
+
 #include "HeaderFiles/RenderLayerNames.h"
+
 
 namespace SandboxEngine::GUISystem
 {
-	GUISystem::GUISystem() : p_Pipeline(nullptr), m_UIDNext(0), m_ElementsRegistry{}
+	const GUIHierarchy::UID GUIHierarchy::NULL_UID = 0;
+
+	GUISystem::GUISystem() : p_Hierarchy(nullptr), p_Pipeline(nullptr)
 	{
 		/*nothing*/
 	}
-	bool GUISystem::Initialize(GraphicsPipeline::GraphicsPipeline2D* pPipeline) 
+	bool GUISystem::Initialize(GraphicsPipeline::GraphicsPipeline2D* pPipeline)
 	{
+		p_Hierarchy = new GUIHierarchy(this);
 		p_Pipeline = pPipeline;
 		return pPipeline != nullptr;
 	}
-	void GUISystem::OnScreenResize(Vector2Int newSize)
-	{
-		for (auto &rElement : m_ElementsRegistry)
-		{
-			rElement.second->OnScreenResize(newSize);
-		}
-	}
 
-	void GUISystem::RegisterElement(GUIElement* pElement)
-	{
-		pElement->p_System = this;
-		m_ElementsRegistry.insert(std::make_pair(m_UIDNext++, pElement));
-	}
-	void GUISystem::UnregisterElement(UID id)
-	{
-		m_ElementsRegistry.erase(id);
-	}
-	GUIElement* GUISystem::GetElement(UID id)
-	{
-		return m_ElementsRegistry[id];
-	}
+	//void GUISystem::OnScreenResize(Vector2Int newSize)
+	//{
+	//	// TODO: I don't think this is needed because there will be gui renderer which will figure out mesh data for elements when needed
+	//	/*for(auto iter = p_Hierarchy->GetBegin(); iter != p_Hierarchy->GetEnd(); iter++)
+	//	{
+	//		iter->second->OnScreenResize(newSize);
+	//	}*/
+	//}
 
 	void GUISystem::RegisterMesh(GraphicsPipeline::IMesh* pMesh, int id)
 	{
 		p_Pipeline->GetLayer(RENDERLAYERS_GUI).RegisterMesh(pMesh, id); // This will automatically be deleted after this point so we don't have to worry about memory leaks
 	}
+
 	GraphicsPipeline::Mesh* GUISystem::CreateTextureMesh(Vector2 origin, Vector2 size, const char* fullTexturePath)
 	{
 		GraphicsPipeline::Mesh* pMesh = new GraphicsPipeline::Mesh(false);
@@ -66,10 +59,7 @@ namespace SandboxEngine::GUISystem
 
 	void GUISystem::Release()
 	{
-		for (auto pair : m_ElementsRegistry)
-		{
-			pair.second->Release();
-		}
-		m_ElementsRegistry.clear();
+		p_Hierarchy->Release();
+		p_Hierarchy = nullptr;
 	}
 }

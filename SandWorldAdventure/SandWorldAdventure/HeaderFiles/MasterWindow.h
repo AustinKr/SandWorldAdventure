@@ -6,7 +6,8 @@
 #include <GLFW/glfw3.h>
 
 #include "HeaderFiles/GraphicsPipeline/GraphicsPipeline2D.h"
-#include "HeaderFiles/GUISystem/GUISystem.h"
+#include "HeaderFiles/GUISystem/GUISystemFramework.h"
+#include "HeaderFiles/Event/EventHandler.h"
 
 namespace SandboxEngine
 {
@@ -19,9 +20,7 @@ namespace SandboxEngine
 
 		static int InitializeGLFW();
 		static void CreateMainWindow();
-		static void SetEventCallbacks();
-		static void InitializeGraphics();
-		static void InitializeGUI();
+		static void SetGLFWEventCallbacks();
 
 		// Callbacks
 
@@ -38,12 +37,16 @@ namespace SandboxEngine
 		// The graphical user interface system
 		static SandboxEngine::GUISystem::GUISystem UserInterfaceSystem;
 
+		// Has no arguments. Use GetKeyState(int) to detect keys
+		static Event::EventHandler<> KeyStrokeEventHandler;
+		// Has no arguments. Use GeyKeyState(int) to detect mouse buttons
+		static Event::EventHandler<> MouseButtonEventHandler;
+		// Has int[2] with width and height as arguments
+		static Event::EventHandler<> ScreenResizeEventHandler;
+
 		// Initializes glfw and glew and creates a window.
 		static void InitializeWindow();
 		static void Release();
-
-		static Vector2Int GetScreenSize();
-		static void SetScreenSize(Vector2Int size);
 
 		/// <returns>GLFW_RELEASE or GLFW_PRESS and includes mouse buttons</returns>
 		static int GetKeyState(int glfwKey);
