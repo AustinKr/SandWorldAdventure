@@ -28,8 +28,12 @@ namespace SandboxEngine::GUISystem
 	//}
 
 	void GUISystem::RegisterMesh(GraphicsPipeline::IMesh* pMesh, int id)
-	{
-		p_Pipeline->GetLayer(RENDERLAYERS_GUI).RegisterMesh(pMesh, id); // This will automatically be deleted after this point so we don't have to worry about memory leaks
+	{	
+		// This will automatically be deleted after this point so we don't have to worry about memory leaks
+		if (id >= 0)
+			p_Pipeline->GetLayer(RENDERLAYERS_GUI).RegisterMesh(pMesh, id);
+		else
+			p_Pipeline->GetLayer(RENDERLAYERS_GUI).RegisterMesh(pMesh);
 	}
 
 	GraphicsPipeline::Mesh* GUISystem::CreateTextureMesh(Vector2 origin, Vector2 size, const char* fullTexturePath)

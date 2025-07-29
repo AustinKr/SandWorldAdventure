@@ -16,7 +16,7 @@ namespace SandboxEngine
 	GLFWwindow* MasterWindow::p_glfwWindow;
 
 	SandboxEngine::GraphicsPipeline::GraphicsPipeline2D MasterWindow::Pipeline;
-	SandboxEngine::GUISystem::GUISystem MasterWindow::UserInterfaceSystem;
+	SandboxEngine::GUISystem::GUISystem MasterWindow::GraphicalUserInterfaceSystem;
 
 	Event::EventHandler<> MasterWindow::KeyStrokeEventHandler;
 	Event::EventHandler<> MasterWindow::MouseButtonEventHandler;
@@ -72,6 +72,7 @@ namespace SandboxEngine
 	{
 		glViewport(0, 0, width, height); // Update the viewport to the same size as the buffer so the window coordinates are correctly computed
 		Pipeline.ActiveCamera.ScreenSize = SandboxEngine::Vector2Int(width, height);
+		GraphicalUserInterfaceSystem.p_Hierarchy->UpdateAllTransforms();
 
 		// Invoke events
 		int *pArgs = new int[2] {width, height};
@@ -134,7 +135,7 @@ namespace SandboxEngine
 
 		// Initialize other systems
 		Pipeline.Initialize();
-		UserInterfaceSystem.Initialize(&Pipeline);
+		GraphicalUserInterfaceSystem.Initialize(&Pipeline);
 	}
 
 	void MasterWindow::Release()
@@ -145,7 +146,7 @@ namespace SandboxEngine
 		MasterWindow::ScreenResizeEventHandler.Release();
 
 		// Release other
-		UserInterfaceSystem.Release();
+		GraphicalUserInterfaceSystem.Release();
 		Pipeline.Release();
 		glfwDestroyWindow(MasterWindow::p_glfwWindow);
 	}

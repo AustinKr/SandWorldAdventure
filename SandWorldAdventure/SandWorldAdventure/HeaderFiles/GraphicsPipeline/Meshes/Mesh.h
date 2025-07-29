@@ -12,6 +12,9 @@ namespace SandboxEngine::GraphicsPipeline
 		void TransformVertexCoordinates(GraphicsPipeline::GraphicsPipeline2D* pPipeline, Vertex buffer[3]);
 
 	public:
+		// Whether to draw the mesh
+		bool IsActive;
+
 		// This gets added to the vertex positions when rendering
 		float2 Origin;
 		// This is multiplied with the vertex positions when rendering

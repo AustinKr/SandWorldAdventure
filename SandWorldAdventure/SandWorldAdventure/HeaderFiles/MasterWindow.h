@@ -35,7 +35,7 @@ namespace SandboxEngine
 		// The graphics pipeline
 		static SandboxEngine::GraphicsPipeline::GraphicsPipeline2D Pipeline;
 		// The graphical user interface system
-		static SandboxEngine::GUISystem::GUISystem UserInterfaceSystem;
+		static SandboxEngine::GUISystem::GUISystem GraphicalUserInterfaceSystem;
 
 		// Has no arguments. Use GetKeyState(int) to detect keys
 		static Event::EventHandler<> KeyStrokeEventHandler;

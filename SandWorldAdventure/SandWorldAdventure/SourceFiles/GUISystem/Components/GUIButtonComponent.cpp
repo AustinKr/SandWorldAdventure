@@ -5,6 +5,11 @@
 
 namespace SandboxEngine::GUISystem::Components
 {
+	ComponentTags GUIButtonComponent::GetTag()
+	{
+		return ComponentTags::COMPONENT_TAG_BUTTON;
+	}
+
 	void GUIButtonComponent::Initialize(GUIElement* pElement)
 	{
 		// Subscribe event

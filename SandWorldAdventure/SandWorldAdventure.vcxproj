@@ -155,6 +155,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\Tilemap.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TilemapContainer.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\PlayerInventoryGUI.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\Mesh.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\TilemapMesh.cpp" />
@@ -191,6 +192,9 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehaviorNames.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tilemap.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapContainer.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\BasicItem.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\Inventory.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\PlayerInventoryGUI.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Camera.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipeline2D.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipelineFramework.h" />
@@ -205,6 +209,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\GUIButtonComponent.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\GUISpriteComponent.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\IGUIComponent.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ComponentTags.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ElementAlignmentFlags.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUIElement.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUIHierarchy.h" />

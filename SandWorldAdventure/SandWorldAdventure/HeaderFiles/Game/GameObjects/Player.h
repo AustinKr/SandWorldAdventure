@@ -1,7 +1,11 @@
 #pragma once
 #include "IGameObject.h"
 #include "HeaderFiles/GraphicsPipeline/Meshes/Mesh.h"
+#include "HeaderFiles/Game/Inventory/Inventory.h"
+#include "HeaderFiles/Game/Inventory/BasicItem.h"
+#include "HeaderFiles/Game/Inventory/PlayerInventoryGUI.h"
 
+#define PLAYER_H
 namespace SandboxEngine::Game::GameObject
 {
 	class Player : public IGameObject
@@ -14,6 +18,9 @@ namespace SandboxEngine::Game::GameObject
 		bool m_ShouldAddTile;
 		IGameObject* const mp_Tilemap;
 	public:
+		Inventory::Inventory<Inventory::BasicItem> CurrentInventory;
+		Inventory::PlayerInventoryGUI InventoryGUI;
+
 		double AccX;
 		double AccY;
 		double Speed;

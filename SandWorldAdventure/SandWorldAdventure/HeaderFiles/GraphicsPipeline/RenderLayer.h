@@ -12,12 +12,12 @@ namespace SandboxEngine::GraphicsPipeline
 	private:
 		// Contains the addresses of each mesh
 		std::map<UID, IMesh*> m_Meshes;
-		
+		UID m_NextID;
 	public:
 		std::string Name;
 
-		inline RenderLayer() : Name({}), m_Meshes({}) {}
-		inline RenderLayer(std::string name) : Name(name), m_Meshes({}) {}
+		inline RenderLayer() : m_NextID{}, Name({}), m_Meshes({}) {}
+		inline RenderLayer(std::string name) : m_NextID{}, Name(name), m_Meshes({}) {}
 
 		inline int MeshesCount()
 		{
@@ -35,8 +35,16 @@ namespace SandboxEngine::GraphicsPipeline
 
 		inline bool RegisterMesh(IMesh* pMesh, UID id)
 		{
-			return m_Meshes.insert(std::make_pair(id, pMesh)).second;
+			bool succeeded = m_Meshes.insert(std::make_pair(id, pMesh)).second;
+			if (succeeded)
+				m_NextID = id + 1;
+			return succeeded;
 		}
+		inline bool RegisterMesh(IMesh* pMesh)
+		{
+			return m_Meshes.insert(std::make_pair(m_NextID++, pMesh)).second;
+		}
+
 		inline bool UnregisterMesh(UID identifier)
 		{
 			if (!m_Meshes.contains(identifier))

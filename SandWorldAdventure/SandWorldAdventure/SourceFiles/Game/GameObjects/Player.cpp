@@ -1,16 +1,20 @@
 #include "HeaderFiles/Game/GameObjects/Player.h"
+
+#include "HeaderFiles/GUISystem/GUISystemFramework.h"
 #include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/RenderLayerNames.h"
+
 #include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/TileBehaviors/TileBehaviorNames.h"
 
 namespace SandboxEngine::Game::GameObject
 {
-	Player::Player(IGameObject* pTilemap) : mp_Tilemap(pTilemap), AccX(0), AccY(0), m_Vel({}), m_Dampening(.98), Speed{80.0}, CameraFollowSpeed{2}, m_ShouldAddTile(0), m_ShouldBreakTile(0)
+	Player::Player(IGameObject* pTilemap) : CurrentInventory{}, InventoryGUI{ this }, mp_Tilemap(pTilemap), AccX(0), AccY(0), m_Vel({}), m_Dampening(.98), Speed{ 80.0 }, CameraFollowSpeed{ 2 }, m_ShouldAddTile(0), m_ShouldBreakTile(0)
 	{
 		if (mp_Tilemap == nullptr)
 			throw std::exception("Tilemap cannot be nullptr!");
 
+		// - Create mesh -
 		// GraphicsPipeline2D::Release() releases registered mesh data
 		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
 		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh, 0); // Register the mesh
@@ -32,6 +36,8 @@ namespace SandboxEngine::Game::GameObject
 		{
 			0, 2, GraphicsPipeline::GraphicsPipeline2D::GP2D_PLAYER_SHADER
 		};
+
+		CurrentInventory.Assign({ 5,2 });
 	}
 
 	Vector2 Player::GetPosition()
@@ -113,5 +119,6 @@ namespace SandboxEngine::Game::GameObject
 		// Not realy necessary unless player is for some reason deleted prior to the application termination
 
 		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
+		CurrentInventory.Release();
 	}
 }

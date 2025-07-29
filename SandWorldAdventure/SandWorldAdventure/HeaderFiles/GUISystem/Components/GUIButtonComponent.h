@@ -8,6 +8,8 @@ namespace SandboxEngine::GUISystem::Components
 	struct GUIButtonComponent : public IGUIComponent
 	{
 	public:
+		virtual ComponentTags GetTag() override;
+
 		// Subscribes to MouseButtonEventHandler in MasterWindow
 		virtual void Initialize(GUIElement* pElement) override;
 		virtual void Release() override;

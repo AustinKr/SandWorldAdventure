@@ -135,6 +135,9 @@
     <ClCompile Include="SandWorldAdventure\SourceFiles\GUISystem\Components\GUIButtonComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\PlayerInventoryGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\MasterWindow.h">
@@ -288,6 +291,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\Components\GUIButtonComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\Inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\PlayerInventoryGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ComponentTags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\BasicItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

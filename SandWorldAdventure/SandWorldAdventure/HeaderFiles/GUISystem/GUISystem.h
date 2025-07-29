@@ -32,7 +32,7 @@ namespace SandboxEngine::GUISystem
 		/// </summary>
 		/// <param name="prMesh"></param>
 		/// <param name="id">used to identify the mesh in a map, and from -infinity to infinity as the order to iterate when drawing from background to foreground respectively</param>
-		void RegisterMesh(GraphicsPipeline::IMesh* pMesh, int id);
+		void RegisterMesh(GraphicsPipeline::IMesh* pMesh, int id = -1);
 
 		// Does not register the mesh
 		GraphicsPipeline::Mesh* CreateTextureMesh(Vector2 origin, Vector2 size, const char* fullTexturePath);

@@ -136,37 +136,24 @@ void InitializeGraphics()
 }
 void InitializeGUI()
 {
-	// Create button component
-	auto pButton = new GUISystem::Components::GUIButtonComponent();
-	// Subscribe event
-	pButton->ButtonEventHandler.SubscribeEvent(new TestButtonEventDelegate());
-
-	// Create element
-	GUISystem::GUIElement* pTestElement = new GUISystem::GUIElement(&MasterWindow::UserInterfaceSystem, GUISystem::GUIHierarchy::NULL_UID);
-	// Register componenets
-	pTestElement->RegisterComponent(new GUISystem::Components::GUISpriteComponent(0, std::string(GraphicsPipeline::GraphicsPipeline2D::PROJECT_DIRECTORY).append("Resources/GUI/Background.bmp").c_str()));
-	pTestElement->RegisterComponent(pButton);
-	// Set transform
-	pTestElement->SetTransform({ 0.1,0 }, {.5, .8}, true);
-	// Register element
-	MasterWindow::UserInterfaceSystem.p_Hierarchy->RegisterElement(pTestElement);
-
-	// Other operations
-	GUISystem::GUITransform globalCoord = pTestElement->GetTransform();
-	pTestElement->SetTransform(globalCoord.GlobalPosition, globalCoord.GlobalScale, false);
-
-
-
-	//GUISystem::GUISprite* pElement = new GUISystem::GUISprite(&MasterWindow::UserInterfaceSystem, 0, std::string(GraphicsPipeline::GraphicsPipeline2D::PROJECT_DIRECTORY).append("Resources/GUI/Background.bmp").c_str());
-	//pElement->SetPosition(Vector2(25, 25), GUISystem::ALIGNMENT_LEFT | GUISystem::ALIGNMENT_BOTTOM);
-	//pElement->SetScale(Vector2(100, -100), GUISystem::ALIGNMENT_LEFT | GUISystem::ALIGNMENT_TOP);
-	//MasterWindow::UserInterfaceSystem.RegisterElement(pElement); // Needed for resizing and other stuff
-
-	//GUISystem::GUIButton* pButton = new GUISystem::GUIButton(&MasterWindow::UserInterfaceSystem);
-	//pButton->SetPosition({ 0, 0 });
-	//pButton->SetScale({ 200, 200 });
+	//// Create button component
+	//auto pButton = new GUISystem::Components::GUIButtonComponent();
+	//// Subscribe event
 	//pButton->ButtonEventHandler.SubscribeEvent(new TestButtonEventDelegate());
-	//MasterWindow::UserInterfaceSystem.RegisterElement(pButton);
+
+	//// Create element
+	//GUISystem::GUIElement* pTestElement = new GUISystem::GUIElement(&MasterWindow::UserInterfaceSystem, GUISystem::GUIHierarchy::NULL_UID);
+	//// Register componenets
+	//pTestElement->RegisterComponent(new GUISystem::Components::GUISpriteComponent(0, std::string(GraphicsPipeline::GraphicsPipeline2D::PROJECT_DIRECTORY).append("Resources/GUI/Background.bmp").c_str()));
+	//pTestElement->RegisterComponent(pButton);
+	//// Set transform
+	//pTestElement->SetTransform({ 0.1,0 }, {.5, .8}, true);
+	//// Register element
+	//MasterWindow::UserInterfaceSystem.p_Hierarchy->RegisterElement(pTestElement);
+
+	//// Other operations
+	//GUISystem::GUITransform globalCoord = pTestElement->GetTransform();
+	//pTestElement->SetTransform(globalCoord.GlobalPosition, globalCoord.GlobalScale, false);
 }
 
 void RunGameLoopCycle()

@@ -4,6 +4,11 @@
 
 namespace SandboxEngine::GUISystem::Components
 {
+	ComponentTags GUISpriteComponent::GetTag()
+	{
+		return ComponentTags::COMPONENT_TAG_SPRITE;
+	}
+
 	void GUISpriteComponent::Initialize(GUIElement* pElement)
 	{
 		// Mesh
@@ -22,6 +27,10 @@ namespace SandboxEngine::GUISystem::Components
 	GUISpriteComponent::GUISpriteComponent(int meshID, const char* imagePath) : m_MeshID(meshID), m_ImagePath(imagePath)
 	{/*nothing*/}
 
+	GraphicsPipeline::Mesh* GUISpriteComponent::GetMesh()
+	{
+		return mp_Mesh;
+	}
 
 	// - Event -
 	GUISpriteComponent::TransformEventDelegate::TransformEventDelegate(GUISpriteComponent* pSprite) : mp_Sprite(pSprite)

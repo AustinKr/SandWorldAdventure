@@ -19,13 +19,16 @@ namespace SandboxEngine::GraphicsPipeline
 		buffer[2].pos = pPipeline->ActiveCamera.ScreenToViewport(buffer[2].pos * Scale + Origin) * 2.0 - Vector2(1, 1);
 	}
 
-	Mesh::Mesh(bool useWorldCoordinates) : Origin{}, Scale(1,1), Vertices{}, Triangles{}, Shaders{}, UseWorldCoordinates(useWorldCoordinates), Texture{}, color{1,1,1,1}
+	Mesh::Mesh(bool useWorldCoordinates) : IsActive(true), Origin{}, Scale(1,1), Vertices{}, Triangles{}, Shaders{}, UseWorldCoordinates(useWorldCoordinates), Texture{}, color{1,1,1,1}
 	{
 		/*nothing*/
 	}
 
 	void Mesh::Render(GraphicsPipeline::GraphicsPipeline2D* pPipeline, GLuint vertexBufferName, GLuint pVertexArray)
 	{
+		if (!IsActive)
+			return;
+			
 		Vertex vertexBuffer[3] = { {}, {}, {} };
 
 		for (int s = 0; s < Shaders.size() / 3; s++) // mesh.Shaders should be a multiple of 3

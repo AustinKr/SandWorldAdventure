@@ -8,9 +8,13 @@ namespace SandboxEngine::GUISystem::Components
 	struct GUISpriteComponent : public IGUIComponent
 	{
 	public:
+		virtual ComponentTags GetTag() override;
+
 		// Creates mesh
 		virtual void Initialize(GUIElement* pElement) override;
 		virtual void Release() override;
+
+		GraphicsPipeline::Mesh* GetMesh();
 
 		// Constructor gets information to create a mesh
 		GUISpriteComponent(int meshID, const char* imagePath);

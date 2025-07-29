@@ -26,11 +26,9 @@ namespace SandboxEngine::GraphicsPipeline
 		};
 
 		char* pData; long dataSize = 0;
-		FileUtility::LoadFile(&pData, &dataSize, fullFilePath, true, 0x8a, 0);
+		FileUtility::LoadFile(&pData, &dataSize, fullFilePath);
 		if (pData == nullptr)
 			return texture;
-		fprintf(stdout, std::string(" Pixel Array Size:").append(std::to_string(dataSize - 0x8a)).append("\n").c_str());
-
 
 		// Read bmp file header
 		texture.BitmapFileHeader = *reinterpret_cast<BMPFileHeader*>(pData); // size 14 bytes
