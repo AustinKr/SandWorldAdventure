@@ -15,11 +15,15 @@ namespace SandboxEngine::Game::Inventory
 		Vector2Int m_Size;
 
 	public:
+		Vector2Int SelectedItemID;
+		
 		// Has no arguments. Invoked whenever the size of the collection changes
 		Event::EventHandler<> AssignmentEventHandler;
+		// Arguments: pointer to struct{Vector2Int position; Item itemCopy}.  Invoked for every SetItemAt()
+		Event::EventHandler<> ItemAssignmentEventHandler;
 
-		Inventory() : m_Items{}, m_Size{} {/*nothing*/ }
-		Inventory(Vector2Int size) : m_Items{}, m_Size(size) 
+		Inventory() : AssignmentEventHandler{}, ItemAssignmentEventHandler{}, m_Items {}, m_Size{} {/*nothing*/ }
+		Inventory(Vector2Int size) : AssignmentEventHandler{}, ItemAssignmentEventHandler{}, m_Items{}, m_Size(size)
 		{
 			Assign(size);
 		}
@@ -51,13 +55,40 @@ namespace SandboxEngine::Game::Inventory
 		}
 		void Clear()
 		{
+			for (auto iter : m_Items)
+			{
+				iter.Release();
+			}
 			m_Items.clear();
+			m_Size = { 0,0 };
+
 			AssignmentEventHandler.InvokeEvents(nullptr);
 		}
-		ItemType& GetItemAt(Vector2Int position)
+
+		// Sets the item
+		void SetItemAt(Vector2Int position, ItemType&& rNewItem)
+		{
+			// Get reference
+			ItemType* pItem = &m_Items.at(position.X + position.Y * m_Size.X);
+			// Update
+			pItem->Release();
+			*pItem = rNewItem;
+
+			// Create arguments
+			void* pArguments = malloc(sizeof(Vector2Int) + sizeof(ItemType));
+			*reinterpret_cast<Vector2Int*>(pArguments) = position;
+			*reinterpret_cast<ItemType*>((char*)pArguments + sizeof(Vector2Int)) = *pItem;
+			// Invoke
+			ItemAssignmentEventHandler.InvokeEvents(pArguments);
+			// Free memory
+			free(pArguments);
+		}
+		// Returns a copy of the item (do not call .Release())
+		ItemType GetItemAt(Vector2Int position)
 		{
 			return m_Items.at(position.X + position.Y * m_Size.X);
 		}
+
 		COLLECTION::iterator GetBegin()
 		{
 			return m_Items.begin();
@@ -74,6 +105,8 @@ namespace SandboxEngine::Game::Inventory
 
 		void Release()
 		{
+			Clear();
+			ItemAssignmentEventHandler.Release();
 			AssignmentEventHandler.Release();
 		}
 	};

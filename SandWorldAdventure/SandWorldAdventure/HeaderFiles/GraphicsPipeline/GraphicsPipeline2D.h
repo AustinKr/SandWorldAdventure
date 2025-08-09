@@ -33,7 +33,6 @@ namespace SandboxEngine::GraphicsPipeline
 		/// <returns> The count of shaders that failed to compile </returns>
 		virtual int CompileShaders() override;
 	public:
-		static const char* PROJECT_DIRECTORY;
 		
 		enum
 		{

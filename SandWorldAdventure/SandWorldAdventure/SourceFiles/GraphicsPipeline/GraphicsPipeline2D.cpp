@@ -7,8 +7,6 @@
 
 namespace SandboxEngine::GraphicsPipeline
 {
-	const char* GraphicsPipeline2D::PROJECT_DIRECTORY = "C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/";
-
 	GraphicsPipeline2D::GraphicsPipeline2D() : m_VertexBufferName(0), mp_VertexArray(0), m_Layers{}, ActiveCamera{}, m_AllShaderObjects{}, m_UniformVariableLocations{}
 	{
 		/*nothing*/

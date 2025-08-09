@@ -102,27 +102,31 @@ namespace SandboxEngine::GUISystem
 		pElement->Release();
 		m_ElementsRegistry.erase(elementID);
 	}
-	void GUIHierarchy::EraseChildren(UID elementID)
+	void GUIHierarchy::EraseChildren(UID rootElementID)
 	{
 		// The root element
-		GUIElement* pElement = GetElement(elementID);
+		GUIElement* pRootElement = GetElement(rootElementID);
 
 		// Iterate
+		UID childID;
 		GUIElement* pChild;
-		std::vector<UID> elements = (std::vector<UID>&)pElement->m_Children;
+		std::vector<UID> elements = (std::vector<UID>&)pRootElement->m_Children;
 		for (int i = 0; i < elements.size(); i++)
 		{
-			pChild = GetElement(elementID);
+			childID = elements[i];
+			if (!m_ElementsRegistry.contains(childID))
+				continue; // Shouldn't ever occur
+
+			pChild = GetElement(childID);
 			// Add its children
 			if (pChild->m_Children.size() > 0)
 				elements.insert(elements.end(), pChild->m_Children.begin(), pChild->m_Children.end());
 
 			// Release the element
-			pElement->Release();
-			m_ElementsRegistry.erase(elementID);
-
+			pChild->Release();
+			m_ElementsRegistry.erase(childID);
 		}
-		pElement->m_Children.clear();
+		pRootElement->m_Children.clear();
 	}
 
 	void GUIHierarchy::UpdateAllTransforms()

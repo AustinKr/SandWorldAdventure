@@ -23,11 +23,11 @@ namespace SandboxEngine::GUISystem
 		return coord;
 	}
 
-	GUIElement::GUIElement(GUISystem* pSystem) : m_IsActive(true), TransformEventHandler{}, p_System(pSystem), m_Transform{}, m_Children{}, m_ParentID{}, Identifier(pSystem->p_Hierarchy->RegisterElement(this))
+	GUIElement::GUIElement(GUISystem* pSystem, bool shouldAffectKeyState) : ShouldAffectKeyState(shouldAffectKeyState), m_IsActive(true), TransformEventHandler{}, p_System(pSystem), m_Transform{}, m_Children{}, m_ParentID{}, Identifier(pSystem->p_Hierarchy->RegisterElement(this))
 	{
 		pSystem->p_Hierarchy->UnparentElement(GUIHierarchy::NULL_UID, Identifier);
 	}
-	GUIElement::GUIElement(GUISystem* pSystem, UID parentID) : m_IsActive(true), TransformEventHandler{}, p_System(pSystem), m_Transform{}, m_Children{}, m_ParentID{parentID}, Identifier(pSystem->p_Hierarchy->RegisterElement(this))
+	GUIElement::GUIElement(GUISystem* pSystem, UID parentID, bool shouldAffectKeyState) : ShouldAffectKeyState(shouldAffectKeyState), m_IsActive(true), TransformEventHandler{}, p_System(pSystem), m_Transform{}, m_Children{}, m_ParentID{parentID}, Identifier(pSystem->p_Hierarchy->RegisterElement(this))
 	{
 		pSystem->p_Hierarchy->ParentElement(parentID, Identifier);
 	}
@@ -125,6 +125,7 @@ namespace SandboxEngine::GUISystem
 			// Get element
 			pCurrentElement = p_System->p_Hierarchy->GetElement(elements[i]);
 			// Set
+			pCurrentElement->m_IsActive = isActive;
 			Components::GUISpriteComponent* pSpriteComp = pCurrentElement->GetComponent<Components::GUISpriteComponent>(ComponentTags::COMPONENT_TAG_SPRITE);
 			if(pSpriteComp != nullptr)
 				pSpriteComp->GetMesh()->IsActive = isActive;

@@ -15,6 +15,7 @@ namespace SandboxEngine::GUISystem
 	class GUIHierarchy;
 #endif
 
+	// TODO: maybe use an acceleration structure if there gets to be a lot of elements
 	// Dependent on the graphics pipeline 2d to be initialized
 	class GUISystem
 	{
@@ -24,8 +25,6 @@ namespace SandboxEngine::GUISystem
 		
 		GUISystem();
 		bool Initialize(GraphicsPipeline::GraphicsPipeline2D *pPipeline);
-		//// Updates gui elements
-		//void OnScreenResize(Vector2Int newSize);
 
 		/// <summary>
 		/// Registers the mesh with the graphics pipeline 2D on the gui render layer
@@ -38,6 +37,11 @@ namespace SandboxEngine::GUISystem
 		GraphicsPipeline::Mesh* CreateTextureMesh(Vector2 origin, Vector2 size, const char* fullTexturePath);
 		/*void CreatePolygonMesh();
 		void CreateTextMesh();*/
+
+		// TODO: Uses slow algorithim for gui collision detection
+		// TODO: Could create a function for mouse inputs that goes through the GUISystem so that mouse clicks don't register over gui
+		// used to check a key state, but will always return false if: the element is active, and the mouse is over an active gui element with the member ShouldAffectKeyState == true
+		bool GetKeyState(int glfwKey);
 
 		void Release();
 	};

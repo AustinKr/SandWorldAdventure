@@ -27,7 +27,7 @@ namespace SandboxEngine::GUISystem::Components
 	{
 		// Mouse button change!
 
-		if (mp_Button->ButtonEventHandler.GetCount() == 0)
+		if (!mp_Element->GetActiveState() || mp_Button->ButtonEventHandler.GetCount() == 0)
 			return;
 
 		// Get element transform

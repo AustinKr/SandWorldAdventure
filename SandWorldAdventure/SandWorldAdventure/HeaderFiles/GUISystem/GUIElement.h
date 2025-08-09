@@ -69,6 +69,9 @@ namespace SandboxEngine::GUISystem
 			}
 		};
 
+		// Whether this should block a key press when the mouse overlaps this element's bounds
+		bool ShouldAffectKeyState;
+
 		// The UID used to register this element
 		const UID Identifier;
 
@@ -79,9 +82,9 @@ namespace SandboxEngine::GUISystem
 		GUISystem* p_System;
 
 		// Registers self
-		GUIElement(GUISystem* pSystem);
+		GUIElement(GUISystem* pSystem, bool shouldAffectKeyState = true);
 		// Registers self
-		GUIElement(GUISystem* pSystem, UID parentID);
+		GUIElement(GUISystem* pSystem, UID parentID, bool shouldAffectKeyState = true);
 
 		std::vector<UID>::iterator GetChildrenBegin();
 		std::vector<UID>::iterator GetChildrenEnd();

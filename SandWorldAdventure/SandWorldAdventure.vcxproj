@@ -155,7 +155,12 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\Tilemap.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TilemapContainer.cpp" />
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\PlayerInventoryGUI.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\BasicItem.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\InventoryItemAssignmentEvent.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\InventoryStorageAssignmentEvent.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\InventoryToggleEvent.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\ItemSlotButtonEvent.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\PlayerInventoryGUI.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\GraphicsPipeline2D.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\Mesh.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\GraphicsPipeline\Meshes\TilemapMesh.cpp" />
@@ -193,8 +198,12 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tilemap.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TilemapContainer.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\BasicItem.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\InventoryItemAssignmentEvent.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\InventoryStorageAssignmentEvent.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\InventoryToggleEvent.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\ItemSlotButtonEvent.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\Inventory.h" />
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\PlayerInventoryGUI.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\PlayerInventoryGUI.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\Camera.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipeline2D.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GraphicsPipeline\GraphicsPipelineFramework.h" />

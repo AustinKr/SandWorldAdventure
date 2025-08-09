@@ -3,7 +3,7 @@
 #include "HeaderFiles/GraphicsPipeline/Meshes/Mesh.h"
 #include "HeaderFiles/Game/Inventory/Inventory.h"
 #include "HeaderFiles/Game/Inventory/BasicItem.h"
-#include "HeaderFiles/Game/Inventory/PlayerInventoryGUI.h"
+#include "HeaderFiles/Game/Inventory/GUI/PlayerInventoryGUI.h"
 
 #define PLAYER_H
 namespace SandboxEngine::Game::GameObject

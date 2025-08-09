@@ -19,7 +19,7 @@ namespace SandboxEngine::GraphicsPipeline
 		buffer[2].pos = pPipeline->ActiveCamera.ScreenToViewport(buffer[2].pos * Scale + Origin) * 2.0 - Vector2(1, 1);
 	}
 
-	Mesh::Mesh(bool useWorldCoordinates) : IsActive(true), Origin{}, Scale(1,1), Vertices{}, Triangles{}, Shaders{}, UseWorldCoordinates(useWorldCoordinates), Texture{}, color{1,1,1,1}
+	Mesh::Mesh(bool useWorldCoordinates) : PreRenderEventHandler{}, IsActive(true), Origin{}, Scale(1, 1), Vertices{}, Triangles{}, Shaders{}, UseWorldCoordinates(useWorldCoordinates), Texture{}, color{ 1,1,1,1 }
 	{
 		/*nothing*/
 	}
@@ -29,6 +29,8 @@ namespace SandboxEngine::GraphicsPipeline
 		if (!IsActive)
 			return;
 			
+		PreRenderEventHandler.InvokeEvents(nullptr);
+
 		Vertex vertexBuffer[3] = { {}, {}, {} };
 
 		for (int s = 0; s < Shaders.size() / 3; s++) // mesh.Shaders should be a multiple of 3
@@ -59,6 +61,8 @@ namespace SandboxEngine::GraphicsPipeline
 
 	void Mesh::Release()
 	{
+		PreRenderEventHandler.Release();
+
 		if (Texture.p_Colors != nullptr && Texture.ColorsSize != 0)
 			delete[](Texture.p_Colors);
 		delete(this);

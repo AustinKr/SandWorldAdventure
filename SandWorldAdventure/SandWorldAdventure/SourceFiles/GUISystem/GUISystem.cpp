@@ -1,5 +1,5 @@
 #include "HeaderFiles/GUISystem/GUISystemFramework.h"
-
+#include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/RenderLayerNames.h"
 
 
@@ -59,6 +59,27 @@ namespace SandboxEngine::GUISystem
 		// Set the mesh to pass a texture along to the shader
 		pMesh->Texture = GraphicsPipeline::Texture::LoadBMPTextureFromFile(fullTexturePath);
 		return pMesh;
+	}
+
+	bool GUISystem::GetKeyState(int glfwKey)
+	{
+		if (!MasterWindow::GetKeyState(glfwKey))
+			return false;
+
+		Vector2 cursorPosition;
+		glfwGetCursorPos(MasterWindow::p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
+		
+		for (auto iter = p_Hierarchy->GetBegin(); iter != p_Hierarchy->GetEnd(); iter++)
+		{
+			// Collision detection
+			GUITransform transform = iter->second->GetTransform();
+			if (iter->second->GetActiveState() && iter->second->ShouldAffectKeyState &&
+				cursorPosition.X > transform.GlobalPosition.X && cursorPosition.Y > transform.GlobalPosition.Y &&
+				cursorPosition.X < transform.GlobalPosition.X + transform.GlobalScale.X && cursorPosition.Y < transform.GlobalPosition.Y + transform.GlobalScale.X)
+				// cursor is overlapping a gui element!
+				return false;
+		}
+		return true;
 	}
 
 	void GUISystem::Release()

@@ -37,7 +37,18 @@ namespace SandboxEngine::Game::GameObject
 			0, 2, GraphicsPipeline::GraphicsPipeline2D::GP2D_PLAYER_SHADER
 		};
 
-		CurrentInventory.Assign({ 5,2 });
+		CurrentInventory.Assign({ 4,2 });
+		CurrentInventory.SetItemAt({ 0,0 },
+		{
+			"C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/GUI/Slots/WetSandTileSlot.bmp",
+			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Solid)
+		});
+		CurrentInventory.SetItemAt({ 1,0 },
+		{
+			"C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/GUI/Slots/SandTileSlot.bmp",
+			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Sand)
+		});
+		
 	}
 
 	Vector2 Player::GetPosition()
@@ -52,7 +63,6 @@ namespace SandboxEngine::Game::GameObject
 	void Player::Update(Time time)
 	{
 		// Keyboard
-
 		if (MasterWindow::GetKeyState(GLFW_KEY_UP))
 			AccY = 1;
 		else if (MasterWindow::GetKeyState(GLFW_KEY_DOWN))
@@ -67,9 +77,8 @@ namespace SandboxEngine::Game::GameObject
 		else
 			AccX = 0;
 
-		m_ShouldBreakTile = MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_1);
-		m_ShouldAddTile = MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_2);
-
+		m_ShouldBreakTile = MasterWindow::GraphicalUserInterfaceSystem.GetKeyState(GLFW_MOUSE_BUTTON_1);// MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_1);
+		m_ShouldAddTile = MasterWindow::GraphicalUserInterfaceSystem.GetKeyState(GLFW_MOUSE_BUTTON_2);
 
 		// Get cursor position
 		Vector2 cursorPosition;
@@ -80,7 +89,9 @@ namespace SandboxEngine::Game::GameObject
 					Vector2(cursorPosition.X, MasterWindow::Pipeline.ActiveCamera.ScreenSize.Y - cursorPosition.Y)));
 
 		// Cursor remove/add tiles
-		if (m_ShouldAddTile || m_ShouldBreakTile)
+		Inventory::BasicItem selectedItem = CurrentInventory.GetItemAt(CurrentInventory.SelectedItemID);// TODO: THe item.p_Data is nullptr
+		int behaviorID = selectedItem.p_Data != nullptr ? *reinterpret_cast<int*>(selectedItem.p_Data) : -1;
+		if (behaviorID >= 0 && (m_ShouldAddTile || m_ShouldBreakTile))
 		{
 			Vector2 mousePosition = ((Tilemap::Tilemap*const)mp_Tilemap)->FromWorldToTile(mouseWorldPosition);
 			double radius = 5;
@@ -95,7 +106,7 @@ namespace SandboxEngine::Game::GameObject
 					{
 						float fac = float(abs(i * j)) / float(radius * radius);
 						UINT color = GraphicsPipeline::GraphicsPipeline2D::RGBA_To_UINT(0xff - 40 * fac, 0xe0 - 40 * fac, 0x82 + 60 * fac, 255);// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff; //0xFFE082FF
-						((Tilemap::Tilemap*)mp_Tilemap)->AddTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::Tile(color, Tilemap::TILE_BEHAVIOR_NAMES::Sand));
+						((Tilemap::Tilemap*)mp_Tilemap)->AddTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::Tile(color, behaviorID));
 					}
 					else
 						((Tilemap::Tilemap*)mp_Tilemap)->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
@@ -116,9 +127,7 @@ namespace SandboxEngine::Game::GameObject
 	}
 	void Player::Release()
 	{
-		// Not realy necessary unless player is for some reason deleted prior to the application termination
-
-		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
 		CurrentInventory.Release();
+		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
 	}
 }
