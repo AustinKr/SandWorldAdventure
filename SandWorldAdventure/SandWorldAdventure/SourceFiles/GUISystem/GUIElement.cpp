@@ -183,8 +183,6 @@ namespace SandboxEngine::GUISystem
 			delete(pComp.second);
 		}
 		m_Components.clear();
-		// Event handler
-		TransformEventHandler.Release();
 		// This
 		delete(this);
 	}

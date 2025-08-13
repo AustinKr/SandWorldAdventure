@@ -1,4 +1,6 @@
 #include "HeaderFiles/GUISystem/Components/GUIButtonComponent.h"
+#include "HeaderFiles/GUISystem/ComponentTags.h"
+#include "HeaderFiles/GUISystem/ButtonEventFlags.h"
 #include "HeaderFiles/GUISystem/GUISystemFramework.h"
 
 #include "HeaderFiles/MasterWindow.h"
@@ -13,25 +15,25 @@ namespace SandboxEngine::GUISystem::Components
 	void GUIButtonComponent::Initialize(GUIElement* pElement)
 	{
 		// Subscribe event
-		MasterWindow::MouseButtonEventHandler.SubscribeEvent(new MouseButtonDelegate(this, pElement));
+		MasterWindow::MouseButtonEventHandler.SubscribeEvent(Event::BaseEventDelegate<void*, void*>(OnMouseButton, (void*)pElement));
 	}
 	void GUIButtonComponent::Release()
 	{
 		delete(this);
 	}
 
-	// - Mouse button event delegate -
-	GUIButtonComponent::MouseButtonDelegate::MouseButtonDelegate(GUIButtonComponent* pButton, GUIElement* pElement) : mp_Button(pButton), mp_Element(pElement)
-	{/*nothing*/}
-	void GUIButtonComponent::MouseButtonDelegate::Invoke(void*)
+	void GUIButtonComponent::OnMouseButton(void*, void* pElement)
 	{
 		// Mouse button change!
 
-		if (!mp_Element->GetActiveState() || mp_Button->ButtonEventHandler.GetCount() == 0)
+		GUIElement* element = ((GUIElement*)pElement);
+		GUIButtonComponent* button = element->GetComponent<GUIButtonComponent>(ComponentTags::COMPONENT_TAG_BUTTON);
+
+		if (!element->GetActiveState() || button->ButtonEventHandler.GetCount() == 0)
 			return;
 
 		// Get element transform
-		GUITransform transform = mp_Element->GetTransform();
+		GUITransform transform = element->GetTransform();
 
 		// Get mouse position
 		Vector2 mousePos = {};
@@ -44,19 +46,19 @@ namespace SandboxEngine::GUISystem::Components
 			return;
 
 		// Iterate
-		for (auto iter = mp_Button->ButtonEventHandler.GetBegin(); iter != mp_Button->ButtonEventHandler.GetEnd(); iter++)
+		for (auto iter = button->ButtonEventHandler.GetBegin(); iter != button->ButtonEventHandler.GetEnd(); iter++)
 		{
 			// Parse flags
-			int flags = iter->second->ButtonEventFlags, key = -1;
+			int flags = iter->second.ExtraData.ButtonFlags, key = -1;
 
-			/*if(key & BUTTON_EVENT_ORIGINATE_IN_BOUNDS && !originateInBounds)
+			/*if(flags & BUTTON_EVENT_ORIGINATE_IN_BOUNDS && !originateInBounds)
 				return;*/
 
-			if (key & BUTTON_EVENT_MOUSE_1)
+			if (flags & BUTTON_EVENT_MOUSE_1)
 				key = GLFW_MOUSE_BUTTON_1;
-			else if (key & BUTTON_EVENT_MOUSE_2)
+			else if (flags & BUTTON_EVENT_MOUSE_2)
 				key = GLFW_MOUSE_BUTTON_2;
-			else if (key & BUTTON_EVENT_MOUSE_3)
+			else if (flags & BUTTON_EVENT_MOUSE_3)
 				key = GLFW_MOUSE_BUTTON_3;
 			else
 			{
@@ -74,8 +76,8 @@ namespace SandboxEngine::GUISystem::Components
 			/*else if (key & BUTTON_EVENT_MOUSE_CLICKED && MasterWindow::GetKeyState(key) != GLFW_CLICKED)
 				break;*/
 
-				// Invoke
-			iter->second->Invoke(nullptr);
+			// Invoke
+			iter->second.p_Function(nullptr, iter->second.ExtraData);
 		}
 	}
 }

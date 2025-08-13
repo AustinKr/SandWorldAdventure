@@ -1,10 +1,10 @@
 #pragma once
 #include <unordered_map>
-#include "DelegateTypes/IEventDelegate.h"
+#include "DelegateTypes/BaseEventDelegate.h"
 
 namespace SandboxEngine::Event
 {
-	template<class DelegateType = IEventDelegate>
+	template<typename EventArguments, typename EventData = void*, typename DelegateType = BaseEventDelegate<EventArguments, EventData>>
 	struct EventHandler
 	{
 	public:
@@ -12,43 +12,35 @@ namespace SandboxEngine::Event
 
 	private:
 		UID m_NextID;
-		std::unordered_map<UID, DelegateType*> m_Events;
+		std::unordered_map<UID, DelegateType> m_Events;
 
 	public:
-		// pEvent should be created by  new MyEventDelegate()
-		inline UID SubscribeEvent(DelegateType* pEvent)
+		// event should be created by EVENT(pFunc);
+		inline UID SubscribeEvent(DelegateType event)
 		{
-			m_Events.insert(std::make_pair(m_NextID, pEvent));
+			m_Events.insert(std::make_pair(m_NextID, event));
 			return m_NextID++;
 		}
 		inline void TryUnsubscribeEvent(UID id)
 		{
 			if (!m_Events.contains(id))
 				return;
-			delete(m_Events[id]);
 			m_Events.erase(id);
 		}
-		inline void InvokeEvents(void* pArguments)
+		inline void InvokeEvents(EventArguments arguments)
 		{
 			for (auto& rIter : m_Events)
 			{
-				rIter.second->Invoke(pArguments);
+				// Invoke
+				rIter.second.p_Function(arguments, rIter.second.ExtraData);
 			}
-		}
-		inline void Release()
-		{
-			for (auto& rIter : m_Events)
-			{
-				delete(rIter.second);
-			}
-			m_Events.clear();
 		}
 
-		inline std::unordered_map<UID, DelegateType*>::iterator GetBegin()
+		inline std::unordered_map<UID, DelegateType>::iterator GetBegin()
 		{
 			return m_Events.begin();
 		}
-		inline std::unordered_map<UID, DelegateType*>::iterator GetEnd()
+		inline std::unordered_map<UID, DelegateType>::iterator GetEnd()
 		{
 			return m_Events.end();
 		}

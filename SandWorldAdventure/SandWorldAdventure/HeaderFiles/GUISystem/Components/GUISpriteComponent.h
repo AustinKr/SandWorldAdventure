@@ -1,7 +1,6 @@
 #pragma once
 #include "IGUIComponent.h"
 #include "HeaderFiles/GraphicsPipeline/Meshes/Mesh.h"
-#include "HeaderFiles/Event/DelegateTypes/IEventDelegate.h"
 
 namespace SandboxEngine::GUISystem::Components
 {
@@ -24,14 +23,6 @@ namespace SandboxEngine::GUISystem::Components
 		GraphicsPipeline::Mesh* mp_Mesh;
 
 		// Updates mesh when transformations occur
-		struct TransformEventDelegate : Event::IEventDelegate
-		{
-		private:
-			GUISpriteComponent *mp_Sprite;
-
-		public:
-			TransformEventDelegate(GUISpriteComponent* pSprite);
-			virtual void Invoke(void* pElement) override;
-		};
+		static void OnTransform(GUIElement* pElement, void*);
 	};
 }

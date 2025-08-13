@@ -38,11 +38,11 @@ namespace SandboxEngine
 		static SandboxEngine::GUISystem::GUISystem GraphicalUserInterfaceSystem;
 
 		// Has no arguments. Use GetKeyState(int) to detect keys
-		static Event::EventHandler<> KeyStrokeEventHandler;
+		static Event::EventHandler<void*> KeyStrokeEventHandler;
 		// Has no arguments. Use GeyKeyState(int) to detect mouse buttons
-		static Event::EventHandler<> MouseButtonEventHandler;
+		static Event::EventHandler<void*> MouseButtonEventHandler;
 		// Has int[2] with width and height as arguments
-		static Event::EventHandler<> ScreenResizeEventHandler;
+		static Event::EventHandler<int[2]> ScreenResizeEventHandler;
 
 		// Initializes glfw and glew and creates a window.
 		static void InitializeWindow();

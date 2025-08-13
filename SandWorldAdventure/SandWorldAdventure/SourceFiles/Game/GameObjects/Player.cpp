@@ -1,4 +1,5 @@
 #include "HeaderFiles/Game/GameObjects/Player.h"
+#include "HeaderFiles/Game/GameInstance.h"
 
 #include "HeaderFiles/GUISystem/GUISystemFramework.h"
 #include "HeaderFiles/MasterWindow.h"
@@ -13,6 +14,8 @@ namespace SandboxEngine::Game::GameObject
 	{
 		if (mp_Tilemap == nullptr)
 			throw std::exception("Tilemap cannot be nullptr!");
+
+		GameInstance::p_Player = this;
 
 		// - Create mesh -
 		// GraphicsPipeline2D::Release() releases registered mesh data

@@ -14,9 +14,6 @@ namespace SandboxEngine::GraphicsPipeline
 		void TransformVertexCoordinates(GraphicsPipeline::GraphicsPipeline2D* pPipeline, Vertex buffer[3]);
 
 	public:
-		// TODO: PreRender May not be needed at all
-		// (Takes no argumenets) Called before the mesh is drawn
-		Event::EventHandler<> PreRenderEventHandler;
 
 		// Whether to draw the mesh
 		bool IsActive;

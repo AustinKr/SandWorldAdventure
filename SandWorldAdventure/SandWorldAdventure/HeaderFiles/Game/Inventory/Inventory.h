@@ -2,11 +2,12 @@
 #include <vector>
 #include "HeaderFiles/Math.h"
 #include "HeaderFiles/Event/EventHandler.h"
+#include "ItemAssignmentEventArguments.h"
 
 namespace SandboxEngine::Game::Inventory
 {
 	template<typename ItemType>
-	struct Inventory
+	class Inventory
 	{
 		typedef std::vector<ItemType> COLLECTION;
 
@@ -16,13 +17,13 @@ namespace SandboxEngine::Game::Inventory
 
 	public:
 		Vector2Int SelectedItemID;
-		
-		// Has no arguments. Invoked whenever the size of the collection changes
-		Event::EventHandler<> AssignmentEventHandler;
-		// Arguments: pointer to struct{Vector2Int position; Item itemCopy}.  Invoked for every SetItemAt()
-		Event::EventHandler<> ItemAssignmentEventHandler;
 
-		Inventory() : AssignmentEventHandler{}, ItemAssignmentEventHandler{}, m_Items {}, m_Size{} {/*nothing*/ }
+		// Argument is the old size. Invoked whenever the size of the collection changes
+		Event::EventHandler<Vector2Int> AssignmentEventHandler;
+		// Arguments: struct{Inventory*, Vector2Int location; Item itemCopy}.  Invoked for every SetItemAt()
+		Event::EventHandler<ItemAssignmentEventArguments<ItemType>> ItemAssignmentEventHandler;
+
+		Inventory() : AssignmentEventHandler{}, ItemAssignmentEventHandler{}, m_Items{}, m_Size{} {/*nothing*/ }
 		Inventory(Vector2Int size) : AssignmentEventHandler{}, ItemAssignmentEventHandler{}, m_Items{}, m_Size(size)
 		{
 			Assign(size);
@@ -30,17 +31,20 @@ namespace SandboxEngine::Game::Inventory
 
 		void Assign(Vector2Int newSize)
 		{
+			Vector2Int oldSize = m_Size; // Copy for InvokeEvents()
+
 			m_Items.assign(newSize.X * newSize.Y, {});
 			m_Size = newSize;
 
-			AssignmentEventHandler.InvokeEvents(nullptr);
+			AssignmentEventHandler.InvokeEvents(oldSize);
 		}
 		void Append(Vector2Int addedSize)
 		{
+			Vector2Int oldSize = m_Size; // Copy for InvokeEvents()
 			Vector2Int newSize = addedSize + m_Size;
 
 			COLLECTION itemsCopy = std::move(m_Items);
-			m_Items = { newSize.X* newSize.Y};
+			m_Items = { newSize.X * newSize.Y };
 
 			for (int w = 0; w < m_Size.X; w++)
 			{
@@ -51,10 +55,12 @@ namespace SandboxEngine::Game::Inventory
 			}
 			m_Size = newSize;
 
-			AssignmentEventHandler.InvokeEvents(nullptr);
+			AssignmentEventHandler.InvokeEvents(oldSize);
 		}
 		void Clear()
 		{
+			Vector2Int oldSize = m_Size; // Copy for InvokeEvents()
+
 			for (auto iter : m_Items)
 			{
 				iter.Release();
@@ -62,7 +68,7 @@ namespace SandboxEngine::Game::Inventory
 			m_Items.clear();
 			m_Size = { 0,0 };
 
-			AssignmentEventHandler.InvokeEvents(nullptr);
+			AssignmentEventHandler.InvokeEvents(oldSize);
 		}
 
 		// Sets the item
@@ -74,14 +80,8 @@ namespace SandboxEngine::Game::Inventory
 			pItem->Release();
 			*pItem = rNewItem;
 
-			// Create arguments
-			void* pArguments = malloc(sizeof(Vector2Int) + sizeof(ItemType));
-			*reinterpret_cast<Vector2Int*>(pArguments) = position;
-			*reinterpret_cast<ItemType*>((char*)pArguments + sizeof(Vector2Int)) = *pItem;
 			// Invoke
-			ItemAssignmentEventHandler.InvokeEvents(pArguments);
-			// Free memory
-			free(pArguments);
+			ItemAssignmentEventHandler.InvokeEvents(ItemAssignmentEventArguments<ItemType>(position, *pItem));
 		}
 		// Returns a copy of the item (do not call .Release())
 		ItemType GetItemAt(Vector2Int position)
@@ -106,8 +106,6 @@ namespace SandboxEngine::Game::Inventory
 		void Release()
 		{
 			Clear();
-			ItemAssignmentEventHandler.Release();
-			AssignmentEventHandler.Release();
 		}
 	};
 }

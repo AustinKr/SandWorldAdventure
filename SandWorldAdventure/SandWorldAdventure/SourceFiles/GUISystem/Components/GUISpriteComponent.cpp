@@ -17,7 +17,7 @@ namespace SandboxEngine::GUISystem::Components
 		pElement->p_System->RegisterMesh(mp_Mesh, m_MeshID);
 
 		// Subscribe event
-		pElement->TransformEventHandler.SubscribeEvent(new TransformEventDelegate(this));
+		pElement->TransformEventHandler.SubscribeEvent(Event::BaseEventDelegate<GUIElement*, void*>(OnTransform, nullptr));
 	}
 	void GUISpriteComponent::Release()
 	{
@@ -32,14 +32,12 @@ namespace SandboxEngine::GUISystem::Components
 		return mp_Mesh;
 	}
 
-	// - Event -
-	GUISpriteComponent::TransformEventDelegate::TransformEventDelegate(GUISpriteComponent* pSprite) : mp_Sprite(pSprite)
-	{/*nothing*/ }
-	void GUISpriteComponent::TransformEventDelegate::Invoke(void* pElement)
+	void GUISpriteComponent::OnTransform(GUIElement* pElement, void*)
 	{
-		GUITransform transform = reinterpret_cast<GUIElement*>(pElement)->GetTransform();
+		GUITransform transform = pElement->GetTransform();
+		GUISpriteComponent* sprite = pElement->GetComponent<GUISpriteComponent>(ComponentTags::COMPONENT_TAG_SPRITE);
 
-		mp_Sprite->mp_Mesh->Origin = transform.GlobalPosition;
-		mp_Sprite->mp_Mesh->Scale = transform.GlobalScale;
+		sprite->mp_Mesh->Origin = transform.GlobalPosition;
+		sprite->mp_Mesh->Scale = transform.GlobalScale;
 	}
 }

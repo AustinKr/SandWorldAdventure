@@ -18,28 +18,6 @@ using namespace SandboxEngine;
 using namespace SandboxEngine::Game;
 using namespace SandboxEngine::Game::GameObject;
 
-// Temporary struct
-struct TestButtonEventDelegate : Event::IGUIButtonEventDelegate
-{
-	TestButtonEventDelegate() : IGUIButtonEventDelegate()
-	{
-		/*nothing*/
-	}
-	TestButtonEventDelegate(int flags) : IGUIButtonEventDelegate(flags)
-	{
-		/*nothing*/
-	}
-
-	virtual void Invoke(void *pArgs) override
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			fprintf(stdout, "\n\n\nButton Pressed!\n\n");
-		}
-		Sleep(100);
-	}
-};
-
 // - Forward declarations -
 void InitializeGame();
 void InitializeGraphics();
@@ -50,7 +28,6 @@ void Release();
 void GenerateTilemap();
 
 // - Variables -
-Player* pPlayer = nullptr;
 Tilemap::Tilemap* gp_TestTilemap;
 double TileXPosition = 0;
 
@@ -112,8 +89,8 @@ void InitializeGame()
 
 	GameInstance::p_DebugServiceObject = new DebugObject(); // Create Debug object
 	GameInstance::RegisterGameObject("DebugService", GameInstance::p_DebugServiceObject);
-	pPlayer = new Player(gp_TestTilemap);
-	GameInstance::RegisterGameObject("MainPlayer", pPlayer); // Create player object (player will create its mesh)
+	new Player(gp_TestTilemap); // Creates the only instance of the player for this device
+	GameInstance::RegisterGameObject("MainPlayer", GameInstance::p_Player); // Create player object (player will create its mesh)
 
 }
 void InitializeGraphics()

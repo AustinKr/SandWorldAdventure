@@ -76,7 +76,7 @@ namespace SandboxEngine::GUISystem
 		const UID Identifier;
 
 		// Event system for transform changes
-		Event::EventHandler<> TransformEventHandler;
+		Event::EventHandler<GUIElement*> TransformEventHandler;
 
 		// Reference to system
 		GUISystem* p_System;

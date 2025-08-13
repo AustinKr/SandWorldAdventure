@@ -141,18 +141,6 @@
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\BasicItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\InventoryItemAssignmentEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\InventoryStorageAssignmentEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\InventoryToggleEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\GUI\Events\ItemSlotButtonEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\MasterWindow.h">
@@ -160,12 +148,6 @@
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Time.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\GameEvent.h">
-      <Filter>Header Files\GameEvents</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\OnResizeGameEventArguments.h">
-      <Filter>Header Files\GameEvents</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Chunk.h">
       <Filter>Header Files\Game\GameObjects\Tilemap</Filter>
@@ -181,9 +163,6 @@
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Game.h">
       <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\GameEvents\GameDelegate.h">
-      <Filter>Header Files\GameEvents</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\SolidTileBehavior.h">
       <Filter>Header Files\Game\GameObjects\Tilemap\TileBehaviors</Filter>
@@ -284,12 +263,6 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\EventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\DelegateTypes\IEventDelegate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\DelegateTypes\IGUIButtonEventDelegate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\GUIHierarchy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -311,7 +284,7 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\Inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\PlayerInventoryGUI.h">
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\PlayerInventoryGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ComponentTags.h">
@@ -320,16 +293,13 @@
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\BasicItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\InventoryToggleEvent.h">
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\DelegateTypes\BaseEventDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\ItemSlotButtonEvent.h">
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\ItemAssignmentEventArguments.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\InventoryStorageAssignmentEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\Inventory\GUI\Events\InventoryItemAssignmentEvent.h">
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ButtonEventData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

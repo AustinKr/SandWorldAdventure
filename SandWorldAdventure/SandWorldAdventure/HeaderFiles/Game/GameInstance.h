@@ -1,6 +1,7 @@
 #pragma once
 #include "HeaderFiles/Time.h"
 #include "HeaderFiles/Game/GameObjects/DebugObject.h"
+#include "HeaderFiles/Game/GameObjects/Player.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -17,6 +18,8 @@ namespace SandboxEngine::Game
 		static Time TimeInfo;
 		// Debug service
 		static GameObject::DebugObject* p_DebugServiceObject;
+		// Active Player object for this device
+		static GameObject::Player* p_Player;
 
 		// Adds the address of the object to the registry with a name
 		static void RegisterGameObject(std::string objectName, const GameObject::IGameObject* pGameObject);

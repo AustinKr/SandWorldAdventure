@@ -18,9 +18,9 @@ namespace SandboxEngine
 	SandboxEngine::GraphicsPipeline::GraphicsPipeline2D MasterWindow::Pipeline;
 	SandboxEngine::GUISystem::GUISystem MasterWindow::GraphicalUserInterfaceSystem;
 
-	Event::EventHandler<> MasterWindow::KeyStrokeEventHandler;
-	Event::EventHandler<> MasterWindow::MouseButtonEventHandler;
-	Event::EventHandler<> MasterWindow::ScreenResizeEventHandler;
+	Event::EventHandler<void*> MasterWindow::KeyStrokeEventHandler;
+	Event::EventHandler<void*> MasterWindow::MouseButtonEventHandler;
+	Event::EventHandler<int[2]> MasterWindow::ScreenResizeEventHandler;
 
 	int MasterWindow::InitializeGLFW()
 	{
@@ -140,11 +140,6 @@ namespace SandboxEngine
 
 	void MasterWindow::Release()
 	{
-		// Release event handlers
-		MasterWindow::KeyStrokeEventHandler.Release();
-		MasterWindow::MouseButtonEventHandler.Release();
-		MasterWindow::ScreenResizeEventHandler.Release();
-
 		// Release other
 		GraphicalUserInterfaceSystem.Release();
 		Pipeline.Release();

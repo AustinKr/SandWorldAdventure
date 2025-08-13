@@ -3,7 +3,7 @@
 #include "HeaderFiles/GraphicsPipeline/Meshes/Mesh.h"
 #include "HeaderFiles/Game/Inventory/Inventory.h"
 #include "HeaderFiles/Game/Inventory/BasicItem.h"
-#include "HeaderFiles/Game/Inventory/GUI/PlayerInventoryGUI.h"
+#include "HeaderFiles/Game/Inventory/PlayerInventoryGUI.h"
 
 #define PLAYER_H
 namespace SandboxEngine::Game::GameObject
@@ -26,6 +26,7 @@ namespace SandboxEngine::Game::GameObject
 		double Speed;
 		double CameraFollowSpeed;
 
+		// Initializes the player. This should only be called once when the application begins and is the only instance used. Assigns GameInstance::p_Player automatically
 		Player(IGameObject* pTilemap);
 		
 		// Retrieves the position of the player object. Note: The player shares its position with its mesh origin

@@ -6,6 +6,7 @@ namespace SandboxEngine::Game
 	std::vector<std::pair<std::string, GameObject::IGameObject*>> GameInstance::GameObjectsRegistry;
 	Time GameInstance::TimeInfo;
 	GameObject::DebugObject *GameInstance::p_DebugServiceObject;
+	GameObject::Player* GameInstance::p_Player;
 
 	void GameInstance::RegisterGameObject(std::string objectName, const GameObject::IGameObject* pGameObject)
 	{
