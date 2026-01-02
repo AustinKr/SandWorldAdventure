@@ -8,6 +8,12 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	private:
 		const int GRAVITY = 25; // use G/10.0
 
+		void TryApplyMotion(
+			Tilemap* pTilemap,
+			Vector2Int tilePosition,
+			TilemapContainer::TILE_INFO tileInfo,
+			Time time,
+			TileActionTypes action);
 	public:
 		virtual bool TryUpdate(
 			Tilemap* pTilemap,

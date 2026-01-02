@@ -44,12 +44,14 @@ namespace SandboxEngine::Game::GameObject
 		CurrentInventory.SetItemAt({ 0,0 },
 		{
 			"C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/GUI/Slots/WetSandTileSlot.bmp",
-			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Solid)
+			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Solid),
+			(int)0xeccc70ff
 		});
 		CurrentInventory.SetItemAt({ 1,0 },
 		{
 			"C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/GUI/Slots/SandTileSlot.bmp",
-			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Sand)
+			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Sand),
+			(int)0xffe082ff
 		});
 		
 	}
@@ -66,16 +68,16 @@ namespace SandboxEngine::Game::GameObject
 	void Player::Update(Time time)
 	{
 		// Keyboard
-		if (MasterWindow::GetKeyState(GLFW_KEY_UP))
+		if (MasterWindow::GetKeyState(GLFW_KEY_UP) || MasterWindow::GetKeyState(GLFW_KEY_W))
 			AccY = 1;
-		else if (MasterWindow::GetKeyState(GLFW_KEY_DOWN))
+		else if (MasterWindow::GetKeyState(GLFW_KEY_DOWN) || MasterWindow::GetKeyState(GLFW_KEY_S))
 			AccY = -1;
 		else// if (!MasterWindow::GetKeyState(GLFW_KEY_UP) && !MasterWindow::GetKeyState(GLFW_KEY_DOWN))
 			AccY = 0;
 
-		if (MasterWindow::GetKeyState(GLFW_KEY_RIGHT))
+		if (MasterWindow::GetKeyState(GLFW_KEY_RIGHT) || MasterWindow::GetKeyState(GLFW_KEY_D))
 			AccX = 1;
-		else if (MasterWindow::GetKeyState(GLFW_KEY_LEFT))
+		else if (MasterWindow::GetKeyState(GLFW_KEY_LEFT) || MasterWindow::GetKeyState(GLFW_KEY_A))
 			AccX = -1;
 		else
 			AccX = 0;
@@ -90,13 +92,13 @@ namespace SandboxEngine::Game::GameObject
 			MasterWindow::Pipeline.ActiveCamera.ViewportToWorld(
 				MasterWindow::Pipeline.ActiveCamera.ScreenToViewport(
 					Vector2(cursorPosition.X, MasterWindow::Pipeline.ActiveCamera.ScreenSize.Y - cursorPosition.Y)));
+		Vector2 mouseTilePosition = ((Tilemap::Tilemap* const)mp_Tilemap)->FromWorldToTile(mouseWorldPosition);
 
 		// Cursor remove/add tiles
-		Inventory::BasicItem selectedItem = CurrentInventory.GetItemAt(CurrentInventory.SelectedItemID);// TODO: THe item.p_Data is nullptr
+		Inventory::BasicItem selectedItem = CurrentInventory.GetItemAt(CurrentInventory.SelectedItemID);
 		int behaviorID = selectedItem.p_Data != nullptr ? *reinterpret_cast<int*>(selectedItem.p_Data) : -1;
 		if (behaviorID >= 0 && (m_ShouldAddTile || m_ShouldBreakTile))
 		{
-			Vector2 mousePosition = ((Tilemap::Tilemap*const)mp_Tilemap)->FromWorldToTile(mouseWorldPosition);
 			double radius = 5;
 			for (int i = -radius; i < radius; i++)
 			{
@@ -108,15 +110,29 @@ namespace SandboxEngine::Game::GameObject
 					if (m_ShouldAddTile)
 					{
 						float fac = float(abs(i * j)) / float(radius * radius);
-						UINT color = GraphicsPipeline::GraphicsPipeline2D::RGBA_To_UINT(0xff - 40 * fac, 0xe0 - 40 * fac, 0x82 + 60 * fac, 255);// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff; //0xFFE082FF
-						((Tilemap::Tilemap*)mp_Tilemap)->AddTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y), Tilemap::Tile(color, behaviorID));
+						UINT color = GraphicsPipeline::GraphicsPipeline2D::RGBA_To_UINT(
+							((unsigned int)selectedItem.ExtraFlags >> 24) - 40 * fac, 
+							((unsigned int)selectedItem.ExtraFlags >> 16 & 0xff) - 40 * fac, 
+							((unsigned int)selectedItem.ExtraFlags >> 8 & 0xff) + 60 * fac,
+							((unsigned int)selectedItem.ExtraFlags & 0xff));// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff; //0xFFE082FF
+						((Tilemap::Tilemap*)mp_Tilemap)->AddTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y), Tilemap::Tile(color, behaviorID));
 					}
 					else
-						((Tilemap::Tilemap*)mp_Tilemap)->RemoveTile(Vector2Int(i + mousePosition.X, j + mousePosition.Y));
+						((Tilemap::Tilemap*)mp_Tilemap)->RemoveTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y));
 				}
 			}
 		}
 
+		//// Testing raycast
+		//Vector2 originTiles = ((Tilemap::Tilemap* const)mp_Tilemap)->FromWorldToTile(GetPosition());
+		//Vector2 difference = (mouseTilePosition - originTiles), direction = difference.Normalize();
+		//bool succeeded = true;
+		//auto pairHit = ((Tilemap::Tilemap*)mp_Tilemap)->Raycast(originTiles, difference, &succeeded);
+		//if (succeeded)
+		//{
+		//	((Tilemap::Tilemap*)mp_Tilemap)->AddTile(originTiles, Tilemap::Tile(0xff0000ff, 0));
+		//	((Tilemap::Tilemap*)mp_Tilemap)->AddTile(pairHit.first, Tilemap::Tile(0xff0000ff, 0));
+		//}
 
 		// Physics
 

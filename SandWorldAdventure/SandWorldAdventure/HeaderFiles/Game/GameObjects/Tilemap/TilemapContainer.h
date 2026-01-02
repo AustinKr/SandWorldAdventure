@@ -123,7 +123,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 				// Change tile
 				*pExistingTile = currentIterator->second;
 				pExistingTile->HasValue = true;
-				pExistingTile->LastMoveTime = timeInfo.CurrentTime; // For physics
+				pExistingTile->LastMoveTime = timeInfo.CurrentTime - timeInfo.FrameDeltaTime; // For physics
 
 				// Allow extra functionality
 				OnAdd(std::make_pair(pChunk, pExistingTile), currentIterator->first, timeInfo, 1);

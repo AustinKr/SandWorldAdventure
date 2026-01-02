@@ -11,11 +11,12 @@ namespace SandboxEngine::Game::Inventory
 	public:
 		const char* ImagePath;
 		void* p_Data;
+		int ExtraFlags;
 
 		// Empty item (placeholder)
 		BasicItem();
 		// Creates an item
-		BasicItem(const char* imagePath, void* pData);
+		BasicItem(const char* imagePath, void* pData, int extraFlags);
 
 	private:
 		void Release();

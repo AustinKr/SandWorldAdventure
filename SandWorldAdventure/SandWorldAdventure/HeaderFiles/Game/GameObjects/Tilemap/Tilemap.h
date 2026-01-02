@@ -45,6 +45,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		// Inherited via IGameObject
 		virtual void Release() override;
 
+		// TODO: Could simplify add and remove tiles so it will just make the change and override whatever
 		bool AddTile(Vector2Int tilePosition, Tile newTile, bool shouldOverride = true);
 		bool RemoveTile(Vector2Int tilePosition);
 
@@ -58,15 +59,14 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		/// 
 		/// </summary>
 		/// <param name="origin"></param>
-		/// <param name="direction"></param>
-		/// <param name="end"></param>
-		/// <returns>the distance traveled before it hit the tile(or null) in front which is returned through tile info</returns>
-		std::pair<double, TilemapContainer::TILE_INFO> Raycast(Vector2 origin, Vector2 direction, double end);
+		/// <param name="vector"></param>
+		/// <returns>The position of the space before the hit tile, which is the second parameter</returns>
+		std::pair<Vector2, TilemapContainer::TILE_INFO> Raycast(Vector2Int origin, Vector2 vector, bool *pSucceeded);
 		
-		double TryStepMoveTile(
-			Vector2 tilePosition,
-			Vector2 direction,
-			double end);
+		Vector2Int TryStepMoveTile(
+			Vector2Int tilePosition,
+			Vector2 vector,
+			bool* pSucceeded);
 
 		Vector2 FromWorldToTile(Vector2 world);
 		Vector2 FromTileToWorld(Vector2 tile);

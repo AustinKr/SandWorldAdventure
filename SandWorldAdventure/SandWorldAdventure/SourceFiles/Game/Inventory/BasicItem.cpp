@@ -10,7 +10,7 @@ namespace SandboxEngine::Game::Inventory
 
 	}
 	// Creates an item
-	BasicItem::BasicItem(const char* imagePath, void* pData) : ImagePath(imagePath), p_Data(pData)
+	BasicItem::BasicItem(const char* imagePath, void* pData, int extraFlags) : ImagePath(imagePath), p_Data(pData), ExtraFlags(extraFlags)
 	{
 
 	}

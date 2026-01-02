@@ -111,12 +111,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\glew-2.2.0\include;C:\dev\C++ Projects\Tools\BVHStructures\Quadtree\src\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface;C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\BVHStructures\Quadtree\src\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir);C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>

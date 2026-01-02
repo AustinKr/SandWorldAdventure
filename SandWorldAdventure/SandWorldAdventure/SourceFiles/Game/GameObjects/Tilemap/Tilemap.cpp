@@ -46,87 +46,44 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	// Inherited via IGameObject
 	void Tilemap::Update(Time time)
 	{
-
-		//// - Apply pending tile changes -
-		//for (auto& iter : m_PendingNewTiles)
-		//{
-		//	if (tilesToUpdateList.size() + 1 > MAX_ADJACENT_TILES) // This check really shouldn't be needed mostly
-		//		break;
-
-		//	if (iter.second.HasValue)
-		//	{
-		//		tileInfo = Container.AddTile(iter.first, iter.second, time.CurrentTime); // Make change in container
-		//		if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_ADD)).second)
-		//			tilesToUpdateList.push_back(iter.first);
-		//		continue;
-		//	}
-
-		//	Container.RemoveTile(iter.first);
-		//	if (tilesToUpdateDict.insert(std::make_pair(iter.first, TileBehavior::TILE_ACTION_REMOVE)).second)
-		//		tilesToUpdateList.push_back(iter.first);
-		//}
-		//m_PendingNewTiles.clear();
-
-
 		/*
-		if (m_TilesToUpdateDict.size() + 8 > MAX_ADJACENT_TILES)
-			{
-				fprintf(stdout, "Reached max adjacent tiles limit!!\n");
-				return false;
-			}
-			*/
+		. Apply Pending Tile changes // (and update tiles as we go)
+		. Iterate through all the tiles and those adjacent that are affected by the changes
+
+		*/
+
 
 		std::unordered_map<
 			Vector2Int, // Position
 			unsigned int, // Action
-			Vector2Hasher> tilesToUpdateDict = {}; // Used to check if a position is already here
-		std::vector<Vector2Int> tilesToUpdateList = {}; // Used to iterate in chronological order
+			Vector2Hasher> tilesToUpdateDict = {};
+
 
 		auto OnTileChange = [&](TilemapContainer::TILE_INFO tileInfo, Vector2Int tilePosition, Time timeInfo, unsigned int action)
 		{
-			// TODO: Not all pending tile changes are applied at this point and are completly unkown to the currently updated tiles
-
-			if (!TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, tilePosition, tileInfo, timeInfo, (TileBehavior::TileActionTypes)action))
-				return;
-			// Add to collections so we can update adjacent
 			tilesToUpdateDict.insert(std::make_pair(tilePosition, action));
-			tilesToUpdateList.push_back(tilePosition);
 		};
 
-		fprintf(stdout, std::to_string(m_PendingTileRemovals.size()).append(" r\n").c_str());
-		fprintf(stdout, std::to_string(m_PendingTileAdditions.size()).append(" a\n").c_str());
-		
 		// Move the pending tiles into private collections to iterate
 		std::unordered_map<Vector2Int, char, Vector2Hasher> oldPendingTileRemovals = std::move(m_PendingTileRemovals);
 		std::unordered_map<Vector2Int, Tile, Vector2Hasher> oldPendingTileAdditions = std::move(m_PendingTileAdditions);
-		m_PendingTileRemovals = {}, m_PendingTileAdditions = {}; // Clear up pending tiles for next game cycle
-
+		m_PendingTileRemovals = {}, m_PendingTileAdditions = {}; // Clear up pending tiles to be iterated next game cycle
+		// Apply
 		Container.RemoveTiles(oldPendingTileRemovals.begin(), oldPendingTileRemovals.end(), m_LeastTileRemovalKey, time, OnTileChange);
 		Container.AddTiles(oldPendingTileAdditions.begin(), oldPendingTileAdditions.end(), m_GreatestTileAdditionKey, time, OnTileChange);
-		
 
-		// - Update blocks of adjacent tiles -
-		Vector2Int currentAdjPosition, currentPosition;
-		TilemapContainer::TILE_INFO tileInfo;
+		// Iterate
+		std::vector<std::pair<Vector2Int, unsigned int>> tilesToUpdateList = std::vector<std::pair<Vector2Int, unsigned int>>(tilesToUpdateDict.begin(), tilesToUpdateDict.end());
+		std::pair<Vector2Int, unsigned int> currentTileToUpdate; TilemapContainer::TILE_INFO tileInfo;
+		Vector2Int currentAdjPosition;
 		for (int i = 0; i < tilesToUpdateList.size(); i++)
 		{
-			currentPosition = tilesToUpdateList.at(i);
-			// Try update
-			if (tilesToUpdateDict[currentPosition] == TileBehavior::TILE_ACTION_REFRESH)
-			{
-				// Update tile
+			currentTileToUpdate = tilesToUpdateList.at(i);
+			tileInfo = Container.GetTileInChunk(currentTileToUpdate.first);
 
-				tileInfo = Container.GetTileInChunk(currentPosition);
-				if (tileInfo.second == nullptr || !TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, currentPosition, tileInfo, time, (TileBehavior::TileActionTypes)tilesToUpdateDict[currentPosition]))
-					continue; // Continue and don't append adjacent
-
-				//// Debug feature -
-				//
-				//Vector2 currentWorldPosition = FromTileToWorld(currentPosition);
-				//GameInstance::p_DebugServiceObject->CreateRectangle(currentWorldPosition + TileSize * 0.375, currentWorldPosition + TileSize * 0.75, .01, GraphicsPipeline::GraphicsPipeline2D::GP2D_BASE_SHADER);
-				//
-				//// -
-			}
+			// Update tile
+			if (tileInfo.second == nullptr || !TileBehavior::GetTileBehavior(tileInfo.second->BehaviorIndex)->TryUpdate(this, currentTileToUpdate.first, tileInfo, time, (TileBehavior::TileActionTypes)currentTileToUpdate.second))
+				continue; // Continue and don't append adjacent
 			
 			// Append adjacent
 			if (tilesToUpdateList.size() + 8 > MAX_ADJACENT_TILES) // TODO: Better way to check for the limit if you calculate it and designate space first(this reduces checks)
@@ -136,10 +93,11 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			}
 			for (int ii = 0; ii < 8; ii++)
 			{
-				currentAdjPosition = currentPosition + ADJACENT_TILE_POSITIONS[ii];
+				currentAdjPosition = currentTileToUpdate.first + ADJACENT_TILE_POSITIONS[ii];
 				
-				if (tilesToUpdateDict.insert(std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_REFRESH)).second)
-					tilesToUpdateList.push_back(currentAdjPosition);
+				auto pair = std::make_pair(currentAdjPosition, TileBehavior::TILE_ACTION_REFRESH);
+				if (tilesToUpdateDict.insert(pair).second)
+					tilesToUpdateList.push_back(pair);
 			}
 		}
 
@@ -279,39 +237,44 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		return Container.ContainsTile(tilePosition) || m_PendingTileAdditions.contains(tilePosition);
 	}
 
-	std::pair<double, TilemapContainer::TILE_INFO> Tilemap::Raycast(Vector2 origin, Vector2 direction, double end)
+	std::pair<Vector2, TilemapContainer::TILE_INFO> Tilemap::Raycast(Vector2Int origin, Vector2 vector, bool *pSucceeded)
 	{
 		// TODO: Implement effecient grid raycast method
 
-		Vector2 currentPosition;
-		double distance = 0;
-		TilemapContainer::TILE_INFO hitTileInfo = std::make_pair(nullptr, nullptr);
-		for (distance; (distance + 1) < floor(end) && distance < MAX_RAYCAST_STEPS; distance++)
+		int endSqrd = vector.GetMagnitudeSqrd();
+		Vector2 currentPosition = {}; Vector2 direction = vector.Normalize();
+		TilemapContainer::TILE_INFO hitTile = {};
+		int d = 0;
+		for (d = 1; d * d < endSqrd + 1; d++)
 		{
-			currentPosition = origin + Vector2(.5, .5) + direction * (distance+1); // (distance+1) so that the tile we are starting from is skipped
-			if (!Container.IsTileInBounds(currentPosition) || WillContainTile(currentPosition))
-				return std::make_pair(distance, TilemapContainer::TILE_INFO(nullptr, nullptr));
-			hitTileInfo = Container.GetTileInChunk(currentPosition);
-			if (hitTileInfo.second != nullptr && hitTileInfo.second->HasValue)
-				return std::make_pair(distance, hitTileInfo);
+			currentPosition = Vector2(origin.X + .5, origin.Y + .5) + direction * d;
+			if (!Container.IsTileInBounds(currentPosition) || m_PendingTileAdditions.contains(currentPosition))
+				break;
+			if (Container.ContainsTile(currentPosition))
+			{
+				hitTile = Container.GetTileInChunk(currentPosition);
+				break;
+			}
 		}
+		*pSucceeded = d > 1;
 
-		return std::make_pair(distance, std::make_pair(nullptr, nullptr)); // Either made it all the way to the end or didn't iterate at all
+		// fail or hit
+		return std::make_pair((Vector2Int)(currentPosition - direction), hitTile);
 	}
 
-	double Tilemap::TryStepMoveTile(
-		Vector2 tilePosition,
-		Vector2 direction,
-		double end)
+	Vector2Int Tilemap::TryStepMoveTile(
+		Vector2Int tilePosition,
+		Vector2 vector,
+		bool* pSucceeded)
 	{
-		std::pair<double, TilemapContainer::TILE_INFO> hit = Raycast(tilePosition, direction, end);
-		if (hit.first < 1)
-			return 0;
+		std::pair<Vector2, TilemapContainer::TILE_INFO> hit = Raycast(tilePosition, vector, pSucceeded);
+		if (!*pSucceeded)
+			return tilePosition;
 		// Raycast succeeded !
 
-		Vector2 newTilePosition = direction * hit.first + tilePosition;
+		Vector2 newTilePosition = hit.first;
 		SwapTiles(tilePosition, newTilePosition);
-		return hit.first;
+		return newTilePosition;
 	}
 
 	// TODO: This can be Vector2Int

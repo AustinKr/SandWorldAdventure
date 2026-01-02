@@ -18,6 +18,10 @@ namespace SandboxEngine::Game::GameObject
 		bool m_ShouldAddTile;
 		IGameObject* const mp_Tilemap;
 	public:
+		/*
+		The ExtraFlags field stores the base rgba color used for that tile.
+		The p_Data field stores the behavior type
+		*/
 		Inventory::Inventory<Inventory::BasicItem> CurrentInventory;
 		Inventory::PlayerInventoryGUI InventoryGUI;
 
