@@ -150,6 +150,8 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SandWorldAdventure\SourceFiles\FileUtility.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\PendingTileChangesRegistry.cpp" />
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\Tile.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\SolidTileBehavior.cpp" />
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\TileBehaviors\TileBehavior.cpp" />
@@ -184,6 +186,8 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Event\EventHandler.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\FileUtility.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Chunk.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\PendingTileChange.h" />
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\PendingTileChangesRegistry.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\Tile.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\FluidTileBehavior.h" />
     <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\TileBehaviors\SandTileBehavior.h" />

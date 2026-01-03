@@ -8,13 +8,6 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	class TileBehavior
 	{
 	public:
-		enum TileActionTypes
-		{
-			TILE_ACTION_ADD = 1,
-			TILE_ACTION_REMOVE = 2,
-			TILE_ACTION_REFRESH = 4,
-		};
-
 		static const TileBehavior* TILE_BEHAVIORS[2];
 		
 		static TileBehavior* GetTileBehavior(int behaviorIndex);
@@ -31,13 +24,10 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		/// <param name="tilePosition"></param>
 		/// <param name="tileInfo"></param>
 		/// <param name="time">Used to create physics and such</param>
-		/// <param name="action">The reason this tile is updated: add, remove, or update</param>
-		/// <returns>Whether to also update the tiles adjacent to this one because of this tile being updated</returns>
 		virtual bool TryUpdate(
 			Tilemap* pTilemap,
 			Vector2Int tilePosition,
 			TilemapContainer::TILE_INFO tileInfo,
-			Time time,
-			TileActionTypes action) = 0;
+			Time time) = 0;
 	};
 }

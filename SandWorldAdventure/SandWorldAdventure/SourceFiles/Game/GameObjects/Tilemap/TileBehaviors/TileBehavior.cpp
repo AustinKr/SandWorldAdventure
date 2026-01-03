@@ -26,10 +26,8 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		Tilemap* pTilemap,
 		Vector2Int tilePosition,
 		TilemapContainer::TILE_INFO tileInfo,
-		Time time,
-		TileActionTypes action)
+		Time time)
 	{
-		// Need to update adjacent if the action applied on this tile is Add or Remove
-		return (TILE_ACTION_ADD | TILE_ACTION_REMOVE) & action;
+		return false;
 	}
 }

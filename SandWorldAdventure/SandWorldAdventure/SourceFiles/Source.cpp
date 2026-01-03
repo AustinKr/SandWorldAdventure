@@ -1,5 +1,7 @@
 // This file contains the entry point and initializes everything. It also contains game logic
 
+// TODO: Move GUI code into its own dll
+
 #include "HeaderFiles/MasterWindow.h"
 #include "HeaderFiles/GUISystem/Components/GUISpriteComponent.h"
 #include "HeaderFiles/GUISystem/Components/GUIButtonComponent.h"
@@ -187,7 +189,7 @@ void GenerateTilemap()
 			unsigned int col = i * j % 2 == 0 ? 0x00ff00ff : 0x0000ffff;
 			if (i + j * 50 * 50 == 50 * 50 - 1)
 				col = 0xffff00ff;
-			gp_TestTilemap->AddTile(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid));
+			gp_TestTilemap->PendingTileChangesRegistry.SetTile(Vector2Int(i, j), Tilemap::Tile(col, Tilemap::TILE_BEHAVIOR_NAMES::Solid));
 		}
 	}
 

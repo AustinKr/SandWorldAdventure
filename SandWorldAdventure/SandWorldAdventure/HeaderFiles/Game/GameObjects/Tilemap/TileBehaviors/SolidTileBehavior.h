@@ -10,8 +10,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 			Tilemap* pTilemap,
 			Vector2Int tilePosition,
 			TilemapContainer::TILE_INFO tileInfo,
-			Time time,
-			TileActionTypes action) override;
+			Time time) override;
 	};
 }
 

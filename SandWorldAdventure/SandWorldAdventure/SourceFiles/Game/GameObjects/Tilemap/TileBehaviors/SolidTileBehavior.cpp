@@ -7,9 +7,8 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		Tilemap* pTilemap,
 		Vector2Int tilePosition,
 		TilemapContainer::TILE_INFO tileInfo,
-		Time time,
-		TileActionTypes action)
+		Time time)
 	{
-		return TileBehavior::TryUpdate(pTilemap, tilePosition, tileInfo, time, action);
+		return false;
 	}
 }

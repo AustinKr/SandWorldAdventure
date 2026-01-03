@@ -141,6 +141,12 @@
     <ClCompile Include="SandWorldAdventure\SourceFiles\Game\Inventory\BasicItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\Tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\SourceFiles\Game\GameObjects\Tilemap\PendingTileChangesRegistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\MasterWindow.h">
@@ -300,6 +306,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\HeaderFiles\GUISystem\ButtonEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\PendingTileChangesRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\HeaderFiles\Game\GameObjects\Tilemap\PendingTileChange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

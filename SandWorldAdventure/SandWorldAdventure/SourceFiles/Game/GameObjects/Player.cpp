@@ -115,10 +115,10 @@ namespace SandboxEngine::Game::GameObject
 							((unsigned int)selectedItem.ExtraFlags >> 16 & 0xff) - 40 * fac, 
 							((unsigned int)selectedItem.ExtraFlags >> 8 & 0xff) + 60 * fac,
 							((unsigned int)selectedItem.ExtraFlags & 0xff));// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff; //0xFFE082FF
-						((Tilemap::Tilemap*)mp_Tilemap)->AddTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y), Tilemap::Tile(color, behaviorID));
+						((Tilemap::Tilemap*)mp_Tilemap)->PendingTileChangesRegistry.SetTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y), Tilemap::Tile(color, behaviorID));
 					}
 					else
-						((Tilemap::Tilemap*)mp_Tilemap)->RemoveTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y));
+						((Tilemap::Tilemap*)mp_Tilemap)->PendingTileChangesRegistry.SetTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y), Tilemap::Tile::EMPTY);
 				}
 			}
 		}

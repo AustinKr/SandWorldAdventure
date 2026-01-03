@@ -51,6 +51,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		void AssignChunks(Vector2Int chunkBounds);
 		TILE_INFO AddTile(Vector2Int tilePosition, Tile newTile, double currentTime, bool tryCreate = true);
 		TILE_INFO RemoveTile(Vector2Int tilePosition);
+
 		template<typename Iter>
 		// Expects Iter to be of Tile
 		inline bool AddBlockOfTiles(Iter tileIteratorBegin, Vector2Int origin, Vector2Int size, double currentTime)
