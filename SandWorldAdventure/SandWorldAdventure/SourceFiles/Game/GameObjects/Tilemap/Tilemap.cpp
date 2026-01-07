@@ -7,7 +7,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 {
 
 	const int Tilemap::MAX_RAYCAST_STEPS = 600;
-	const int Tilemap::MAX_TILE_UPDATES = 8000;
+	const int Tilemap::MAX_TILE_UPDATES = 2000;
 	const Vector2Int Tilemap::ADJACENT_TILE_POSITIONS[8] =
 	{
 		Vector2Int(-1,-1),
@@ -130,13 +130,15 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		for (d = 1; d * d < endSqrd + 1; d++)
 		{
 			currentPosition = Vector2(origin.X + .5, origin.Y + .5) + direction * d;
-			if (!Container.IsTileInBounds(currentPosition) || PendingTileChangesRegistry.WillContainTile(currentPosition))
+			if (!Container.IsTileInBounds(currentPosition) || PendingTileChangesRegistry.WillAddTile(currentPosition))
 				break;
-			if (Container.ContainsTile(currentPosition))
+			if (!PendingTileChangesRegistry.WillRemoveTile(currentPosition) && Container.ContainsTile(currentPosition))
 			{
+				// Hit something
 				hitTile = Container.GetTileInChunk(currentPosition);
 				break;
 			}
+			// Did not hit something
 		}
 		*pSucceeded = d > 1;
 
@@ -155,7 +157,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		// Raycast succeeded !
 
 		Vector2 newTilePosition = hit.first;
-		//SwapTiles(tilePosition, newTilePosition);
+		PendingTileChangesRegistry.SwapTiles(tilePosition, newTilePosition);
 		return newTilePosition;
 	}
 

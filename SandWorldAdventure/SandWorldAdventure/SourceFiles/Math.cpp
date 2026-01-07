@@ -185,6 +185,16 @@ namespace SandboxEngine
 			(std::hash<int>()(v.Y) << 1);
 	}
 
+	// Vector2Compare
+	bool Vector2Compare::operator()(const Vector2& a, const Vector2& b) const
+	{
+		return Vector2Hasher().operator()(a) < Vector2Hasher().operator()(b);
+	}
+	bool Vector2Compare::operator()(const Vector2Int& a, const Vector2Int& b) const
+	{
+		return Vector2Hasher().operator()(a) < Vector2Hasher().operator()(b);
+	}
+
 	// float2
 
 	float2::operator Vector2() const

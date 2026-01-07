@@ -34,6 +34,8 @@ namespace SandboxEngine::GraphicsPipeline
 		virtual int CompileShaders() override;
 	public:
 		
+		static const int MAX_GL_ERRORS;
+
 		enum
 		{
 			GP2D_BASE_SHADER = 0,
@@ -68,7 +70,7 @@ namespace SandboxEngine::GraphicsPipeline
 			return (TYPE*)pShader;
 		}
 
-		void TryPrintGlError();
+		void TryPrintGlError(int i = 0);
 
 		/// <summary>
 		/// 

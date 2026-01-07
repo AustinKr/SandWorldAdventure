@@ -87,6 +87,11 @@ namespace SandboxEngine
 		std::size_t operator()(const Vector2& v) const;
 		std::size_t operator()(const Vector2Int& v) const;
 	};
+	struct Vector2Compare
+	{
+		bool operator()(const Vector2& a, const Vector2& b) const;
+		bool operator()(const Vector2Int& a, const Vector2Int& b) const;
+	};
 
 	// Types that are used within the shader code
 	struct float2

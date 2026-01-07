@@ -6,14 +6,14 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 	class SandTileBehavior : private TileBehavior
 	{
 	private:
-		const int GRAVITY = 25; // use G/10.0
+		const int GRAVITY = 5;
 
 		// Returns whether it moved
 		bool TryApplyMotion(
+			Vector2 translation,
 			Tilemap* pTilemap,
 			Vector2Int tilePosition,
-			TilemapContainer::TILE_INFO tileInfo,
-			Time time);
+			TilemapContainer::TILE_INFO tileInfo);
 	public:
 		virtual bool TryUpdate(
 			Tilemap* pTilemap,

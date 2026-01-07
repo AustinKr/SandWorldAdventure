@@ -7,6 +7,8 @@
 
 namespace SandboxEngine::GraphicsPipeline
 {
+	const int GraphicsPipeline2D::MAX_GL_ERRORS = 10;
+
 	GraphicsPipeline2D::GraphicsPipeline2D() : m_VertexBufferName(0), mp_VertexArray(0), m_Layers{}, ActiveCamera{}, m_AllShaderObjects{}, m_UniformVariableLocations{}
 	{
 		/*nothing*/
@@ -179,10 +181,12 @@ namespace SandboxEngine::GraphicsPipeline
 		return -1;
 	}
 
-	void GraphicsPipeline2D::TryPrintGlError()
+	void GraphicsPipeline2D::TryPrintGlError(int i)
 	{
+		return; // TODO: Remove temporary disablement of TryPrintGLError()
+
 		int err = glGetError();
-		if (err == GL_NO_ERROR)
+		if (err == GL_NO_ERROR || i >= MAX_GL_ERRORS)
 			return;
 
 		switch (err)
@@ -209,7 +213,7 @@ namespace SandboxEngine::GraphicsPipeline
 			fprintf(stderr, "error: stack overflow!\n");
 			break;
 		}
-		TryPrintGlError();
+		TryPrintGlError(i++);
 	}
 
 	GLint GraphicsPipeline2D::TryEnableVertexAttribute(GLuint program, const char* const pName, GLint size, GLenum type, GLsizei stride, const void* pAttribute)

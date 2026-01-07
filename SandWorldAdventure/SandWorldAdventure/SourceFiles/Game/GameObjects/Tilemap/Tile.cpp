@@ -11,7 +11,7 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		BehaviorIndex = behavior;
 		HasValue = true;
 		Motion = Vector2(0, 0);
-		LastMoveTime = 0;
+		LastMoveTime = -1;
 	}
 	Tile::Tile()
 	{
@@ -19,6 +19,6 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		BehaviorIndex = 0;
 		HasValue = false;
 		Motion = Vector2(0, 0);
-		LastMoveTime = 0;
+		LastMoveTime = -1;
 	}
 }

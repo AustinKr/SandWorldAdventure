@@ -17,8 +17,8 @@ namespace SandboxEngine::Game::GameObject::Tilemap
 		
 
 		/// <summary>
-		/// Apply custom physics. Called even after a tile is removed. Make certain you check whether the tile exists before applying any behavior!
-		/// By default, returns true if the action is remove or add
+		/// Apply custom physics. Not called after a tile is removed- only when .HasValue.
+		/// By default, returns false
 		/// </summary>
 		/// <param name="pTilemap"></param>
 		/// <param name="tilePosition"></param>
