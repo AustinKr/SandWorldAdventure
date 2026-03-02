@@ -1,13 +1,13 @@
 #pragma once
-#include "IMesh.h"
+#include "GP2D/Pipeline/Mesh/IMesh.h"
 #include "HeaderFiles/Game/GameObjects/IGameObject.h"
 
 #include "Quadtree.h"
 #include "HeaderFiles/Game/GameObjects/Tilemap/StaticQuadtreeTypes.h"
 
-namespace SandboxEngine::GraphicsPipeline
+namespace SandboxEngine
 {
-	class TilemapMesh : public IMesh
+	class TilemapMesh : public GP2D::Pipeline::Mesh::IMesh
 	{
 	private:
 		typedef unsigned int TILE_DATA_TYPE; // A color (first 8 bits: red; second 8: green; third 8: blue; fourth 16: alpha unused)
@@ -77,7 +77,7 @@ namespace SandboxEngine::GraphicsPipeline
 	public:
 		TilemapMesh(Game::GameObject::IGameObject* pTilemap);
 
-		virtual void Render(GraphicsPipeline::GraphicsPipeline2D* pPipeline, GLuint vertexBufferName, GLuint pVertexArray) override;
+		virtual bool Render(GP2D::Pipeline::IPipeline* pPipeline, GP2D::Pipeline::UINT vertexBufferName, GP2D::Pipeline::UINT pVertexArray) override;
 		virtual void Release() override;
 	};
 }

@@ -14,10 +14,10 @@
     #version 330
     
     uniform sampler2D Tex;
-    uniform vec4 RedMask;
-    uniform vec4 GreenMask;
-    uniform vec4 BlueMask;
-    uniform vec4 AlphaMask;
+    uniform vec4 Tex_RedMask;
+    uniform vec4 Tex_GreenMask;
+    uniform vec4 Tex_BlueMask;
+    uniform vec4 Tex_AlphaMask;
 
     uniform vec4 ShadeColor;
 
@@ -29,9 +29,9 @@
         
         vec4 color = texture(Tex, uv.xy);
         fragment = (
-            color.r * RedMask
-            + color.g * GreenMask 
-            + color.b * BlueMask 
-            + color.a * AlphaMask)/ 256.0f * vec4(ShadeColor);
+            color.r * Tex_RedMask
+            + color.g * Tex_GreenMask 
+            + color.b * Tex_BlueMask 
+            + color.a * Tex_AlphaMask)/ 256.0f * vec4(ShadeColor);
     }
 #ENDFRAGMENT
