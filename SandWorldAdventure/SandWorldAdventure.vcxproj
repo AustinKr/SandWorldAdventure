@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -82,7 +82,7 @@
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -117,7 +117,7 @@
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -141,7 +141,7 @@ xcopy /y /d "C:\dev\C++ Projects\Tools\KeyboardInterface\$(IntDir)KeyboardInterf
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\lib-vc2022;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\lib\Release\x64;C:\dev\C++ Projects\Tools\BVHStructures\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>KeyboardInterfaceAPI.lib;opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;Quadtree.lib;GP2D.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

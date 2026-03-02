@@ -1,3 +1,9 @@
+/*
+NOTE: can only run on Release
+
+*/
+
+
 #include "RenderLayerNames.h"
 #include "ShaderNames.h"
 
