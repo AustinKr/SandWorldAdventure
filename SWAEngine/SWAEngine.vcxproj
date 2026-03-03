@@ -79,12 +79,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,12 +101,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,12 +121,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,22 +143,32 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\dllmain.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Math.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\Tilemap.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\dllClause.h" />
-    <ClInclude Include="src\include\SWAEngine\SWATypes.h" />
+    <ClInclude Include="src\include\SWAEngine\Math.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\ITilemapContainer.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tile.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tilemap.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapContainer.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapMesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

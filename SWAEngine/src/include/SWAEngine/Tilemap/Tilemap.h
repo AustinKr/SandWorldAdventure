@@ -1,17 +1,34 @@
 #pragma once
-#include "SWAEngine/dllClause.h"
-#include "SWAEngine/Tilemap/Tile.h"
-#include <unordered_map>
+#include "SWAEngine/Tilemap/ITilemapContainer.h"
 
 namespace SWAEngine::Tilemap
 {
 	struct SWA_ENGINE_API Tilemap
 	{
-	private:
-		std::unordered_map<Int2, Tile> m_TilesRegistry;
-
 	public:
-		void GetTile();
-		void SetTile();
+		// In world coordinates
+		Vector2 Origin;
+
+		Tilemap();
+		void Release();
+
+		// Returns a copy of the tile
+		Tile GetTile(Vector2Int position);
+		// Sets the tile (in the pending tiles container)
+		Tile& SetTile(Vector2Int position, Tile tile);
+
+		// Should be called every frame cycle
+		void Update();
+
+		Vector2 TileToWorld(Vector2Int);
+		Vector2Int WorldToTile(Vector2);
+
+	private:
+		// Contains currently active tiles
+		ITilemapContainer* mp_ActiveTilesContainer;
+		// Contains new override tiles or null tiles to replace any currently active in their place
+		ITilemapContainer* mp_PendingTilesContainer;
+
+		void ApplyPendingTiles();
 	};
 }

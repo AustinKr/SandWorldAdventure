@@ -1,6 +1,6 @@
-#include "HeaderFiles/Math.h"
+#include "SWAEngine/Math.h"
 
-namespace SandboxEngine
+namespace SWAEngine
 {
 	// Vector2
 

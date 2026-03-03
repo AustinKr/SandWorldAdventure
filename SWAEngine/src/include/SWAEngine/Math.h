@@ -1,14 +1,10 @@
 #pragma once
 #include <iostream>
-//#define MATH_H;
-//
-//#ifndef VECTOR2_H
-//#define VECTOR2_H
-//struct SandboxEngine::Vector2;
-//#endif
 
-namespace SandboxEngine
+namespace SWAEngine
 {
+	typedef unsigned int HEX_COLOR;  // A color (first 8 bits: red; second 8: green; third 8: blue; fourth 16: alpha unused)
+
 	// Forward declarations
 	struct Vector2Int;
 	struct float2;
@@ -140,11 +136,5 @@ namespace SandboxEngine
 		float Y;
 		float Z;
 		float W;
-	};
-
-	struct Vertex
-	{
-		float2 pos;
-		float3 uvCoord;
 	};
 }

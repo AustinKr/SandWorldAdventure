@@ -1,11 +1,14 @@
 #pragma once
-#include "SWAEngine/SWATypes.h"
+#include "SWAEngine/Math.h"
 
 namespace SWAEngine::Tilemap
 {
 	struct Tile
 	{
-		unsigned int BehaviorID;
-		Float4 Color;
-	}
+		unsigned int BehaviorID; // TODO: Create behavior registry system
+		HEX_COLOR Color;
+
+		// Whether this tile is active and non-null
+		bool HasValue;
+	};
 }
