@@ -1,6 +1,7 @@
-#include "SWAEngine/Math.h"
+#include "SWAEngine/Math/vector2.h"
+#include <algorithm>
 
-namespace SWAEngine
+namespace SWAEngine::Math
 {
 	// Vector2
 
@@ -10,10 +11,6 @@ namespace SWAEngine
 	Vector2::operator Vector2Int() const
 	{
 		return Vector2Int(X, Y);
-	}
-	Vector2::operator float2() const
-	{
-		return float2(X, Y);
 	}
 
 	double Vector2::GetMagnitudeSqrd(Vector2 v) { return v.X * v.X + v.Y * v.Y; }
@@ -95,10 +92,6 @@ namespace SWAEngine
 	Vector2Int::operator Vector2() const
 	{
 		return Vector2(X, Y);
-	}
-	Vector2Int::operator float2() const
-	{
-		return float2(X, Y);
 	}
 
 	int Vector2Int::GetMagnitudeSqrd(Vector2Int v) { return v.X * v.X + v.Y * v.Y; }
@@ -193,116 +186,5 @@ namespace SWAEngine
 	bool Vector2Compare::operator()(const Vector2Int& a, const Vector2Int& b) const
 	{
 		return Vector2Hasher().operator()(a) < Vector2Hasher().operator()(b);
-	}
-
-	// float2
-
-	float2::operator Vector2() const
-	{
-		return Vector2(X, Y);
-	}
-	float2::operator Vector2Int() const
-	{
-		return Vector2Int(X, Y);
-	}
-
-	float2 float2::operator *(float other) const
-	{
-		return float2(other * X, other * Y);
-	}
-	float2 float2::operator /(float other) const
-	{
-		return (*this) * (1.0f / other);
-	}
-	float2 float2::operator *(float2 other) const
-	{
-		return float2(other.X * X, other.Y * Y);
-	}
-	float2 float2::operator /(float2 other) const
-	{
-		return float2(X / other.X, Y / other.Y);
-	}
-
-	float2 float2::operator +(float2 other) const
-	{
-		return float2(other.X + X, other.Y + Y);
-	}
-	float2 float2::operator -(float2 other) const
-	{
-		return float2(-other.X + X, -other.Y + Y);
-	}
-
-	void float2::operator +=(float2 other)
-	{
-		X += other.X;
-		Y += other.Y;
-	}
-	void float2::operator -=(float2 other)
-	{
-		X -= other.X;
-		Y -= other.Y;
-	}
-	void float2::operator *=(float2 other)
-	{
-		X *= other.X;
-		Y *= other.Y;
-	}
-	void float2::operator /=(float2 other)
-	{
-		X /= other.X;
-		Y /= other.Y;
-	}
-
-	// float3
-
-	float3 float3::operator *(float other)
-	{
-		return float3(other * X, other * Y, other * Z);
-	}
-	float3 float3::operator /(float other)
-	{
-		return (*this) * (1.0f / other);
-	}
-	float3 float3::operator *(float3 other)
-	{
-		return float3(other.X * X, other.Y * Y, other.Z * Z);
-	}
-	float3 float3::operator /(float3 other)
-	{
-		return float3(X / other.X, Y / other.Y, Z / other.Z);
-	}
-
-	float3 float3::operator +(float3 other)
-	{
-		return float3(other.X + X, other.Y + Y, other.Z + Z);
-	}
-	float3 float3::operator -(float3 other)
-	{
-		return float3(-other.X + X, -other.Y + Y, -other.Z + Z);
-	}
-
-	void float3::operator +=(float3 other)
-	{
-		X += other.X;
-		Y += other.Y;
-		Z += other.Z;
-	}
-	void float3::operator -=(float3 other)
-	{
-		X -= other.X;
-		Y -= other.Y;
-		Z -= other.Z;
-	}
-	void float3::operator *=(float3 other)
-	{
-		X *= other.X;
-		Y *= other.Y;
-		Z *= other.Z;
-	}
-	void float3::operator /=(float3 other)
-	{
-		X /= other.X;
-		Y /= other.Y;
-		Z /= other.Z;
 	}
 }

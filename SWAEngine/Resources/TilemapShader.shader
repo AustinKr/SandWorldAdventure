@@ -58,11 +58,11 @@
         
         fragment = NULL_COLOR;
 
-        // Make sure texture isn't null
-        if(TexSize.x == 0 || TexSize.y == 0)
+        // Make sure texture isn't null and tilemap has a valid size
+        if(TexSize.x == 0 || TexSize.y == 0 ||
+            TexSizeCoord.x == 0 || TexSizeCoord.y == 0)
             return;
 
-        
         // Transformation to texture pixel xy
         vec2 pos = (uv.xy - TexOriginCoord) / TexSizeCoord;
 
@@ -71,6 +71,11 @@
             pos.x < 1.0 && 
             pos.y < 1.0)
             fragment = texture(TilemapTex, pos);
+
+
+
+
+
 
 
 

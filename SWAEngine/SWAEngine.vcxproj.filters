@@ -24,7 +24,7 @@
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Math.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp">
@@ -47,10 +47,13 @@
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Math.h">
+    <ClInclude Include="src\include\SWAEngine\Math\vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBufferInformation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

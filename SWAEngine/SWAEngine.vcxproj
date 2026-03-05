@@ -89,6 +89,10 @@
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Build\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(ProjectName).lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -111,6 +115,10 @@
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Build\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(ProjectName).lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -131,6 +139,10 @@
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Build\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(ProjectName).lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -153,19 +165,24 @@
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\Tools\GP2D\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GP2D.lib;opengl32.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Build\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(ProjectName).lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\dllmain.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\Math.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\Tilemap.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\dllClause.h" />
-    <ClInclude Include="src\include\SWAEngine\Math.h" />
+    <ClInclude Include="src\include\SWAEngine\Math\vector2.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\ITilemapContainer.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tile.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBufferInformation.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tilemap.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapContainer.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapMesh.h" />

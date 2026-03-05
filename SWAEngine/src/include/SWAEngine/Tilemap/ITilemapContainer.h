@@ -1,17 +1,23 @@
 #pragma once
 #include "SWAEngine/dllClause.h"
 #include "SWAEngine/Tilemap/Tile.h"
+#include "SWAEngine/Math/vector2.h"
 #include <functional>
 
 namespace SWAEngine::Tilemap
 {
 	struct SWA_ENGINE_API ITilemapContainer
 	{
-		virtual bool Contains(Vector2Int position) = 0;
-		virtual Tile& Get(Vector2Int position) = 0;
-		virtual Tile& Set(Vector2Int position, Tile tile, bool shouldOverride = true) = 0;
-		virtual void Erase(Vector2Int position) = 0;
+		// Returns the bounds of the map in tiles
+		// (the top-right-most tile position)
+		virtual Math::Vector2Int GetBounds() = 0;
+		virtual int Size() = 0;
+		virtual bool Contains(Math::Vector2Int position) = 0;
+		virtual Tile& Get(Math::Vector2Int position) = 0;
+		virtual Tile& Set(Math::Vector2Int position, Tile tile, bool shouldOverride = true) = 0;
+		virtual void Erase(Math::Vector2Int position) = 0;
+		virtual void Clear() = 0;
 
-		virtual void Iterate(std::function<bool(Vector2Int, Tile&)> func) = 0;
+		virtual void Iterate(std::function<bool(Math::Vector2Int, Tile&)> func) = 0;
 	};
 }

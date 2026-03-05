@@ -2,29 +2,56 @@
 
 namespace SWAEngine::Tilemap
 {
-	bool TilemapContainer::Contains(Vector2Int position)
+	TilemapContainer::TilemapContainer()
 	{
-		return m_TilesRegistry.contains(position);
+		m_TilesRegistry = {};
+		m_Bounds = {};
 	}
-	Tile& TilemapContainer::Get(Vector2Int position)
+
+	Math::Vector2Int TilemapContainer::GetBounds()
 	{
-		return m_TilesRegistry.at(position);
+		return m_Bounds;
 	}
-	Tile& TilemapContainer::Set(Vector2Int position, Tile tile, bool shouldOverride)
+	int TilemapContainer::Size()
 	{
+		return m_TilesRegistry.size();
+	}
+
+	bool TilemapContainer::Contains(Math::Vector2Int position)
+	{
+		return m_TilesRegistry.contains(position); // TODO: Not returning correctly
+	}
+	Tile& TilemapContainer::Get(Math::Vector2Int position)
+	{
+		return m_TilesRegistry.at(position);  // TODO: Not returning correctly
+	}
+	Tile& TilemapContainer::Set(Math::Vector2Int position, Tile tile, bool shouldOverride)
+	{
+		// Update bounds
+		if (position.X > m_Bounds.X)
+			m_Bounds.X = position.X;
+		if (position.Y > m_Bounds.Y)
+			m_Bounds.Y = position.Y;
+
+		// Set
 		if (shouldOverride && Contains(position))
 		{
 			m_TilesRegistry.at(position) = tile;
 			return m_TilesRegistry.at(position);
 		}
-		m_TilesRegistry.insert(std::make_pair(position, tile));
-		return m_TilesRegistry.at(position);
+		
+		return m_TilesRegistry.insert(std::make_pair(position, tile)).first->second;
 	}
-	void TilemapContainer::Erase(Vector2Int position)
+	void TilemapContainer::Erase(Math::Vector2Int position)
 	{
 		m_TilesRegistry.erase(position);
 	}
-	void TilemapContainer::Iterate(std::function<bool(Vector2Int, Tile&)> func)
+	void TilemapContainer::Clear()
+	{
+		m_TilesRegistry.clear();
+	}
+
+	void TilemapContainer::Iterate(std::function<bool(Math::Vector2Int, Tile&)> func)
 	{
 		for (auto& pair : m_TilesRegistry)
 		{

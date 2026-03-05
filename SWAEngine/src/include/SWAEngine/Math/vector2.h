@@ -1,15 +1,12 @@
 #pragma once
-#include <iostream>
+#include "SWAEngine/dllClause.h"
 
-namespace SWAEngine
+namespace SWAEngine::Math
 {
-	typedef unsigned int HEX_COLOR;  // A color (first 8 bits: red; second 8: green; third 8: blue; fourth 16: alpha unused)
-
 	// Forward declarations
-	struct Vector2Int;
-	struct float2;
+	struct SWA_ENGINE_API Vector2Int;
 
-	struct Vector2
+	struct SWA_ENGINE_API Vector2
 	{
 		double X;
 		double Y;
@@ -18,7 +15,6 @@ namespace SWAEngine
 		Vector2(double x, double y);
 
 		operator Vector2Int() const;
-		operator float2() const;
 
 		static double GetMagnitudeSqrd(Vector2 v);
 		double GetMagnitudeSqrd() const;
@@ -43,7 +39,7 @@ namespace SWAEngine
 		Vector2& operator /=(const Vector2& other);
 
 	};
-	struct Vector2Int
+	struct SWA_ENGINE_API Vector2Int
 	{
 		int X;
 		int Y;
@@ -52,7 +48,6 @@ namespace SWAEngine
 		Vector2Int(int x, int y);
 
 		operator Vector2() const;
-		operator float2() const;
 
 		static int GetMagnitudeSqrd(Vector2Int v);
 		int GetMagnitudeSqrd() const;
@@ -78,63 +73,14 @@ namespace SWAEngine
 
 	};
 
-	struct Vector2Hasher
+	struct SWA_ENGINE_API Vector2Hasher
 	{
-		std::size_t operator()(const Vector2& v) const;
-		std::size_t operator()(const Vector2Int& v) const;
+		unsigned long long operator()(const Vector2& v) const;
+		unsigned long long operator()(const Vector2Int& v) const;
 	};
-	struct Vector2Compare
+	struct SWA_ENGINE_API Vector2Compare
 	{
 		bool operator()(const Vector2& a, const Vector2& b) const;
 		bool operator()(const Vector2Int& a, const Vector2Int& b) const;
-	};
-
-	// Types that are used within the shader code
-	struct float2
-	{
-		float X;
-		float Y;
-
-		operator Vector2() const;
-		operator Vector2Int() const;
-		
-		float2 operator *(float other) const;
-		float2 operator /(float other) const;
-		float2 operator *(float2 other) const;
-		float2 operator /(float2 other) const;
-
-		float2 operator +(float2 other) const;
-		float2 operator -(float2 other) const;
-
-		void operator +=(float2 other);
-		void operator -=(float2 other);
-		void operator *=(float2 other);
-		void operator /=(float2 other);
-	};
-	struct float3
-	{
-		float X;
-		float Y;
-		float Z;
-
-		float3 operator *(float other);
-		float3 operator /(float other);
-		float3 operator *(float3 other);
-		float3 operator /(float3 other);
-
-		float3 operator +(float3 other);
-		float3 operator -(float3 other);
-
-		void operator +=(float3 other);
-		void operator -=(float3 other);
-		void operator *=(float3 other);
-		void operator /=(float3 other);
-	};
-	struct float4
-	{
-		float X;
-		float Y;
-		float Z;
-		float W;
 	};
 }

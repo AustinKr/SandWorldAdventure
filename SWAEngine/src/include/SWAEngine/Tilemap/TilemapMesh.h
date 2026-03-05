@@ -1,11 +1,16 @@
 #pragma once
 #include "SWAEngine/dllClause.h"
 #include "SWAEngine/Tilemap/Tilemap.h"
+#include "SWAEngine/Tilemap/TileBufferInformation.h"
+
 #include "GP2D/Pipeline/Mesh/IMesh.h"
 #include "GP2D/Math/Vertex2D.h"
+#include "GP2D/Pipeline/Shader/BaseShaderType.h"
 
 namespace SWAEngine::Tilemap
 {
+	// The mesh for the tilemap
+	// Takes up the entire screen
 	struct SWA_ENGINE_API TilemapMesh : GP2D::Pipeline::Mesh::IMesh
 	{
 	public:
@@ -16,16 +21,25 @@ namespace SWAEngine::Tilemap
 
 		int ShaderID;
 
-		virtual bool Render(GP2D::Pipeline::IPipeline* pPipeline, GP2D::Pipeline::UINT vertexBufferName, GP2D::Pipeline::UINT pVertexArray) override;
-		virtual void Release() override;
-
+		// Initializes the mesh and generates a texture to send to the shader
 		TilemapMesh(Tilemap* const pTilemap, int shaderID);
 
+		virtual void Release() override;
+
+		virtual bool Render(GP2D::Pipeline::IPipeline* pPipeline, GP2D::Pipeline::UINT vertexBufferName, GP2D::Pipeline::UINT pVertexArray) override;
+		
 	private:
 		Tilemap* const mp_Tilemap;
-		GLuint m_TextureBufferName; // TODO: Need to create texture(use code from TilemapShaderInformation.cpp)
+		GP2D::Pipeline::UINT m_TextureBufferName;
+		
+		// The verts for the mesh. Takes up the entire screen
+		static const GP2D::Math::Vertex2D MESH_VERTICES[6];
 
-		static const GP2D::Math::Vertex2D TILE_VERTICES[4];
-		std::pair<HEX_COLOR* const, std::pair<Vector2Int, Vector2Int>> CreateOnScreenTilesBuffer();
+		// TODO: Maybe rename
+		// Creates the pixels for the texture buffer, which is a texture that is the visible(on screen) portion of the tilemap
+		// The buffer must be re-created every frame
+		TileBufferInformation CreateTileBufferData();
+
+		void UpdateShaderData(GP2D::Pipeline::Shader::BaseShaderType* pShader, TileBufferInformation information);
 	};
 }

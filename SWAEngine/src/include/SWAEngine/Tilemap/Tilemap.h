@@ -7,22 +7,28 @@ namespace SWAEngine::Tilemap
 	{
 	public:
 		// In world coordinates
-		Vector2 Origin;
+		Math::Vector2 Origin;
+		// In world coordinates
+		Math::Vector2 TileScale;
 
-		Tilemap();
+		Tilemap(Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
 		void Release();
+		bool IsEmpty();
 
 		// Returns a copy of the tile
-		Tile GetTile(Vector2Int position);
+		Tile GetTile(Math::Vector2Int position);
 		// Sets the tile (in the pending tiles container)
-		Tile& SetTile(Vector2Int position, Tile tile);
+		Tile& SetTile(Math::Vector2Int position, Tile tile);
 
 		// Should be called every frame cycle
 		void Update();
 
-		Vector2 TileToWorld(Vector2Int);
-		Vector2Int WorldToTile(Vector2);
+		Math::Vector2 TileToWorld(Math::Vector2Int tile, bool applyOffsets = true);
+		Math::Vector2Int WorldToTile(Math::Vector2 world, bool applyOffsets = true);
 
+		// Returns the bounds of the map in tiles
+		// (the top-right-most tile position)
+		Math::Vector2Int GetBounds();
 	private:
 		// Contains currently active tiles
 		ITilemapContainer* mp_ActiveTilesContainer;

@@ -14,12 +14,19 @@ NOTE: can only run on Release
 #include "GP2D/Pipeline/Shader/GeometryShader.h"
 #include "GP2D/Pipeline/Mesh/Mesh.h"
 
+#include "SWAEngine/Tilemap/Tilemap.h"
+#include "SWAEngine/Tilemap/TilemapMesh.h"
+
 #define GLFW_INCLUDE_NONE
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
 
 using namespace GP2D;
 using namespace GP2D::Pipeline;
+
+
+SWAEngine::Tilemap::Tilemap* gp_Tilemap;
+SWAEngine::Tilemap::TilemapMesh* gp_TilemapMesh;
 
 void CreateGP2DWindow()
 {
@@ -57,6 +64,9 @@ void AddShaders()
 		});
 	};
 	GenericPipeline::s_Shaders.RegisterShader(pNewShader); // SWA_TEXTURE_SHADER
+
+	pNewShader = new Shader::GeometryShader("TilemapShader", _SWA_DEFAULT_RESOURCES_DIR"TilemapShader.shader");
+	GenericPipeline::s_Shaders.RegisterShader(pNewShader); // SWA_TILEMAP_SHADER
 }
 
 void InitializeGraphics()
@@ -77,8 +87,8 @@ void InitializeGame()
 
 	// TEst mesh
 	auto pNewMesh = new Mesh::Mesh(true, (void*)"lava_24");
-	pNewMesh->Origin = { -0.1f, -.2f };
-	pNewMesh->Scale = { 0.5f, 0.5f };
+	pNewMesh->Origin = { -0.1f, -.5f };
+	pNewMesh->Scale = { 0.25f, 0.25f };
 	pNewMesh->Vertices = {
 		{{0, 0}, {0, 0}},
 		{{1, 0}, {1, 0}},
@@ -92,6 +102,31 @@ void InitializeGame()
 		0, 6, SWA_TEXTURE_SHADER
 	};
 	GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(pNewMesh);
+
+	// Create tilemap
+	gp_Tilemap = new SWAEngine::Tilemap::Tilemap({ 0,0 }, {0.1f,0.1f});
+	gp_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(gp_Tilemap, SWA_TILEMAP_SHADER);
+	GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(gp_TilemapMesh);
+
+	gp_Tilemap->SetTile({ 2, 2 }, { 0, 0xff0000ff, true });
+	gp_Tilemap->SetTile({ 0, 0 }, { 0, 0xff0000ff, true });
+	gp_Tilemap->SetTile({ 1, 2 }, { 0, 0xff0000ff, true });
+	gp_Tilemap->SetTile({ 0, 1 }, { 0, 0xff0000ff, true });
+	gp_Tilemap->SetTile({ 3, 3 }, {0, 0xffFFffFF, true});
+}
+void UpdateGame()
+{
+	gp_Tilemap->Update();
+}
+
+void Release()
+{
+	gp_Tilemap->Release();
+
+	GUI::Hierarchy::sp_ActiveInstance->Release();
+	GenericPipeline::s_Instance.Release(); // Releases all registered data
+	Window::Window::Destroy();
+	Window::Window::TerminateGLFW();
 }
 
 int main(void)
@@ -114,13 +149,12 @@ int main(void)
 	while (!glfwWindowShouldClose(Window::Window::sp_Window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
+		UpdateGame();
+
 		GenericPipeline::s_Instance.RenderScene();
 		Window::Window::ProcessEvents();
 	}
 
 	// Release and close app
-	GUI::Hierarchy::sp_ActiveInstance->Release();
-	GenericPipeline::s_Instance.Release();
-	Window::Window::Destroy();
-	Window::Window::TerminateGLFW();
+	Release();
 }
