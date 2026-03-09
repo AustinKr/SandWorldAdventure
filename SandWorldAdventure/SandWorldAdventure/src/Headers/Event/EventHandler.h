@@ -1,10 +1,10 @@
 #pragma once
 #include <unordered_map>
-#include "DelegateTypes/BaseEventDelegate.h"
+#include <functional>
 
-namespace SandboxEngine::Event
+namespace SWA::Event
 {
-	template<typename EventArguments, typename EventData = void*, typename DelegateType = BaseEventDelegate<EventArguments, EventData>>
+	template<typename EventArguments, typename DelegateType = std::function<void(EventArguments)>>
 	struct EventHandler
 	{
 	public:
@@ -32,7 +32,7 @@ namespace SandboxEngine::Event
 			for (auto& rIter : m_Events)
 			{
 				// Invoke
-				rIter.second.p_Function(arguments, rIter.second.ExtraData);
+				rIter.second(arguments);
 			}
 		}
 

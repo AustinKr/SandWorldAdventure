@@ -84,6 +84,11 @@
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\SandWorldAdventure\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;GP2D.lib;SWAEngine.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(TargetDir)x64\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(SolutionDir)Build\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir)Build\libraries\GP2D.lib"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -103,6 +108,11 @@
       <AdditionalLibraryDirectories>C:\dev\C++ Projects\SandWorldAdventure\Build\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;GP2D.lib;SWAEngine.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(TargetDir)x64\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(SolutionDir)Build\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir)Build\libraries\GP2D.lib"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -123,6 +133,11 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(TargetDir)x64\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(SolutionDir)Build\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir)Build\libraries\GP2D.lib"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -147,9 +162,16 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(TargetDir)x64\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\GP2D.dll" "$(SolutionDir)Build\GP2D.dll"
+copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir)Build\libraries\GP2D.lib"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SandWorldAdventure\src\Sources\Inventory\BasicItem.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerInventoryGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SandWorldAdventure\Shaders\PlayerShader.shader" />
@@ -162,6 +184,10 @@
     <None Include="SandWorldAdventure\Shaders\DefaultShader.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SandWorldAdventure\src\Headers\Event\EventHandler.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\Inventory\BasicItem.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\Inventory\Inventory.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\Player\PlayerInventoryGUI.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\RenderLayerNames.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\ShaderNames.h" />
   </ItemGroup>

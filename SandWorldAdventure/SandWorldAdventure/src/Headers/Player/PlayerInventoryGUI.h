@@ -1,0 +1,52 @@
+#pragma once
+#include "Inventory/Inventory.h"
+#include "Inventory/BasicItem.h"
+
+#include "GP2D/GUI/Components/Button/ButtonEventData.h"
+
+namespace SWA::Player
+{
+	// a static class that creates and manages the player's gui for the inventory
+	struct PlayerInventoryGUI
+	{
+		PlayerInventoryGUI() = delete;
+
+	public:
+		typedef Inventory::BasicItem ITEM;
+		typedef Inventory::Inventory<ITEM> INVENTORY;
+
+		// Used to parent all gui elements related to inventory system into one group
+		static unsigned long s_InventoryElementUID;
+		// A button that is used to open or close the inventory
+		static unsigned long s_InventoryToggleButtonUID; // TODO: is it needed?
+		// Slots to show items
+		static unsigned long s_StorageSlotsElementUID; // TODO: is it needed?
+
+		// Size in pixels of square slot
+		static int s_SlotScale;
+		// Pixels in between each slot
+		static int s_SlotPadding;
+
+		// Subscribes to assignment event in the given player inventory
+		static void Initialize(INVENTORY& rInventory);
+
+		static bool IsActive();
+
+	private:
+		static const char* BACKGROUND_TEXTURE_NAME;
+
+		// Creates the layout for the inventory gui
+		static void CreateBackgroundLayout();
+
+		// Creates elements for each slot where items can be displayed
+		static void AssignSlots(INVENTORY& rInventory);
+		static void CreateSlot(INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, ITEM& rItem);
+
+		// Called when an item is changed
+		static void OnInventoryAssignment(INVENTORY& rInventory, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments);
+		// Called when an item slot gui is clicked on
+		static void OnItemSlotButtonClicked(INVENTORY& rInventory, GP2D::GUI::Components::Button::ButtonEventData data);
+		// Called when the inventory toggle button gui is clicked on
+		static void OnToggleButtonClicked();
+	};
+}

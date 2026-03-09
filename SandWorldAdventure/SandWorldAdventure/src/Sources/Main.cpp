@@ -4,18 +4,24 @@ NOTE: can only run on Release
 */
 
 
+// Game
 #include "RenderLayerNames.h"
 #include "ShaderNames.h"
+#include "Inventory/Inventory.h"
+#include "Player/PlayerInventoryGUI.h"
 
+// SWA engine
+#include "SWAEngine/Tilemap/Tilemap.h"
+#include "SWAEngine/Tilemap/TilemapMesh.h"
+
+// Graphics
 #include "GP2D/Pipeline/Window/Window.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
 #include "GP2D/GUI/Hierarchy.h"
 
 #include "GP2D/Pipeline/Shader/GeometryShader.h"
 #include "GP2D/Pipeline/Mesh/Mesh.h"
-
-#include "SWAEngine/Tilemap/Tilemap.h"
-#include "SWAEngine/Tilemap/TilemapMesh.h"
+#include "GP2D/GUI/Components/SpriteComponent.h"
 
 #define GLFW_INCLUDE_NONE
 #include <gl/glew.h>
@@ -23,7 +29,6 @@ NOTE: can only run on Release
 
 using namespace GP2D;
 using namespace GP2D::Pipeline;
-
 
 SWAEngine::Tilemap::Tilemap* gp_Tilemap;
 SWAEngine::Tilemap::TilemapMesh* gp_TilemapMesh;
@@ -47,6 +52,7 @@ void AddTextures()
 {
 	// TODO: could define all textures in a .json file and load it
 	GenericPipeline::s_Textures.RegisterTexture("default_sprite", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/default_sprite.bmp"));
+	GenericPipeline::s_Textures.RegisterTexture("gui_background", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Background.bmp"));
 	GenericPipeline::s_Textures.RegisterTexture("lava_24", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Lava24.bmp"));
 }
 
@@ -79,12 +85,13 @@ void InitializeGraphics()
 	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
 	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_GUI, { "GUI" });
 	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_Debug, {"Debug"});
+
+	// Create gui
+	GUI::Hierarchy::sp_ActiveInstance = new GUI::Hierarchy();
 }
 
 void InitializeGame()
 {
-	GUI::Hierarchy::sp_ActiveInstance = new GUI::Hierarchy();
-
 	// TEst mesh
 	auto pNewMesh = new Mesh::Mesh(true, (void*)"lava_24");
 	pNewMesh->Origin = { -0.1f, -.5f };
@@ -113,6 +120,11 @@ void InitializeGame()
 	gp_Tilemap->SetTile({ 1, 2 }, { 0, 0xff0000ff, true });
 	gp_Tilemap->SetTile({ 0, 1 }, { 0, 0xff0000ff, true });
 	gp_Tilemap->SetTile({ 3, 3 }, {0, 0xffFFffFF, true});
+
+	// Create player inventory and gui
+	SWA::Inventory::Inventory<SWA::Inventory::BasicItem> inventory = { {5,5} };
+	inventory.SetItemAt({ 1,1 }, {"lava_24", nullptr, NULL});
+	SWA::Player::PlayerInventoryGUI::Initialize(inventory);
 }
 void UpdateGame()
 {
