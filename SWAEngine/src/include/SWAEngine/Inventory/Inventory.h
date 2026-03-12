@@ -1,9 +1,9 @@
 #pragma once
-#include <vector>
 #include "SWAEngine/Math/vector2.h"
-#include "SWA/EventHandler.h"
+#include "SWAEngine/EventHandler.h"
+#include <vector>
 
-namespace SWA::Inventory
+namespace SWAEngine::Inventory
 {
 	template<typename ItemType>
 	class Inventory

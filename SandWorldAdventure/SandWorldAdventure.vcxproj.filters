@@ -63,9 +63,6 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\src\Sources\Inventory\BasicItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerInventoryGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,15 +81,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\ShaderNames.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Inventory\BasicItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Inventory\Inventory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\EventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerInventoryGUI.h">

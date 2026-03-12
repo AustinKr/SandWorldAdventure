@@ -1,8 +1,9 @@
 #pragma once
+#include "SWAEngine/dllClause.h"
 
-namespace SWA::Inventory
+namespace SWAEngine::Inventory
 {
-	struct BasicItem
+	struct SWA_ENGINE_API BasicItem
 	{
 		const char* TextureName;
 		void* p_Data;

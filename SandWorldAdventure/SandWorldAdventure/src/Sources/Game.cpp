@@ -3,8 +3,10 @@
 #include "SWA/Game.h"
 #include "SWA/RenderLayerNames.h"
 #include "SWA/ShaderNames.h"
-#include "SWA/Inventory/Inventory.h"
 #include "SWA/Player/PlayerInventoryGUI.h"
+
+#include "SWAEngine/Inventory/Inventory.h"
+#include "SWAEngine/Inventory/BasicItem.h"
 
 // Graphics
 #include "GP2D/Pipeline/GenericPipeline.h"
@@ -97,7 +99,7 @@ namespace SWA
 		gp_Tilemap->SetTile({ 3, 3 }, { 0, 0xffFFffFF, true });
 
 		// Create player inventory and gui
-		SWA::Inventory::Inventory<SWA::Inventory::BasicItem> inventory = { {5,5}, SWA::Inventory::BasicItem() };
+		SWAEngine::Inventory::Inventory<SWAEngine::Inventory::BasicItem> inventory = { {5,5}, SWAEngine::Inventory::BasicItem() };
 		inventory.SetItemAt({ 1,1 }, { "lava_24", nullptr, NULL });
 		inventory.SetItemAt({ 3,1 }, { "sand_tile_slot", nullptr, NULL });
 		SWA::Player::PlayerInventoryGUI::Initialize(inventory);

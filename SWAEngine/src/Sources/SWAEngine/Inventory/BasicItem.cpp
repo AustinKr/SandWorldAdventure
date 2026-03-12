@@ -1,6 +1,6 @@
-#include "SWA/Inventory/BasicItem.h"
+#include "SWAEngine/Inventory/BasicItem.h"
 
-namespace SWA::Inventory
+namespace SWAEngine::Inventory
 {
 	// Empty item (placeholder)
 	BasicItem::BasicItem() :

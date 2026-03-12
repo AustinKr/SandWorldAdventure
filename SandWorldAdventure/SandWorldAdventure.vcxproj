@@ -170,7 +170,6 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SandWorldAdventure\src\Sources\Game.cpp" />
-    <ClCompile Include="SandWorldAdventure\src\Sources\Inventory\BasicItem.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerInventoryGUI.cpp" />
   </ItemGroup>
@@ -185,10 +184,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <None Include="SandWorldAdventure\Shaders\DefaultShader.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\EventHandler.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Inventory\BasicItem.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Inventory\Inventory.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerInventoryGUI.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\ShaderNames.h" />
