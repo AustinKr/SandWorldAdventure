@@ -119,7 +119,7 @@ namespace SWA
 		// Set up game
 		InitializeGame();
 	}
-	void Game::Update(Time time)
+	void Game::Update(SWAEngine::Time time)
 	{
 		gp_Tilemap->Update();
 	}

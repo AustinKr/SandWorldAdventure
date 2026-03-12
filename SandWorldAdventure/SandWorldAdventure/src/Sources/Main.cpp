@@ -4,7 +4,7 @@ NOTE: can only run on Release
 */
 
 #include "SWA/Game.h"
-#include "SWA/Time.h"
+#include "SWAEngine/Time.h"
 
 #include "GP2D/Pipeline/Window/Window.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
@@ -53,7 +53,7 @@ int main(void)
 	SWA::Game::Initialize();
 
 	glfwSwapInterval(1);
-	SWA::Time time = {0,0,0};
+	SWAEngine::Time time = {0,0,0};
 
 	// Game loop
 	while (!glfwWindowShouldClose(GP2D::Pipeline::Window::Window::sp_Window))

@@ -30,6 +30,9 @@
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sources\SWAEngine\BaseGameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\dllClause.h">
@@ -54,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Tilemap\TileBufferInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\BaseGameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

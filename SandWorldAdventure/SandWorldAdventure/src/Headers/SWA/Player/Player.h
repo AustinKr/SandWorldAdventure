@@ -1,14 +1,8 @@
 #pragma once
-#include "IGameObject.h"
-#include "HeaderFiles/GraphicsPipeline/Meshes/Mesh.h"
-#include "HeaderFiles/Game/Inventory/Inventory.h"
-#include "HeaderFiles/Game/Inventory/BasicItem.h"
-#include "HeaderFiles/Game/Inventory/PlayerInventoryGUI.h"
 
-#define PLAYER_H
-namespace SandboxEngine::Game::GameObject
+namespace SWA::Player
 {
-	class Player : public IGameObject
+	struct Player
 	{
 	private:
 		GraphicsPipeline::Mesh* mp_Mesh;

@@ -172,12 +172,14 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\dllmain.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\BaseGameObject.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\Tilemap.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\SWAEngine\BaseGameObject.h" />
     <ClInclude Include="src\include\SWAEngine\dllClause.h" />
     <ClInclude Include="src\include\SWAEngine\Math\vector2.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\ITilemapContainer.h" />
@@ -186,6 +188,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tilemap.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapContainer.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapMesh.h" />
+    <ClInclude Include="src\include\SWAEngine\Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

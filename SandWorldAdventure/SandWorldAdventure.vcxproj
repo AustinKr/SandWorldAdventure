@@ -192,7 +192,6 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerInventoryGUI.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\ShaderNames.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

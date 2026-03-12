@@ -101,8 +101,5 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

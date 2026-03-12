@@ -1,5 +1,5 @@
 #pragma once
-namespace SWA
+namespace SWAEngine
 {
 	struct Time
 	{

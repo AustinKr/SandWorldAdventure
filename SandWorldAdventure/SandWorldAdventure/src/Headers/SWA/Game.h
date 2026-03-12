@@ -4,7 +4,7 @@
 #include "SWAEngine/Tilemap/Tilemap.h"
 #include "SWAEngine/Tilemap/TilemapMesh.h"
 
-#include "SWA/Time.h"
+#include "SWAEngine/Time.h"
 
 namespace SWA
 {
@@ -23,7 +23,7 @@ namespace SWA
 
 		static void CreateResources();
 		static void Initialize();
-		static void Update(Time time);
+		static void Update(SWAEngine::Time time);
 		static void Release();
 	};
 }
