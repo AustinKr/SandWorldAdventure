@@ -3,10 +3,6 @@
 #include "SWA/Game.h"
 #include "SWA/RenderLayerNames.h"
 #include "SWA/ShaderNames.h"
-#include "SWA/Player/PlayerInventoryGUI.h"
-
-#include "SWAEngine/Inventory/Inventory.h"
-#include "SWAEngine/Inventory/BasicItem.h"
 
 // Graphics
 #include "GP2D/Pipeline/GenericPipeline.h"
@@ -21,8 +17,9 @@ using namespace GP2D::Pipeline;
 
 namespace SWA
 {
-	SWAEngine::Tilemap::Tilemap* Game::gp_Tilemap = nullptr;
-	SWAEngine::Tilemap::TilemapMesh* Game::gp_TilemapMesh = nullptr;
+	Player::Player* Game::p_MainPlayer = nullptr;
+	SWAEngine::Tilemap::Tilemap* Game::p_Tilemap = nullptr;
+	SWAEngine::Tilemap::TilemapMesh* Game::p_TilemapMesh = nullptr;
 
 	void Game::AddTextures()
 	{
@@ -35,7 +32,6 @@ namespace SWA
 		GenericPipeline::s_Textures.RegisterTexture("sand_stone_tile_slot", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandStoneTileSlot.bmp"));
 		GenericPipeline::s_Textures.RegisterTexture("sand_tile_slot", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandTileSlot.bmp"));
 		GenericPipeline::s_Textures.RegisterTexture("wet_sand_tile_slot", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/WetSandTileSlot.bmp"));
-
 	}
 
 	void Game::AddShaders()
@@ -88,21 +84,18 @@ namespace SWA
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(pNewMesh);
 
 		// Create tilemap
-		gp_Tilemap = new SWAEngine::Tilemap::Tilemap({ 0,0 }, { 0.1f,0.1f });
-		gp_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(gp_Tilemap, SWA_TILEMAP_SHADER);
-		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(gp_TilemapMesh);
+		p_Tilemap = new SWAEngine::Tilemap::Tilemap({ 0,0 }, { 0.01f,0.01f });
+		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, SWA_TILEMAP_SHADER);
+		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);
 
-		gp_Tilemap->SetTile({ 2, 2 }, { 0, 0xff0000ff, true });
-		gp_Tilemap->SetTile({ 0, 0 }, { 0, 0xff0000ff, true });
-		gp_Tilemap->SetTile({ 1, 2 }, { 0, 0xff0000ff, true });
-		gp_Tilemap->SetTile({ 0, 1 }, { 0, 0xff0000ff, true });
-		gp_Tilemap->SetTile({ 3, 3 }, { 0, 0xffFFffFF, true });
+		p_Tilemap->SetTile({ 2, 2 }, { 0, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 0, 0 }, { 0, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 1, 2 }, { 0, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 0, 1 }, { 0, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 3, 3 }, { 0, 0xffFFffFF, true });
 
-		// Create player inventory and gui
-		SWAEngine::Inventory::Inventory<SWAEngine::Inventory::BasicItem> inventory = { {5,5}, SWAEngine::Inventory::BasicItem() };
-		inventory.SetItemAt({ 1,1 }, { "lava_24", nullptr, NULL });
-		inventory.SetItemAt({ 3,1 }, { "sand_tile_slot", nullptr, NULL });
-		SWA::Player::PlayerInventoryGUI::Initialize(inventory);
+		// Create the player
+		p_MainPlayer = new Player::Player();
 	}
 
 
@@ -123,10 +116,12 @@ namespace SWA
 	}
 	void Game::Update(SWAEngine::Time time)
 	{
-		gp_Tilemap->Update();
+		SWAEngine::BaseGameObject::UpdateObjects(time);
+		p_Tilemap->Update();
 	}
 	void Game::Release()
 	{
-		gp_Tilemap->Release();
+		SWAEngine::BaseGameObject::ReleaseObjects();
+		p_Tilemap->Release();
 	}
 }

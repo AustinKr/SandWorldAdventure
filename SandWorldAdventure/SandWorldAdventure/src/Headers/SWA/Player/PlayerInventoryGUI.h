@@ -1,6 +1,6 @@
 #pragma once
 #include "SWAEngine/Inventory/Inventory.h"
-#include "SWAEngine/Inventory/BasicItem.h"
+#include "SWA/Player/Item.h"
 
 #include "GP2D/GUI/Components/Button/ButtonEventData.h"
 
@@ -12,7 +12,7 @@ namespace SWA::Player
 		PlayerInventoryGUI() = delete;
 
 	public:
-		typedef SWAEngine::Inventory::BasicItem ITEM;
+		typedef Item ITEM;
 		typedef SWAEngine::Inventory::Inventory<ITEM> INVENTORY;
 
 		// Used to parent all gui elements related to inventory system into one group

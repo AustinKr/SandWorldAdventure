@@ -5,7 +5,7 @@ namespace SWAEngine::Tilemap
 {
 	struct Tile
 	{
-		unsigned int BehaviorID; // TODO: Create behavior registry system
+		unsigned int BehaviorUID; // TODO: Create behavior registry system
 		GP2D::Pipeline::GP2D_HEX_COLOR Color;
 
 		// Whether this tile is active and non-null

@@ -1,10 +1,10 @@
 #pragma once
 
-// SWA engine
 #include "SWAEngine/Tilemap/Tilemap.h"
 #include "SWAEngine/Tilemap/TilemapMesh.h"
-
 #include "SWAEngine/Time.h"
+
+#include "SWA/Player/Player.h"
 
 namespace SWA
 {
@@ -18,8 +18,9 @@ namespace SWA
 		static void InitializeGame();
 
 	public:
-		static SWAEngine::Tilemap::Tilemap* gp_Tilemap; // TODO: Rename
-		static SWAEngine::Tilemap::TilemapMesh* gp_TilemapMesh;
+		static Player::Player* p_MainPlayer;
+		static SWAEngine::Tilemap::Tilemap* p_Tilemap;
+		static SWAEngine::Tilemap::TilemapMesh* p_TilemapMesh;
 
 		static void CreateResources();
 		static void Initialize();

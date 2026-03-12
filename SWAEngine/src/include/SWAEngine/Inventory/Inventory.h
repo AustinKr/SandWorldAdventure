@@ -5,6 +5,7 @@
 
 namespace SWAEngine::Inventory
 {
+	// TODO: Inventory should use a base item or interface for items
 	template<typename ItemType>
 	class Inventory
 	{
@@ -15,7 +16,7 @@ namespace SWAEngine::Inventory
 		SWAEngine::Math::Vector2Int m_Size;
 
 	public:
-		SWAEngine::Math::Vector2Int SelectedItemID;
+		SWAEngine::Math::Vector2Int SelectedItemPosition;
 
 		typedef SWAEngine::Math::Vector2Int RESIZE_EVENT_ARGS;
 		typedef std::pair<SWAEngine::Math::Vector2Int, ItemType> ASSIGNMENT_EVENT_ARGS;

@@ -1,42 +1,51 @@
 #pragma once
+#include "SWAEngine/BaseGameObject.h"
 #include "SWAEngine/Math/vector2.h"
-#include "GP2D/Pipeline/GraphicsTypes.h"
+#include "SWAEngine/Inventory/Inventory.h"
+#include "SWA/Player/Item.h"
+
+#include "GP2D/Pipeline/Mesh/Mesh.h"
 
 namespace SWA::Player
 {
 	// A player object that is associated with its mesh
-	struct Player
+	struct Player : SWAEngine::BaseGameObject
 	{
 	private:
-		GP2D::Pipeline::GP2D_UID m_MeshUID;
+		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;
 
 		SWAEngine::Math::Vector2 m_Vel;
 		double m_Dampening;
 	
 		bool m_ShouldBreakTile;
 		bool m_ShouldAddTile;
+
+		void SetInputs();
+
+		void TryUseItem(Item item);
+		void UseCurrentTileItem(Item item, SWAEngine::Math::Vector2Int mouseTilePosition);
 	public:
 		/*
 		The ExtraFlags field stores the base rgba color used for that tile.
-		The p_Data field stores the behavior type
 		*/
-		Inventory::Inventory<Inventory::BasicItem> CurrentInventory;
-		Inventory::PlayerInventoryGUI InventoryGUI;
+		SWAEngine::Inventory::Inventory<Item> CurrentInventory;
 
 		double AccX;
 		double AccY;
 		double Speed;
 		double CameraFollowSpeed;
 
-		// Initializes the player. This should only be called once when the application begins and is the only instance used. Assigns GameInstance::p_Player automatically
-		Player(IGameObject* pTilemap);
+		// This should only be called once when the application begins and is the only instance used
+		// Creates the mesh
+		// Creates the inventory and gui
+		Player();
 		
-		// Retrieves the position of the player object. Note: The player shares its position with its mesh origin
-		Vector2 GetPosition();
-		void SetPosition(Vector2 newPosition);
+		// Inherited via BaseGameObject
+		virtual void Update(SWAEngine::Time time) override;
+		virtual void Release() override;
 
-		// Inherited via IGameObject
-		void Update(Time time) override;
-		void Release() override;
+		// Retrieves the position of the player object. Note: The player shares its position with its mesh origin
+		SWAEngine::Math::Vector2 GetPosition();
+		void SetPosition(SWAEngine::Math::Vector2 newPosition);
 	};
 }

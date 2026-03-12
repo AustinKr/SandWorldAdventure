@@ -21,7 +21,7 @@ void CreateGP2DWindow()
 	GP2D::Pipeline::Window::Window::s_Properties.ShouldStartFullScreen = false;
 	GP2D::Pipeline::Window::Window::s_Properties.Title = "Sand World Adventure";
 	GP2D::Pipeline::Window::Window::s_Properties.BackgroundColor = { .5,.5,1,1 };
-
+	
 	if (GP2D::Pipeline::Window::Window::Initialize() == nullptr)
 	{
 		fprintf(stderr, "Fatal error: failed to initialize window!\n");

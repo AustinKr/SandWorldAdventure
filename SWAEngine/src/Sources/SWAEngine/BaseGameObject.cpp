@@ -11,6 +11,20 @@ namespace SWAEngine
 
 		return ms_Registry.at(name);
 	}
+	void BaseGameObject::UpdateObjects(Time time)
+	{
+		for (auto& obj : ms_Registry)
+		{
+			obj.second->Update(time);
+		}
+	}
+	void BaseGameObject::ReleaseObjects()
+	{
+		for (auto& obj : ms_Registry)
+		{
+			obj.second->Release();
+		}
+	}
 
 	const char* const BaseGameObject::GetName()
 	{

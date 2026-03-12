@@ -137,7 +137,7 @@ namespace SWA::Player
 	void PlayerInventoryGUI::OnItemSlotButtonClicked(INVENTORY& rInventory, ButtonEventData data)
 	{
 		char x = data.ExtraFlags >> 8, y = data.ExtraFlags & 0xff; // Decode integer to get item id
-		rInventory.SelectedItemID = { x, y };
+		rInventory.SelectedItemPosition = { x, y };
 	}
 	void PlayerInventoryGUI::OnToggleButtonClicked()
 	{

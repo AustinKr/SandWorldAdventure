@@ -17,6 +17,11 @@ namespace SWAEngine
 	public:
 		static BaseGameObject* const GetObject(const char* name);
 
+		// Updates all registered objects
+		static void UpdateObjects(Time time);
+		// Releases all registered objects
+		static void ReleaseObjects();
+
 		const char* const GetName();
 
 		// Registers self

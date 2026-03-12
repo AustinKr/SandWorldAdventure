@@ -31,6 +31,9 @@ namespace SWAEngine::Tilemap
 	}
 	Tile& Tilemap::SetTile(Math::Vector2Int position, Tile tile)
 	{
+		if (position.X < 0 || position.Y < 0)
+			throw std::exception();
+
 		return mp_PendingTilesContainer->Set(position, tile);
 	}
 

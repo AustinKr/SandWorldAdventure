@@ -53,6 +53,7 @@ namespace SWAEngine::Tilemap
 		delete(this);
 	}
 
+	// TODO: Could mvoe the origin of the tilemap mesh to the actual tilemap orign and then the tilemap wouldn't overrite the entire screen
 	bool TilemapMesh::Render(IPipeline* pPipeline, GP2D::Pipeline::UINT vertexBufferName, GP2D::Pipeline::UINT pVertexArray)
 	{
 		if (mp_Tilemap->IsEmpty())
@@ -60,6 +61,9 @@ namespace SWAEngine::Tilemap
 
 		// Create the buffer
 		auto information = CreateTileBufferData(); 
+		if (information.TextureSize.X <= 1 || information.TextureSize.Y <= 1) // At least 2x2 tiles
+			return true; // Nothing to render so just skip
+
 		// Get the shader and its information which allows us to communicate with specific glsl code
 		auto pShader = GenericPipeline::s_Shaders.TryGetShader<BaseShaderType>(ShaderID);
 		

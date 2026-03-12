@@ -1,28 +1,99 @@
-#include "HeaderFiles/Game/GameObjects/Player.h"
-#include "HeaderFiles/Game/GameInstance.h"
+#include "SWA/Player/Player.h"
+#include "SWA/Player/PlayerInventoryGUI.h"
 
-#include "HeaderFiles/GUISystem/GUISystemFramework.h"
-#include "HeaderFiles/MasterWindow.h"
-#include "HeaderFiles/RenderLayerNames.h"
+#include "SWA/RenderLayerNames.h"
+#include "SWA/ShaderNames.h"
 
-#include "HeaderFiles/Game/GameObjects/Tilemap/Tilemap.h"
-#include "HeaderFiles/Game/GameObjects/Tilemap/TileBehaviors/TileBehaviorNames.h"
+#include "SWA/Game.h"
 
-namespace SandboxEngine::Game::GameObject
+#include "GP2D/Pipeline/GenericPipeline.h"
+#include "GP2D/Pipeline/Window/Window.h"
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
+using namespace GP2D::Pipeline;
+using namespace SWAEngine::Math;
+using namespace GP2D::Math;
+
+namespace SWA::Player
 {
-	Player::Player(IGameObject* pTilemap) : CurrentInventory{}, InventoryGUI{ this }, mp_Tilemap(pTilemap), AccX(0), AccY(0), m_Vel({}), m_Dampening(.98), Speed{ 80.0 }, CameraFollowSpeed{ 2 }, m_ShouldAddTile(0), m_ShouldBreakTile(0)
+	void Player::SetInputs()
 	{
-		if (mp_Tilemap == nullptr)
-			throw std::exception("Tilemap cannot be nullptr!");
+		// Keyboard
+		if (Window::Window::GetKeyState(GLFW_KEY_UP) || Window::Window::GetKeyState(GLFW_KEY_W))
+			AccY = 1;
+		else if (Window::Window::GetKeyState(GLFW_KEY_DOWN) || Window::Window::GetKeyState(GLFW_KEY_S))
+			AccY = -1;
+		else// if (!MasterWindow::GetKeyState(GLFW_KEY_UP) && !MasterWindow::GetKeyState(GLFW_KEY_DOWN))
+			AccY = 0;
 
-		GameInstance::p_Player = this;
+		if (Window::Window::GetKeyState(GLFW_KEY_RIGHT) || Window::Window::GetKeyState(GLFW_KEY_D))
+			AccX = 1;
+		else if (Window::Window::GetKeyState(GLFW_KEY_LEFT) || Window::Window::GetKeyState(GLFW_KEY_A))
+			AccX = -1;
+		else
+			AccX = 0;
 
-		// - Create mesh -
-		// GraphicsPipeline2D::Release() releases registered mesh data
-		mp_Mesh = new GraphicsPipeline::Mesh(); // Create its mesh
-		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh, 0); // Register the mesh
+		m_ShouldBreakTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_1);
+		m_ShouldAddTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_2);
+	}
 
-		mp_Mesh->Scale = float2(15.0f, 30.0f);
+	void Player::TryUseItem(Item item)
+	{
+		switch (item.Type)
+		{
+		case PLAYER_ITEM_TYPE_TILE:
+			if (m_ShouldAddTile || m_ShouldBreakTile)
+			{
+				// Get cursor position
+				double cursorX, cursorY;
+				glfwGetCursorPos(Window::Window::sp_Window, &cursorX, &cursorY);
+				cursorY = GenericPipeline::s_ActiveCamera.GetScreenSize().Y - cursorY; // Invert so that now it's from the bottom left of the screen
+
+				// Do so conversions
+				Float2 mouseWorldPosition =
+					GenericPipeline::s_ActiveCamera.ViewportToWorld(
+						GenericPipeline::s_ActiveCamera.ScreenToViewport({ int(cursorX), int(cursorY) }));
+				Vector2Int mouseTilePosition = Game::p_Tilemap->WorldToTile({ mouseWorldPosition.X, mouseWorldPosition.Y });
+
+				// remove/add tiles at cursor
+				UseCurrentTileItem(item, mouseTilePosition);
+			}
+			break;
+
+			// TODO: Do other stuff if different item type
+		}
+	}
+	void Player::UseCurrentTileItem(Item item, Vector2Int mouseTilePosition)
+	{
+		double radius = 5;
+		for (int i = -radius; i < radius; i++)
+		{
+			for (int j = -radius; j < radius; j++)
+			{
+				if (i * i + j * j >= radius * radius)
+					continue;
+
+				Vector2Int position = mouseTilePosition + Vector2Int(i, j);
+				if (position.X < 0 || position.Y < 0)
+					continue;
+				if (m_ShouldAddTile)
+					Game::p_Tilemap->SetTile(position, { item.BehaviorUID, item.Color, true});
+				else
+					Game::p_Tilemap->SetTile(position, {});
+			}
+		}
+	}
+
+	Player::Player() :
+		BaseGameObject("Player"),
+		CurrentInventory{}, AccX(0), AccY(0), m_Vel({}), m_Dampening(.98), Speed{ 1.0 }, CameraFollowSpeed{ 1 }, m_ShouldAddTile(0), m_ShouldBreakTile(0)
+	{
+		// Create the mesh
+		mp_Mesh = new Mesh::Mesh();
+		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
+		mp_Mesh->Scale = { 0.125f, 0.25f};
 		mp_Mesh->Vertices =
 		{
 			{{ 0, 0 }, {0, 0, 0}},
@@ -37,23 +108,14 @@ namespace SandboxEngine::Game::GameObject
 		};
 		mp_Mesh->Shaders =
 		{
-			0, 2, GraphicsPipeline::GraphicsPipeline2D::GP2D_PLAYER_SHADER
+			0, 6, SWA_TEXTURE_SHADER
 		};
 
-		CurrentInventory.Assign({ 4,2 });
-		CurrentInventory.SetItemAt({ 0,0 },
-		{
-			"C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/GUI/Slots/WetSandTileSlot.bmp",
-			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Solid),
-			(int)0xeccc70ff
-		});
-		CurrentInventory.SetItemAt({ 1,0 },
-		{
-			"C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/GUI/Slots/SandTileSlot.bmp",
-			(void*)new int(Tilemap::TILE_BEHAVIOR_NAMES::Sand),
-			(int)0xffe082ff
-		});
-		
+		// Create player inventory and gui
+		CurrentInventory.Assign({ 4,2 }, {});
+		CurrentInventory.SetItemAt({ 1,1 }, Item(PLAYER_ITEM_TYPE_TILE, "wet_sand_tile_slot", 0xeccc70ff, 0)); // TODO: Get behaviors
+		CurrentInventory.SetItemAt({ 3,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe082ff, 0));
+		PlayerInventoryGUI::Initialize(CurrentInventory);
 	}
 
 	Vector2 Player::GetPosition()
@@ -62,66 +124,15 @@ namespace SandboxEngine::Game::GameObject
 	}
 	void Player::SetPosition(Vector2 newPosition)
 	{
-		mp_Mesh->Origin = float2(newPosition.X, newPosition.Y);
+		mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y };
 	}
 
-	void Player::Update(Time time)
+	void Player::Update(SWAEngine::Time time)
 	{
-		// Keyboard
-		if (MasterWindow::GetKeyState(GLFW_KEY_UP) || MasterWindow::GetKeyState(GLFW_KEY_W))
-			AccY = 1;
-		else if (MasterWindow::GetKeyState(GLFW_KEY_DOWN) || MasterWindow::GetKeyState(GLFW_KEY_S))
-			AccY = -1;
-		else// if (!MasterWindow::GetKeyState(GLFW_KEY_UP) && !MasterWindow::GetKeyState(GLFW_KEY_DOWN))
-			AccY = 0;
+		SetInputs();
 
-		if (MasterWindow::GetKeyState(GLFW_KEY_RIGHT) || MasterWindow::GetKeyState(GLFW_KEY_D))
-			AccX = 1;
-		else if (MasterWindow::GetKeyState(GLFW_KEY_LEFT) || MasterWindow::GetKeyState(GLFW_KEY_A))
-			AccX = -1;
-		else
-			AccX = 0;
-
-		m_ShouldBreakTile = MasterWindow::GraphicalUserInterfaceSystem.GetKeyState(GLFW_MOUSE_BUTTON_1);// MasterWindow::GetKeyState(GLFW_MOUSE_BUTTON_1);
-		m_ShouldAddTile = MasterWindow::GraphicalUserInterfaceSystem.GetKeyState(GLFW_MOUSE_BUTTON_2);
-
-		// Get cursor position
-		Vector2 cursorPosition;
-		glfwGetCursorPos(MasterWindow::p_glfwWindow, &cursorPosition.X, &cursorPosition.Y);
-		Vector2 mouseWorldPosition =
-			MasterWindow::Pipeline.ActiveCamera.ViewportToWorld(
-				MasterWindow::Pipeline.ActiveCamera.ScreenToViewport(
-					Vector2(cursorPosition.X, MasterWindow::Pipeline.ActiveCamera.ScreenSize.Y - cursorPosition.Y)));
-		Vector2 mouseTilePosition = ((Tilemap::Tilemap* const)mp_Tilemap)->FromWorldToTile(mouseWorldPosition);
-
-		// Cursor remove/add tiles
-		Inventory::BasicItem selectedItem = CurrentInventory.GetItemAt(CurrentInventory.SelectedItemID);
-		int behaviorID = selectedItem.p_Data != nullptr ? *reinterpret_cast<int*>(selectedItem.p_Data) : -1;
-		if (behaviorID >= 0 && (m_ShouldAddTile || m_ShouldBreakTile))
-		{
-			double radius = 5;
-			for (int i = -radius; i < radius; i++)
-			{
-				for (int j = -radius; j < radius; j++)
-				{
-					if (i * i + j * j >= radius * radius)
-						continue;
-
-					if (m_ShouldAddTile)
-					{
-						float fac = float(abs(i * j)) / float(radius * radius);
-						UINT color = GraphicsPipeline::GraphicsPipeline2D::RGBA_To_UINT(
-							((unsigned int)selectedItem.ExtraFlags >> 24) - 40 * fac, 
-							((unsigned int)selectedItem.ExtraFlags >> 16 & 0xff) - 40 * fac, 
-							((unsigned int)selectedItem.ExtraFlags >> 8 & 0xff) + 60 * fac,
-							((unsigned int)selectedItem.ExtraFlags & 0xff));// (i * j) % 2 == 0 ? 0xff0000ff : 0x00ff00ff; //0xFFE082FF
-						((Tilemap::Tilemap*)mp_Tilemap)->PendingTileChangesRegistry.SetTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y), Tilemap::Tile(color, behaviorID));
-					}
-					else
-						((Tilemap::Tilemap*)mp_Tilemap)->PendingTileChangesRegistry.SetTile(Vector2Int(i + mouseTilePosition.X, j + mouseTilePosition.Y), Tilemap::Tile::EMPTY);
-				}
-			}
-		}
+		// Use selected item
+		TryUseItem(CurrentInventory.GetItemAt(CurrentInventory.SelectedItemPosition));
 
 		//// Testing raycast
 		//Vector2 originTiles = ((Tilemap::Tilemap* const)mp_Tilemap)->FromWorldToTile(GetPosition());
@@ -134,19 +145,21 @@ namespace SandboxEngine::Game::GameObject
 		//	((Tilemap::Tilemap*)mp_Tilemap)->AddTile(pairHit.first, Tilemap::Tile(0xff0000ff, 0));
 		//}
 
+
 		// Physics
-
 		m_Vel += Vector2::Normalize(Vector2(AccX, AccY)) * time.FrameDeltaTime * Speed;
-
-		SetPosition(GetPosition() + m_Vel * time.FrameDeltaTime);
-		MasterWindow::Pipeline.ActiveCamera.Origin += (GetPosition() - MasterWindow::Pipeline.ActiveCamera.Origin) * time.FrameDeltaTime * CameraFollowSpeed;
-
 		m_Vel.X *= m_Dampening;
 		m_Vel.Y *= m_Dampening;
+
+		// Move camera
+		SetPosition(GetPosition() + m_Vel * time.FrameDeltaTime);
+		GenericPipeline::s_ActiveCamera.Origin += (mp_Mesh->Origin - GenericPipeline::s_ActiveCamera.Origin) * float(time.FrameDeltaTime * CameraFollowSpeed);
 	}
 	void Player::Release()
 	{
-		CurrentInventory.Release();
-		MasterWindow::Pipeline.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
+		CurrentInventory.Release(); // Clears/releases everything associated with the player inventory
+		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
+
+		BaseGameObject::Release();
 	}
 }

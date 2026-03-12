@@ -3,7 +3,7 @@
 
 namespace SWAEngine::Tilemap
 {
-	struct SWA_ENGINE_API Tilemap
+	struct SWA_ENGINE_API Tilemap // TODO: Could make tilemap a game object
 	{
 	public:
 		// In world coordinates
