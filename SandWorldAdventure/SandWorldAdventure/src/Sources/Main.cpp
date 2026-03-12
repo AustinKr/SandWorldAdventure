@@ -3,35 +3,16 @@ NOTE: can only run on Release
 
 */
 
+#include "SWA/Game.h"
+#include "SWA/Time.h"
 
-// Game
-#include "RenderLayerNames.h"
-#include "ShaderNames.h"
-#include "Inventory/Inventory.h"
-#include "Player/PlayerInventoryGUI.h"
-
-// SWA engine
-#include "SWAEngine/Tilemap/Tilemap.h"
-#include "SWAEngine/Tilemap/TilemapMesh.h"
-
-// Graphics
 #include "GP2D/Pipeline/Window/Window.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
 #include "GP2D/GUI/Hierarchy.h"
 
-#include "GP2D/Pipeline/Shader/GeometryShader.h"
-#include "GP2D/Pipeline/Mesh/Mesh.h"
-#include "GP2D/GUI/Components/SpriteComponent.h"
-
 #define GLFW_INCLUDE_NONE
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
-
-using namespace GP2D;
-using namespace GP2D::Pipeline;
-
-SWAEngine::Tilemap::Tilemap* gp_Tilemap;
-SWAEngine::Tilemap::TilemapMesh* gp_TilemapMesh;
 
 void CreateGP2DWindow()
 {
@@ -48,123 +29,44 @@ void CreateGP2DWindow()
 	}
 }
 
-void AddTextures()
-{
-	// TODO: could define all textures in a .json file and load it
-	GenericPipeline::s_Textures.RegisterTexture("default_sprite", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/default_sprite.bmp"));
-	GenericPipeline::s_Textures.RegisterTexture("gui_background", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Background.bmp"));
-	GenericPipeline::s_Textures.RegisterTexture("lava_24", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Lava24.bmp"));
-}
-
-void AddShaders()
-{
-	auto pNewShader = new Shader::GeometryShader("DefaultSpriteShader", _SWA_RESOURCES_DIR"Shaders/TextureShader.shader");
-	pNewShader->UpdatePropertiesCallback = [](Shader::BaseShaderType* pShader, void* texName)
-	{
-		pShader->PropertyManager.TrySetTexture(texName != nullptr ? (const char*)texName : "default_sprite", "Tex");
-		
-		pShader->PropertyManager.TrySetUniform("ShadeColor",
-			[](int loc)
-		{
-			glUniform4f(loc, 1, 1, 1, 1);
-		});
-	};
-	GenericPipeline::s_Shaders.RegisterShader(pNewShader); // SWA_TEXTURE_SHADER
-
-	pNewShader = new Shader::GeometryShader("TilemapShader", _SWA_DEFAULT_RESOURCES_DIR"TilemapShader.shader");
-	GenericPipeline::s_Shaders.RegisterShader(pNewShader); // SWA_TILEMAP_SHADER
-}
-
-void InitializeGraphics()
-{
-	GenericPipeline::s_Instance.Initialize();
-
-	// Create render layers
-	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_Tilemap0, { "Tilemap0" });
-	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_Objects, { "Objects" });
-	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_Characters, { "Characters" });
-	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_GUI, { "GUI" });
-	GenericPipeline::s_Hierarchy.InsertLayer(RENDERLAYERS_Debug, {"Debug"});
-
-	// Create gui
-	GUI::Hierarchy::sp_ActiveInstance = new GUI::Hierarchy();
-}
-
-void InitializeGame()
-{
-	// TEst mesh
-	auto pNewMesh = new Mesh::Mesh(true, (void*)"lava_24");
-	pNewMesh->Origin = { -0.1f, -.5f };
-	pNewMesh->Scale = { 0.25f, 0.25f };
-	pNewMesh->Vertices = {
-		{{0, 0}, {0, 0}},
-		{{1, 0}, {1, 0}},
-		{{1, 1}, {1, 1}},
-		{{0, 1}, {0, 1}} };
-	pNewMesh->Triangles = {
-		0, 1, 2,
-		0, 2, 3
-	};
-	pNewMesh->Shaders = {
-		0, 6, SWA_TEXTURE_SHADER
-	};
-	GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(pNewMesh);
-
-	// Create tilemap
-	gp_Tilemap = new SWAEngine::Tilemap::Tilemap({ 0,0 }, {0.1f,0.1f});
-	gp_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(gp_Tilemap, SWA_TILEMAP_SHADER);
-	GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(gp_TilemapMesh);
-
-	gp_Tilemap->SetTile({ 2, 2 }, { 0, 0xff0000ff, true });
-	gp_Tilemap->SetTile({ 0, 0 }, { 0, 0xff0000ff, true });
-	gp_Tilemap->SetTile({ 1, 2 }, { 0, 0xff0000ff, true });
-	gp_Tilemap->SetTile({ 0, 1 }, { 0, 0xff0000ff, true });
-	gp_Tilemap->SetTile({ 3, 3 }, {0, 0xffFFffFF, true});
-
-	// Create player inventory and gui
-	SWA::Inventory::Inventory<SWA::Inventory::BasicItem> inventory = { {5,5} };
-	inventory.SetItemAt({ 1,1 }, {"lava_24", nullptr, NULL});
-	SWA::Player::PlayerInventoryGUI::Initialize(inventory);
-}
-void UpdateGame()
-{
-	gp_Tilemap->Update();
-}
-
 void Release()
 {
-	gp_Tilemap->Release();
+	SWA::Game::Release();
 
-	GUI::Hierarchy::sp_ActiveInstance->Release();
-	GenericPipeline::s_Instance.Release(); // Releases all registered data
-	Window::Window::Destroy();
-	Window::Window::TerminateGLFW();
+	GP2D::GUI::Hierarchy::sp_ActiveInstance->Release();
+	GP2D::Pipeline::GenericPipeline::s_Instance.Release(); // Releases all registered data
+	GP2D::Pipeline::Window::Window::Destroy();
+	GP2D::Pipeline::Window::Window::TerminateGLFW();
 }
 
 int main(void)
 {
+	// Create window
 	CreateGP2DWindow();
+	// Create resources prior to the pipeline compiling any shaders
+	SWA::Game::CreateResources();
+	// Initialize pipeline
+	GP2D::Pipeline::GenericPipeline::s_Instance.Initialize();
+	// Create gui
+	GP2D::GUI::Hierarchy::sp_ActiveInstance = new GP2D::GUI::Hierarchy();
+	// Initalize game
+	SWA::Game::Initialize();
 
-	// Register textures
-	AddTextures();
-	// Register shaders
-	AddShaders();
-
-	// Set up graphics
-	InitializeGraphics();
-
-	// Set up game
-	InitializeGame();
+	glfwSwapInterval(1);
+	SWA::Time time = {0,0,0};
 
 	// Game loop
-	glfwSwapInterval(1);
-	while (!glfwWindowShouldClose(Window::Window::sp_Window))
+	while (!glfwWindowShouldClose(GP2D::Pipeline::Window::Window::sp_Window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		UpdateGame();
+		time.CurrentTime = glfwGetTime();
+		time.FrameDeltaTime = time.CurrentTime - time.LastTime;
+		time.LastTime = time.CurrentTime;
 
-		GenericPipeline::s_Instance.RenderScene();
-		Window::Window::ProcessEvents();
+		glClear(GL_COLOR_BUFFER_BIT);
+		
+		SWA::Game::Update(time);
+		GP2D::Pipeline::GenericPipeline::s_Instance.RenderScene();
+		GP2D::Pipeline::Window::Window::ProcessEvents();
 	}
 
 	// Release and close app

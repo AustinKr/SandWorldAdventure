@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "SWAEngine/Math/vector2.h"
-#include "Event/EventHandler.h"
+#include "SWA/EventHandler.h"
 
 namespace SWA::Inventory
 {
@@ -21,21 +21,21 @@ namespace SWA::Inventory
 		typedef std::pair<SWAEngine::Math::Vector2Int, ItemType> ASSIGNMENT_EVENT_ARGS;
 
 		// Argument is the old size. Invoked whenever the size of the collection changes
-		Event::EventHandler<RESIZE_EVENT_ARGS> ResizeEventHandler;
+		EventHandler<RESIZE_EVENT_ARGS> ResizeEventHandler;
 		// Arguments: struct{Inventory*, Vector2Int location; Item itemCopy}.  Invoked for every SetItemAt()
-		Event::EventHandler<ASSIGNMENT_EVENT_ARGS> AssignmentEventHandler;
+		EventHandler<ASSIGNMENT_EVENT_ARGS> AssignmentEventHandler;
 
-		Inventory(SWAEngine::Math::Vector2Int size = {0,0}) : ResizeEventHandler{}, AssignmentEventHandler{}, m_Items{}, m_Size(size)
+		Inventory(SWAEngine::Math::Vector2Int size = {0,0}, ItemType&& value = {}) : ResizeEventHandler{}, AssignmentEventHandler{}, m_Items{}, m_Size(size)
 		{
 			if (size.X > 0 && size.Y > 0)
-				Assign(size);
+				Assign(size, std::move(value));
 		}
 
-		void Assign(SWAEngine::Math::Vector2Int newSize)
+		void Assign(SWAEngine::Math::Vector2Int newSize, ItemType&& value)
 		{
 			SWAEngine::Math::Vector2Int oldSize = m_Size; // Copy for InvokeEvents()
 
-			m_Items.assign(newSize.X * newSize.Y, {});
+			m_Items.assign(newSize.X * newSize.Y, value);
 			m_Size = newSize;
 
 			ResizeEventHandler.InvokeEvents(oldSize);

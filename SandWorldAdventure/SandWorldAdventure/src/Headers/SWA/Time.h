@@ -1,9 +1,10 @@
 #pragma once
-namespace SandboxEngine
+namespace SWA
 {
 	struct Time
 	{
 		double FrameDeltaTime;
 		double CurrentTime;
+		double LastTime;
 	};
 }

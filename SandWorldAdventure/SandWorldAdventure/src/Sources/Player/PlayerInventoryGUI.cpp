@@ -1,10 +1,11 @@
-#include "Player/PlayerInventoryGUI.h"
-#include "RenderLayerNames.h"
-#include "ShaderNames.h"
+#include "SWA/Player/PlayerInventoryGUI.h"
+#include "SWA/RenderLayerNames.h"
+#include "SWA/ShaderNames.h"
 
 #include "GP2D/GUI/Hierarchy.h"
 #include "GP2D/GUI/Components/Button/ButtonComponent.h"
 #include "GP2D/GUI/Components/SpriteComponent.h"
+#include <string>
 
 using namespace GP2D::GUI;
 using namespace GP2D::GUI::Components;
@@ -20,16 +21,20 @@ namespace SWA::Player
 	int PlayerInventoryGUI::s_SlotPadding = 15;
 
 	const char* PlayerInventoryGUI::BACKGROUND_TEXTURE_NAME = "gui_background";
+	const char* PlayerInventoryGUI::DEFAULT_SLOT_TEXTURE = "empty_slot";
+	
 
 
 	void PlayerInventoryGUI::Initialize(INVENTORY& rInventory)
 	{
+		// Create elements
+		CreateBackgroundLayout();
+
 		// Register for assignment of inventory
 		rInventory.ResizeEventHandler.SubscribeEvent([&](auto) { AssignSlots(rInventory); });
 		rInventory.AssignmentEventHandler.SubscribeEvent([&](auto args) {OnInventoryAssignment(rInventory, args); });
 
-		// Create elements
-		CreateBackgroundLayout();
+		AssignSlots(rInventory);
 	}
 
 	bool PlayerInventoryGUI::IsActive()
@@ -44,12 +49,12 @@ namespace SWA::Player
 
 		// Create empty group for inventory
 		s_InventoryElementUID = pHierarchy->RegisterElement({ false })
-			.SetTransform({ {0.05, 0.05}, true, }, { {.9, .9 }, true })
+			.SetTransform({ {20, 20}, false}, { {-40, -40 }, false, ALIGNMENT_RIGHT | ALIGNMENT_TOP})
 			.GetIdentifier();
 
 		// Create close button
 		auto pButton = new ButtonComponent();
-		s_InventoryToggleButtonUID = pHierarchy->RegisterElement({ true }, s_InventoryElementUID)
+		s_InventoryToggleButtonUID = pHierarchy->RegisterElement({ true })
 			.SetTransform({ { -0.1, -0.1}, true, ALIGNMENT_TOP | ALIGNMENT_CENTER_HORIZONTAL }, { { .2, 0.075 }, true })
 			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, RENDERLAYERS_GUI, SWA_TEXTURE_SHADER))
 			.RegisterComponent(pButton)
@@ -71,7 +76,7 @@ namespace SWA::Player
 			.GetIdentifier();
 
 		// Create storage group parented to the storage background
-		s_StorageSlotsElementUID = pHierarchy->RegisterElement({ false }, s_InventoryElementUID)
+		s_StorageSlotsElementUID = pHierarchy->RegisterElement({ false }, backgroundUID)
 			.SetTransform({ { .05, 0.05 }, true }, { { .9, .9 }, true })
 			.GetIdentifier();
 	}
@@ -102,15 +107,13 @@ namespace SWA::Player
 		// Encode item location into int value
 		int extraFlags = (location.X << 8) | (location.Y);
 		
-		// Create a button
-		auto pButton = new ButtonComponent();
-		pButton->ButtonEventHandler.Subscribe({ [&](auto data, auto) {OnItemSlotButtonClicked(rInventory, data); }, extraFlags });
-		
 		// Create element
+		auto pButton = new ButtonComponent(); // Create a button	
 		auto& rElement = Hierarchy::sp_ActiveInstance->RegisterElement({ true }, s_StorageSlotsElementUID)
-			.RegisterComponent(new SpriteComponent(rItem.TextureName, RENDERLAYERS_GUI, SWA_TEXTURE_SHADER))
+			.RegisterComponent(new SpriteComponent(rItem.TextureName == nullptr ? DEFAULT_SLOT_TEXTURE : rItem.TextureName, RENDERLAYERS_GUI, SWA_TEXTURE_SHADER))
 			.RegisterComponent(pButton);
-		
+		pButton->ButtonEventHandler.Subscribe({ [&](auto data, auto) {OnItemSlotButtonClicked(rInventory, data); }, extraFlags });
+
 		// the bottom left corner of the slot, starting from the top of the screen
 		GP2D::Math::Float2 position = GP2D::Math::Float2(
 			(float)location.X / rInventory.GetSize().X,
@@ -139,7 +142,6 @@ namespace SWA::Player
 	void PlayerInventoryGUI::OnToggleButtonClicked()
 	{
 		auto& rElement = Hierarchy::sp_ActiveInstance->GetElement(s_InventoryElementUID);
-		fprintf(stdout, "Toggle!\n");
 		// Toggle and thus iterate through meshes and set active
 		rElement.SetActiveState(!rElement.GetActiveState());
 	}

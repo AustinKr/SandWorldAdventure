@@ -1,10 +1,10 @@
-#include "Inventory/BasicItem.h"
+#include "SWA/Inventory/BasicItem.h"
 
 namespace SWA::Inventory
 {
 	// Empty item (placeholder)
 	BasicItem::BasicItem() :
-		TextureName("NULL"),
+		TextureName(nullptr),
 		p_Data(nullptr),
 		ExtraFlags(0)
 	{

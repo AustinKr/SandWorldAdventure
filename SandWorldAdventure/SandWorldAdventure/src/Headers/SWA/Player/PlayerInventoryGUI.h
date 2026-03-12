@@ -1,6 +1,6 @@
 #pragma once
-#include "Inventory/Inventory.h"
-#include "Inventory/BasicItem.h"
+#include "SWA/Inventory/Inventory.h"
+#include "SWA/Inventory/BasicItem.h"
 
 #include "GP2D/GUI/Components/Button/ButtonEventData.h"
 
@@ -18,22 +18,23 @@ namespace SWA::Player
 		// Used to parent all gui elements related to inventory system into one group
 		static unsigned long s_InventoryElementUID;
 		// A button that is used to open or close the inventory
-		static unsigned long s_InventoryToggleButtonUID; // TODO: is it needed?
+		static unsigned long s_InventoryToggleButtonUID;
 		// Slots to show items
-		static unsigned long s_StorageSlotsElementUID; // TODO: is it needed?
+		static unsigned long s_StorageSlotsElementUID;
 
 		// Size in pixels of square slot
 		static int s_SlotScale;
 		// Pixels in between each slot
 		static int s_SlotPadding;
 
-		// Subscribes to assignment event in the given player inventory
+		// Subscribes to assignment event in the given player inventory, and assigns the slots
 		static void Initialize(INVENTORY& rInventory);
 
 		static bool IsActive();
 
 	private:
 		static const char* BACKGROUND_TEXTURE_NAME;
+		static const char* DEFAULT_SLOT_TEXTURE;
 
 		// Creates the layout for the inventory gui
 		static void CreateBackgroundLayout();

@@ -69,6 +69,9 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerInventoryGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SandWorldAdventure\src\Sources\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SandWorldAdventure\Shaders\TilemapShader.shader" />
@@ -77,22 +80,28 @@
     <None Include="SandWorldAdventure\Shaders\TextureShader.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SandWorldAdventure\src\Headers\RenderLayerNames.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\ShaderNames.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\ShaderNames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\Inventory\BasicItem.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Inventory\BasicItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\Inventory\Inventory.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Inventory\Inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\Event\EventHandler.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\EventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\Player\PlayerInventoryGUI.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerInventoryGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

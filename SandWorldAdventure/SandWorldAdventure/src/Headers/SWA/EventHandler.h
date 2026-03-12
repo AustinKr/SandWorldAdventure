@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace SWA::Event
+namespace SWA
 {
 	template<typename EventArguments, typename DelegateType = std::function<void(EventArguments)>>
 	struct EventHandler
