@@ -3,6 +3,7 @@
 namespace SWA::Player
 {
 	Item::Item()
+		: Type(PLAYER_ITEM_TYPE_EMPTY), TextureName(nullptr), Color(0x0), BehaviorUID(0)
 	{
 
 	}

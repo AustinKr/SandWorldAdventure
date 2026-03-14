@@ -4,6 +4,7 @@ namespace SWA::Player
 {
 	enum ItemTypes
 	{
-		PLAYER_ITEM_TYPE_TILE
+		PLAYER_ITEM_TYPE_EMPTY,
+		PLAYER_ITEM_TYPE_TILE,
 	};
 }

@@ -112,7 +112,7 @@ namespace SWA::Player
 		};
 
 		// Create player inventory and gui
-		CurrentInventory.Assign({ 4,2 }, {});
+		CurrentInventory.Assign({ 4,8 }, {});
 		CurrentInventory.SetItemAt({ 1,1 }, Item(PLAYER_ITEM_TYPE_TILE, "wet_sand_tile_slot", 0xeccc70ff, 0)); // TODO: Get behaviors
 		CurrentInventory.SetItemAt({ 3,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe082ff, 0));
 		PlayerInventoryGUI::Initialize(CurrentInventory);

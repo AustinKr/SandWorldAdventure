@@ -22,10 +22,8 @@ namespace SWA::Player
 		// Slots to show items
 		static unsigned long s_StorageSlotsElementUID;
 
-		// Size in pixels of square slot
-		static int s_SlotScale;
-		// Pixels in between each slot
-		static int s_SlotPadding;
+		// Multiplied with the scale of a slot
+		static float m_SlotScaleFactor;
 
 		// Subscribes to assignment event in the given player inventory, and assigns the slots
 		static void Initialize(INVENTORY& rInventory);
@@ -41,7 +39,7 @@ namespace SWA::Player
 
 		// Creates elements for each slot where items can be displayed
 		static void AssignSlots(INVENTORY& rInventory);
-		static void CreateSlot(INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, ITEM& rItem);
+		static void CreateSlot(INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, ITEM item);
 
 		// Called when an item is changed
 		static void OnInventoryAssignment(INVENTORY& rInventory, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments);
