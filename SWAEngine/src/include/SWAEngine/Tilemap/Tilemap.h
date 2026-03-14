@@ -1,5 +1,7 @@
 #pragma once
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
+#include "SWAEngine/Time.h"
+#include <unordered_map>
 
 namespace SWAEngine::Tilemap
 {
@@ -21,7 +23,7 @@ namespace SWAEngine::Tilemap
 		Tile& SetTile(Math::Vector2Int position, Tile tile);
 
 		// Should be called every frame cycle
-		void Update();
+		void Update(Time time);
 
 		Math::Vector2 TileToWorld(Math::Vector2Int tile, bool applyOffsets = true);
 		Math::Vector2Int WorldToTile(Math::Vector2 world, bool applyOffsets = true);
@@ -30,11 +32,19 @@ namespace SWAEngine::Tilemap
 		// (the top-right-most tile position)
 		Math::Vector2Int GetBounds();
 	private:
+		static const Math::Vector2Int SURROUNDING_TILES[8];
+
+		typedef std::unordered_map<Math::Vector2Int, Tile, Math::Vector2Hasher> TILES;
+
 		// Contains currently active tiles
 		ITilemapContainer* mp_ActiveTilesContainer;
 		// Contains new override tiles or null tiles to replace any currently active in their place
 		ITilemapContainer* mp_PendingTilesContainer;
 
-		void ApplyPendingTiles();
+		TILES ApplyPendingTiles(Time time);
+		// TODO: This is slow to update all tiles
+		void UpdateTiles(Time time, TILES tiles);
+
+		void TryUpdateTile(Time time, Math::Vector2Int pos, Tile tile);
 	};
 }

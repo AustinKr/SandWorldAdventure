@@ -69,9 +69,6 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

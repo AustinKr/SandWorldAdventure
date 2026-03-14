@@ -4,6 +4,8 @@
 #include "SWA/RenderLayerNames.h"
 #include "SWA/ShaderNames.h"
 
+#include "SWAEngine/Tilemap/TileBehavior/Types.h"
+
 // Graphics
 #include "GP2D/Pipeline/GenericPipeline.h"
 
@@ -88,11 +90,11 @@ namespace SWA
 		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, SWA_TILEMAP_SHADER);
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);
 
-		p_Tilemap->SetTile({ 2, 2 }, { 0, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 0, 0 }, { 0, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 1, 2 }, { 0, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 0, 1 }, { 0, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 3, 3 }, { 0, 0xffFFffFF, true });
+		p_Tilemap->SetTile({ 2, 2 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 0, 0 }, { SWAEngine::Tilemap::TileBehavior::SAND, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 1, 2 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 0, 1 }, { SWAEngine::Tilemap::TileBehavior::SAND, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 3, 3 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xffFFffFF, true });
 
 		// Create the player
 		p_MainPlayer = new Player::Player();
@@ -117,7 +119,7 @@ namespace SWA
 	void Game::Update(SWAEngine::Time time)
 	{
 		SWAEngine::BaseGameObject::UpdateObjects(time);
-		p_Tilemap->Update();
+		p_Tilemap->Update(time);
 	}
 	void Game::Release()
 	{

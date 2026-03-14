@@ -24,6 +24,8 @@ namespace SWA::Player
 
 		void TryUseItem(Item item);
 		void UseCurrentTileItem(Item item, SWAEngine::Math::Vector2Int mouseTilePosition);
+
+		static GP2D::Pipeline::GP2D_HEX_COLOR MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB);
 	public:
 		/*
 		The ExtraFlags field stores the base rgba color used for that tile.

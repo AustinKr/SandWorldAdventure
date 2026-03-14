@@ -173,7 +173,6 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Player.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerInventoryGUI.cpp" />
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Item.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SandWorldAdventure\Shaders\PlayerShader.shader" />

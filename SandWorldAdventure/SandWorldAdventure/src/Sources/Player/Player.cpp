@@ -6,6 +6,8 @@
 
 #include "SWA/Game.h"
 
+#include "SWAEngine/Tilemap/TileBehavior/Types.h"
+
 #include "GP2D/Pipeline/GenericPipeline.h"
 #include "GP2D/Pipeline/Window/Window.h"
 
@@ -79,11 +81,34 @@ namespace SWA::Player
 				if (position.X < 0 || position.Y < 0)
 					continue;
 				if (m_ShouldAddTile)
-					Game::p_Tilemap->SetTile(position, { item.BehaviorUID, item.Color, true});
+					Game::p_Tilemap->SetTile(position, { item.BehaviorUID, MixColor(item.Color, item.ColorDeviation), true});
 				else
 					Game::p_Tilemap->SetTile(position, {});
 			}
 		}
+	}
+
+
+	GP2D::Pipeline::GP2D_HEX_COLOR Player::MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB)
+	{
+		int r1 = (colA >> 24) & 0xFF;
+		int g1 = (colA >> 16) & 0xFF;
+		int b1 = (colA >> 8) & 0xFF;
+		int a1 = colA & 0xFF;
+
+		int r2 = (colB >> 24) & 0xFF;
+		int g2 = (colB >> 16) & 0xFF;
+		int b2 = (colB >> 8) & 0xFF;
+		int a2 = colB & 0xFF;
+
+		float fac = (float)rand() / RAND_MAX;
+
+		int red = (float)r1 * fac + r2 * (1.0f - fac);
+		int green = (float)g1 * fac + g2 * (1.0f - fac);
+		int blue = (float)b1 * fac + b2 * (1.0f - fac);
+		int alpha = (float)a1 * fac + a2 * (1.0f - fac);
+
+		return alpha | (blue << 8) | (green << 16) | (red << 24);
 	}
 
 	Player::Player() :
@@ -113,8 +138,8 @@ namespace SWA::Player
 
 		// Create player inventory and gui
 		CurrentInventory.Assign({ 4,8 }, {});
-		CurrentInventory.SetItemAt({ 1,1 }, Item(PLAYER_ITEM_TYPE_TILE, "wet_sand_tile_slot", 0xeccc70ff, 0)); // TODO: Get behaviors
-		CurrentInventory.SetItemAt({ 3,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe082ff, 0));
+		CurrentInventory.SetItemAt({ 1,1 }, Item(PLAYER_ITEM_TYPE_TILE, "wet_sand_tile_slot", 0xeccc70ff, 0xff0000ff, SWAEngine::Tilemap::TileBehavior::SOLID));
+		CurrentInventory.SetItemAt({ 3,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe082ff, 0xff0000ff, SWAEngine::Tilemap::TileBehavior::SAND));
 		PlayerInventoryGUI::Initialize(CurrentInventory);
 	}
 

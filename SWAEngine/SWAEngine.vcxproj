@@ -175,6 +175,8 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\BaseGameObject.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BasicItem.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Behaviors.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Sand.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\Tilemap.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
@@ -188,6 +190,9 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\Math\vector2.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\ITilemapContainer.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tile.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\IBehavior.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Sand.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Types.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TileBufferInformation.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tilemap.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapContainer.h" />

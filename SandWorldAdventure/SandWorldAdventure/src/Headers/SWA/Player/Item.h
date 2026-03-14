@@ -9,14 +9,27 @@ namespace SWA::Player
 	{
 		ItemTypes Type;
 		const char* TextureName;
-		GP2D::Pipeline::GP2D_HEX_COLOR Color;
+		GP2D::Pipeline::GP2D_HEX_COLOR Color; // Base color
+		GP2D::Pipeline::GP2D_HEX_COLOR ColorDeviation; // Mixed with base color randomly
+
 		unsigned int BehaviorUID;
 
 		// Empty item (placeholder)
-		Item();
-		// Creates an item
-		Item(ItemTypes type, const char* textureName, GP2D::Pipeline::GP2D_HEX_COLOR color, unsigned int behavior);
+		inline Item() 
+			: Type(PLAYER_ITEM_TYPE_EMPTY), TextureName(nullptr), Color(0x0), ColorDeviation(0x0), BehaviorUID(0)
+		{
 
-		void Release();
+		}
+		// Creates an item
+		inline Item(ItemTypes type, const char* textureName, GP2D::Pipeline::GP2D_HEX_COLOR color, GP2D::Pipeline::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
+			: Type(type), TextureName(textureName), Color(color), ColorDeviation(colorDeviation), BehaviorUID(behavior)
+		{
+
+		}
+
+		inline void Release()
+		{
+
+		}
 	};
 }
