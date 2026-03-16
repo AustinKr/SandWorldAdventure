@@ -50,6 +50,11 @@ namespace SWAEngine::Tilemap
 		return mp_PendingTilesContainer->Set(position, tile);
 	}
 
+	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight)
+	{
+		return mp_ActiveTilesContainer->DetectCollisionRect(bottomLeft, topRight);
+	}
+
 	void Tilemap::Update(Time time)
 	{
 		UpdateTiles(time, ApplyPendingTiles(time));

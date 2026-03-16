@@ -84,6 +84,19 @@ namespace SWAEngine::Math
 		return *this;
 	}
 
+	Vector2& Vector2::operator *=(const double other)
+	{
+		this->X *= other;
+		this->Y *= other;
+		return *this;
+	}
+	Vector2& Vector2::operator /=(const double other)
+	{
+		this->X /= other;
+		this->Y /= other;
+		return *this;
+	}
+
 	// Vector2Int
 
 	Vector2Int::Vector2Int() : X(0), Y(0) {/*empty*/ }

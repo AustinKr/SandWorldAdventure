@@ -19,11 +19,11 @@ namespace SWAEngine::Tilemap
 
 	bool TilemapContainer::Contains(Math::Vector2Int position)
 	{
-		return m_TilesRegistry.contains(position); // TODO: Not returning correctly
+		return m_TilesRegistry.contains(position);
 	}
 	Tile& TilemapContainer::Get(Math::Vector2Int position)
 	{
-		return m_TilesRegistry.at(position);  // TODO: Not returning correctly
+		return m_TilesRegistry.at(position);
 	}
 	Tile& TilemapContainer::Set(Math::Vector2Int position, Tile tile, bool shouldOverride)
 	{
@@ -58,5 +58,19 @@ namespace SWAEngine::Tilemap
 			if (!func(pair.first, pair.second))
 				return;
 		}
+	}
+
+	bool TilemapContainer::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight)
+	{
+		// TODO: if using acceleration structure in the future, this should check larger areas before individual tiles
+		for (int x = bottomLeft.X; x < topRight.X; x++)
+		{
+			for (int y = bottomLeft.Y; y < topRight.Y; y++)
+			{
+				if (Contains({ x,y }))
+					return true;
+			}
+		}
+		return false;
 	}
 }

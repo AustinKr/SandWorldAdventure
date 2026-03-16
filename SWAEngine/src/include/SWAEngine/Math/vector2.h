@@ -38,6 +38,9 @@ namespace SWAEngine::Math
 		Vector2& operator *=(const Vector2& other);
 		Vector2& operator /=(const Vector2& other);
 
+		Vector2& operator *=(const double other);
+		Vector2& operator /=(const double other);
+
 	};
 	struct SWA_ENGINE_API Vector2Int
 	{

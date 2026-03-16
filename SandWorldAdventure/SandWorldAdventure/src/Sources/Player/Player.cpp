@@ -24,18 +24,14 @@ namespace SWA::Player
 	{
 		// Keyboard
 		if (Window::Window::GetKeyState(GLFW_KEY_UP) || Window::Window::GetKeyState(GLFW_KEY_W))
-			AccY = 1;
+			m_Movement.Y = 1;
 		else if (Window::Window::GetKeyState(GLFW_KEY_DOWN) || Window::Window::GetKeyState(GLFW_KEY_S))
-			AccY = -1;
-		else// if (!MasterWindow::GetKeyState(GLFW_KEY_UP) && !MasterWindow::GetKeyState(GLFW_KEY_DOWN))
-			AccY = 0;
+			m_Movement.Y = -1;
 
 		if (Window::Window::GetKeyState(GLFW_KEY_RIGHT) || Window::Window::GetKeyState(GLFW_KEY_D))
-			AccX = 1;
+			m_Movement.X = 1;
 		else if (Window::Window::GetKeyState(GLFW_KEY_LEFT) || Window::Window::GetKeyState(GLFW_KEY_A))
-			AccX = -1;
-		else
-			AccX = 0;
+			m_Movement.X = -1;
 
 		m_ShouldBreakTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_1);
 		m_ShouldAddTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_2);
@@ -89,6 +85,24 @@ namespace SWA::Player
 	}
 
 
+	void Player::TryApplyVelocity()
+	{
+		// TODO: Implement step move
+
+		auto last = GetPosition();
+
+		SetPosition(GetPosition() + m_Velocity * m_Time.FrameDeltaTime);
+
+		if (IsColliding())
+		{
+			// Move back
+			SetPosition(last);
+			// Assumed to hit immovable object
+			m_Velocity *= .01;
+			m_Acceleration = { };
+		}
+	}
+
 	GP2D::Pipeline::GP2D_HEX_COLOR Player::MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB)
 	{
 		int r1 = (colA >> 24) & 0xFF;
@@ -113,7 +127,9 @@ namespace SWA::Player
 
 	Player::Player() :
 		BaseGameObject("Player"),
-		CurrentInventory{}, AccX(0), AccY(0), m_Vel({}), m_Dampening(.98), Speed{ 1.0 }, CameraFollowSpeed{ 1 }, m_ShouldAddTile(0), m_ShouldBreakTile(0)
+		CurrentInventory{}, 
+		Gravity(1), m_LastVelocity{}, m_Velocity{}, m_Dampening(.98), Speed{1.0},
+		m_Time{}, CameraFollowSpeed{ 1 }, m_ShouldAddTile(0), m_ShouldBreakTile(0), m_Movement{}
 	{
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh();
@@ -143,6 +159,39 @@ namespace SWA::Player
 		PlayerInventoryGUI::Initialize(CurrentInventory);
 	}
 
+	void Player::Update(SWAEngine::Time time)
+	{
+		m_Time = time;
+
+		// Use selected item
+		TryUseItem(CurrentInventory.GetItemAt(CurrentInventory.SelectedItemPosition));
+
+		// Move
+		SetInputs();
+		Accelerate(Vector2::Normalize(m_Movement) * Speed);
+
+		Accelerate({ 0, -Gravity });
+
+		// Apply physics
+		m_Velocity += m_Acceleration * m_Time.FrameDeltaTime;
+		m_Velocity *= m_Dampening;
+
+		m_LastVelocity = m_Velocity;
+
+		// Move
+		TryApplyVelocity();
+
+		// Move camera
+		GenericPipeline::s_ActiveCamera.Origin += (mp_Mesh->Origin - GenericPipeline::s_ActiveCamera.Origin) * float(m_Time.FrameDeltaTime * CameraFollowSpeed);
+	}
+	void Player::Release()
+	{
+		CurrentInventory.Release(); // Clears/releases everything associated with the player inventory
+		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
+
+		BaseGameObject::Release();
+	}
+
 	Vector2 Player::GetPosition()
 	{
 		return Vector2(mp_Mesh->Origin.X, mp_Mesh->Origin.Y);
@@ -151,40 +200,37 @@ namespace SWA::Player
 	{
 		mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y };
 	}
-
-	void Player::Update(SWAEngine::Time time)
+	Vector2 Player::GetScale()
 	{
-		SetInputs();
-
-		// Use selected item
-		TryUseItem(CurrentInventory.GetItemAt(CurrentInventory.SelectedItemPosition));
-
-		//// Testing raycast
-		//Vector2 originTiles = ((Tilemap::Tilemap* const)mp_Tilemap)->FromWorldToTile(GetPosition());
-		//Vector2 difference = (mouseTilePosition - originTiles), direction = difference.Normalize();
-		//bool succeeded = true;
-		//auto pairHit = ((Tilemap::Tilemap*)mp_Tilemap)->Raycast(originTiles, difference, &succeeded);
-		//if (succeeded)
-		//{
-		//	((Tilemap::Tilemap*)mp_Tilemap)->AddTile(originTiles, Tilemap::Tile(0xff0000ff, 0));
-		//	((Tilemap::Tilemap*)mp_Tilemap)->AddTile(pairHit.first, Tilemap::Tile(0xff0000ff, 0));
-		//}
-
-
-		// Physics
-		m_Vel += Vector2::Normalize(Vector2(AccX, AccY)) * time.FrameDeltaTime * Speed;
-		m_Vel.X *= m_Dampening;
-		m_Vel.Y *= m_Dampening;
-
-		// Move camera
-		SetPosition(GetPosition() + m_Vel * time.FrameDeltaTime);
-		GenericPipeline::s_ActiveCamera.Origin += (mp_Mesh->Origin - GenericPipeline::s_ActiveCamera.Origin) * float(time.FrameDeltaTime * CameraFollowSpeed);
+		return Vector2(mp_Mesh->Scale.X, mp_Mesh->Scale.Y);
 	}
-	void Player::Release()
+	void Player::SetScale(Vector2 newScale)
 	{
-		CurrentInventory.Release(); // Clears/releases everything associated with the player inventory
-		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
+		mp_Mesh->Scale = { (float)newScale.X, (float)newScale.Y };
+	}
 
-		BaseGameObject::Release();
+
+	SWAEngine::Math::Vector2 Player::GetVelocity()
+	{
+		return m_Velocity;
+	}
+	void Player::AddVelocity(SWAEngine::Math::Vector2 vel)
+	{
+		m_Velocity += vel;
+	}
+	void Player::Accelerate(SWAEngine::Math::Vector2 acc)
+	{
+		m_Acceleration += acc;
+	}
+	SWAEngine::Math::Vector2 Player::GetAcceleration()
+	{
+		return (m_Velocity - m_LastVelocity) / m_Time.FrameDeltaTime;
+	}
+
+	bool Player::IsColliding()
+	{
+		return 
+			GetPosition().X < 0 || GetPosition().Y < 0 ||
+			Game::p_Tilemap->DetectCollisionRect(GetPosition(), GetPosition() + GetScale());
 	}
 }

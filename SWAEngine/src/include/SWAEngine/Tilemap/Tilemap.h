@@ -22,6 +22,9 @@ namespace SWAEngine::Tilemap
 		// Sets the tile (in the pending tiles container)
 		Tile& SetTile(Math::Vector2Int position, Tile tile);
 
+		// Detects collision of given rect and the active tiles
+		bool DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight);
+
 		// Should be called every frame cycle
 		void Update(Time time);
 

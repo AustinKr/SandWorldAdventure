@@ -98,6 +98,7 @@ namespace SWA
 
 		// Create the player
 		p_MainPlayer = new Player::Player();
+		p_MainPlayer->SetPosition({ 5, 5 });
 	}
 
 

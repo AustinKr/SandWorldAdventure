@@ -8,22 +8,31 @@
 
 namespace SWA::Player
 {
+	// TODO: Could create IPhysicsObject
 	// A player object that is associated with its mesh
 	struct Player : SWAEngine::BaseGameObject
 	{
 	private:
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;
 
-		SWAEngine::Math::Vector2 m_Vel;
+		SWAEngine::Math::Vector2 m_LastVelocity;
+		SWAEngine::Math::Vector2 m_Velocity;
+		SWAEngine::Math::Vector2 m_Acceleration;
+
+		SWAEngine::Time m_Time;
+
 		double m_Dampening;
 	
 		bool m_ShouldBreakTile;
 		bool m_ShouldAddTile;
+		SWAEngine::Math::Vector2 m_Movement;
 
 		void SetInputs();
 
 		void TryUseItem(Item item);
 		void UseCurrentTileItem(Item item, SWAEngine::Math::Vector2Int mouseTilePosition);
+
+		void TryApplyVelocity();
 
 		static GP2D::Pipeline::GP2D_HEX_COLOR MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB);
 	public:
@@ -32,13 +41,12 @@ namespace SWA::Player
 		*/
 		SWAEngine::Inventory::Inventory<Item> CurrentInventory;
 
-		double AccX;
-		double AccY;
+		double Gravity;
 		double Speed;
 		double CameraFollowSpeed;
 
 		// This should only be called once when the application begins and is the only instance used
-		// Creates the mesh
+		// Creates the mesh with default size
 		// Creates the inventory and gui
 		Player();
 		
@@ -49,5 +57,21 @@ namespace SWA::Player
 		// Retrieves the position of the player object. Note: The player shares its position with its mesh origin
 		SWAEngine::Math::Vector2 GetPosition();
 		void SetPosition(SWAEngine::Math::Vector2 newPosition);
+		// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
+		SWAEngine::Math::Vector2 GetScale();
+		void SetScale(SWAEngine::Math::Vector2 newScale);
+
+		// Returns the currently applied velocity
+		SWAEngine::Math::Vector2 GetVelocity();
+		// Moves by an impluse
+		// Note that this is only applied at the end of every Player::Update()
+		void AddVelocity(SWAEngine::Math::Vector2 vel);
+		// Continually accelerates by the given amount
+		void Accelerate(SWAEngine::Math::Vector2 acc);
+		// Returns the actual change in velocity over change in time
+		SWAEngine::Math::Vector2 GetAcceleration();
+
+		// Checks collision against the tilemap, bounds of tilemap, and other entities
+		bool IsColliding();
 	};
 }
