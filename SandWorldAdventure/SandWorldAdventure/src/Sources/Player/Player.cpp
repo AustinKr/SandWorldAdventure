@@ -20,19 +20,29 @@ using namespace GP2D::Math;
 
 namespace SWA::Player
 {
+	const int Player::MAX_COLLISION_STEPS = 5;
+
 	void Player::SetInputs()
 	{
 		// Keyboard
-		if (Window::Window::GetKeyState(GLFW_KEY_UP) || Window::Window::GetKeyState(GLFW_KEY_W))
-			m_Movement.Y = 1;
+		Vector2 movement = {};
+		if (Window::Window::GetKeyState(GLFW_KEY_SPACE) || Window::Window::GetKeyState(GLFW_KEY_UP) || Window::Window::GetKeyState(GLFW_KEY_W))
+		{
+			// Try jump
+			if (IsTouchingGround())
+				Jump(JumpHeight);
+		}
 		else if (Window::Window::GetKeyState(GLFW_KEY_DOWN) || Window::Window::GetKeyState(GLFW_KEY_S))
-			m_Movement.Y = -1;
+			movement.Y = -1;
 
 		if (Window::Window::GetKeyState(GLFW_KEY_RIGHT) || Window::Window::GetKeyState(GLFW_KEY_D))
-			m_Movement.X = 1;
+			movement.X = 1;
 		else if (Window::Window::GetKeyState(GLFW_KEY_LEFT) || Window::Window::GetKeyState(GLFW_KEY_A))
-			m_Movement.X = -1;
+			movement.X = -1;
 
+		AddVelocity(Vector2::Normalize(movement) * Speed * m_Time.FrameDeltaTime); // Accerate but as an impulse
+
+		// Tiles
 		m_ShouldBreakTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_1);
 		m_ShouldAddTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_2);
 	}
@@ -84,23 +94,52 @@ namespace SWA::Player
 		}
 	}
 
+	bool Player::StepMove(Vector2 movement)
+	{
+		Vector2 origin = GetPosition();
+		double factor = 1.0;
+		for (int step = 0; step < MAX_COLLISION_STEPS; step++)
+		{
+			// Set to current position to try
+			SetPosition(origin + movement * factor);
 
+			if (IsColliding())
+				factor /= 2; // Move back
+			else if (factor < 1.0)
+				factor *= 1.5; // Move forward
+			else
+				return false; // Reached end without colliding
+		}
+
+		// Move back to start if collision wasn't resolved
+		if (IsColliding())
+			SetPosition(origin);
+
+		return true;
+	}
 	void Player::TryApplyVelocity()
 	{
-		// TODO: Implement step move
+		//if (IsColliding())
+		//	return; // Fail; TODO: Handle when already colliding
 
-		auto last = GetPosition();
+		Vector2 movement = m_Velocity * m_Time.FrameDeltaTime;
 
-		SetPosition(GetPosition() + m_Velocity * m_Time.FrameDeltaTime);
-
-		if (IsColliding())
+		// Step in each direction
+		if (StepMove({ movement.X, 0 }))
 		{
-			// Move back
-			SetPosition(last);
-			// Assumed to hit immovable object
-			m_Velocity *= .01;
-			m_Acceleration = { };
+			m_Velocity.X *= .01;
+			m_Acceleration.X = 0;
 		}
+		if (StepMove({ 0, movement.Y }))
+		{
+			m_Velocity.Y *= .01;
+			m_Acceleration.Y = 0;
+
+			if (movement.Y < 0)
+				m_IsTouchingGround = true;
+		}
+		else
+			m_IsTouchingGround = false;
 	}
 
 	GP2D::Pipeline::GP2D_HEX_COLOR Player::MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB)
@@ -128,8 +167,8 @@ namespace SWA::Player
 	Player::Player() :
 		BaseGameObject("Player"),
 		CurrentInventory{}, 
-		Gravity(1), m_LastVelocity{}, m_Velocity{}, m_Dampening(.98), Speed{1.0},
-		m_Time{}, CameraFollowSpeed{ 1 }, m_ShouldAddTile(0), m_ShouldBreakTile(0), m_Movement{}
+		Gravity(0.9), m_LastVelocity{}, m_Velocity{}, m_Dampening(.98), Speed(1.0), JumpHeight(1.0),
+		m_IsTouchingGround{}, m_Time{}, CameraFollowSpeed{5}, m_ShouldAddTile(0), m_ShouldBreakTile(0)
 	{
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh();
@@ -168,9 +207,8 @@ namespace SWA::Player
 
 		// Move
 		SetInputs();
-		Accelerate(Vector2::Normalize(m_Movement) * Speed);
 
-		Accelerate({ 0, -Gravity });
+		AddVelocity({ 0, -Gravity * m_Time.FrameDeltaTime }); // Accerate but as an impulse
 
 		// Apply physics
 		m_Velocity += m_Acceleration * m_Time.FrameDeltaTime;
@@ -227,10 +265,20 @@ namespace SWA::Player
 		return (m_Velocity - m_LastVelocity) / m_Time.FrameDeltaTime;
 	}
 
+	void Player::Jump(double height)
+	{
+		AddVelocity({ 0,sqrt(2.0 * Gravity * height) });
+		m_IsTouchingGround = false;
+	}
+	bool Player::IsTouchingGround()
+	{
+		return m_IsTouchingGround;
+	}
+
 	bool Player::IsColliding()
 	{
-		return 
-			GetPosition().X < 0 || GetPosition().Y < 0 ||
-			Game::p_Tilemap->DetectCollisionRect(GetPosition(), GetPosition() + GetScale());
+		return
+			GetPosition().X < Game::p_Tilemap->Origin.X || GetPosition().Y < Game::p_Tilemap->Origin.Y ||
+			Game::p_Tilemap->DetectCollisionRect(Game::p_Tilemap->WorldToTile(GetPosition()), Game::p_Tilemap->WorldToTile(GetPosition() + GetScale()));
 	}
 }

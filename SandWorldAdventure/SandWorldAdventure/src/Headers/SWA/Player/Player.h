@@ -13,6 +13,8 @@ namespace SWA::Player
 	struct Player : SWAEngine::BaseGameObject
 	{
 	private:
+		static const int MAX_COLLISION_STEPS;
+
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;
 
 		SWAEngine::Math::Vector2 m_LastVelocity;
@@ -25,13 +27,16 @@ namespace SWA::Player
 	
 		bool m_ShouldBreakTile;
 		bool m_ShouldAddTile;
-		SWAEngine::Math::Vector2 m_Movement;
+
+		bool m_IsTouchingGround;
 
 		void SetInputs();
 
 		void TryUseItem(Item item);
 		void UseCurrentTileItem(Item item, SWAEngine::Math::Vector2Int mouseTilePosition);
 
+		// Step move algorithm (only accurate for small movements)
+		bool StepMove(SWAEngine::Math::Vector2 movement);
 		void TryApplyVelocity();
 
 		static GP2D::Pipeline::GP2D_HEX_COLOR MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB);
@@ -44,6 +49,7 @@ namespace SWA::Player
 		double Gravity;
 		double Speed;
 		double CameraFollowSpeed;
+		double JumpHeight;
 
 		// This should only be called once when the application begins and is the only instance used
 		// Creates the mesh with default size
@@ -70,6 +76,9 @@ namespace SWA::Player
 		void Accelerate(SWAEngine::Math::Vector2 acc);
 		// Returns the actual change in velocity over change in time
 		SWAEngine::Math::Vector2 GetAcceleration();
+
+		void Jump(double height);
+		bool IsTouchingGround();
 
 		// Checks collision against the tilemap, bounds of tilemap, and other entities
 		bool IsColliding();
