@@ -2,23 +2,35 @@
 
 namespace SWAEngine::Tilemap::TileBehavior
 {
-	void Sand::Update(Tilemap* const pTilemap, Time time, Math::Vector2Int pos, Tile tile)
+
+	Sand::Sand() :
+		m_TileVelocities{}
 	{
-		/*if ((int)time.CurrentTime % 2 != 0)
-		{
-			pTilemap->SetTile(pos, tile);
-			return;
-		}*/
 
+	}
+
+	void Sand::OnCreate(Tile tile, Math::Vector2Int pos)
+	{
+		m_TileVelocities.insert(std::make_pair(pos, Math::Vector2{}));
+	}
+	void Sand::OnRemove(Tile tile, Math::Vector2Int pos)
+	{
+		m_TileVelocities.erase(pos);
+	}
+
+
+	void Sand::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time)
+	{
 		auto belowPos = pos - Math::Vector2Int(0, 1);
-		if (belowPos.Y < 0)
-			return;
 
-		Tile below = pTilemap->GetTile(belowPos);
-		if (below.HasValue)
-			return;
+		if (!pTilemap->GetTile(belowPos).HasValue && pTilemap->IsInBounds(belowPos))
+			pTilemap->SwapTiles(pos, belowPos);
 
-		pTilemap->SetTile(belowPos, tile);
-		pTilemap->SetTile(pos, below);
+
+		//// Apply gravity
+		//m_TileVelocities.at(pos) += {0, -time.FrameDeltaTime};
+
+		//// Apply velocity
+
 	}
 }

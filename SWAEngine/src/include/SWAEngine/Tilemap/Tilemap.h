@@ -21,6 +21,8 @@ namespace SWAEngine::Tilemap
 		Tile GetTile(Math::Vector2Int position);
 		// Sets the tile (in the pending tiles container)
 		Tile& SetTile(Math::Vector2Int position, Tile tile);
+		// Swaps tiles
+		void SwapTiles(Math::Vector2Int a, Math::Vector2Int b);
 
 		// Detects collision of given rect and the active tiles
 		bool DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight);
@@ -34,6 +36,7 @@ namespace SWAEngine::Tilemap
 		// Returns the bounds of the map in tiles
 		// (the top-right-most tile position)
 		Math::Vector2Int GetBounds();
+		bool IsInBounds(Math::Vector2Int tile);
 	private:
 		static const Math::Vector2Int SURROUNDING_TILES[8];
 
@@ -48,6 +51,5 @@ namespace SWAEngine::Tilemap
 		// TODO: This is slow to update all tiles
 		void UpdateTiles(Time time, TILES tiles);
 
-		void TryUpdateTile(Time time, Math::Vector2Int pos, Tile tile);
 	};
 }

@@ -49,6 +49,17 @@ namespace SWAEngine::Tilemap
 
 		return mp_PendingTilesContainer->Set(position, tile);
 	}
+	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b)
+	{
+		Tile tileA = GetTile(a);
+		Tile tileB = GetTile(b);
+
+		if (!tileA.HasValue && !tileB.HasValue)
+			return;
+
+		SetTile(a, tileB);
+		SetTile(b, tileA);
+	}
 
 	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight)
 	{
@@ -78,25 +89,56 @@ namespace SWAEngine::Tilemap
 	{
 		return mp_ActiveTilesContainer->GetBounds();
 	}
+	bool Tilemap::IsInBounds(Math::Vector2Int tile)
+	{
+		return tile.X >= 0 && tile.Y >= 0 && tile.X < GetBounds().X && tile.Y < GetBounds().Y;
+	}
 
 	Tilemap::TILES Tilemap::ApplyPendingTiles(Time time)
 	{
 		TILES tilesToUpdate = {};
 
-		mp_PendingTilesContainer->Iterate([&](Math::Vector2Int pos, Tile& rTile)
+		mp_PendingTilesContainer->Iterate([&](Math::Vector2Int pos, Tile& rPendingTile)
 		{
-			if (rTile.HasValue)
+			if (rPendingTile.HasValue)
 			{
-				mp_ActiveTilesContainer->Set(pos, rTile, true); // Add tile
-				tilesToUpdate.insert(std::make_pair(pos, rTile));
+				// Try call old tile ::OnRemove()
+				if (mp_ActiveTilesContainer->Contains(pos))
+				{
+					Tile& rOldTile = mp_ActiveTilesContainer->Get(pos);
+					if (rOldTile.BehaviorUID != NULL)
+						TileBehavior::IBehavior::s_Behaviors.at(rOldTile.BehaviorUID)
+						->OnRemove(rOldTile, pos);
+				}
+
+				// Add tile
+				mp_ActiveTilesContainer->Set(pos, rPendingTile, true);
+				if (rPendingTile.BehaviorUID != NULL)
+				{
+					// Queue update
+					tilesToUpdate.insert(std::make_pair(pos, rPendingTile));
+					// Call current tile ::OnCreate()
+					TileBehavior::IBehavior::s_Behaviors.at(rPendingTile.BehaviorUID)
+						->OnCreate(rPendingTile, pos);
+				}
 			}
-			else
+			else if (mp_ActiveTilesContainer->Contains(pos))
+			{
+				// Call old tile ::OnRemove()
+				Tile& rOldTile = mp_ActiveTilesContainer->Get(pos);
+				if (rOldTile.BehaviorUID != NULL)
+					TileBehavior::IBehavior::s_Behaviors.at(rOldTile.BehaviorUID)
+					->OnRemove(rOldTile, pos);
+
 				mp_ActiveTilesContainer->Erase(pos); // Remove tile from memory
-			
-			// Update surrounding
+			}
+
+			// Queue update surrounding
 			for (auto& off : SURROUNDING_TILES)
 			{
-				tilesToUpdate.insert(std::make_pair(off + pos, GetTile(off + pos)));
+				Tile tile = GetTile(off + pos);
+				if (tile.HasValue && tile.BehaviorUID != NULL)
+					tilesToUpdate.insert(std::make_pair(off + pos, tile));
 			}
 
 			return true; // continue iteration
@@ -109,15 +151,7 @@ namespace SWAEngine::Tilemap
 	{
 		for (auto& pair : tiles)
 		{
-			TryUpdateTile(time, pair.first, pair.second);
+			TileBehavior::IBehavior::s_Behaviors.at(pair.second.BehaviorUID)->Update(pair.second, pair.first, this, time);
 		}
-	}
-
-	void Tilemap::TryUpdateTile(Time time, Math::Vector2Int pos, Tile tile)
-	{
-		if (!tile.HasValue || tile.BehaviorUID == NULL)
-			return;
-
-		TileBehavior::IBehavior::s_Behaviors.at(tile.BehaviorUID)->Update(this, time, pos, tile);
 	}
 }

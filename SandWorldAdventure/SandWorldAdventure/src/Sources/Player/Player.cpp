@@ -167,13 +167,13 @@ namespace SWA::Player
 	Player::Player() :
 		BaseGameObject("Player"),
 		CurrentInventory{}, 
-		Gravity(0.9), m_LastVelocity{}, m_Velocity{}, m_Dampening(.98), Speed(1.0), JumpHeight(1.0),
+		Gravity(0.9), m_LastVelocity{}, m_Velocity{}, m_Dampening(.98), Speed(1.0), JumpHeight(0.6),
 		m_IsTouchingGround{}, m_Time{}, CameraFollowSpeed{5}, m_ShouldAddTile(0), m_ShouldBreakTile(0)
 	{
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh();
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
-		mp_Mesh->Scale = { 0.125f, 0.25f};
+		mp_Mesh->Scale = { 0.05f, 0.1f};
 		mp_Mesh->Vertices =
 		{
 			{{ 0, 0 }, {0, 0, 0}},
@@ -193,8 +193,8 @@ namespace SWA::Player
 
 		// Create player inventory and gui
 		CurrentInventory.Assign({ 4,8 }, {});
-		CurrentInventory.SetItemAt({ 1,1 }, Item(PLAYER_ITEM_TYPE_TILE, "wet_sand_tile_slot", 0xeccc70ff, 0xff0000ff, SWAEngine::Tilemap::TileBehavior::SOLID));
-		CurrentInventory.SetItemAt({ 3,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe082ff, 0xff0000ff, SWAEngine::Tilemap::TileBehavior::SAND));
+		CurrentInventory.SetItemAt({ 1,1 }, Item(PLAYER_ITEM_TYPE_TILE, "wet_sand_tile_slot", 0xeccc70ff, 0xc0a65aff, SWAEngine::Tilemap::TileBehavior::SOLID));
+		CurrentInventory.SetItemAt({ 3,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe79eff, 0xebcb68ff, SWAEngine::Tilemap::TileBehavior::SAND));
 		PlayerInventoryGUI::Initialize(CurrentInventory);
 	}
 

@@ -11,6 +11,9 @@ namespace SWAEngine::Tilemap::TileBehavior
 	{
 		static std::unordered_map<unsigned int, IBehavior*> s_Behaviors;
 
-		virtual void Update(Tilemap* const pTilemap, Time time, Math::Vector2Int pos, Tile tile) = 0;
+		virtual void OnCreate(Tile tile, Math::Vector2Int pos) = 0;
+		virtual void OnRemove(Tile tile, Math::Vector2Int pos) = 0;
+
+		virtual void Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time) = 0;
 	};
 }
