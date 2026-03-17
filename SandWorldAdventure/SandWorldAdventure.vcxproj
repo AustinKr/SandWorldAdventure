@@ -77,6 +77,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_SWA_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/";_SWA_DEFAULT_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SWAEngine/Resources/";_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -99,6 +100,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_SWA_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/";_SWA_DEFAULT_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SWAEngine/Resources/";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
