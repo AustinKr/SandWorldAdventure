@@ -122,7 +122,7 @@ namespace SWAEngine::Tilemap
 		{
 			for (int py = 0; py < textureSize.Y; py++)
 			{
-				Tile tile = mp_Tilemap->GetTile(bottomLeft + Math::Vector2Int(px, py));
+				Tile tile = mp_Tilemap->GetActiveTile(bottomLeft + Math::Vector2Int(px, py));
 				//0xff00ffff
 				// Assign the pixel color
 				pTiles[px + py * textureSize.X] = tile.Color;

@@ -1,9 +1,12 @@
 #include "SWAEngine/Tilemap/Tilemap.h"
 #include "SWAEngine/Tilemap/TilemapContainer.h"
 #include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
+#include <algorithm>
 
 namespace SWAEngine::Tilemap
 {
+	const unsigned int Tilemap::MAX_MOVE_STEPS = 50;
+
 	const Math::Vector2Int Tilemap::SURROUNDING_TILES[8] =
 	{
 		Math::Vector2Int(-1, 1),
@@ -35,13 +38,23 @@ namespace SWAEngine::Tilemap
 		return mp_ActiveTilesContainer->Size() == 0;
 	}
 
-	Tile Tilemap::GetTile(Math::Vector2Int position)
+	Tile Tilemap::GetActiveTile(Math::Vector2Int position)
 	{
 		if (!mp_ActiveTilesContainer->Contains(position))
 			return {};
 
 		return mp_ActiveTilesContainer->Get(position);
 	}
+	Tile Tilemap::GetTile(Math::Vector2Int position)
+	{
+		// Try get active
+		if (!mp_PendingTilesContainer->Contains(position))
+			return GetActiveTile(position);
+
+		// Get pending
+		return mp_PendingTilesContainer->Get(position);
+	}
+
 	Tile& Tilemap::SetTile(Math::Vector2Int position, Tile tile)
 	{
 		if (position.X < 0 || position.Y < 0)
@@ -49,16 +62,46 @@ namespace SWAEngine::Tilemap
 
 		return mp_PendingTilesContainer->Set(position, tile);
 	}
-	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b)
+	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b, Tile tileA, Tile tileB)
 	{
-		Tile tileA = GetTile(a);
-		Tile tileB = GetTile(b);
+		if(!tileA.HasValue)
+			tileA = GetActiveTile(a);
+		if(!tileB.HasValue)
+			tileB = GetActiveTile(b);
 
 		if (!tileA.HasValue && !tileB.HasValue)
 			return;
 
 		SetTile(a, tileB);
 		SetTile(b, tileA);
+	}
+	bool Tilemap::TryStepMoveTile(Math::Vector2Int start, Math::Vector2 movement, int maxSteps)
+	{
+		Math::Vector2Int current = start;
+		Math::Vector2 direction = movement.Normalize();
+		Tile hitTile = {};
+		int step = 0, endSqrd = std::min(maxSteps * maxSteps, (int)floor(movement.GetMagnitudeSqrd()));
+		for (step = 0; step*step < endSqrd; step++)
+		{
+			current = start + direction * step;
+			if (!IsInBounds(current))
+				break;
+			// Check whether hit a tile
+			hitTile = GetTile(current);
+			if (hitTile.HasValue)
+			{
+				step--;
+				break; 
+			}
+			// Else, hit nothing
+		}
+		// Make sure we didn't run out of steps or didn't actually move
+		if (step == maxSteps || current == start)
+			return false;
+
+		// Successfully moved
+		SwapTiles(current, start, hitTile);
+		return true;
 	}
 
 	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight)
@@ -100,7 +143,7 @@ namespace SWAEngine::Tilemap
 
 		mp_PendingTilesContainer->Iterate([&](Math::Vector2Int pos, Tile& rPendingTile)
 		{
-			if (rPendingTile.HasValue)
+			if (rPendingTile.HasValue) // Add
 			{
 				// Try call old tile ::OnRemove()
 				if (mp_ActiveTilesContainer->Contains(pos))
@@ -122,7 +165,7 @@ namespace SWAEngine::Tilemap
 						->OnCreate(rPendingTile, pos);
 				}
 			}
-			else if (mp_ActiveTilesContainer->Contains(pos))
+			else if (mp_ActiveTilesContainer->Contains(pos)) // Remove
 			{
 				// Call old tile ::OnRemove()
 				Tile& rOldTile = mp_ActiveTilesContainer->Get(pos);
@@ -136,7 +179,7 @@ namespace SWAEngine::Tilemap
 			// Queue update surrounding
 			for (auto& off : SURROUNDING_TILES)
 			{
-				Tile tile = GetTile(off + pos);
+				Tile tile = GetActiveTile(off + pos);
 				if (tile.HasValue && tile.BehaviorUID != NULL)
 					tilesToUpdate.insert(std::make_pair(off + pos, tile));
 			}
