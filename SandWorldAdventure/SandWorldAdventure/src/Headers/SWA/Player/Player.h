@@ -39,7 +39,7 @@ namespace SWA::Player
 		bool StepMove(SWAEngine::Math::Vector2 movement);
 		void TryApplyVelocity();
 
-		static GP2D::Pipeline::GP2D_HEX_COLOR MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB);
+		static GP2D::GP2D_HEX_COLOR MixColor(GP2D::GP2D_HEX_COLOR colA, GP2D::GP2D_HEX_COLOR colB);
 	public:
 		/*
 		The ExtraFlags field stores the base rgba color used for that tile.

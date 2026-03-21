@@ -26,11 +26,11 @@ namespace SWAEngine::Tilemap
 
 		virtual void Release() override;
 
-		virtual bool Render(GP2D::Pipeline::IPipeline* pPipeline, GP2D::Pipeline::UINT vertexBufferName, GP2D::Pipeline::UINT pVertexArray) override;
+		virtual bool Render(GP2D::Pipeline::IPipeline* pPipeline, GP2D::UINT vertexBufferName, GP2D::UINT pVertexArray) override;
 		
 	private:
 		Tilemap* const mp_Tilemap;
-		GP2D::Pipeline::UINT m_TextureBufferName;
+		GP2D::UINT m_TextureBufferName;
 		
 		// The verts for the mesh. Takes up the entire screen
 		static const GP2D::Math::Vertex2D MESH_VERTICES[6];

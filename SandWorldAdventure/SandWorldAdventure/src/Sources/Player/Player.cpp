@@ -142,7 +142,7 @@ namespace SWA::Player
 			m_IsTouchingGround = false;
 	}
 
-	GP2D::Pipeline::GP2D_HEX_COLOR Player::MixColor(GP2D::Pipeline::GP2D_HEX_COLOR colA, GP2D::Pipeline::GP2D_HEX_COLOR colB)
+	GP2D::GP2D_HEX_COLOR Player::MixColor(GP2D::GP2D_HEX_COLOR colA, GP2D::GP2D_HEX_COLOR colB)
 	{
 		int r1 = (colA >> 24) & 0xFF;
 		int g1 = (colA >> 16) & 0xFF;

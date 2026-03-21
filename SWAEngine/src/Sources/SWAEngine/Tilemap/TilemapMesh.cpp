@@ -54,7 +54,7 @@ namespace SWAEngine::Tilemap
 	}
 
 	// TODO: Could mvoe the origin of the tilemap mesh to the actual tilemap orign and then the tilemap wouldn't overrite the entire screen
-	bool TilemapMesh::Render(IPipeline* pPipeline, GP2D::Pipeline::UINT vertexBufferName, GP2D::Pipeline::UINT pVertexArray)
+	bool TilemapMesh::Render(IPipeline* pPipeline, GP2D::UINT vertexBufferName, GP2D::UINT pVertexArray)
 	{
 		if (mp_Tilemap->IsEmpty())
 			return true; // Nothing to render so just skip

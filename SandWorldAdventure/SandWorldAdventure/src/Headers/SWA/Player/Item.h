@@ -1,5 +1,5 @@
 #pragma once
-#include "GP2D/Pipeline/GraphicsTypes.h"
+#include "GP2D/GraphicsTypes.h"
 #include "SWA/Player/ItemTypes.h"
 
 namespace SWA::Player
@@ -9,8 +9,8 @@ namespace SWA::Player
 	{
 		ItemTypes Type;
 		const char* TextureName;
-		GP2D::Pipeline::GP2D_HEX_COLOR Color; // Base color
-		GP2D::Pipeline::GP2D_HEX_COLOR ColorDeviation; // Mixed with base color randomly
+		GP2D::GP2D_HEX_COLOR Color; // Base color
+		GP2D::GP2D_HEX_COLOR ColorDeviation; // Mixed with base color randomly
 
 		unsigned int BehaviorUID;
 
@@ -21,7 +21,7 @@ namespace SWA::Player
 
 		}
 		// Creates an item
-		inline Item(ItemTypes type, const char* textureName, GP2D::Pipeline::GP2D_HEX_COLOR color, GP2D::Pipeline::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
+		inline Item(ItemTypes type, const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
 			: Type(type), TextureName(textureName), Color(color), ColorDeviation(colorDeviation), BehaviorUID(behavior)
 		{
 

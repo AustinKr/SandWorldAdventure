@@ -1,12 +1,12 @@
 #pragma once
-#include "GP2D/Pipeline/GraphicsTypes.h"
+#include "GP2D/GraphicsTypes.h"
 
 namespace SWAEngine::Tilemap
 {
 	struct Tile
 	{
 		unsigned int BehaviorUID;
-		GP2D::Pipeline::GP2D_HEX_COLOR Color;
+		GP2D::GP2D_HEX_COLOR Color;
 
 		// Whether this tile is active and non-null
 		bool HasValue;
@@ -18,7 +18,7 @@ namespace SWAEngine::Tilemap
 		{
 
 		}
-		inline Tile(unsigned int uid, GP2D::Pipeline::GP2D_HEX_COLOR color, bool hasValue, float time = 0)
+		inline Tile(unsigned int uid, GP2D::GP2D_HEX_COLOR color, bool hasValue, float time = 0)
 			: BehaviorUID(uid), Color(color), HasValue(hasValue), LastUpdateTime(time)
 		{
 
