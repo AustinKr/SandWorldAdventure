@@ -7,6 +7,7 @@
 
 // Graphics
 #include "GP2D/Pipeline/GenericPipeline.h"
+#include "GP2D/Pipeline/Texture/BitmapTexture.h"
 
 #include "GP2D/Pipeline/Shader/GeometryShader.h"
 #include "GP2D/Pipeline/Mesh/Mesh.h"
@@ -25,14 +26,14 @@ namespace SWA
 	void Game::AddTextures()
 	{
 		// TODO: could define all textures in a .json file and load it
-		GenericPipeline::s_Textures.RegisterTexture("default_sprite", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/default_sprite.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("gui_background", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Background.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("lava_24", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Lava24.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("default_sprite", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/default_sprite.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("gui_background", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Background.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("lava_24", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Lava24.bmp"));
 
-		GenericPipeline::s_Textures.RegisterTexture("empty_slot", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/EmptySlot.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("sand_stone_tile_slot", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandStoneTileSlot.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("sand_tile_slot", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandTileSlot.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("wet_sand_tile_slot", Texture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/WetSandTileSlot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("empty_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/EmptySlot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("sand_stone_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandStoneTileSlot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandTileSlot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("wet_sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/WetSandTileSlot.bmp"));
 	}
 
 	void Game::AddShaders()
