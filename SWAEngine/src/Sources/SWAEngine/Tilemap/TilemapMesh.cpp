@@ -21,7 +21,7 @@ namespace SWAEngine::Tilemap
 		Vertex2D{{-1, -1}, {0, 0, 0}},
 		Vertex2D{{ 1, -1}, {1, 0, 0}},
 		Vertex2D{{ 1,  1}, {1, 1, 0}},
-		
+
 		Vertex2D{{ 1,  1}, {1, 1, 0}},
 		Vertex2D{{-1,  1}, {0, 1, 0}},
 		Vertex2D{{-1, -1}, {0, 0, 0}},
@@ -32,7 +32,7 @@ namespace SWAEngine::Tilemap
 	const char* TilemapMesh::TextureSizeCoordName = "TexSizeCoord";
 	const char* TilemapMesh::TextureSizeName = "TexSize";
 
-	TilemapMesh::TilemapMesh(Tilemap* const pTilemap, int shaderID) : mp_Tilemap(pTilemap), ShaderID(shaderID)
+	TilemapMesh::TilemapMesh(Tilemap* const pTilemap, const char* shader) : mp_Tilemap(pTilemap), ShaderName(shader)
 	{
 		IsActive = true;
 
@@ -60,13 +60,13 @@ namespace SWAEngine::Tilemap
 			return true; // Nothing to render so just skip
 
 		// Create the buffer
-		auto information = CreateTileBufferData(); 
+		auto information = CreateTileBufferData();
 		if (information.TextureSize.X <= 1 || information.TextureSize.Y <= 1) // At least 2x2 tiles
 			return true; // Nothing to render so just skip
 
 		// Get the shader and its information which allows us to communicate with specific glsl code
-		auto pShader = GenericPipeline::s_Shaders.TryGetShader<BaseShaderType>(ShaderID);
-		
+		auto pShader = GenericPipeline::s_Shaders.TryGetShader<BaseShaderType>(ShaderName);
+
 		// Pass in vertex buffer data (for drawing vertices and triangles)
 		pShader->UpdateVertexData(pPipeline, vertexBufferName, pVertexArray, MESH_VERTICES, 6);
 
@@ -112,7 +112,7 @@ namespace SWAEngine::Tilemap
 			return {};
 
 		// Width and height of texture
-		Math::Vector2Int textureSize = topRight - bottomLeft + Math::Vector2Int(1,1);
+		Math::Vector2Int textureSize = topRight - bottomLeft + Math::Vector2Int(1, 1);
 
 		// Buffer variables
 		int pixelsCount = textureSize.X * textureSize.Y;
@@ -136,13 +136,13 @@ namespace SWAEngine::Tilemap
 		// Calculate the texture coords
 		Math::Vector2 worldOrigin = mp_Tilemap->TileToWorld({ information.TextureOrigin.X,information.TextureOrigin.Y });
 		Math::Vector2 worldSize = mp_Tilemap->TileToWorld({ information.TextureSize.X,information.TextureSize.Y }, false);
-		
+
 		// Convert the coords to viewport(since the mesh takes up the screen, the uv coords given to the shader code are in viewport units)
 		Float2 tilemapTextureOriginCoord = GenericPipeline::s_ActiveCamera.WorldToViewport({ (float)worldOrigin.X, (float)worldOrigin.Y });
 		Float2 tilemapTextureSizeCoord = GenericPipeline::s_ActiveCamera.WorldToViewport({ (float)worldSize.X, (float)worldSize.Y }, false);
-		
+
 		// Set the program
-		glUseProgram(pShader->GetProgram()); 
+		glUseProgram(pShader->GetProgram());
 
 		// Set Uniform variables
 		glUniform2f(glGetUniformLocation(pShader->GetProgram(), TextureOriginCoordName),

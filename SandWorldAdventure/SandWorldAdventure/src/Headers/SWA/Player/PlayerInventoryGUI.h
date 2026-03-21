@@ -32,6 +32,7 @@ namespace SWA::Player
 
 	private:
 		static const char* BACKGROUND_TEXTURE_NAME;
+		static const char* SHADER_NAME;
 		static const char* DEFAULT_SLOT_TEXTURE;
 
 		// Creates the layout for the inventory gui

@@ -83,9 +83,6 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\ShaderNames.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerInventoryGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>

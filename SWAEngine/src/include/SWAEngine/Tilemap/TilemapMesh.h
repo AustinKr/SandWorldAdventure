@@ -19,19 +19,19 @@ namespace SWAEngine::Tilemap
 		static const char* TextureSizeCoordName;
 		static const char* TextureSizeName;
 
-		int ShaderID;
+		const char* ShaderName;
 
 		// Initializes the mesh and generates a texture to send to the shader
-		TilemapMesh(Tilemap* const pTilemap, int shaderID);
+		TilemapMesh(Tilemap* const pTilemap, const char* shader);
 
 		virtual void Release() override;
 
 		virtual bool Render(GP2D::Pipeline::IPipeline* pPipeline, GP2D::UINT vertexBufferName, GP2D::UINT pVertexArray) override;
-		
+
 	private:
 		Tilemap* const mp_Tilemap;
 		GP2D::UINT m_TextureBufferName;
-		
+
 		// The verts for the mesh. Takes up the entire screen
 		static const GP2D::Math::Vertex2D MESH_VERTICES[6];
 

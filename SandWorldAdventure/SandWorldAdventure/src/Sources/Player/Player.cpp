@@ -2,7 +2,6 @@
 #include "SWA/Player/PlayerInventoryGUI.h"
 
 #include "SWA/RenderLayerNames.h"
-#include "SWA/ShaderNames.h"
 
 #include "SWA/Game.h"
 
@@ -188,7 +187,7 @@ namespace SWA::Player
 		};
 		mp_Mesh->Shaders =
 		{
-			0, 6, SWA_TEXTURE_SHADER
+			{0, 6, "DefaultSpriteShader"}
 		};
 
 		// Create player inventory and gui

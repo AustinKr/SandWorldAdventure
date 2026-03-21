@@ -2,7 +2,6 @@
 // Game
 #include "SWA/Game.h"
 #include "SWA/RenderLayerNames.h"
-#include "SWA/ShaderNames.h"
 
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
 
@@ -43,16 +42,13 @@ namespace SWA
 		{
 			pShader->PropertyManager.TrySetTexture(texName != nullptr ? (const char*)texName : "default_sprite", "Tex");
 
-			pShader->PropertyManager.TrySetUniform("ShadeColor",
-				[](int loc)
-			{
-				glUniform4f(loc, 1, 1, 1, 1);
-			});
+			INT loc = glGetUniformLocation(pShader->GetProgram(), "ShadeColor");
+			glUniform4f(loc, 1, 1, 1, 1);
 		};
-		GenericPipeline::s_Shaders.RegisterShader(pNewShader); // SWA_TEXTURE_SHADER
+		GenericPipeline::s_Shaders.RegisterShader(pNewShader);
 
 		pNewShader = new Shader::GeometryShader("TilemapShader", _SWA_DEFAULT_RESOURCES_DIR"TilemapShader.shader");
-		GenericPipeline::s_Shaders.RegisterShader(pNewShader); // SWA_TILEMAP_SHADER
+		GenericPipeline::s_Shaders.RegisterShader(pNewShader);
 	}
 
 	void Game::CreateRenderLayers()
@@ -81,13 +77,13 @@ namespace SWA
 			0, 2, 3
 		};
 		pNewMesh->Shaders = {
-			0, 6, SWA_TEXTURE_SHADER
+			{0, 6, "DefaultSpriteShader"}
 		};
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(pNewMesh);
 
 		// Create tilemap
 		p_Tilemap = new SWAEngine::Tilemap::Tilemap({ 0,0 }, { 0.01f,0.01f });
-		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, SWA_TILEMAP_SHADER);
+		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);
 
 		p_Tilemap->SetTile({ 2, 2 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xff0000ff, true });

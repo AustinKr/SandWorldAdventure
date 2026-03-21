@@ -1,6 +1,5 @@
 #include "SWA/Player/PlayerInventoryGUI.h"
 #include "SWA/RenderLayerNames.h"
-#include "SWA/ShaderNames.h"
 
 #include "GP2D/GUI/Hierarchy.h"
 #include "GP2D/GUI/Components/Button/ButtonComponent.h"
@@ -23,8 +22,9 @@ namespace SWA::Player
 	float PlayerInventoryGUI::m_SlotScaleFactor = 0.9f;
 
 	const char* PlayerInventoryGUI::BACKGROUND_TEXTURE_NAME = "gui_background";
+	const char* PlayerInventoryGUI::SHADER_NAME = "DefaultSpriteShader";
 	const char* PlayerInventoryGUI::DEFAULT_SLOT_TEXTURE = "empty_slot";
-	
+
 
 	void PlayerInventoryGUI::Initialize(INVENTORY& rInventory)
 	{
@@ -52,14 +52,14 @@ namespace SWA::Player
 
 		// Create empty group for inventory
 		s_InventoryElementUID = pHierarchy->RegisterElement({ false })
-			.SetTransform({ {20, 20}, false}, { {-40, -40 }, false, ALIGNMENT_RIGHT | ALIGNMENT_TOP})
+			.SetTransform({ {20, 20}, false }, { {-40, -40 }, false, ALIGNMENT_RIGHT | ALIGNMENT_TOP })
 			.GetIdentifier();
 
 		// Create close button
 		auto pButton = new ButtonComponent();
 		s_InventoryToggleButtonUID = pHierarchy->RegisterElement({ true })
 			.SetTransform({ { -0.1, -0.1}, true, ALIGNMENT_TOP | ALIGNMENT_CENTER_HORIZONTAL }, { { .2, 0.075 }, true })
-			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, RENDERLAYERS_GUI, SWA_TEXTURE_SHADER))
+			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, SHADER_NAME, RENDERLAYERS_GUI))
 			.RegisterComponent(pButton)
 			.GetIdentifier();
 		// this must be done after the button is initialized
@@ -69,13 +69,13 @@ namespace SWA::Player
 		// Create menus background
 		pHierarchy->RegisterElement({ true }, s_InventoryElementUID)
 			.SetTransform({ { 0.0, 0.0}, true }, { { .3, 1.0 }, true })
-			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, RENDERLAYERS_GUI, SWA_TEXTURE_SHADER));
-			
+			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, SHADER_NAME, RENDERLAYERS_GUI));
+
 
 		// Create storage background
 		unsigned long backgroundUID = pHierarchy->RegisterElement({ true }, s_InventoryElementUID)
 			.SetTransform({ { -.3, 0.0 }, true, ALIGNMENT_RIGHT | ALIGNMENT_BOTTOM }, { { .3, 1.0 }, true })
-			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, RENDERLAYERS_GUI, SWA_TEXTURE_SHADER))
+			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, SHADER_NAME, RENDERLAYERS_GUI))
 			.GetIdentifier();
 
 		// Create storage group parented to the storage background
@@ -125,8 +125,8 @@ namespace SWA::Player
 		// Create element
 		auto pButton = new ButtonComponent(); // Create a button	
 		auto& rElement = Hierarchy::sp_ActiveInstance->RegisterElement({ true }, s_StorageSlotsElementUID)
-			.SetTransform({ localPosition, true, ALIGNMENT_TOP | ALIGNMENT_LEFT }, { {scaleX, 1}, true,  ALIGNMENT_BOTTOM | ALIGNMENT_LEFT | ASPECT_RATIO_WIDTH})
-			.RegisterComponent(new SpriteComponent(item.TextureName == nullptr ? DEFAULT_SLOT_TEXTURE : item.TextureName, RENDERLAYERS_GUI, SWA_TEXTURE_SHADER))
+			.SetTransform({ localPosition, true, ALIGNMENT_TOP | ALIGNMENT_LEFT }, { {scaleX, 1}, true,  ALIGNMENT_BOTTOM | ALIGNMENT_LEFT | ASPECT_RATIO_WIDTH })
+			.RegisterComponent(new SpriteComponent(item.TextureName == nullptr ? DEFAULT_SLOT_TEXTURE : item.TextureName, SHADER_NAME, RENDERLAYERS_GUI))
 			.RegisterComponent(pButton);
 		pButton->ButtonEventHandler.Subscribe({ [&](auto data, auto) {OnItemSlotButtonClicked(rInventory, data); }, extraFlags });
 	}
@@ -140,7 +140,7 @@ namespace SWA::Player
 		auto& rSlotElement = Hierarchy::sp_ActiveInstance->GetElement(rStorageElement.Children.at(itemID));
 
 		auto pSprite = static_cast<SpriteComponent*>(rSlotElement.GetComponent(COMPONENT_TAG_SPRITE));
-		pSprite->m_TextureName = arguments.second.TextureName;
+		pSprite->TextureName = arguments.second.TextureName;
 
 	}
 	void PlayerInventoryGUI::OnItemSlotButtonClicked(INVENTORY& rInventory, ButtonEventData data)
