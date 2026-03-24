@@ -2,6 +2,7 @@
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
 #include "SWAEngine/Time.h"
 #include <unordered_map>
+#include <optional>
 
 namespace SWAEngine::Tilemap
 {
@@ -27,7 +28,7 @@ namespace SWAEngine::Tilemap
 		// Sets the tile (in the pending tiles container)
 		Tile& SetTile(Math::Vector2Int position, Tile tile);
 		// Swaps the active tiles. (optionally uses the given tiles in place of a and b)
-		void SwapTiles(Math::Vector2Int a, Math::Vector2Int b, Tile tileA = {}, Tile tileB = {});
+		void SwapTiles(Math::Vector2Int a, Math::Vector2Int b, std::optional<Tile> tileA = std::nullopt, std::optional<Tile> tileB = std::nullopt);
 		// Moves the tile in the given direction until it hits another active tile or the end
 		// Use this function twice to move in two directions smoothly
 		// Assumes the tile at start exists and is active

@@ -62,18 +62,18 @@ namespace SWAEngine::Tilemap
 
 		return mp_PendingTilesContainer->Set(position, tile);
 	}
-	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b, Tile tileA, Tile tileB)
+	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b, std::optional<Tile> tileA, std::optional<Tile> tileB)
 	{
-		if(!tileA.HasValue)
+		if(!tileA.has_value())
 			tileA = GetActiveTile(a);
-		if(!tileB.HasValue)
+		if(!tileB.has_value())
 			tileB = GetActiveTile(b);
 
-		if (!tileA.HasValue && !tileB.HasValue)
+		if (!tileA.value().HasValue && !tileB.value().HasValue)
 			return;
 
-		SetTile(a, tileB);
-		SetTile(b, tileA);
+		SetTile(a, tileB.value());
+		SetTile(b, tileA.value());
 	}
 	bool Tilemap::TryStepMoveTile(Math::Vector2Int start, Math::Vector2 movement, int maxSteps)
 	{

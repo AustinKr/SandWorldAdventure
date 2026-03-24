@@ -25,12 +25,9 @@ namespace SWAEngine::Tilemap::TileBehavior
 		Tile pendingTile = pTilemap->GetTile(belowPos);
 
 		//if (pTilemap->IsInBounds(belowPos) && !pTilemap->GetActiveTile(belowPos).HasValue)
-		if (pTilemap->IsInBounds(belowPos) && !pendingTile.HasValue) // TODO: I cant figure out why it is creating duplicate tiles and not erasing original
+		if (pTilemap->IsInBounds(belowPos) && !pendingTile.HasValue)
 		{
-			// TODO: Not removing origin tile
 			pTilemap->SwapTiles(belowPos, pos, pendingTile);
-			// TODO: I am just manually erasing the original
-			pTilemap->SetTile(pos, {});
 		}
 			
 
