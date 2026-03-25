@@ -31,8 +31,8 @@ namespace SWAEngine::Tilemap
 		void SwapTiles(Math::Vector2Int a, Math::Vector2Int b, std::optional<Tile> tileA = std::nullopt, std::optional<Tile> tileB = std::nullopt);
 		// Moves the tile in the given direction until it hits another active tile or the end
 		// Use this function twice to move in two directions smoothly
-		// Assumes the tile at start exists and is active
-		bool TryStepMoveTile(Math::Vector2Int start, Math::Vector2 movement, int maxSteps = MAX_MOVE_STEPS);
+		// Assumes the tile at origin exists and is active
+		bool TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps = MAX_MOVE_STEPS);
 
 		// Detects collision of given rect and the active tiles
 		bool DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight);

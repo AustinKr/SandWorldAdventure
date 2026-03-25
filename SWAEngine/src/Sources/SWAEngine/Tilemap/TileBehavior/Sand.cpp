@@ -1,4 +1,5 @@
 #include "SWAEngine/Tilemap/TileBehavior/Sand.h"
+#include <string> // TODO: Remove include
 
 namespace SWAEngine::Tilemap::TileBehavior
 {
@@ -21,14 +22,13 @@ namespace SWAEngine::Tilemap::TileBehavior
 
 	void Sand::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time)
 	{
-		auto belowPos = pos - Math::Vector2Int(0, 1);
+		/*auto belowPos = pos - Math::Vector2Int(0, 1);
 		Tile pendingTile = pTilemap->GetTile(belowPos);
 
-		//if (pTilemap->IsInBounds(belowPos) && !pTilemap->GetActiveTile(belowPos).HasValue)
 		if (pTilemap->IsInBounds(belowPos) && !pendingTile.HasValue)
 		{
 			pTilemap->SwapTiles(belowPos, pos, pendingTile);
-		}
+		}*/
 			
 
 
@@ -36,7 +36,8 @@ namespace SWAEngine::Tilemap::TileBehavior
 		//m_TileVelocities.at(pos) += {0, -time.FrameDeltaTime};
 
 		//// Apply velocity
-
-		//pTilemap->TryStepMoveTile(pos, Math::Vector2(0, -1));
+		pTilemap->TryStepMoveTile(pos, Math::Vector2(0, -2));
+		//fprintf(stdout, std::to_string(pTilemap->TryStepMoveTile(pos, Math::Vector2(0, -2))).c_str());
+		//fprintf(stdout, "\n");
 	}
 }

@@ -75,33 +75,54 @@ namespace SWAEngine::Tilemap
 		SetTile(a, tileB.value());
 		SetTile(b, tileA.value());
 	}
-	bool Tilemap::TryStepMoveTile(Math::Vector2Int start, Math::Vector2 movement, int maxSteps)
+	bool Tilemap::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
 	{
-		Math::Vector2Int current = start;
-		Math::Vector2 direction = movement.Normalize();
-		Tile hitTile = {};
-		int step = 0, endSqrd = std::min(maxSteps * maxSteps, (int)floor(movement.GetMagnitudeSqrd()));
-		for (step = 0; step*step < endSqrd; step++)
+		float magnitude = sqrt(movement.GetMagnitudeSqrd());
+		Math::Vector2 direction = movement / magnitude;
+
+		Tile hitTile = {}; // Default: hit nothing
+		Math::Vector2Int start = origin + direction, current = start; // Default: starts at the start which is one step ahead of the original tile
+		
+		int step = 0, end = std::min(maxSteps, (int)ceil(magnitude));
+		
+		// Iterate
+		for (step; step < end;) 
 		{
-			current = start + direction * step;
-			if (!IsInBounds(current))
+			// Check if not in bounds
+			if (!IsInBounds(current)) // TODO: !this means that tiles cant move to expand- need to add option!
+			{
+				// Counts as hit something!
+				step--; // Step back
 				break;
-			// Check whether hit a tile
+			}
+			// Else, check if there is a tile
 			hitTile = GetTile(current);
 			if (hitTile.HasValue)
 			{
-				step--;
-				break; 
+				// Hit something!
+				step--; // Step back
+				break;
 			}
-			// Else, hit nothing
+			
+			step++; // Step forward
+			// Update current position
+			current = start + Math::Vector2Int(direction * (float)step);
 		}
+
+		// Step back if we reached the end without colliding (because end is a count and we want the position)
+		if (step == end)
+			step--;
+
+		// Recompute final position
+		current = start + Math::Vector2Int(direction * (float)step);
+
 		// Make sure we didn't run out of steps or didn't actually move
-		if (step == maxSteps || current == start)
+		if (step == maxSteps || current == origin)
 			return false;
 
-		// Successfully moved
-		SwapTiles(current, start, hitTile);
-		return true;
+		// Successfully moved. Swap original with current(empty space)
+		SwapTiles(current, origin, Tile());
+		return true; // TODO: Return hit tile
 	}
 
 	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight)
