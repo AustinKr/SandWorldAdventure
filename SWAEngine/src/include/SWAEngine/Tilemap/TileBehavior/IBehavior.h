@@ -13,6 +13,8 @@ namespace SWAEngine::Tilemap::TileBehavior
 
 		virtual void OnCreate(Tile tile, Math::Vector2Int pos) = 0;
 		virtual void OnRemove(Tile tile, Math::Vector2Int pos) = 0;
+		// Used to clone a tile's associated properties (e.g. when swapping)
+		virtual void OnClone(Tile original, Math::Vector2Int originalPos, Math::Vector2Int newPos) = 0; 
 
 		virtual void Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time) = 0;
 	};

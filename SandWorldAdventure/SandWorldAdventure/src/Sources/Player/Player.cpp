@@ -193,7 +193,8 @@ namespace SWA::Player
 		// Create player inventory and gui
 		CurrentInventory.Assign({ 4,8 }, {});
 		CurrentInventory.SetItemAt({ 1,1 }, Item(PLAYER_ITEM_TYPE_TILE, "wet_sand_tile_slot", 0xeccc70ff, 0xc0a65aff, SWAEngine::Tilemap::TileBehavior::SOLID));
-		CurrentInventory.SetItemAt({ 3,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe79eff, 0xebcb68ff, SWAEngine::Tilemap::TileBehavior::SAND));
+		CurrentInventory.SetItemAt({ 2,1 }, Item(PLAYER_ITEM_TYPE_TILE, "sand_tile_slot", 0xffe79eff, 0xebcb68ff, SWAEngine::Tilemap::TileBehavior::SAND));
+		CurrentInventory.SetItemAt({ 1,2 }, Item(PLAYER_ITEM_TYPE_TILE, "water_tile_slot", 0x426dffff, 0x1147ffff, SWAEngine::Tilemap::TileBehavior::FLUID));
 		PlayerInventoryGUI::Initialize(CurrentInventory);
 	}
 

@@ -42,6 +42,9 @@
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Behaviors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Fluid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\dllClause.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Sand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Fluid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

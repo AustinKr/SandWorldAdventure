@@ -75,7 +75,7 @@ namespace SWAEngine::Tilemap
 		SetTile(a, tileB.value());
 		SetTile(b, tileA.value());
 	}
-	bool Tilemap::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
+	std::pair<Math::Vector2Int, Tile> Tilemap::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
 	{
 		float magnitude = sqrt(movement.GetMagnitudeSqrd());
 		Math::Vector2 direction = movement / magnitude;
@@ -83,7 +83,7 @@ namespace SWAEngine::Tilemap
 		Tile hitTile = {}; // Default: hit nothing
 		Math::Vector2Int start = origin + direction, current = start; // Default: starts at the start which is one step ahead of the original tile
 		
-		int step = 0, end = std::min(maxSteps, (int)ceil(magnitude));
+		int step = 0, end = std::min(maxSteps, (int)floor(magnitude));
 		
 		// Iterate
 		for (step; step < end;) 
@@ -118,14 +118,13 @@ namespace SWAEngine::Tilemap
 
 		// Make sure we didn't run out of steps or didn't actually move
 		if (step == maxSteps || current == origin)
-			return false;
+			return std::make_pair(origin, Tile());
 
-		// Successfully moved. Swap original with current(empty space)
-		SwapTiles(current, origin, Tile());
-		return true; // TODO: Return hit tile
+		// Can successfully move!
+		return std::make_pair(current, hitTile);
 	}
 
-	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight)
+	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight) // TODO: Make tilemap collision detection only check for certain tiles
 	{
 		return mp_ActiveTilesContainer->DetectCollisionRect(bottomLeft, topRight);
 	}
@@ -167,6 +166,7 @@ namespace SWAEngine::Tilemap
 			if (rPendingTile.HasValue) // Add
 			{
 				// Try call old tile ::OnRemove()
+				// Note: not actually removing- just overriding with new value
 				if (mp_ActiveTilesContainer->Contains(pos))
 				{
 					Tile& rOldTile = mp_ActiveTilesContainer->Get(pos);
@@ -180,7 +180,7 @@ namespace SWAEngine::Tilemap
 				if (rPendingTile.BehaviorUID != NULL)
 				{
 					// Queue update
-					tilesToUpdate.insert(std::make_pair(pos, rPendingTile));
+					tilesToUpdate[pos] = rPendingTile;
 					// Call current tile ::OnCreate()
 					TileBehavior::IBehavior::s_Behaviors.at(rPendingTile.BehaviorUID)
 						->OnCreate(rPendingTile, pos);
