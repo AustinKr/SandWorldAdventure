@@ -181,40 +181,15 @@ namespace SWAEngine::Tilemap
 		{
 			if (rPendingTile.HasValue) // Add
 			{
-				// Try call old tile ::OnRemove()
-				// Note: not actually removing- just overriding with new value
-				if (mp_ActiveTilesContainer->Contains(pos))
-				{
-					Tile& rOldTile = mp_ActiveTilesContainer->Get(pos);
-					if (rOldTile.BehaviorUID != NULL)
-						TileBehavior::IBehavior::s_Behaviors.at(rOldTile.BehaviorUID)
-						->OnRemove(rOldTile, pos);
-				}
-
 				// (all that is happening with shared system is the container ID is changing from pending to active)
 				// Add tile and register to shared
 				mp_ActiveTilesContainer->Set(PropertyManager, {pos.X, pos.Y, ACTIVE_TILES_ID}, rPendingTile, true);
 				if (rPendingTile.p_Properties != nullptr)
 					// Remove pending from shared
 					PropertyManager.DataContainer.at(rPendingTile.p_Properties).erase({ pos.X, pos.Y, PENDING_TILES_ID });
-
-				if (rPendingTile.BehaviorUID != NULL)
-				{
-					// Queue update
-					tilesToUpdate[pos] = rPendingTile;
-					// Call current tile ::OnCreate()
-					TileBehavior::IBehavior::s_Behaviors.at(rPendingTile.BehaviorUID)
-						->OnCreate(rPendingTile, pos);
-				}
 			}
 			else if (mp_ActiveTilesContainer->Contains(pos) && rPendingTile.p_Properties == nullptr) // Remove
 			{
-				// Call old tile ::OnRemove()
-				Tile& rOldTile = mp_ActiveTilesContainer->Get(pos);
-				if (rOldTile.BehaviorUID != NULL)
-					TileBehavior::IBehavior::s_Behaviors.at(rOldTile.BehaviorUID)
-					->OnRemove(rOldTile, pos);
-				
 				// Remove the active tile
 				mp_ActiveTilesContainer->Erase(PropertyManager, {pos.X, pos.Y, ACTIVE_TILES_ID});
 			}

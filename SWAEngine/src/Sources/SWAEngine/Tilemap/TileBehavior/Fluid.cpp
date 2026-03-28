@@ -3,19 +3,6 @@
 
 namespace SWAEngine::Tilemap::TileBehavior
 {
-	void Fluid::OnCreate(Tile tile, Math::Vector2Int pos)
-	{
-
-	}
-	void Fluid::OnRemove(Tile tile, Math::Vector2Int pos)
-	{
-
-	}
-	void Fluid::OnClone(Tile original, Math::Vector2Int originalPos, Math::Vector2Int newPos)
-	{
-
-	}
-
 	void Fluid::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time)
 	{
 		// Move down if empty space

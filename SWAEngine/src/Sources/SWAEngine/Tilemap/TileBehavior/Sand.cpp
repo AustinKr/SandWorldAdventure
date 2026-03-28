@@ -4,23 +4,6 @@
 
 namespace SWAEngine::Tilemap::TileBehavior
 {
-
-	Sand::Sand()
-	{
-
-	}
-
-	void Sand::OnCreate(Tile tile, Math::Vector2Int pos)
-	{
-	}
-	void Sand::OnRemove(Tile tile, Math::Vector2Int pos)
-	{
-	}
-	void Sand::OnClone(Tile original, Math::Vector2Int originalPos, Math::Vector2Int newPos)
-	{
-	}
-
-
 	void Sand::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time)
 	{
 		//if (tile.p_Properties == nullptr)
