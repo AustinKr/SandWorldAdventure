@@ -1,14 +1,14 @@
 #include "SWA/Player/Player.h"
 #include "SWA/Player/PlayerInventoryGUI.h"
 
-#include "SWA/RenderLayerNames.h"
-
 #include "SWA/Game.h"
-
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
+#include "SWAEngine/Tilemap/TilePropertyManager/PropertyManager.h"
 
+#include "SWA/RenderLayerNames.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
 #include "GP2D/Pipeline/Window/Window.h"
+
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -16,6 +16,7 @@
 using namespace GP2D::Pipeline;
 using namespace SWAEngine::Math;
 using namespace GP2D::Math;
+using namespace SWAEngine::Tilemap::TilePropertyManager;
 
 namespace SWA::Player
 {
@@ -86,7 +87,7 @@ namespace SWA::Player
 				if (position.X < 0 || position.Y < 0)
 					continue;
 				if (m_ShouldAddTile)
-					Game::p_Tilemap->SetTile(position, { item.BehaviorUID, MixColor(item.Color, item.ColorDeviation), true});
+					Game::p_Tilemap->SetTile(position, { item.BehaviorUID, MixColor(item.Color, item.ColorDeviation), true }); // TODO: Provide appropriate tile properties PropertyManager::CreateNew<int>(item.BehaviorUID, MixColor(item.Color, item.ColorDeviation), {})
 				else
 					Game::p_Tilemap->SetTile(position, {});
 			}

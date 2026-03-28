@@ -1,6 +1,7 @@
 #pragma once
 #include "GP2D/GraphicsTypes.h"
 #include "SWAEngine/Math/vector2.h"
+#include <utility>
 
 namespace SWAEngine::Tilemap
 {
@@ -8,23 +9,16 @@ namespace SWAEngine::Tilemap
 	{
 		unsigned int BehaviorUID;
 		GP2D::GP2D_HEX_COLOR Color;
-
-		// Whether this tile is active and non-null
-		bool HasValue;
-
-
-		// TODO: propreties should be in behavior and behaivor should be individual
-		float LastUpdateTime; // Used for physics
-
-		Math::Vector2 Velocity;
+		bool HasValue; // Whether this tile is active and non-null
+		void* p_Properties; // The allocated memory that stores this tile's properties
 
 		inline Tile() 
-			: BehaviorUID(0), Color(0x0), HasValue(false), LastUpdateTime(0), Velocity{}
+			: BehaviorUID(0), Color(0x0), HasValue(false), p_Properties(nullptr)
 		{
 
 		}
-		inline Tile(unsigned int uid, GP2D::GP2D_HEX_COLOR color, bool hasValue, float time = 0)
-			: BehaviorUID(uid), Color(color), HasValue(hasValue), LastUpdateTime(time), Velocity{}
+		inline Tile(unsigned int uid, GP2D::GP2D_HEX_COLOR color, bool hasValue)
+			: BehaviorUID(uid), Color(color), HasValue(hasValue), p_Properties(nullptr)
 		{
 
 		}

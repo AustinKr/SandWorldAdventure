@@ -19,8 +19,8 @@ namespace SWAEngine::Tilemap
 		virtual void Clear() override;
 
 		virtual Tile& Get(Math::Vector2Int position) override;
-		virtual Tile& Set(Math::Vector2Int position, Tile tile, bool shouldOverride = true) override;
-		virtual void Erase(Math::Vector2Int position) override;
+		virtual Tile& Set(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride = true) override;
+		virtual void Erase(TilePropertyManager::PropertyManager& rManager, Math::Int3 location) override;
 		virtual bool Contains(Math::Vector2Int position) override;
 
 		virtual void Iterate(std::function<bool(Math::Vector2Int, Tile&)> func) override;

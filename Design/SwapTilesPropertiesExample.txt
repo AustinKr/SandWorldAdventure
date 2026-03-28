@@ -1,0 +1,57 @@
+This system isn't currently working because say
+Active
+1 0x123 false
+2 0x234 false
+
+Pending
+Swap 1 and 2
+1 0x234 true
+2 0x123 true
+Set 1
+1 0x345 false
+
+
+Apply Pending->
+1 0x345 false	// deleted 0x123
+2 0x123 false 	// deleted nothing but points to corrupt data
+
+
+TODO: Solution to the above could be to store the other shared tile with each shared data
+
+
+
+
+
+Tile:
+myData,
+isShared
+
+
+...OnRelease(Tile& rTile)
+{
+	// Only myData is released- shared is left alone
+	if(rTile.myData != nullptr)
+		delete(rTile.myData)
+		
+	...
+}
+
+
+Active (never shared here)
+1 0x1234, false
+2 0x2345, false
+3 0x3456, false
+
+Pending
+erase
+1 0x0, n/a
+swap 2 and 3 of active:
+2 set 0x3456, true
+3 set 0x2345, true
+
+Apply Pending->
+
+Active
+1 0x0, false    // released active
+2 0x3456, false // didn't release anything
+3 0x2345, false // didn't release anything

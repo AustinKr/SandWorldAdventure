@@ -11,6 +11,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 	{
 		static std::unordered_map<unsigned int, IBehavior*> s_Behaviors;
 
+		// TODO: Shouldnt need these
 		virtual void OnCreate(Tile tile, Math::Vector2Int pos) = 0;
 		virtual void OnRemove(Tile tile, Math::Vector2Int pos) = 0;
 		// Used to clone a tile's associated properties (e.g. when swapping)

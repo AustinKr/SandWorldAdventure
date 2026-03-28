@@ -45,6 +45,12 @@
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Fluid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilePropertyInformation\PropertyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\dllClause.h">
@@ -96,6 +102,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Fluid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\IPropertyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\SandManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\Data\SandData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\PropertyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\Math\Int3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

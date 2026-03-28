@@ -1,0 +1,13 @@
+. Create Tilemap::MoveStep(...) to try to move a tile by the given movement
+. Create Tilemap::Raycast()
+. Experiment with DDA raycasting
+. Use quadtree library
+. Make Sand behavior use velocities instead of just trying to move every frame
+
+. Create more tiles (like fluids for example)
+
+. Fix design bugs with GP2D
+	. Shaders Registry should use a map with names as keys
+	. other systems should match
+	
+...

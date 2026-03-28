@@ -1,15 +1,19 @@
 #pragma once
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
+#include "SWAEngine/Tilemap/TilePropertyManager/PropertyManager.h"
 #include "SWAEngine/Time.h"
 #include <unordered_map>
-#include <optional>
 
 namespace SWAEngine::Tilemap
 {
 	struct SWA_ENGINE_API Tilemap // TODO: Could make tilemap a game object
 	{
 	public:
+		static const int ACTIVE_TILES_ID; // Used in PropertyManager
+		static const int PENDING_TILES_ID; // Used in PropertyManager
 		static const unsigned int MAX_MOVE_STEPS;
+
+		TilePropertyManager::PropertyManager PropertyManager;
 
 		// In world coordinates
 		Math::Vector2 Origin;
@@ -23,12 +27,12 @@ namespace SWAEngine::Tilemap
 		// Returns a copy of the active tile
 		Tile GetActiveTile(Math::Vector2Int position);
 		// Returns a copy of the currently active tile or the pending tile
-		Tile GetTile(Math::Vector2Int position);
+		Tile GetTile(Math::Vector2Int position, __out int* containerID = nullptr);
 
 		// Sets the tile (in the pending tiles container)
-		Tile& SetTile(Math::Vector2Int position, Tile tile);
-		// Swaps the active tiles. (optionally uses the given tiles in place of a and b)
-		void SwapTiles(Math::Vector2Int a, Math::Vector2Int b, std::optional<Tile> tileA = std::nullopt, std::optional<Tile> tileB = std::nullopt);
+		Tile SetTile(Math::Vector2Int position, Tile tile);
+		// Swaps the tiles.
+		void SwapTiles(Math::Vector2Int a, Math::Vector2Int b);
 		// Moves the tile in the given direction until it hits another active tile or the end
 		// Use this function twice to move in two directions smoothly
 		// Assumes the tile at origin exists and is active

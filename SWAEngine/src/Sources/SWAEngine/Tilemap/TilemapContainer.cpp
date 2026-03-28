@@ -25,26 +25,34 @@ namespace SWAEngine::Tilemap
 	{
 		return m_TilesRegistry.at(position);
 	}
-	Tile& TilemapContainer::Set(Math::Vector2Int position, Tile tile, bool shouldOverride)
+	Tile& TilemapContainer::Set(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride)
 	{
 		// Update bounds
-		if (position.X > m_Bounds.X)
-			m_Bounds.X = position.X;
-		if (position.Y > m_Bounds.Y)
-			m_Bounds.Y = position.Y;
-
-		// Set
-		if (shouldOverride && Contains(position))
-		{
-			m_TilesRegistry.at(position) = tile;
-			return m_TilesRegistry.at(position);
-		}
+		if (location.X > m_Bounds.X)
+			m_Bounds.X = location.X;
+		if (location.Y > m_Bounds.Y)
+			m_Bounds.Y = location.Y;
 		
-		return m_TilesRegistry.insert(std::make_pair(position, tile)).first->second;
+		// Try erase
+		if (shouldOverride && Contains({ location.X, location.Y }))
+			Erase(rManager, location);
+
+		// Try add tile
+		auto insertion = m_TilesRegistry.insert(std::make_pair(Math::Vector2Int(location.X, location.Y), tile));
+
+		// Try add to property's shared tiles (if successfully added new tile, properties exist, and not already recorded as shared)
+		if (insertion.second && tile.p_Properties != nullptr)
+			rManager.DataContainer[tile.p_Properties].insert(location);
+
+		return insertion.first->second;
 	}
-	void TilemapContainer::Erase(Math::Vector2Int position)
+	void TilemapContainer::Erase(TilePropertyManager::PropertyManager& rManager, Math::Int3 location)
 	{
-		m_TilesRegistry.erase(position);
+		// Try release memory 
+		rManager.TryEraseData(m_TilesRegistry.at({location.X, location.Y}).p_Properties, location);
+
+		// Erase tile
+		m_TilesRegistry.erase({location.X, location.Y});
 	}
 	void TilemapContainer::Clear()
 	{

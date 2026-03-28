@@ -19,8 +19,13 @@ namespace SWAEngine::Tilemap
 		Math::Vector2Int(0, 1),
 	};
 
+	const int Tilemap::ACTIVE_TILES_ID = 1;
+	const int Tilemap::PENDING_TILES_ID = 2;
+
 	Tilemap::Tilemap(Math::Vector2 origin, Math::Vector2 scale)
 	{
+		PropertyManager = {};
+
 		Origin = origin;
 		TileScale = scale;
 
@@ -45,35 +50,46 @@ namespace SWAEngine::Tilemap
 
 		return mp_ActiveTilesContainer->Get(position);
 	}
-	Tile Tilemap::GetTile(Math::Vector2Int position)
+	Tile Tilemap::GetTile(Math::Vector2Int position, __out int* containerID)
 	{
 		// Try get active
 		if (!mp_PendingTilesContainer->Contains(position))
+		{
+			if (containerID != nullptr)
+				*containerID = ACTIVE_TILES_ID;
 			return GetActiveTile(position);
+		}
 
 		// Get pending
+		if (containerID != nullptr)
+			*containerID = PENDING_TILES_ID;
 		return mp_PendingTilesContainer->Get(position);
 	}
 
-	Tile& Tilemap::SetTile(Math::Vector2Int position, Tile tile)
+	Tile Tilemap::SetTile(Math::Vector2Int position, Tile tile)
 	{
 		if (position.X < 0 || position.Y < 0)
 			throw std::exception(); // TODO: Allow expansion of tilemap
 
-		return mp_PendingTilesContainer->Set(position, tile);
+		return mp_PendingTilesContainer->Set(PropertyManager, { position.X, position.Y, PENDING_TILES_ID}, tile, true);
 	}
-	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b, std::optional<Tile> tileA, std::optional<Tile> tileB)
+	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b)
 	{
-		if(!tileA.has_value())
-			tileA = GetActiveTile(a);
-		if(!tileB.has_value())
-			tileB = GetActiveTile(b);
+		int aID, bID;
+		Tile tileA = GetTile(a, &aID);
+		Tile tileB = GetTile(b, &bID);
 
-		if (!tileA.value().HasValue && !tileB.value().HasValue)
+		if (!tileA.HasValue && !tileB.HasValue)
 			return;
 
-		SetTile(a, tileB.value());
-		SetTile(b, tileA.value());
+		// Queue set and register to properties' shared tiles
+
+		// Set a to b
+		mp_PendingTilesContainer->Set(PropertyManager, { a.X, a.Y, aID }, tileB, true);
+		mp_PendingTilesContainer->Set(PropertyManager, { a.X, a.Y, PENDING_TILES_ID}, tileB, false);
+		// Set b to a
+		mp_PendingTilesContainer->Set(PropertyManager, { b.X, b.Y, bID }, tileA, true);
+		mp_PendingTilesContainer->Set(PropertyManager, { b.X, b.Y, PENDING_TILES_ID }, tileA, false);
 	}
 	std::pair<Math::Vector2Int, Tile> Tilemap::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
 	{
@@ -175,8 +191,13 @@ namespace SWAEngine::Tilemap
 						->OnRemove(rOldTile, pos);
 				}
 
-				// Add tile
-				mp_ActiveTilesContainer->Set(pos, rPendingTile, true);
+				// (all that is happening with shared system is the container ID is changing from pending to active)
+				// Add tile and register to shared
+				mp_ActiveTilesContainer->Set(PropertyManager, {pos.X, pos.Y, ACTIVE_TILES_ID}, rPendingTile, true);
+				if (rPendingTile.p_Properties != nullptr)
+					// Remove pending from shared
+					PropertyManager.DataContainer.at(rPendingTile.p_Properties).erase({ pos.X, pos.Y, PENDING_TILES_ID });
+
 				if (rPendingTile.BehaviorUID != NULL)
 				{
 					// Queue update
@@ -186,15 +207,20 @@ namespace SWAEngine::Tilemap
 						->OnCreate(rPendingTile, pos);
 				}
 			}
-			else if (mp_ActiveTilesContainer->Contains(pos)) // Remove
+			else if (mp_ActiveTilesContainer->Contains(pos) && rPendingTile.p_Properties == nullptr) // Remove
 			{
 				// Call old tile ::OnRemove()
 				Tile& rOldTile = mp_ActiveTilesContainer->Get(pos);
 				if (rOldTile.BehaviorUID != NULL)
 					TileBehavior::IBehavior::s_Behaviors.at(rOldTile.BehaviorUID)
 					->OnRemove(rOldTile, pos);
-
-				mp_ActiveTilesContainer->Erase(pos); // Remove tile from memory
+				
+				// Remove the active tile
+				mp_ActiveTilesContainer->Erase(PropertyManager, {pos.X, pos.Y, ACTIVE_TILES_ID});
+			}
+			else if (rPendingTile.p_Properties != nullptr)
+			{
+				throw std::exception("Empty tiles shouldn't have properties!");
 			}
 
 			// Queue update surrounding
