@@ -84,8 +84,6 @@ namespace SWAEngine::Tilemap
 
 		// Queue set and register to properties' shared tiles
 
-		// TODO: X Memory leak caused in swapping tiles. This is proabaly because of where tiles are registered as shared with properties. (Should make shared as creating data)
-		
 		// Make cross references
 		if (tileB.p_Properties != nullptr)
 			PropertyManager.DataContainer[tileB.p_Properties].insert({ a.X, a.Y, PENDING_TILES_ID });
@@ -192,9 +190,7 @@ namespace SWAEngine::Tilemap
 				mp_ActiveTilesContainer->Set(PropertyManager, {pos.X, pos.Y, ACTIVE_TILES_ID}, rPendingTile, true);
 				
 				// Remove pending from shared
-				//mp_PendingTilesContainer->Erase(PropertyManager, { pos.X, pos.Y, PENDING_TILES_ID });				
 				PropertyManager.TryEraseData(rPendingTile.p_Properties, { pos.X, pos.Y, PENDING_TILES_ID });
-				rPendingTile.p_Properties = nullptr; // this isn't actually needed because pending tiles are cleared after iterating
 			}
 			else if (mp_ActiveTilesContainer->Contains(pos) && rPendingTile.p_Properties == nullptr) // Remove
 			{
@@ -217,9 +213,13 @@ namespace SWAEngine::Tilemap
 			return true; // continue iteration
 		});
 
-		// TODO: memory leakage of tile properties. Caused by swapping. Properties appear to be marked as shared with removed active tiles
-		fprintf(stdout, std::to_string(PropertyManager.DataContainer.size()).c_str());
-		fprintf(stdout, "\n");
+		// TODO: Remove at some point stat output or make it into a gui display
+		if (int(time.CurrentTime * 30) % 30 == 0)
+		{
+			fprintf(stdout, "Tile Total Properties Size: ");
+			fprintf(stdout, std::to_string(PropertyManager.DataContainer.size()).c_str());
+			fprintf(stdout, "\n");
+		}
 
 		mp_PendingTilesContainer->Clear();
 		return tilesToUpdate;
