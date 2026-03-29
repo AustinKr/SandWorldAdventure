@@ -11,6 +11,6 @@ namespace SWAEngine::Tilemap::TileBehavior
 
 		virtual Tile CreateNew() override;
 	private:
-		void TryMove(Math::Vector2 velocity, Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap);
+		void TryMove(Math::Vector2 movement, Math::Vector2Int pos, Tilemap* const pTilemap);
 	};
 }

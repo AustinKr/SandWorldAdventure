@@ -8,12 +8,23 @@ namespace SWAEngine::Tilemap::TileBehavior
 {
 	void Sand::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time)
 	{
-		//if (tile.p_Properties == nullptr)
-		//	return; // No properties given to this tile
+		if (tile.p_Properties == nullptr)
+			return; // No properties given to this tile
 		
-		//TilePropertyManager::PropertyManager::Get<TilePropertyManager::Data::SandData>(tile).Velocity;
+		// TODO: not sure rvalue works here...
+		auto& rProperties = *static_cast<TilePropertyManager::Data::SandData*>(tile.p_Properties);
+		rProperties.Velocity += Math::Vector2(0, -5) * time.FrameDeltaTime;
+		rProperties.Velocity *= .98;
 
-		TryMove({ -1,-1 }, tile, pos, pTilemap);
+		Math::Vector2 movement = rProperties.Velocity * time.FrameDeltaTime;
+		if (abs(movement.X) < 1 && abs(movement.Y) < 1)
+		{
+			// Can't move, try again next frame
+			pTilemap->SetTile(pos, tile); // Update
+			return;
+		}
+
+		TryMove(movement, pos, pTilemap);
 
 
 		//// Apply gravity
@@ -38,11 +49,11 @@ namespace SWAEngine::Tilemap::TileBehavior
 		return tile;
 	}
 
-	void Sand::TryMove(Math::Vector2 velocity, Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap)
+	void Sand::TryMove(Math::Vector2 movement, Math::Vector2Int pos, Tilemap* const pTilemap)
 	{
-		// Apply velocity
-		auto pair = pTilemap->TryStepMoveTile(pos, Math::Vector2(0, velocity.Y)); // Try move laterally
-		pair = pTilemap->TryStepMoveTile(pair.first, Math::Vector2(velocity.X, 0)); // Try move again horizontally
+		// Apply movement
+		auto pair = pTilemap->TryStepMoveTile(pos, Math::Vector2(0, movement.Y)); // Try move laterally
+		pair = pTilemap->TryStepMoveTile(pair.first, Math::Vector2(movement.X, 0)); // Try move again horizontally
 
 		// Return if we didn't actually move
 		if (pair.first == pos)
@@ -50,9 +61,5 @@ namespace SWAEngine::Tilemap::TileBehavior
 
 		// Swap original with translated(empty space)
 		pTilemap->SwapTiles(pair.first, pos);
-
-		// TODO: I shouldn't be getting a different behavior when I specify using tile rather than retreive the active tile( they should already be the same)
 	}
-
-
 }

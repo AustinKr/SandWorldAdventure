@@ -36,10 +36,12 @@ namespace SWAEngine::Tilemap
 		// Try erase
 		if (shouldOverride && Contains({ location.X, location.Y }))
 		{
+			void* pExistingProperties = Get({ location.X, location.Y }).p_Properties;
 			// Handle edge case where the existing property data is also the data we are setting, so don't erase it from memory
-			bool shouldRelease = Get({ location.X, location.Y }).p_Properties != tile.p_Properties;
-			// Erase
-			Erase(rManager, location, shouldRelease);
+			bool shouldRelease = pExistingProperties != tile.p_Properties;
+			
+			rManager.TryEraseData(pExistingProperties, location, shouldRelease); // Try release memory 
+			m_TilesRegistry.erase({ location.X, location.Y }); // Erase tile
 		}
 
 		// Try add tile

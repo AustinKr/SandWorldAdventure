@@ -188,6 +188,8 @@ namespace SWAEngine::Tilemap
 				// (all that is happening with shared system is the container ID is changing from pending to active)
 				// Add tile and register to shared
 				mp_ActiveTilesContainer->Set(PropertyManager, {pos.X, pos.Y, ACTIVE_TILES_ID}, rPendingTile, true);
+				if (rPendingTile.BehaviorUID != NULL)
+					tilesToUpdate.insert(std::make_pair(pos, rPendingTile));
 				
 				// Remove pending from shared
 				PropertyManager.TryEraseData(rPendingTile.p_Properties, { pos.X, pos.Y, PENDING_TILES_ID });
@@ -205,7 +207,7 @@ namespace SWAEngine::Tilemap
 			// Queue update surrounding
 			for (auto& off : SURROUNDING_TILES)
 			{
-				Tile tile = GetActiveTile(off + pos);
+				Tile tile = GetTile(off + pos); // Active or pending because they haven't all been applied yet
 				if (tile.HasValue && tile.BehaviorUID != NULL)
 					tilesToUpdate.insert(std::make_pair(off + pos, tile));
 			}
