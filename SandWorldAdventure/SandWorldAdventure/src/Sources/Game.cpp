@@ -30,11 +30,11 @@ namespace SWA
 		GenericPipeline::s_Textures.RegisterTexture("gui_background", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Background.bmp"));
 		GenericPipeline::s_Textures.RegisterTexture("lava_24", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Lava24.bmp"));
 
-		GenericPipeline::s_Textures.RegisterTexture("empty_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/EmptySlot.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("sand_stone_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandStoneTileSlot.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/SandTileSlot.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("wet_sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/WetSandTileSlot.bmp"));
-		GenericPipeline::s_Textures.RegisterTexture("water_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/EmptySlot.bmp")); // TODO: Create water texture
+		GenericPipeline::s_Textures.RegisterTexture("empty_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/empty_slot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("sand_stone_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/sand_stone_tile_slot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/sand_tile_slot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("wet_sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/wet_sand_tile_slot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("water_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/water_tile_slot.bmp"));
 	}
 
 	void Game::AddShaders()
