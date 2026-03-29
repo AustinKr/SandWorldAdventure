@@ -182,11 +182,11 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\Tilemap.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilePropertyInformation\PropertyManager.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\PropertyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h" />
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\Data\SandData.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\IPropertyManager.h" />
     <ClInclude Include="src\include\SWAEngine\BaseGameObject.h" />
     <ClInclude Include="src\include\SWAEngine\dllClause.h" />
@@ -204,7 +204,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\Tilemap\Tilemap.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapContainer.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapMesh.h" />
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\PropertyManager.h" />
+    <ClInclude Include="src\include\SWAEngine\Tilemap\PropertyManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\SandManager.h" />
     <ClInclude Include="src\include\SWAEngine\Time.h" />
   </ItemGroup>

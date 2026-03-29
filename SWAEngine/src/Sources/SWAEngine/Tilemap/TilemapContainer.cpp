@@ -25,7 +25,7 @@ namespace SWAEngine::Tilemap
 	{
 		return m_TilesRegistry.at(position);
 	}
-	Tile& TilemapContainer::Set(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride)
+	Tile& TilemapContainer::Set(PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride)
 	{
 		// Update bounds
 		if (location.X > m_Bounds.X)
@@ -53,7 +53,7 @@ namespace SWAEngine::Tilemap
 
 		return insertion.first->second;
 	}
-	void TilemapContainer::Erase(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, bool shouldRelease)
+	void TilemapContainer::Erase(PropertyManager& rManager, Math::Int3 location, bool shouldRelease)
 	{
 		// Try release memory 
 		rManager.TryEraseData(Get({location.X, location.Y}).p_Properties, location, shouldRelease);

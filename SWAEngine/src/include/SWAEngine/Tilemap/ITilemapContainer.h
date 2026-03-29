@@ -1,7 +1,7 @@
 #pragma once
 #include "SWAEngine/dllClause.h"
 #include "SWAEngine/Tilemap/Tile.h"
-#include "SWAEngine/Tilemap/TilePropertyManager/PropertyManager.h"
+#include "SWAEngine/Tilemap/PropertyManager.h"
 #include <functional>
 
 namespace SWAEngine::Tilemap
@@ -15,8 +15,8 @@ namespace SWAEngine::Tilemap
 		virtual void Clear() = 0;
 
 		virtual Tile& Get(Math::Vector2Int position) = 0;
-		virtual Tile& Set(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride = true) = 0;
-		virtual void Erase(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, bool shouldRelease = true) = 0;
+		virtual Tile& Set(PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride = true) = 0;
+		virtual void Erase(PropertyManager& rManager, Math::Int3 location, bool shouldRelease = true) = 0;
 		virtual bool Contains(Math::Vector2Int position) = 0;
 
 		virtual void Iterate(std::function<bool(Math::Vector2Int, Tile&)> func) = 0;

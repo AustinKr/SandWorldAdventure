@@ -45,7 +45,7 @@
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Fluid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilePropertyInformation\PropertyManager.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Tilemap\PropertyManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp">
@@ -110,10 +110,10 @@
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\SandManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\Data\SandData.h">
+    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\PropertyManager.h">
+    <ClInclude Include="src\include\SWAEngine\Tilemap\PropertyManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h">

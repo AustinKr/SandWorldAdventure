@@ -20,8 +20,8 @@ namespace SWAEngine::Tilemap
 
 		virtual Tile& Get(Math::Vector2Int position) override;
 		// Note: if shouldOverride == false, then it will not automatically release the property data if it failed to insert the tile
-		virtual Tile& Set(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride = true) override;
-		virtual void Erase(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, bool shouldRelease = true) override;
+		virtual Tile& Set(PropertyManager& rManager, Math::Int3 location, Tile tile, bool shouldOverride = true) override;
+		virtual void Erase(PropertyManager& rManager, Math::Int3 location, bool shouldRelease = true) override;
 		virtual bool Contains(Math::Vector2Int position) override;
 
 		virtual void Iterate(std::function<bool(Math::Vector2Int, Tile&)> func) override;

@@ -3,7 +3,7 @@
 
 #include "SWA/Game.h"
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
-#include "SWAEngine/Tilemap/TilePropertyManager/PropertyManager.h"
+#include "SWAEngine/Tilemap/PropertyManager.h"
 #include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
 #include "SWAEngine/Tilemap/Tile.h"
 
@@ -18,7 +18,6 @@
 using namespace GP2D::Pipeline;
 using namespace SWAEngine::Math;
 using namespace GP2D::Math;
-using namespace SWAEngine::Tilemap::TilePropertyManager;
 using namespace SWAEngine::Tilemap::TileBehavior;
 using namespace SWAEngine::Tilemap;
 

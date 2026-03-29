@@ -1,8 +1,7 @@
 #include "SWAEngine/Tilemap/TileBehavior/Sand.h"
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
-#include "SWAEngine/Tilemap/TilePropertyManager/Data/SandData.h"
+#include "SWAEngine/Tilemap/TilePropertyData/SandData.h"
 #include <utility>
-#include <string> // TODO: Remove include
 
 namespace SWAEngine::Tilemap::TileBehavior
 {
@@ -11,7 +10,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 		if (tile.p_Properties == nullptr)
 			return; // No properties given to this tile
 
-		auto pProperties = static_cast<TilePropertyManager::Data::SandData*>(tile.p_Properties);
+		auto pProperties = static_cast<TilePropertyData::SandData*>(tile.p_Properties);
 		float deltaTime = time.CurrentTime - pProperties->LastUpdateTime;
 
 		pProperties->Velocity += Math::Vector2(0, -1) * deltaTime;
@@ -32,7 +31,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 	Tile Sand::CreateNew(Time time)
 	{
 		Tile tile = {SAND, 0x0, true};
-		tile.p_Properties = new TilePropertyManager::Data::SandData{ {}, (float)time.CurrentTime };
+		tile.p_Properties = new TilePropertyData::SandData{ {}, (float)time.CurrentTime };
 		return tile;
 	}
 

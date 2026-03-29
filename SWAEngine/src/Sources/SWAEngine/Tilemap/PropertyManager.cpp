@@ -1,6 +1,6 @@
-#include "SWAEngine/Tilemap/TilePropertyManager/PropertyManager.h"
+#include "SWAEngine/Tilemap/PropertyManager.h"
 
-namespace SWAEngine::Tilemap::TilePropertyManager
+namespace SWAEngine::Tilemap
 {
 	void PropertyManager::TryEraseData(void* data, Math::Int3 tileLocation, bool shouldRelease)
 	{

@@ -1,6 +1,6 @@
 #pragma once
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
-#include "SWAEngine/Tilemap/TilePropertyManager/PropertyManager.h"
+#include "SWAEngine/Tilemap/PropertyManager.h"
 #include "SWAEngine/Time.h"
 #include <unordered_map>
 
@@ -13,7 +13,7 @@ namespace SWAEngine::Tilemap
 		static const int PENDING_TILES_ID; // Used in PropertyManager
 		static const unsigned int MAX_MOVE_STEPS;
 
-		TilePropertyManager::PropertyManager PropertyManager;
+		PropertyManager PropertyManager;
 
 		// In world coordinates
 		Math::Vector2 Origin;
