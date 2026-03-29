@@ -10,13 +10,14 @@ namespace SWAEngine::Tilemap::TileBehavior
 	{
 		if (tile.p_Properties == nullptr)
 			return; // No properties given to this tile
-		
-		// TODO: not sure rvalue works here...
-		auto& rProperties = *static_cast<TilePropertyManager::Data::SandData*>(tile.p_Properties);
-		rProperties.Velocity += Math::Vector2(0, -5) * time.FrameDeltaTime;
-		rProperties.Velocity *= .98;
 
-		Math::Vector2 movement = rProperties.Velocity * time.FrameDeltaTime;
+		auto pProperties = static_cast<TilePropertyManager::Data::SandData*>(tile.p_Properties);
+		float deltaTime = time.CurrentTime - pProperties->LastUpdateTime;
+
+		pProperties->Velocity += Math::Vector2(0, -1) * deltaTime;
+		pProperties->Velocity *= .98;
+
+		Math::Vector2 movement = pProperties->Velocity * deltaTime + Math::Vector2(0, -1);
 		if (abs(movement.X) < 1 && abs(movement.Y) < 1)
 		{
 			// Can't move, try again next frame
@@ -24,28 +25,14 @@ namespace SWAEngine::Tilemap::TileBehavior
 			return;
 		}
 
+		pProperties->LastUpdateTime = time.CurrentTime;
 		TryMove(movement, pos, pTilemap);
-
-
-		//// Apply gravity
-		//float speed = -2;
-		//tile.Velocity = (tile.Velocity + Math::Vector2(0, speed * time.FrameDeltaTime)) * .999f; // note this is a copy
-
-		//if (tile.Velocity.GetMagnitudeSqrd() < 1)
-		//{
-		//	// Try update again next frame
-		//	pTilemap->SetTile(pos, tile);
-		//	return;
-		//}
-		//// We have enough momentum to move
-		//TryMove(tile.Velocity, tile, pos, pTilemap);
-
 	}
 
-	Tile Sand::CreateNew()
+	Tile Sand::CreateNew(Time time)
 	{
 		Tile tile = {SAND, 0x0, true};
-		tile.p_Properties = new TilePropertyManager::Data::SandData();
+		tile.p_Properties = new TilePropertyManager::Data::SandData{ {}, (float)time.CurrentTime };
 		return tile;
 	}
 

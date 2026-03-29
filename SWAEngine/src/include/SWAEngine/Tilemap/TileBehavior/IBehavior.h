@@ -14,6 +14,6 @@ namespace SWAEngine::Tilemap::TileBehavior
 		virtual void Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time) = 0;
 		
 		// Allocates property data in new tile. Caller is responsible for releasing it
-		virtual Tile CreateNew() = 0;
+		virtual Tile CreateNew(Time time) = 0;
 	};
 }

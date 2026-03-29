@@ -32,8 +32,8 @@ namespace SWA::Player
 
 		void SetInputs();
 
-		void TryUseItem(Item item);
-		void UseCurrentTileItem(Item item, SWAEngine::Math::Vector2Int mouseTilePosition);
+		void TryUseItem(SWAEngine::Time time, Item item);
+		void UseCurrentTileItem(SWAEngine::Time time, Item item, SWAEngine::Math::Vector2Int mouseTilePosition);
 
 		// Step move algorithm (only accurate for small movements)
 		bool StepMove(SWAEngine::Math::Vector2 movement);

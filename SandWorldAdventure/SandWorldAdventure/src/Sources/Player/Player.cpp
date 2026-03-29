@@ -51,7 +51,7 @@ namespace SWA::Player
 		m_ShouldAddTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_2);
 	}
 
-	void Player::TryUseItem(Item item)
+	void Player::TryUseItem(SWAEngine::Time time, Item item)
 	{
 		switch (item.Type)
 		{
@@ -70,14 +70,14 @@ namespace SWA::Player
 				Vector2Int mouseTilePosition = Game::p_Tilemap->WorldToTile({ mouseWorldPosition.X, mouseWorldPosition.Y });
 
 				// remove/add tiles at cursor
-				UseCurrentTileItem(item, mouseTilePosition);
+				UseCurrentTileItem(time, item, mouseTilePosition);
 			}
 			break;
 
 			// TODO: Do other stuff if different item type
 		}
 	}
-	void Player::UseCurrentTileItem(Item item, Vector2Int mouseTilePosition)
+	void Player::UseCurrentTileItem(SWAEngine::Time time, Item item, Vector2Int mouseTilePosition)
 	{
 		double radius = 5;
 		for (int i = -radius; i < radius; i++)
@@ -94,7 +94,7 @@ namespace SWA::Player
 				{
 					Tile tile = {SOLID, 0x0, true};
 					if(item.BehaviorUID != SOLID)
-						tile = IBehavior::s_Behaviors.at(item.BehaviorUID)->CreateNew();
+						tile = IBehavior::s_Behaviors.at(item.BehaviorUID)->CreateNew(time);
 					tile.Color = MixColor(item.Color, item.ColorDeviation);
 
 					Game::p_Tilemap->SetTile(position, tile);
@@ -215,7 +215,7 @@ namespace SWA::Player
 		m_Time = time;
 
 		// Use selected item
-		TryUseItem(CurrentInventory.GetItemAt(CurrentInventory.SelectedItemPosition));
+		TryUseItem(time, CurrentInventory.GetItemAt(CurrentInventory.SelectedItemPosition));
 
 		// Move
 		SetInputs();

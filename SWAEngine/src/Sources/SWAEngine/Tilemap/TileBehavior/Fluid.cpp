@@ -29,7 +29,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 		}
 	}
 
-	Tile Fluid::CreateNew()
+	Tile Fluid::CreateNew(Time time)
 	{
 		Tile tile = { FLUID, 0x0, true };
 		//tile.p_Properties = new TilePropertyManager::Data::SandData();
