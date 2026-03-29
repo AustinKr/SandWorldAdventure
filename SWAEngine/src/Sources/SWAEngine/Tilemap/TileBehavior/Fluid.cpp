@@ -29,6 +29,13 @@ namespace SWAEngine::Tilemap::TileBehavior
 		}
 	}
 
+	Tile Fluid::CreateNew()
+	{
+		Tile tile = { FLUID, 0x0, true };
+		//tile.p_Properties = new TilePropertyManager::Data::SandData();
+		return tile;
+	}
+
 	Tile Fluid::TryMoveSideways(Math::Vector2Int pos, int dir, Tilemap* const pTilemap)
 	{
 		Math::Vector2Int otherPos = pos + Math::Vector2Int(dir, 0);

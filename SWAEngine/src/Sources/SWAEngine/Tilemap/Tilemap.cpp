@@ -2,6 +2,7 @@
 #include "SWAEngine/Tilemap/TilemapContainer.h"
 #include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
 #include <algorithm>
+#include <string> // TODO: Remove include
 
 namespace SWAEngine::Tilemap
 {
@@ -75,21 +76,26 @@ namespace SWAEngine::Tilemap
 	}
 	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b)
 	{
-		int aID, bID;
-		Tile tileA = GetTile(a, &aID);
-		Tile tileB = GetTile(b, &bID);
+		Tile tileA = GetTile(a);
+		Tile tileB = GetTile(b);
 
 		if (!tileA.HasValue && !tileB.HasValue)
 			return;
 
 		// Queue set and register to properties' shared tiles
 
+		// TODO: X Memory leak caused in swapping tiles. This is proabaly because of where tiles are registered as shared with properties. (Should make shared as creating data)
+		
+		// Make cross references
+		if (tileB.p_Properties != nullptr)
+			PropertyManager.DataContainer[tileB.p_Properties].insert({ a.X, a.Y, PENDING_TILES_ID });
+		if(tileA.p_Properties != nullptr)
+			PropertyManager.DataContainer[tileA.p_Properties].insert({ b.X, b.Y, PENDING_TILES_ID });
+
 		// Set a to b
-		mp_PendingTilesContainer->Set(PropertyManager, { a.X, a.Y, aID }, tileB, true);
-		mp_PendingTilesContainer->Set(PropertyManager, { a.X, a.Y, PENDING_TILES_ID}, tileB, false);
+		mp_PendingTilesContainer->Set(PropertyManager, { a.X, a.Y, PENDING_TILES_ID }, tileB, true);
 		// Set b to a
-		mp_PendingTilesContainer->Set(PropertyManager, { b.X, b.Y, bID }, tileA, true);
-		mp_PendingTilesContainer->Set(PropertyManager, { b.X, b.Y, PENDING_TILES_ID }, tileA, false);
+		mp_PendingTilesContainer->Set(PropertyManager, { b.X, b.Y, PENDING_TILES_ID }, tileA, true);
 	}
 	std::pair<Math::Vector2Int, Tile> Tilemap::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
 	{
@@ -184,9 +190,11 @@ namespace SWAEngine::Tilemap
 				// (all that is happening with shared system is the container ID is changing from pending to active)
 				// Add tile and register to shared
 				mp_ActiveTilesContainer->Set(PropertyManager, {pos.X, pos.Y, ACTIVE_TILES_ID}, rPendingTile, true);
-				if (rPendingTile.p_Properties != nullptr)
-					// Remove pending from shared
-					PropertyManager.DataContainer.at(rPendingTile.p_Properties).erase({ pos.X, pos.Y, PENDING_TILES_ID });
+				
+				// Remove pending from shared
+				//mp_PendingTilesContainer->Erase(PropertyManager, { pos.X, pos.Y, PENDING_TILES_ID });				
+				PropertyManager.TryEraseData(rPendingTile.p_Properties, { pos.X, pos.Y, PENDING_TILES_ID });
+				rPendingTile.p_Properties = nullptr; // this isn't actually needed because pending tiles are cleared after iterating
 			}
 			else if (mp_ActiveTilesContainer->Contains(pos) && rPendingTile.p_Properties == nullptr) // Remove
 			{
@@ -208,6 +216,10 @@ namespace SWAEngine::Tilemap
 
 			return true; // continue iteration
 		});
+
+		// TODO: memory leakage of tile properties. Caused by swapping. Properties appear to be marked as shared with removed active tiles
+		fprintf(stdout, std::to_string(PropertyManager.DataContainer.size()).c_str());
+		fprintf(stdout, "\n");
 
 		mp_PendingTilesContainer->Clear();
 		return tilesToUpdate;

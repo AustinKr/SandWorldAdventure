@@ -1,5 +1,7 @@
 #include "SWAEngine/Tilemap/TileBehavior/Sand.h"
+#include "SWAEngine/Tilemap/TileBehavior/Types.h"
 #include "SWAEngine/Tilemap/TilePropertyManager/Data/SandData.h"
+#include <utility>
 #include <string> // TODO: Remove include
 
 namespace SWAEngine::Tilemap::TileBehavior
@@ -29,6 +31,13 @@ namespace SWAEngine::Tilemap::TileBehavior
 
 	}
 
+	Tile Sand::CreateNew()
+	{
+		Tile tile = {SAND, 0x0, true};
+		tile.p_Properties = new TilePropertyManager::Data::SandData();
+		return tile;
+	}
+
 	void Sand::TryMove(Math::Vector2 velocity, Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap)
 	{
 		// Apply velocity
@@ -44,4 +53,6 @@ namespace SWAEngine::Tilemap::TileBehavior
 
 		// TODO: I shouldn't be getting a different behavior when I specify using tile rather than retreive the active tile( they should already be the same)
 	}
+
+
 }

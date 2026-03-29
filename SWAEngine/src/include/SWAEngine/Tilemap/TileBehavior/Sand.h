@@ -9,6 +9,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 	public:
 		virtual void Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time) override;
 
+		virtual Tile CreateNew() override;
 	private:
 		void TryMove(Math::Vector2 velocity, Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap);
 	};

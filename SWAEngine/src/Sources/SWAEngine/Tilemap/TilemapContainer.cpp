@@ -35,7 +35,12 @@ namespace SWAEngine::Tilemap
 		
 		// Try erase
 		if (shouldOverride && Contains({ location.X, location.Y }))
-			Erase(rManager, location);
+		{
+			// Handle edge case where the existing property data is also the data we are setting, so don't erase it from memory
+			bool shouldRelease = Get({ location.X, location.Y }).p_Properties != tile.p_Properties;
+			// Erase
+			Erase(rManager, location, shouldRelease);
+		}
 
 		// Try add tile
 		auto insertion = m_TilesRegistry.insert(std::make_pair(Math::Vector2Int(location.X, location.Y), tile));
@@ -46,10 +51,10 @@ namespace SWAEngine::Tilemap
 
 		return insertion.first->second;
 	}
-	void TilemapContainer::Erase(TilePropertyManager::PropertyManager& rManager, Math::Int3 location)
+	void TilemapContainer::Erase(TilePropertyManager::PropertyManager& rManager, Math::Int3 location, bool shouldRelease)
 	{
 		// Try release memory 
-		rManager.TryEraseData(m_TilesRegistry.at({location.X, location.Y}).p_Properties, location);
+		rManager.TryEraseData(Get({location.X, location.Y}).p_Properties, location, shouldRelease);
 
 		// Erase tile
 		m_TilesRegistry.erase({location.X, location.Y});
@@ -61,7 +66,8 @@ namespace SWAEngine::Tilemap
 
 	void TilemapContainer::Iterate(std::function<bool(Math::Vector2Int, Tile&)> func)
 	{
-		for (auto& pair : m_TilesRegistry)
+		auto cpy = m_TilesRegistry;
+		for (auto& pair : cpy)
 		{
 			if (!func(pair.first, pair.second))
 				return;

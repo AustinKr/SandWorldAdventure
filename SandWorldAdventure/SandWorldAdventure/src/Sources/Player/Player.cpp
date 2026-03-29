@@ -4,6 +4,8 @@
 #include "SWA/Game.h"
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
 #include "SWAEngine/Tilemap/TilePropertyManager/PropertyManager.h"
+#include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
+#include "SWAEngine/Tilemap/Tile.h"
 
 #include "SWA/RenderLayerNames.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
@@ -17,6 +19,8 @@ using namespace GP2D::Pipeline;
 using namespace SWAEngine::Math;
 using namespace GP2D::Math;
 using namespace SWAEngine::Tilemap::TilePropertyManager;
+using namespace SWAEngine::Tilemap::TileBehavior;
+using namespace SWAEngine::Tilemap;
 
 namespace SWA::Player
 {
@@ -87,7 +91,14 @@ namespace SWA::Player
 				if (position.X < 0 || position.Y < 0)
 					continue;
 				if (m_ShouldAddTile)
-					Game::p_Tilemap->SetTile(position, { item.BehaviorUID, MixColor(item.Color, item.ColorDeviation), true }); // TODO: Provide appropriate tile properties PropertyManager::CreateNew<int>(item.BehaviorUID, MixColor(item.Color, item.ColorDeviation), {})
+				{
+					Tile tile = {SOLID, 0x0, true};
+					if(item.BehaviorUID != SOLID)
+						tile = IBehavior::s_Behaviors.at(item.BehaviorUID)->CreateNew();
+					tile.Color = MixColor(item.Color, item.ColorDeviation);
+
+					Game::p_Tilemap->SetTile(position, tile);
+				}
 				else
 					Game::p_Tilemap->SetTile(position, {});
 			}

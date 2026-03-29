@@ -13,4 +13,13 @@ namespace SWAEngine::Math
 		bool operator<(const Int3& v) const;
 		bool operator>(const Int3& v) const;
 	};
+
+	struct SWA_ENGINE_API Int3Hasher
+	{
+		unsigned long long operator()(const Int3& v) const;
+	};
+	struct SWA_ENGINE_API Int3Compare
+	{
+		bool operator()(const Int3& a, const Int3& b) const;
+	};
 }

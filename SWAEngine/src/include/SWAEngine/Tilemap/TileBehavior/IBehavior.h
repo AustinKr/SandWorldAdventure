@@ -12,5 +12,8 @@ namespace SWAEngine::Tilemap::TileBehavior
 		static std::unordered_map<unsigned int, IBehavior*> s_Behaviors;
 
 		virtual void Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time) = 0;
+		
+		// Allocates property data in new tile. Caller is responsible for releasing it
+		virtual Tile CreateNew() = 0;
 	};
 }
