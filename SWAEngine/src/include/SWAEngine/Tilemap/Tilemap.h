@@ -1,4 +1,5 @@
 #pragma once
+#include "SWAEngine/BaseGameObject.h"
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
 #include "SWAEngine/Tilemap/PropertyManager.h"
 #include "SWAEngine/Time.h"
@@ -6,7 +7,7 @@
 
 namespace SWAEngine::Tilemap
 {
-	struct SWA_ENGINE_API Tilemap // TODO: Could make tilemap a game object
+	struct SWA_ENGINE_API Tilemap : BaseGameObject
 	{
 	public:
 		static const int ACTIVE_TILES_ID; // Used in PropertyManager
@@ -20,8 +21,9 @@ namespace SWAEngine::Tilemap
 		// In world coordinates
 		Math::Vector2 TileScale;
 
-		Tilemap(Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
-		void Release();
+		Tilemap(const char* name, Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
+		virtual void Update(Time time) override;
+		virtual void Release() override;
 		bool IsEmpty();
 
 		// Returns a copy of the active tile
@@ -41,9 +43,6 @@ namespace SWAEngine::Tilemap
 
 		// Detects collision of given rect and the active tiles
 		bool DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight);
-
-		// Should be called every frame cycle
-		void Update(Time time);
 
 		Math::Vector2 TileToWorld(Math::Vector2Int tile, bool applyOffsets = true);
 		Math::Vector2Int WorldToTile(Math::Vector2 world, bool applyOffsets = true);

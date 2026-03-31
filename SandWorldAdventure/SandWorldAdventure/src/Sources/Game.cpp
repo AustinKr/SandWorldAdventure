@@ -84,7 +84,7 @@ namespace SWA
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(pNewMesh);
 
 		// Create tilemap
-		p_Tilemap = new SWAEngine::Tilemap::Tilemap({ 0,0 }, { 0.01f,0.01f });
+		p_Tilemap = new SWAEngine::Tilemap::Tilemap("MainTilemap", { 0, 0 }, {0.01f,0.01f});
 		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);
 
@@ -118,11 +118,9 @@ namespace SWA
 	void Game::Update(SWAEngine::Time time)
 	{
 		SWAEngine::BaseGameObject::UpdateObjects(time);
-		p_Tilemap->Update(time);
 	}
 	void Game::Release()
 	{
 		SWAEngine::BaseGameObject::ReleaseObjects();
-		p_Tilemap->Release();
 	}
 }

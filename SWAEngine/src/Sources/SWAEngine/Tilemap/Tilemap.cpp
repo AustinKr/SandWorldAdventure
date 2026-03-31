@@ -23,7 +23,7 @@ namespace SWAEngine::Tilemap
 	const int Tilemap::ACTIVE_TILES_ID = 1;
 	const int Tilemap::PENDING_TILES_ID = 2;
 
-	Tilemap::Tilemap(Math::Vector2 origin, Math::Vector2 scale)
+	Tilemap::Tilemap(const char* name, Math::Vector2 origin, Math::Vector2 scale) : BaseGameObject(name)
 	{
 		PropertyManager = {};
 
@@ -33,11 +33,16 @@ namespace SWAEngine::Tilemap
 		mp_ActiveTilesContainer = new TilemapContainer();
 		mp_PendingTilesContainer = new TilemapContainer();
 	}
+	void Tilemap::Update(Time time)
+	{
+		UpdateTiles(time, ApplyPendingTiles(time));
+	}
 	void Tilemap::Release()
 	{
 		delete(mp_ActiveTilesContainer);
 		delete(mp_PendingTilesContainer);
-		delete(this);
+		
+		BaseGameObject::Release();
 	}
 	bool Tilemap::IsEmpty()
 	{
@@ -147,11 +152,6 @@ namespace SWAEngine::Tilemap
 	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight) // TODO: Make tilemap collision detection only check for certain tiles
 	{
 		return mp_ActiveTilesContainer->DetectCollisionRect(bottomLeft, topRight);
-	}
-
-	void Tilemap::Update(Time time)
-	{
-		UpdateTiles(time, ApplyPendingTiles(time));
 	}
 
 	Math::Vector2 Tilemap::TileToWorld(Math::Vector2Int tile, bool applyOffsets)
