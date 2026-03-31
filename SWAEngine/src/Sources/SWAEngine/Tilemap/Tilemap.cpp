@@ -58,18 +58,18 @@ namespace SWAEngine::Tilemap
 	}
 	Tile Tilemap::GetTile(Math::Vector2Int position, __out int* containerID)
 	{
-		// Try get active
-		if (!mp_PendingTilesContainer->Contains(position))
+		// Try get pending
+		if (mp_PendingTilesContainer->Contains(position))
 		{
 			if (containerID != nullptr)
-				*containerID = ACTIVE_TILES_ID;
-			return GetActiveTile(position);
+				*containerID = PENDING_TILES_ID;
+			return mp_PendingTilesContainer->Get(position);
 		}
 
-		// Get pending
+		// Get active
 		if (containerID != nullptr)
-			*containerID = PENDING_TILES_ID;
-		return mp_PendingTilesContainer->Get(position);
+			*containerID = ACTIVE_TILES_ID;
+		return GetActiveTile(position);
 	}
 
 	Tile Tilemap::SetTile(Math::Vector2Int position, Tile tile)

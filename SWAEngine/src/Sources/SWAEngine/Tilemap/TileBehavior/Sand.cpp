@@ -11,27 +11,28 @@ namespace SWAEngine::Tilemap::TileBehavior
 			return; // No properties given to this tile
 
 		auto pProperties = static_cast<TilePropertyData::SandData*>(tile.p_Properties);
-		float deltaTime = time.CurrentTime - pProperties->LastUpdateTime;
+		float deltaTime = time.FrameDeltaTime;
 
-		pProperties->Velocity += Math::Vector2(0, -1) * deltaTime;
-		pProperties->Velocity *= .98;
+		pProperties->Velocity += Math::Vector2(0, -1);
+		//pProperties->Velocity *= .98;
 
 		Math::Vector2 movement = pProperties->Velocity * deltaTime + Math::Vector2(0, -1);
 		if (abs(movement.X) < 1 && abs(movement.Y) < 1)
 		{
 			// Can't move, try again next frame
-			pTilemap->SetTile(pos, tile); // Update
+			pTilemap->SetTile(pos, tile); // Refresh
 			return;
 		}
 
-		pProperties->LastUpdateTime = time.CurrentTime;
 		TryMove(movement, pos, pTilemap);
+
+		//TODO: if this one failed, go to the bottom of the stack and work way up
 	}
 
 	Tile Sand::CreateNew(Time time)
 	{
 		Tile tile = {SAND, 0x0, true};
-		tile.p_Properties = new TilePropertyData::SandData{ {}, (float)time.CurrentTime };
+		tile.p_Properties = new TilePropertyData::SandData{ {} };
 		return tile;
 	}
 

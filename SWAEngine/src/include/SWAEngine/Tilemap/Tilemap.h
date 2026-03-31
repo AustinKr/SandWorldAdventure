@@ -28,7 +28,7 @@ namespace SWAEngine::Tilemap
 
 		// Returns a copy of the active tile
 		Tile GetActiveTile(Math::Vector2Int position);
-		// Returns a copy of the currently active tile or the pending tile
+		// Returns a copy of the pending tile or the currently active tile (pending prioritized)
 		Tile GetTile(Math::Vector2Int position, __out int* containerID = nullptr);
 
 		// Sets the tile (in the pending tiles container)

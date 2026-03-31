@@ -7,6 +7,5 @@ namespace SWAEngine::Tilemap::TilePropertyData
 	struct SandData
 	{
 		Math::Vector2 Velocity;
-		float LastUpdateTime;
 	};
 }
