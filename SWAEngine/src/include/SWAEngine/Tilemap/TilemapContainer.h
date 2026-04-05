@@ -25,6 +25,7 @@ namespace SWAEngine::Tilemap
 		virtual bool Contains(Math::Vector2Int position) override;
 
 		virtual void Iterate(std::function<bool(Math::Vector2Int, Tile&)> func) override;
+		virtual void ReplaceIterate(std::function<bool(Math::Vector2Int, Tile&)> func) override;
 
 		// Counts tiles as collisions when they are contained in this registry
 		virtual bool DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight) override;

@@ -19,7 +19,10 @@ namespace SWAEngine::Tilemap
 		virtual void Erase(PropertyManager& rManager, Math::Int3 location, bool shouldRelease = true) = 0;
 		virtual bool Contains(Math::Vector2Int position) = 0;
 
+		// Iterates through a copy of the tiles
 		virtual void Iterate(std::function<bool(Math::Vector2Int, Tile&)> func) = 0;
+		// Iterates through a copy of the tiles after clearing the old collection
+		virtual void ReplaceIterate(std::function<bool(Math::Vector2Int, Tile&)> func) = 0;
 
 		virtual bool DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight) = 0;
 		// TODO: Create more collision detection shapes if needed

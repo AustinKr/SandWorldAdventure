@@ -75,6 +75,16 @@ namespace SWAEngine::Tilemap
 				return;
 		}
 	}
+	void TilemapContainer::ReplaceIterate(std::function<bool(Math::Vector2Int, Tile&)> func)
+	{
+		auto cpy = m_TilesRegistry;
+		Clear();
+		for (auto& pair : cpy)
+		{
+			if (!func(pair.first, pair.second))
+				return;
+		}
+	}
 
 	bool TilemapContainer::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight)
 	{

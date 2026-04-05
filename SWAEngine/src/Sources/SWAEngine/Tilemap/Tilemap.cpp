@@ -181,7 +181,8 @@ namespace SWAEngine::Tilemap
 	{
 		TILES tilesToUpdate = {};
 
-		mp_PendingTilesContainer->Iterate([&](Math::Vector2Int pos, Tile& rPendingTile)
+		// Iterate
+		mp_PendingTilesContainer->ReplaceIterate([&](Math::Vector2Int pos, Tile& rPendingTile)
 		{
 			if (rPendingTile.HasValue) // Add
 			{
@@ -223,7 +224,6 @@ namespace SWAEngine::Tilemap
 			fprintf(stdout, "\n");
 		}*/
 
-		mp_PendingTilesContainer->Clear();
 		return tilesToUpdate;
 	}
 	void Tilemap::UpdateTiles(Time time, TILES tiles)

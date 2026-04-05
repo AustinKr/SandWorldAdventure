@@ -73,7 +73,7 @@ void InitializeGame()
 		frameTime = { glfwGetTime(),
 					glfwGetTime() - frameTime.CurrentTime,
 					fixedDeltaTime};
-		
+
 		// Update
 		SWA::Game::Update(frameTime);
 

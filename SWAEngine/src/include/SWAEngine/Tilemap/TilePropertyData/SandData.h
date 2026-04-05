@@ -3,9 +3,10 @@
 
 namespace SWAEngine::Tilemap::TilePropertyData
 {
-	// Defines extra properties to assocaite with sand Tiles
+	// Defines extra properties to store with sand Tiles
 	struct SandData
 	{
-		Math::Vector2 Velocity;
+		//Math::Vector2 Velocity;
+		double Gravity;
 	};
 }
