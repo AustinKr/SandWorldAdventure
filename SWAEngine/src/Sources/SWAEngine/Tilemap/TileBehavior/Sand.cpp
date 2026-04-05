@@ -13,7 +13,8 @@ namespace SWAEngine::Tilemap::TileBehavior
 		auto pProperties = static_cast<TilePropertyData::SandData*>(tile.p_Properties);
 		
 		// Physics
-		pProperties->Gravity += 0.01; // Increment by some constant
+		// TODO: Make physics work properly by: if this one failed, go to the bottom of the stack and work way up
+		//pProperties->Gravity += 0.01; // Increment by some constant
 		auto movement = Math::Vector2(0, -pProperties->Gravity);
 
 		// Apply physics

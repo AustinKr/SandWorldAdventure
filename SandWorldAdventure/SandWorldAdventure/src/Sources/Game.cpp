@@ -1,6 +1,8 @@
 
 // Game
 #include "SWA/Game.h"
+#include "SWAEngine/Scene.h"
+#include "SWAEngine/SceneManager.h"
 #include "SWA/RenderLayerNames.h"
 
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
@@ -67,6 +69,9 @@ namespace SWA
 
 	void Game::InitializeGame()
 	{
+		SWAEngine::SceneManager::CreateScene("ThisIsMyScene");
+		SWAEngine::SceneManager::CreateScene("ThisIsAnotherScene");
+
 		// TEst mesh
 		auto pNewMesh = new Mesh::Mesh(true, (void*)"lava_24");
 		pNewMesh->Origin = { -0.1f, -.5f };
@@ -123,10 +128,10 @@ namespace SWA
 		glViewport(0, 0, camera.GetScreenSize().X, camera.GetScreenSize().Y);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		SWAEngine::BaseGameObject::UpdateObjects(time);
+		SWAEngine::SceneManager::GetScene().UpdateObjects(time);
 	}
 	void Game::Release()
 	{
-		SWAEngine::BaseGameObject::ReleaseObjects();
+		SWAEngine::SceneManager::ReleaseScene();
 	}
 }

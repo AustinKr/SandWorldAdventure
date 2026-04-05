@@ -176,6 +176,8 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BasicItem.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Scene.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\SceneManager.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Behaviors.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Fluid.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Sand.cpp" />
@@ -186,6 +188,8 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h" />
+    <ClInclude Include="src\include\SWAEngine\Scene.h" />
+    <ClInclude Include="src\include\SWAEngine\SceneManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\IPropertyManager.h" />
     <ClInclude Include="src\include\SWAEngine\BaseGameObject.h" />

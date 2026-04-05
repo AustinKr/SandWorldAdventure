@@ -1,13 +1,9 @@
-. Create Tilemap::MoveStep(...) to try to move a tile by the given movement
+. Make Scene objects that contain a registry of GameObjects. This will allow you to build worlds that contain NPCs, Tilemap(s), Player(s), Items, story elements, GUI, and other objects.
+
+
+. Sand tiles are updated in the wrong order. This causes them to float in space even if the bottom-most tile can move and make space. They should be updated from the bottom up.
+
 . Create Tilemap::Raycast()
 . Experiment with DDA raycasting
 . Use quadtree library
-. Make Sand behavior use velocities instead of just trying to move every frame
 
-. Create more tiles (like fluids for example)
-
-. Fix design bugs with GP2D
-	. Shaders Registry should use a map with names as keys
-	. other systems should match
-	
-...
