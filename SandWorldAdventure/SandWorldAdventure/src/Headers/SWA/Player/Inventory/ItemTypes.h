@@ -1,6 +1,6 @@
 #pragma once
 
-namespace SWA::Player
+namespace SWA::Player::Inventory
 {
 	enum ItemTypes
 	{

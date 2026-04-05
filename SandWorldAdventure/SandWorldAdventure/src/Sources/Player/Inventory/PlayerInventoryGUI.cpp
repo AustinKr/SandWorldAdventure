@@ -1,4 +1,4 @@
-#include "SWA/Player/PlayerInventoryGUI.h"
+#include "SWA/Player/Inventory/PlayerInventoryGUI.h"
 #include "SWA/RenderLayerNames.h"
 
 #include "GP2D/GUI/Hierarchy.h"
@@ -13,7 +13,7 @@ using namespace GP2D::GUI;
 using namespace GP2D::GUI::Components;
 using namespace GP2D::GUI::Components::Button;
 
-namespace SWA::Player
+namespace SWA::Player::Inventory
 {
 	unsigned long PlayerInventoryGUI::s_InventoryElementUID = NULL;
 	unsigned long PlayerInventoryGUI::s_InventoryToggleButtonUID = NULL;

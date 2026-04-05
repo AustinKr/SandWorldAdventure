@@ -173,8 +173,11 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
   <ItemGroup>
     <ClCompile Include="SandWorldAdventure\src\Sources\Game.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inputs.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\TileItem.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Player.cpp" />
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerInventoryGUI.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\PlayerInventoryGUI.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\PlayerInventoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SandWorldAdventure\Shaders\PlayerShader.shader" />
@@ -188,10 +191,13 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\ItemTypes.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inputs.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\ItemTypes.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\TileItem.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Player.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerInventoryGUI.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Item.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerInventoryGUI.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\BaseItem.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerInventoryManager.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

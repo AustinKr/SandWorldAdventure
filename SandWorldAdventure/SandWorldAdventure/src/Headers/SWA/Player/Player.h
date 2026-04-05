@@ -1,8 +1,8 @@
 #pragma once
 #include "SWAEngine/BaseGameObject.h"
 #include "SWAEngine/Math/vector2.h"
-#include "SWAEngine/Inventory/Inventory.h"
-#include "SWA/Player/Item.h"
+#include "SWA/Player/Inputs.h"
+#include "SWA/Player/Inventory/PlayerInventoryManager.h"
 
 #include "GP2D/Pipeline/Mesh/Mesh.h"
 
@@ -24,16 +24,10 @@ namespace SWA::Player
 		SWAEngine::Time m_Time;
 
 		double m_Dampening;
-	
-		bool m_ShouldBreakTile;
-		bool m_ShouldAddTile;
 
 		bool m_IsTouchingGround;
 
-		void SetInputs();
-
-		void TryUseItem(SWAEngine::Time time, Item item);
-		void UseCurrentTileItem(SWAEngine::Time time, Item item, SWAEngine::Math::Vector2Int mouseTilePosition);
+		Inputs m_Inputs;
 
 		// Step move algorithm (only accurate for small movements)
 		bool StepMove(SWAEngine::Math::Vector2 movement);
@@ -41,10 +35,7 @@ namespace SWA::Player
 
 		static GP2D::GP2D_HEX_COLOR MixColor(GP2D::GP2D_HEX_COLOR colA, GP2D::GP2D_HEX_COLOR colB);
 	public:
-		/*
-		The ExtraFlags field stores the base rgba color used for that tile.
-		*/
-		SWAEngine::Inventory::Inventory<Item> CurrentInventory;
+		Inventory::PlayerInventoryManager Inventory;
 
 		double Gravity;
 		double Speed;
@@ -55,7 +46,9 @@ namespace SWA::Player
 		// Creates the mesh with default size
 		// Creates the inventory and gui
 		Player();
-		
+		void Move();
+
+
 		// Inherited via BaseGameObject
 		virtual void Update(SWAEngine::Time time) override;
 		virtual void Release() override;
