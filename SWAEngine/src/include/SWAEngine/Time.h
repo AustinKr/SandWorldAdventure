@@ -3,8 +3,8 @@ namespace SWAEngine
 {
 	struct Time
 	{
-		double FrameDeltaTime;
 		double CurrentTime;
-		double LastTime;
+		double RealDeltaTime;
+		double FixedDeltaTime;
 	};
 }

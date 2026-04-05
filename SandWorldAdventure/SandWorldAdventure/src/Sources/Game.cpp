@@ -19,6 +19,8 @@ using namespace GP2D::Pipeline;
 
 namespace SWA
 {
+	const unsigned int Game::FPS = 60;
+
 	Player::Player* Game::p_MainPlayer = nullptr;
 	SWAEngine::Tilemap::Tilemap* Game::p_Tilemap = nullptr;
 	SWAEngine::Tilemap::TilemapMesh* Game::p_TilemapMesh = nullptr;
@@ -117,6 +119,10 @@ namespace SWA
 	}
 	void Game::Update(SWAEngine::Time time)
 	{
+		auto camera = GP2D::Pipeline::GenericPipeline::s_ActiveCamera;
+		glViewport(0, 0, camera.GetScreenSize().X, camera.GetScreenSize().Y);
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		SWAEngine::BaseGameObject::UpdateObjects(time);
 	}
 	void Game::Release()

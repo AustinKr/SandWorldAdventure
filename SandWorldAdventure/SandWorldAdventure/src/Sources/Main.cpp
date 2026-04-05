@@ -14,6 +14,9 @@ NOTE: can only run on Release
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <thread>
+#include <chrono>
+
 void CreateGP2DWindow()
 {
 	GP2D::Pipeline::Window::Window::s_Properties.DefaultWidth = 526;
@@ -39,36 +42,67 @@ void Release()
 	GP2D::Pipeline::Window::Window::TerminateGLFW();
 }
 
-int main(void)
+// Run on thread separate from processing events
+void InitializeGame()
 {
-	// Create window
-	CreateGP2DWindow();
+	// Make context current
+	glfwMakeContextCurrent(GP2D::Pipeline::Window::Window::sp_Window);
+	
+	glfwSwapInterval(1);
+
 	// Create resources prior to the pipeline compiling any shaders
 	SWA::Game::CreateResources();
 	// Initialize pipeline
 	GP2D::Pipeline::GenericPipeline::s_Instance.Initialize();
 	// Create gui
 	GP2D::GUI::Hierarchy::sp_ActiveInstance = new GP2D::GUI::Hierarchy();
-	// Initalize game
+	// Initalize game logic
 	SWA::Game::Initialize();
 
-	glfwSwapInterval(1);
-	SWAEngine::Time time = {0,0,0};
+	// A fixed duration with a length of 1/FPS seconds
+	const double fixedDeltaTime = 1.0 / (double)SWA::Game::FPS;
+	const auto fixedDuration = std::chrono::seconds((long)fixedDeltaTime);
 
-	// Game loop
+	// Used to track time
+	SWAEngine::Time frameTime = {};
+	auto timePoint = std::chrono::steady_clock::now();
+
 	while (!glfwWindowShouldClose(GP2D::Pipeline::Window::Window::sp_Window))
 	{
-		time.CurrentTime = glfwGetTime();
-		time.FrameDeltaTime = time.CurrentTime - time.LastTime;
-		time.LastTime = time.CurrentTime;
-
-		glClear(GL_COLOR_BUFFER_BIT);
+		// Get time
+		frameTime = { glfwGetTime(),
+					glfwGetTime() - frameTime.CurrentTime,
+					fixedDeltaTime};
 		
-		SWA::Game::Update(time);
-		GP2D::Pipeline::GenericPipeline::s_Instance.RenderScene();
-		GP2D::Pipeline::Window::Window::ProcessEvents();
-	}
+		// Update
+		SWA::Game::Update(frameTime);
 
+		// Render
+		GP2D::Pipeline::GenericPipeline::s_Instance.RenderScene();
+		glfwSwapBuffers(GP2D::Pipeline::Window::Window::sp_Window);
+
+		// Wait to keep consistent update cycles and avoid eating up CPU
+		timePoint += fixedDuration;
+		std::this_thread::sleep_until(timePoint + std::chrono::seconds((long)(fixedDeltaTime - .001)));
+	}
+	// TODO: Display FPS somewhere
+}
+
+int main(void)
+{
+	// Create window
+	CreateGP2DWindow();
+
+	// Create a thread separate from processing events
+	glfwMakeContextCurrent(NULL);
+	std::thread gameThread(InitializeGame);
+	
+	// Process events
+	GP2D::Pipeline::Window::Window::ProcessEvents();
+
+	// Wait to join game thread with main
+	if (gameThread.joinable())
+		gameThread.join();
 	// Release and close app
 	Release();
 }

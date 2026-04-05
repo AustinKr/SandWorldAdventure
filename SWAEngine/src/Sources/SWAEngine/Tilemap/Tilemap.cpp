@@ -216,12 +216,12 @@ namespace SWAEngine::Tilemap
 		});
 
 		// TODO: Remove at some point stat output or make it into a gui display
-		if (int(time.CurrentTime * 30) % 30 == 0)
+		/*if (int(time.CurrentTime * 30) % 30 == 0)
 		{
 			fprintf(stdout, "Tile Total Properties Size: ");
 			fprintf(stdout, std::to_string(PropertyManager.DataContainer.size()).c_str());
 			fprintf(stdout, "\n");
-		}
+		}*/
 
 		mp_PendingTilesContainer->Clear();
 		return tilesToUpdate;

@@ -18,6 +18,8 @@ namespace SWA
 		static void InitializeGame();
 
 	public:
+		static const unsigned int FPS; // TODO: Can be configured by user in future
+
 		static Player::Player* p_MainPlayer;
 		static SWAEngine::Tilemap::Tilemap* p_Tilemap;
 		static SWAEngine::Tilemap::TilemapMesh* p_TilemapMesh;

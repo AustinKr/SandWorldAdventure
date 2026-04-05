@@ -11,7 +11,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 			return; // No properties given to this tile
 
 		auto pProperties = static_cast<TilePropertyData::SandData*>(tile.p_Properties);
-		float deltaTime = time.FrameDeltaTime;
+		float deltaTime = time.RealDeltaTime;
 
 		pProperties->Velocity += Math::Vector2(0, -1);
 		//pProperties->Velocity *= .98;

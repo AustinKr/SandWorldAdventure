@@ -43,7 +43,7 @@ namespace SWA::Player
 		else if (Window::Window::GetKeyState(GLFW_KEY_LEFT) || Window::Window::GetKeyState(GLFW_KEY_A))
 			movement.X = -1;
 
-		AddVelocity(Vector2::Normalize(movement) * Speed * m_Time.FrameDeltaTime); // Accerate but as an impulse
+		AddVelocity(Vector2::Normalize(movement) * Speed * m_Time.RealDeltaTime); // Accerate but as an impulse
 
 		// Tiles
 		m_ShouldBreakTile = Window::Window::GetKeyState(GLFW_MOUSE_BUTTON_1);
@@ -132,7 +132,7 @@ namespace SWA::Player
 		//if (IsColliding())
 		//	return; // Fail; TODO: Handle when already colliding
 
-		Vector2 movement = m_Velocity * m_Time.FrameDeltaTime;
+		Vector2 movement = m_Velocity * m_Time.RealDeltaTime;
 
 		// Step in each direction
 		if (StepMove({ movement.X, 0 }))
@@ -219,10 +219,10 @@ namespace SWA::Player
 		// Move
 		SetInputs();
 
-		AddVelocity({ 0, -Gravity * m_Time.FrameDeltaTime }); // Accerate but as an impulse
+		AddVelocity({ 0, -Gravity * m_Time.RealDeltaTime }); // Accerate but as an impulse
 
 		// Apply physics
-		m_Velocity += m_Acceleration * m_Time.FrameDeltaTime;
+		m_Velocity += m_Acceleration * m_Time.RealDeltaTime;
 		m_Velocity *= m_Dampening;
 
 		m_LastVelocity = m_Velocity;
@@ -231,7 +231,7 @@ namespace SWA::Player
 		TryApplyVelocity();
 
 		// Move camera
-		GenericPipeline::s_ActiveCamera.Origin += (mp_Mesh->Origin - GenericPipeline::s_ActiveCamera.Origin) * float(m_Time.FrameDeltaTime * CameraFollowSpeed);
+		GenericPipeline::s_ActiveCamera.Origin += (mp_Mesh->Origin - GenericPipeline::s_ActiveCamera.Origin) * float(m_Time.RealDeltaTime * CameraFollowSpeed);
 	}
 	void Player::Release()
 	{
@@ -273,7 +273,7 @@ namespace SWA::Player
 	}
 	SWAEngine::Math::Vector2 Player::GetAcceleration()
 	{
-		return (m_Velocity - m_LastVelocity) / m_Time.FrameDeltaTime;
+		return (m_Velocity - m_LastVelocity) / m_Time.RealDeltaTime;
 	}
 
 	void Player::Jump(double height)
