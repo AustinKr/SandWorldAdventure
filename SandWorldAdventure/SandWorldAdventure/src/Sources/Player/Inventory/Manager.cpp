@@ -1,4 +1,4 @@
-#include "SWA/Player/Inventory/PlayerInventoryManager.h"
+#include "SWA/Player/Inventory/Manager.h"
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
 #include "SWA/Player/Inventory/TileItem.h"
 
@@ -6,7 +6,7 @@ using namespace SWAEngine::Math;
 
 namespace SWA::Player::Inventory
 {
-	PlayerInventoryManager::PlayerInventoryManager()
+	Manager::Manager()
 	{
 		ItemInventory = {};
 		ItemInventory.Assign({ 4,8 });
@@ -17,13 +17,13 @@ namespace SWA::Player::Inventory
 		ToolInventory = {};
 	}
 
-	void PlayerInventoryManager::TryUseSelectedItem(Inputs& rInputs, SWAEngine::Time time)
+	void Manager::TryUseSelectedItem(Inputs& rInputs, SWAEngine::Time time)
 	{
 		auto selectedItem = ItemInventory.GetItemAt(ItemInventory.SelectedItemPosition);
 		if (selectedItem != nullptr)
 			static_cast<TileItem*>(selectedItem)->TryUse(rInputs, time);
 	}
-	void PlayerInventoryManager::Release()
+	void Manager::Release()
 	{
 		ItemInventory.Release();
 		ToolInventory.Release();

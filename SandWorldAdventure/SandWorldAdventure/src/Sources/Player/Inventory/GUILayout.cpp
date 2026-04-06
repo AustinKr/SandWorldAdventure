@@ -1,4 +1,4 @@
-#include "SWA/Player/Inventory/PlayerInventoryGUI.h"
+#include "SWA/Player/Inventory/GUILayout.h"
 #include "SWA/RenderLayerNames.h"
 
 #include "GP2D/GUI/Hierarchy.h"
@@ -15,18 +15,18 @@ using namespace GP2D::GUI::Components::Button;
 
 namespace SWA::Player::Inventory
 {
-	unsigned long PlayerInventoryGUI::s_InventoryElementUID = NULL;
-	unsigned long PlayerInventoryGUI::s_InventoryToggleButtonUID = NULL;
-	unsigned long PlayerInventoryGUI::s_StorageSlotsElementUID = NULL;
+	unsigned long GUILayout::s_InventoryElementUID = NULL;
+	unsigned long GUILayout::s_InventoryToggleButtonUID = NULL;
+	unsigned long GUILayout::s_StorageSlotsElementUID = NULL;
 
-	float PlayerInventoryGUI::m_SlotScaleFactor = 0.9f;
+	float GUILayout::m_SlotScaleFactor = 0.9f;
 
-	const char* PlayerInventoryGUI::BACKGROUND_TEXTURE_NAME = "gui_background";
-	const char* PlayerInventoryGUI::SHADER_NAME = "DefaultSpriteShader";
-	const char* PlayerInventoryGUI::DEFAULT_SLOT_TEXTURE = "empty_slot";
+	const char* GUILayout::BACKGROUND_TEXTURE_NAME = "gui_background";
+	const char* GUILayout::SHADER_NAME = "DefaultSpriteShader";
+	const char* GUILayout::DEFAULT_SLOT_TEXTURE = "empty_slot";
 
 
-	void PlayerInventoryGUI::Initialize(PlayerInventoryManager& rInventory)
+	void GUILayout::Initialize(Manager& rInventory)
 	{
 		// Create elements
 		CreateBackgroundLayout();
@@ -38,13 +38,13 @@ namespace SWA::Player::Inventory
 		AssignSlots(s_StorageSlotsElementUID, rInventory.ItemInventory);
 	}
 
-	bool PlayerInventoryGUI::IsActive()
+	bool GUILayout::IsActive()
 	{
 		return Hierarchy::sp_ActiveInstance->GetElement(s_InventoryElementUID).GetActiveState();
 	}
 
 
-	void PlayerInventoryGUI::CreateBackgroundLayout()
+	void GUILayout::CreateBackgroundLayout()
 	{
 		// TODO: These elemnts really shouldn't scale with the screen- they should be defined with all screen coords
 
@@ -92,7 +92,7 @@ namespace SWA::Player::Inventory
 			.GetIdentifier();
 	}
 
-	void PlayerInventoryGUI::AssignSlots(GP2D::GP2D_UID group, INVENTORY& rInventory)
+	void GUILayout::AssignSlots(GP2D::GP2D_UID group, INVENTORY& rInventory)
 	{
 		if (group == NULL)
 			return;
@@ -107,7 +107,7 @@ namespace SWA::Player::Inventory
 			for (int w = 0; w < width; w++)
 			{
 				// Get texture
-				PlayerItem* currentItem = static_cast<PlayerItem*>(*(rInventory.GetBegin() + w + h * width));
+				Item* currentItem = static_cast<Item*>(*(rInventory.GetBegin() + w + h * width));
 				const char* textureName = 
 					currentItem == nullptr ? DEFAULT_SLOT_TEXTURE
 					: currentItem->TextureName == nullptr ? DEFAULT_SLOT_TEXTURE
@@ -117,7 +117,7 @@ namespace SWA::Player::Inventory
 			}
 		}
 	}
-	void PlayerInventoryGUI::CreateSlot(GP2D::GP2D_UID group, INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, const char* textureName)
+	void GUILayout::CreateSlot(GP2D::GP2D_UID group, INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, const char* textureName)
 	{
 		SWAEngine::Math::Vector2Int inventorySize = rInventory.GetSize();
 
@@ -148,7 +148,7 @@ namespace SWA::Player::Inventory
 		pButton->ButtonEventHandler.Subscribe({ [&](auto data, auto) {OnItemSlotButtonClicked(rInventory, data); }, extraFlags });
 	}
 
-	void PlayerInventoryGUI::OnInventoryAssignment(SWAEngine::Math::Vector2Int inventorySize, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments)
+	void GUILayout::OnInventoryAssignment(SWAEngine::Math::Vector2Int inventorySize, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments)
 	{
 		// TODO: This wont always be the item in the storage group
 
@@ -162,12 +162,12 @@ namespace SWA::Player::Inventory
 		pSprite->TextureName = arguments.second->TextureName;
 
 	}
-	void PlayerInventoryGUI::OnItemSlotButtonClicked(INVENTORY& rInventory, ButtonEventData data)
+	void GUILayout::OnItemSlotButtonClicked(INVENTORY& rInventory, ButtonEventData data)
 	{
 		char x = data.ExtraFlags >> 8, y = data.ExtraFlags & 0xff; // Decode integer to get item id
 		rInventory.SelectedItemPosition = { x, y };
 	}
-	void PlayerInventoryGUI::OnToggleButtonClicked()
+	void GUILayout::OnToggleButtonClicked()
 	{
 		auto& rElement = Hierarchy::sp_ActiveInstance->GetElement(s_InventoryElementUID);
 		// Toggle and thus iterate through meshes and set active

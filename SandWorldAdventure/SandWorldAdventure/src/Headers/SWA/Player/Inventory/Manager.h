@@ -5,14 +5,14 @@
 
 namespace SWA::Player::Inventory
 {
-	struct PlayerInventoryManager
+	struct Manager
 	{
 		// TODO: Make multiple inventories for different sections. Equipment, hotbar, tools, and items
 		SWAEngine::Inventory::Inventory ItemInventory;
 		SWAEngine::Inventory::Inventory ToolInventory;
 
 		// Initializes the inventories with default items
-		PlayerInventoryManager();
+		Manager();
 
 		void TryUseSelectedItem(Inputs& rInputs, SWAEngine::Time time);
 		

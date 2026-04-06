@@ -2,7 +2,7 @@
 #include "SWAEngine/BaseGameObject.h"
 #include "SWAEngine/Math/vector2.h"
 #include "SWA/Player/Inputs.h"
-#include "SWA/Player/Inventory/PlayerInventoryManager.h"
+#include "SWA/Player/Inventory/Manager.h"
 
 #include "GP2D/Pipeline/Mesh/Mesh.h"
 
@@ -35,7 +35,7 @@ namespace SWA::Player
 
 		static GP2D::GP2D_HEX_COLOR MixColor(GP2D::GP2D_HEX_COLOR colA, GP2D::GP2D_HEX_COLOR colB);
 	public:
-		Inventory::PlayerInventoryManager Inventory;
+		Inventory::Manager Inventory;
 
 		double Gravity;
 		double Speed;

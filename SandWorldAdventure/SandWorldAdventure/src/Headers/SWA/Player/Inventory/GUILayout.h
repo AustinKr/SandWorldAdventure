@@ -1,6 +1,6 @@
 #pragma once
-#include "SWA/Player/Inventory/PlayerInventoryManager.h"
-#include "SWA/Player/Inventory/PlayerItem.h"
+#include "SWA/Player/Inventory/Manager.h"
+#include "SWA/Player/Inventory/Item.h"
 
 #include "GP2D/GUI/Components/Button/ButtonEventData.h"
 #include "GP2D/GraphicsTypes.h"
@@ -8,12 +8,12 @@
 namespace SWA::Player::Inventory
 {
 	// a static class that creates and manages the player's gui for the inventory
-	struct PlayerInventoryGUI
+	struct GUILayout
 	{
-		PlayerInventoryGUI() = delete;
+		GUILayout() = delete;
 
 	public:
-		typedef PlayerItem ITEM;
+		typedef Item ITEM;
 		typedef SWAEngine::Inventory::Inventory INVENTORY;
 
 		// Used to parent all gui elements related to inventory system into one group
@@ -27,7 +27,7 @@ namespace SWA::Player::Inventory
 		static float m_SlotScaleFactor;
 
 		// Subscribes to assignment events in the given player inventory system, and assigns the slots
-		static void Initialize(PlayerInventoryManager& rInventory);
+		static void Initialize(Manager& rInventory);
 
 		static bool IsActive();
 

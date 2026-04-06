@@ -1,5 +1,5 @@
 #include "SWA/Player/Player.h"
-#include "SWA/Player/Inventory/PlayerInventoryGUI.h"
+#include "SWA/Player/Inventory/GUILayout.h"
 
 #include "SWA/Game.h"
 
@@ -97,7 +97,7 @@ namespace SWA::Player
 
 		// Create player inventory and gui
 		Inventory = {};
-		PlayerInventoryGUI::Initialize(Inventory);
+		GUILayout::Initialize(Inventory);
 	}
 
 	void Player::Move()

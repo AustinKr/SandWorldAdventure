@@ -63,7 +63,7 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\PlayerInventoryGUI.cpp">
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\GUILayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SandWorldAdventure\src\Sources\Game.cpp">
@@ -72,13 +72,13 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\PlayerInventoryManager.cpp">
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\TileItem.cpp">
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,7 +92,7 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerInventoryGUI.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\GUILayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h">
@@ -101,13 +101,13 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerItem.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\ItemTypes.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerInventoryManager.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inputs.h">

@@ -1,16 +1,16 @@
 #pragma once
 #include "SWAEngine/Inventory/BaseItem.h"
-#include "SWA/Player/Inventory/ItemTypes.h"
+#include "SWA/Player/Inventory/Types.h"
 #include "SWAEngine/Time.h"
 #include "SWA/Player/Inputs.h"
 
 namespace SWA::Player::Inventory
 {
 	// Can be a tile or some other item
-	struct PlayerItem : SWAEngine::Inventory::BaseItem
+	struct Item : SWAEngine::Inventory::BaseItem
 	{
-		inline PlayerItem() : BaseItem() {}
-		inline PlayerItem(ItemTypes type, const char* textureName) : BaseItem(type, textureName) {}
+		inline Item() : BaseItem() {}
+		inline Item(Types type, const char* textureName) : BaseItem(type, textureName) {}
 
 		inline virtual void TryUse(Inputs& rInputs, SWAEngine::Time time) {}
 	};

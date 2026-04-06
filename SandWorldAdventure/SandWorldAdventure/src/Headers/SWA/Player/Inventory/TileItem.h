@@ -1,11 +1,11 @@
 #pragma once
 #include "GP2D/GraphicsTypes.h"
-#include "SWA/Player/Inventory/PlayerItem.h"
+#include "SWA/Player/Inventory/Item.h"
 
 namespace SWA::Player::Inventory
 {
-	// Can be a tile or some other item
-	struct TileItem : PlayerItem
+	// Can be a tile
+	struct TileItem : Item
 	{
 		GP2D::GP2D_HEX_COLOR Color; // Base color
 		GP2D::GP2D_HEX_COLOR ColorDeviation; // Mixed with base color randomly
