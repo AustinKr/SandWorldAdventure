@@ -107,7 +107,7 @@ namespace SWA::Player::Inventory
 			for (int w = 0; w < width; w++)
 			{
 				// Get texture
-				Item* currentItem = static_cast<Item*>(*(rInventory.GetBegin() + w + h * width));
+				Items::Item* currentItem = static_cast<Items::Item*>(*(rInventory.GetBegin() + w + h * width));
 				const char* textureName = 
 					currentItem == nullptr ? DEFAULT_SLOT_TEXTURE
 					: currentItem->TextureName == nullptr ? DEFAULT_SLOT_TEXTURE

@@ -101,7 +101,7 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Item.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Types.h">
@@ -113,7 +113,7 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\TileItem.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

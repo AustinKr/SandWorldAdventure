@@ -1,8 +1,8 @@
 #pragma once
 #include "GP2D/GraphicsTypes.h"
-#include "SWA/Player/Inventory/Item.h"
+#include "SWA/Player/Inventory/Items/Item.h"
 
-namespace SWA::Player::Inventory
+namespace SWA::Player::Inventory::Items
 {
 	// Can be a tile
 	struct TileItem : Item

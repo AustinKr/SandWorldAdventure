@@ -4,7 +4,7 @@
 #include "SWAEngine/Time.h"
 #include "SWA/Player/Inputs.h"
 
-namespace SWA::Player::Inventory
+namespace SWA::Player::Inventory::Items
 {
 	// Can be a tile or some other item
 	struct Item : SWAEngine::Inventory::BaseItem

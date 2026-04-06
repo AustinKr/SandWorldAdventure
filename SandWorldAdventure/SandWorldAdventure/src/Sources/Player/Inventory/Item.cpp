@@ -1,4 +1,4 @@
-#include "SWA/Player/Inventory/TileItem.h"
+#include "SWA/Player/Inventory/Items/TileItem.h"
 
 #include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
 #include "SWAEngine/Tilemap/Tile.h"
@@ -17,7 +17,7 @@ using namespace SWAEngine::Math;
 using namespace SWAEngine::Tilemap;
 using namespace SWAEngine::Tilemap::TileBehavior;
 
-namespace SWA::Player::Inventory
+namespace SWA::Player::Inventory::Items
 {
 	TileItem::TileItem()
 		: Item(), Color(0x0), ColorDeviation(0x0), BehaviorUID(0)
