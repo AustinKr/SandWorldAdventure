@@ -20,15 +20,11 @@ using namespace SWAEngine::Tilemap::TileBehavior;
 namespace SWA::Player::Inventory
 {
 	TileItem::TileItem()
-		: Type(PLAYER_ITEM_TYPE_EMPTY), TextureName(nullptr), Color(0x0), ColorDeviation(0x0), BehaviorUID(0)
-	{
-
-	}
+		: PlayerItem(), Color(0x0), ColorDeviation(0x0), BehaviorUID(0)
+	{}
 	TileItem::TileItem(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
-		: Type(PLAYER_ITEM_TYPE_TILE), TextureName(textureName), Color(color), ColorDeviation(colorDeviation), BehaviorUID(behavior)
-	{
-
-	}
+		: PlayerItem(PLAYER_ITEM_TYPE_TILE, textureName), Color(color), ColorDeviation(colorDeviation), BehaviorUID(behavior)
+	{}
 
 	void TileItem::TryUse(Inputs& rInputs, SWAEngine::Time time)
 	{

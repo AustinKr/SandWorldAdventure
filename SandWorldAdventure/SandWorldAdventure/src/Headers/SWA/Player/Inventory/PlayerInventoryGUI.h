@@ -1,8 +1,9 @@
 #pragma once
-#include "SWAEngine/Inventory/Inventory.h"
-#include "SWA/Player/Inventory/TileItem.h"
+#include "SWA/Player/Inventory/PlayerInventoryManager.h"
+#include "SWA/Player/Inventory/PlayerItem.h"
 
 #include "GP2D/GUI/Components/Button/ButtonEventData.h"
+#include "GP2D/GraphicsTypes.h"
 
 namespace SWA::Player::Inventory
 {
@@ -12,21 +13,21 @@ namespace SWA::Player::Inventory
 		PlayerInventoryGUI() = delete;
 
 	public:
-		typedef TileItem ITEM;
-		typedef SWAEngine::Inventory::Inventory<ITEM> INVENTORY;
+		typedef PlayerItem ITEM;
+		typedef SWAEngine::Inventory::Inventory INVENTORY;
 
 		// Used to parent all gui elements related to inventory system into one group
-		static unsigned long s_InventoryElementUID;
+		static GP2D::GP2D_UID s_InventoryElementUID;
 		// A button that is used to open or close the inventory
-		static unsigned long s_InventoryToggleButtonUID;
+		static GP2D::GP2D_UID s_InventoryToggleButtonUID;
 		// Slots to show items
-		static unsigned long s_StorageSlotsElementUID;
+		static GP2D::GP2D_UID s_StorageSlotsElementUID;
 
 		// Multiplied with the scale of a slot
 		static float m_SlotScaleFactor;
 
-		// Subscribes to assignment event in the given player inventory, and assigns the slots
-		static void Initialize(INVENTORY& rInventory);
+		// Subscribes to assignment events in the given player inventory system, and assigns the slots
+		static void Initialize(PlayerInventoryManager& rInventory);
 
 		static bool IsActive();
 
@@ -39,11 +40,11 @@ namespace SWA::Player::Inventory
 		static void CreateBackgroundLayout();
 
 		// Creates elements for each slot where items can be displayed
-		static void AssignSlots(INVENTORY& rInventory);
-		static void CreateSlot(INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, ITEM item);
+		static void AssignSlots(GP2D::GP2D_UID group, INVENTORY& rInventory);
+		static void CreateSlot(GP2D::GP2D_UID group, INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, const char* textureName);
 
 		// Called when an item is changed
-		static void OnInventoryAssignment(INVENTORY& rInventory, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments);
+		static void OnInventoryAssignment(SWAEngine::Math::Vector2Int inventorySize, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments);
 		// Called when an item slot gui is clicked on
 		static void OnItemSlotButtonClicked(INVENTORY& rInventory, GP2D::GUI::Components::Button::ButtonEventData data);
 		// Called when the inventory toggle button gui is clicked on

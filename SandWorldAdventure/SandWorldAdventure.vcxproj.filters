@@ -101,7 +101,7 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\BaseItem.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\ItemTypes.h">

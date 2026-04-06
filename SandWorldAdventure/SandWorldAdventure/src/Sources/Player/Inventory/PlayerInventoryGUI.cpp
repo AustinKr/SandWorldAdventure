@@ -26,16 +26,16 @@ namespace SWA::Player::Inventory
 	const char* PlayerInventoryGUI::DEFAULT_SLOT_TEXTURE = "empty_slot";
 
 
-	void PlayerInventoryGUI::Initialize(INVENTORY& rInventory)
+	void PlayerInventoryGUI::Initialize(PlayerInventoryManager& rInventory)
 	{
 		// Create elements
 		CreateBackgroundLayout();
 
 		// Register for assignment of inventory
-		rInventory.ResizeEventHandler.SubscribeEvent([&](auto) { AssignSlots(rInventory); });
-		rInventory.AssignmentEventHandler.SubscribeEvent([&](auto args) {OnInventoryAssignment(rInventory, args); });
+		rInventory.ItemInventory.ResizeEventHandler.SubscribeEvent([&](auto) { AssignSlots(s_StorageSlotsElementUID, rInventory.ItemInventory); });
+		rInventory.ItemInventory.AssignmentEventHandler.SubscribeEvent([&](auto args) {OnInventoryAssignment(rInventory.ItemInventory.GetSize(), args); });
 
-		AssignSlots(rInventory);
+		AssignSlots(s_StorageSlotsElementUID, rInventory.ItemInventory);
 	}
 
 	bool PlayerInventoryGUI::IsActive()
@@ -66,15 +66,23 @@ namespace SWA::Player::Inventory
 		pButton->ButtonEventHandler.Subscribe({
 			[](auto, auto) {OnToggleButtonClicked(); } });
 
-		// Create menus background
-		pHierarchy->RegisterElement({ true }, s_InventoryElementUID)
-			.SetTransform({ { 0.0, 0.0}, true }, { { .3, 1.0 }, true })
-			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, SHADER_NAME, RENDERLAYERS_GUI));
 
+		// Empty object to contain equippment and tools
+		unsigned long equippmentGroupID = pHierarchy->RegisterElement({ true }, s_InventoryElementUID)
+			.SetTransform({ { 0, 0}, false }, { { 200, 0}, false, ALIGNMENT_LEFT | ALIGNMENT_TOP })
+			.GetIdentifier();
+		// Create equippment background
+		pHierarchy->RegisterElement({ true }, equippmentGroupID)
+			.SetTransform({ { 0.0, 0.5}, true}, { { 1.0, 0.5}, true})
+			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, SHADER_NAME, RENDERLAYERS_GUI));
+		// Create tools background
+		pHierarchy->RegisterElement({ true }, equippmentGroupID)
+			.SetTransform({ { 0.0, 0.0}, true }, { { 1.0, 0.5}, true })
+			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, SHADER_NAME, RENDERLAYERS_GUI));
 
 		// Create storage background
 		unsigned long backgroundUID = pHierarchy->RegisterElement({ true }, s_InventoryElementUID)
-			.SetTransform({ { -.3, 0.0 }, true, ALIGNMENT_RIGHT | ALIGNMENT_BOTTOM }, { { .3, 1.0 }, true })
+			.SetTransform({ { -200, 0}, false, ALIGNMENT_RIGHT | ALIGNMENT_BOTTOM }, { { 200, 0}, false, ALIGNMENT_LEFT | ALIGNMENT_TOP })
 			.RegisterComponent(new SpriteComponent(BACKGROUND_TEXTURE_NAME, SHADER_NAME, RENDERLAYERS_GUI))
 			.GetIdentifier();
 
@@ -84,13 +92,13 @@ namespace SWA::Player::Inventory
 			.GetIdentifier();
 	}
 
-	void PlayerInventoryGUI::AssignSlots(INVENTORY& rInventory)
+	void PlayerInventoryGUI::AssignSlots(GP2D::GP2D_UID group, INVENTORY& rInventory)
 	{
-		if (s_StorageSlotsElementUID == NULL)
+		if (group == NULL)
 			return;
 
-		// Clear elements
-		Hierarchy::sp_ActiveInstance->EraseChildren(s_StorageSlotsElementUID);
+		// Clear any elements
+		Hierarchy::sp_ActiveInstance->EraseChildren(group);
 
 		// Create new elements for each item slot
 		int width = rInventory.GetSize().X, height = rInventory.GetSize().Y;
@@ -98,12 +106,21 @@ namespace SWA::Player::Inventory
 		{
 			for (int w = 0; w < width; w++)
 			{
-				CreateSlot(rInventory, { w,h }, *(rInventory.GetBegin() + w + h * width));
+				// Get texture
+				PlayerItem* currentItem = static_cast<PlayerItem*>(*(rInventory.GetBegin() + w + h * width));
+				const char* textureName = 
+					currentItem == nullptr ? DEFAULT_SLOT_TEXTURE
+					: currentItem->TextureName == nullptr ? DEFAULT_SLOT_TEXTURE
+					: currentItem->TextureName;
+
+				CreateSlot(group, rInventory, { w,h }, textureName);
 			}
 		}
 	}
-	void PlayerInventoryGUI::CreateSlot(INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, ITEM item)
+	void PlayerInventoryGUI::CreateSlot(GP2D::GP2D_UID group, INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, const char* textureName)
 	{
+		SWAEngine::Math::Vector2Int inventorySize = rInventory.GetSize();
+
 		auto& rInventoryElement = Hierarchy::sp_ActiveInstance->GetElement(s_InventoryElementUID);
 		auto& rStorageElement = Hierarchy::sp_ActiveInstance->GetElement(s_StorageSlotsElementUID);
 
@@ -117,30 +134,32 @@ namespace SWA::Player::Inventory
 			(float)location.X + padding,
 			-((float)location.Y + padding) - .5f);
 		// get 0-1
-		GP2D::Math::Float2 localPosition = centeredPosition / GP2D::Math::Float2(rInventory.GetSize().X, rInventory.GetSize().Y);
+		GP2D::Math::Float2 localPosition = centeredPosition / GP2D::Math::Float2(inventorySize.X, inventorySize.Y);
 
 		// evenly divide inventory into slots, also scale with gui, and contain square-shaped slots
-		float scaleX = 1.0f / (float)rInventory.GetSize().X * m_SlotScaleFactor; // evenly divided space
+		float scaleX = 1.0f / (float)inventorySize.X * m_SlotScaleFactor; // evenly divided space
 
 		// Create element
 		auto pButton = new ButtonComponent(); // Create a button	
 		auto& rElement = Hierarchy::sp_ActiveInstance->RegisterElement({ true }, s_StorageSlotsElementUID)
 			.SetTransform({ localPosition, true, ALIGNMENT_TOP | ALIGNMENT_LEFT }, { {scaleX, 1}, true,  ALIGNMENT_BOTTOM | ALIGNMENT_LEFT | ASPECT_RATIO_WIDTH })
-			.RegisterComponent(new SpriteComponent(item.TextureName == nullptr ? DEFAULT_SLOT_TEXTURE : item.TextureName, SHADER_NAME, RENDERLAYERS_GUI))
+			.RegisterComponent(new SpriteComponent(textureName, SHADER_NAME, RENDERLAYERS_GUI))
 			.RegisterComponent(pButton);
 		pButton->ButtonEventHandler.Subscribe({ [&](auto data, auto) {OnItemSlotButtonClicked(rInventory, data); }, extraFlags });
 	}
 
-	void PlayerInventoryGUI::OnInventoryAssignment(INVENTORY& rInventory, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments)
+	void PlayerInventoryGUI::OnInventoryAssignment(SWAEngine::Math::Vector2Int inventorySize, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments)
 	{
+		// TODO: This wont always be the item in the storage group
+
 		// Update item mesh
 
-		int itemID = rInventory.GetSize().X * arguments.first.Y + arguments.first.X;
+		int itemID = inventorySize.X * arguments.first.Y + arguments.first.X;
 		auto& rStorageElement = Hierarchy::sp_ActiveInstance->GetElement(s_StorageSlotsElementUID);
 		auto& rSlotElement = Hierarchy::sp_ActiveInstance->GetElement(rStorageElement.Children.at(itemID));
 
 		auto pSprite = static_cast<SpriteComponent*>(rSlotElement.GetComponent(COMPONENT_TAG_SPRITE));
-		pSprite->TextureName = arguments.second.TextureName;
+		pSprite->TextureName = arguments.second->TextureName;
 
 	}
 	void PlayerInventoryGUI::OnItemSlotButtonClicked(INVENTORY& rInventory, ButtonEventData data)

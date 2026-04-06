@@ -196,7 +196,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\TileItem.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Player.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerInventoryGUI.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\BaseItem.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerItem.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\PlayerInventoryManager.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h" />
   </ItemGroup>

@@ -1,25 +1,21 @@
-#include "SWAEngine/Inventory/BasicItem.h"
+#include "SWAEngine/Inventory/BaseItem.h"
 
 namespace SWAEngine::Inventory
 {
 	// Empty item (placeholder)
-	BasicItem::BasicItem() :
-		TextureName(nullptr),
-		p_Data(nullptr),
-		ExtraFlags(0)
+	BaseItem::BaseItem() :
+		Type(0), TextureName(nullptr)
 	{
 
 	}
 	// Creates an item
-	BasicItem::BasicItem(const char* imagePath, void* pData, int extraFlags) 
-		: TextureName(imagePath), p_Data(pData), ExtraFlags(extraFlags)
+	BaseItem::BaseItem(unsigned int type, const char* textureName) :
+		Type(type), TextureName(textureName)
 	{
 
 	}
-	void BasicItem::Release()
+	void BaseItem::Release()
 	{
-		if (p_Data != nullptr)
-			delete(p_Data);
-		p_Data = 0;
+		delete(this);
 	}
 }

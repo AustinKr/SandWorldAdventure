@@ -97,7 +97,7 @@ namespace SWA::Player
 
 		// Create player inventory and gui
 		Inventory = {};
-		PlayerInventoryGUI::Initialize(Inventory.TilesInventory);
+		PlayerInventoryGUI::Initialize(Inventory);
 	}
 
 	void Player::Move()

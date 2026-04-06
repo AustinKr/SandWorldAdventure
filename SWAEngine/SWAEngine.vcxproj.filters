@@ -60,6 +60,9 @@
     <ClCompile Include="src\Sources\SWAEngine\Math\ColorUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sources\SWAEngine\Inventory\Inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\dllClause.h">
@@ -92,7 +95,7 @@
     <ClInclude Include="src\include\SWAEngine\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Inventory\BasicItem.h">
+    <ClInclude Include="src\include\SWAEngine\Inventory\BaseItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Inventory\Inventory.h">
