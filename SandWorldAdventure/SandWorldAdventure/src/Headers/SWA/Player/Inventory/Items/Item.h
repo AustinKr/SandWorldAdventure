@@ -6,7 +6,7 @@
 
 namespace SWA::Player::Inventory::Items
 {
-	// Can be a tile or some other item
+	// Can be a tile, food, other resource, or some other item
 	struct Item : SWAEngine::Inventory::BaseItem
 	{
 		inline Item() : BaseItem() {}

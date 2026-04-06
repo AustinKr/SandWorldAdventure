@@ -1,4 +1,4 @@
-#include "SWA/Player/Inventory/Items/TileItem.h"
+#include "SWA/Player/Inventory/Items/TileTool.h"
 
 #include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
 #include "SWAEngine/Tilemap/Tile.h"
@@ -19,14 +19,14 @@ using namespace SWAEngine::Tilemap::TileBehavior;
 
 namespace SWA::Player::Inventory::Items
 {
-	TileItem::TileItem()
+	TileTool::TileTool()
 		: Item(), Color(0x0), ColorDeviation(0x0), BehaviorUID(0)
 	{}
-	TileItem::TileItem(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
+	TileTool::TileTool(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
 		: Item(PLAYER_ITEM_TYPE_TILE, textureName), Color(color), ColorDeviation(colorDeviation), BehaviorUID(behavior)
 	{}
 
-	void TileItem::TryUse(Inputs& rInputs, SWAEngine::Time time)
+	void TileTool::TryUse(Inputs& rInputs, SWAEngine::Time time)
 	{
 		if (!rInputs.AddTile && !rInputs.BreakTile)
 			return;

@@ -4,16 +4,16 @@
 
 namespace SWA::Player::Inventory::Items
 {
-	// Can be a tile
-	struct TileItem : Item
+	// Allows you to place/remove the specified tiles
+	struct TileTool : Item
 	{
 		GP2D::GP2D_HEX_COLOR Color; // Base color
 		GP2D::GP2D_HEX_COLOR ColorDeviation; // Mixed with base color randomly
 
 		unsigned int BehaviorUID;
 
-		TileItem();
-		TileItem(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior);
+		TileTool();
+		TileTool(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior);
 
 		virtual void TryUse(Inputs& rInputs, SWAEngine::Time time) override;
 	};
