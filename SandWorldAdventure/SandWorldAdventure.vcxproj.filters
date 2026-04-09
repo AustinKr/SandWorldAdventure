@@ -78,7 +78,13 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Item.cpp">
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\TileTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\TileItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandWorldAdventure\src\Sources\SpriteShaderProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,10 +107,10 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\Item.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\UseableItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Types.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Manager.h">
@@ -114,6 +120,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileToolFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\SpriteShaderProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,6 +8,7 @@ namespace SWAEngine::Inventory
 	{
 		unsigned int Type;
 		const char* TextureName;
+		// TODO: Add a stack count to items e.g. unsigned int StackCount;
 
 		// Empty item (placeholder)
 		BaseItem();

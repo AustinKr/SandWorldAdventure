@@ -33,7 +33,7 @@
     <ClCompile Include="src\Sources\SWAEngine\BaseGameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Inventory\BasicItem.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Sand.cpp">

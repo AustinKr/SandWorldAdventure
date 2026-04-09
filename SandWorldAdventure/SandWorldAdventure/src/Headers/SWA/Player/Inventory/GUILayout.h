@@ -1,9 +1,11 @@
 #pragma once
 #include "SWA/Player/Inventory/Manager.h"
-#include "SWA/Player/Inventory/Items/Item.h"
+#include "SWAEngine/Inventory/BaseItem.h"
 
 #include "GP2D/GUI/Components/Button/ButtonEventData.h"
 #include "GP2D/GraphicsTypes.h"
+
+#include "GP2D/GUI/Element.h"
 
 namespace SWA::Player::Inventory
 {
@@ -13,7 +15,7 @@ namespace SWA::Player::Inventory
 		GUILayout() = delete;
 
 	public:
-		typedef Items::Item ITEM;
+		typedef SWAEngine::Inventory::BaseItem ITEM;
 		typedef SWAEngine::Inventory::Inventory INVENTORY;
 
 		// Used to parent all gui elements related to inventory system into one group
@@ -22,6 +24,8 @@ namespace SWA::Player::Inventory
 		static GP2D::GP2D_UID s_InventoryToggleButtonUID;
 		// Slots to show items
 		static GP2D::GP2D_UID s_StorageSlotsElementUID;
+		// Slots to show tools
+		static GP2D::GP2D_UID s_ToolSlotsElementUID;
 
 		// Multiplied with the scale of a slot
 		static float m_SlotScaleFactor;
@@ -32,6 +36,9 @@ namespace SWA::Player::Inventory
 		static bool IsActive();
 
 	private:
+		static GP2D::GP2D_UID m_EnabledStorageSlot;
+		static GP2D::GP2D_UID m_EnabledToolSlot;
+
 		static const char* BACKGROUND_TEXTURE_NAME;
 		static const char* SHADER_NAME;
 		static const char* DEFAULT_SLOT_TEXTURE;
@@ -40,13 +47,15 @@ namespace SWA::Player::Inventory
 		static void CreateBackgroundLayout();
 
 		// Creates elements for each slot where items can be displayed
-		static void AssignSlots(GP2D::GP2D_UID group, INVENTORY& rInventory);
-		static void CreateSlot(GP2D::GP2D_UID group, INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, const char* textureName);
+		static void AssignSlots(const GP2D::GP2D_UID group, INVENTORY& rInventory);
+		static void CreateSlot(const GP2D::GP2D_UID group, INVENTORY& rInventory, SWAEngine::Math::Vector2Int location, const char* textureName);
+		static GP2D::GP2D_UID GetSlot(const GP2D::GP2D_UID group, float width, SWAEngine::Math::Vector2Int location);
+		static void SetSlotOutline(GP2D::GUI::Element& slot, GP2D::Math::Int2 thickness);
 
 		// Called when an item is changed
-		static void OnInventoryAssignment(SWAEngine::Math::Vector2Int inventorySize, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments);
+		static void OnInventoryAssignment(const GP2D::GP2D_UID group, SWAEngine::Math::Vector2Int inventorySize, INVENTORY::ASSIGNMENT_EVENT_ARGS arguments);
 		// Called when an item slot gui is clicked on
-		static void OnItemSlotButtonClicked(INVENTORY& rInventory, GP2D::GUI::Components::Button::ButtonEventData data);
+		static void OnItemSlotButtonClicked(const GP2D::GP2D_UID group, SWAEngine::Math::Vector2Int location, INVENTORY& rInventory);
 		// Called when the inventory toggle button gui is clicked on
 		static void OnToggleButtonClicked();
 	};

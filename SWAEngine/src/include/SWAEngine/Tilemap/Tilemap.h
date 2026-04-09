@@ -31,7 +31,8 @@ namespace SWAEngine::Tilemap
 		// Returns a copy of the pending tile or the currently active tile (pending prioritized)
 		Tile GetTile(Math::Vector2Int position, __out int* containerID = nullptr);
 
-		// Sets the tile (in the pending tiles container)
+		// Sets the tile (in the pending tiles container) and returns a copy
+		// Note: does not automatically release the tile if failed for whatever reason
 		Tile SetTile(Math::Vector2Int position, Tile tile);
 		// Swaps the tiles.
 		void SwapTiles(Math::Vector2Int a, Math::Vector2Int b);

@@ -1,9 +1,5 @@
 #include "SWA/Player/Inventory/Items/TileTool.h"
-
-#include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
-#include "SWAEngine/Tilemap/Tile.h"
-#include "SWAEngine/Tilemap/TileBehavior/Types.h"
-#include "SWAEngine/Math/ColorUtility.h"
+#include "SWA/Player/Inventory/Items/TileItem.h"
 
 #include "SWA/Game.h"
 #include "GP2D/Pipeline/Window/Window.h"
@@ -14,23 +10,27 @@
 using namespace GP2D::Pipeline;
 using namespace GP2D::Math;
 using namespace SWAEngine::Math;
-using namespace SWAEngine::Tilemap;
-using namespace SWAEngine::Tilemap::TileBehavior;
 
 namespace SWA::Player::Inventory::Items
 {
 	TileTool::TileTool()
-		: Item(), Color(0x0), ColorDeviation(0x0), BehaviorUID(0)
+		: UseableItem(), Flags(TILE_TOOL_NO_TILES)
 	{}
-	TileTool::TileTool(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
-		: Item(PLAYER_ITEM_TYPE_TILE, textureName), Color(color), ColorDeviation(colorDeviation), BehaviorUID(behavior)
+	TileTool::TileTool(const char* textureName, TileToolFlags flags)
+		: UseableItem(ITEM_TILE_TOOL, textureName), Flags(flags)
 	{}
 
-	void TileTool::TryUse(Inputs& rInputs, SWAEngine::Time time)
+	void TileTool::TryUse(SWAEngine::Inventory::Inventory& rStorageInventory, Inputs& rInputs, SWAEngine::Time time)
 	{
 		if (!rInputs.AddTile && !rInputs.BreakTile)
 			return;
 
+		// Try get resource to use
+		auto pSelectedItem = rStorageInventory.GetItemAt(rStorageInventory.SelectedItemPosition);
+		if (pSelectedItem == nullptr || pSelectedItem->Type != ITEM_TILE)
+			return;
+
+		// TODO: make a function in GP2D::Camera to get cursor position
 		// Get cursor position
 		double cursorX, cursorY;
 		glfwGetCursorPos(Window::Window::sp_Window, &cursorX, &cursorY);
@@ -56,12 +56,8 @@ namespace SWA::Player::Inventory::Items
 					continue;
 				if (rInputs.AddTile)
 				{
-					Tile tile = { SOLID, 0x0, true };
-					if (BehaviorUID != SOLID)
-						tile = IBehavior::s_Behaviors.at(BehaviorUID)->CreateNew(time);
-					tile.Color = MixColor(Color, ColorDeviation, (float)rand() / (float)RAND_MAX);
-
-					Game::p_Tilemap->SetTile(position, tile);
+					TileItem* pTileItem = static_cast<TileItem*>(pSelectedItem);
+					Game::p_Tilemap->SetTile(position, pTileItem->CreateTile(time));
 				}
 				else
 					Game::p_Tilemap->SetTile(position, {});

@@ -4,6 +4,7 @@
 #include "SWAEngine/Scene.h"
 #include "SWAEngine/SceneManager.h"
 #include "SWA/RenderLayerNames.h"
+#include "SWA/SpriteShaderProperties.h"
 
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
 
@@ -44,12 +45,28 @@ namespace SWA
 	void Game::AddShaders()
 	{
 		auto pNewShader = new Shader::GeometryShader("DefaultSpriteShader", _SWA_RESOURCES_DIR"Shaders/TextureShader.shader");
-		pNewShader->UpdatePropertiesCallback = [](Shader::BaseShaderType* pShader, void* texName)
+		pNewShader->UpdatePropertiesCallback = [](Shader::BaseShaderType* pShader, void* pProperties)
 		{
-			pShader->PropertyManager.TrySetTexture(texName != nullptr ? (const char*)texName : "default_sprite", "Tex");
+			if (pProperties == nullptr)
+			{
+				pShader->PropertyManager.TrySetTexture("default_sprite", "Tex");
+				return;
+			}
 
-			INT loc = glGetUniformLocation(pShader->GetProgram(), "ShadeColor");
-			glUniform4f(loc, 1, 1, 1, 1);
+			SpriteShaderProperties properties = *static_cast<SpriteShaderProperties*>(pProperties);
+			
+			// Set outline related
+			glUniform2f(glGetUniformLocation(pShader->GetProgram(), "Outline_Thickness"), properties.OutlineThickness.X, properties.OutlineThickness.Y);
+			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Outline_Color"), properties.OutlineColor.X, properties.OutlineColor.Y, properties.OutlineColor.Z, properties.OutlineColor.W);
+			glUniform1f(glGetUniformLocation(pShader->GetProgram(), "Outline_Clip"), properties.OutlineClip);
+
+			// Texture related
+			const char* name = properties.TextureName != nullptr && GenericPipeline::s_Textures.ContainsTexture(properties.TextureName) ? (const char*)properties.TextureName : "default_sprite";
+			pShader->PropertyManager.TrySetTexture(name, "Tex");
+			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Color"), properties.TextureColor.X, properties.TextureColor.Y, properties.TextureColor.Z, properties.TextureColor.W);
+
+			Math::Int2 resolution = GenericPipeline::s_Textures.GetTexture(name).second.Size;
+			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Resolution"), resolution.X, resolution.Y, 0, 0);
 		};
 		GenericPipeline::s_Shaders.RegisterShader(pNewShader);
 
@@ -73,7 +90,7 @@ namespace SWA
 		SWAEngine::SceneManager::CreateScene("ThisIsAnotherScene");
 
 		// TEst mesh
-		auto pNewMesh = new Mesh::Mesh(true, (void*)"lava_24");
+		auto pNewMesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("lava_24"), true);
 		pNewMesh->Origin = { -0.1f, -.5f };
 		pNewMesh->Scale = { 0.25f, 0.25f };
 		pNewMesh->Vertices = {

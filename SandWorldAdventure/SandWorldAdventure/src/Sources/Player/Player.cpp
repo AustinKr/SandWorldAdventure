@@ -1,5 +1,6 @@
 #include "SWA/Player/Player.h"
 #include "SWA/Player/Inventory/GUILayout.h"
+#include "SWA/SpriteShaderProperties.h"
 
 #include "SWA/Game.h"
 
@@ -75,7 +76,7 @@ namespace SWA::Player
 		m_IsTouchingGround{}, m_Time{}, CameraFollowSpeed{5}
 	{
 		// Create the mesh
-		mp_Mesh = new Mesh::Mesh();
+		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties(), true);
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
 		mp_Mesh->Scale = { 0.05f, 0.1f};
 		mp_Mesh->Vertices =

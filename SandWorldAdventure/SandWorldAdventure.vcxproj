@@ -174,10 +174,12 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <ClCompile Include="SandWorldAdventure\src\Sources\Game.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inputs.cpp" />
-    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Item.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\TileItem.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\TileTool.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Player.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\GUILayout.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Manager.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\SpriteShaderProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SandWorldAdventure\Shaders\PlayerShader.shader" />
@@ -192,13 +194,16 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inputs.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Types.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileItem.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileToolFlags.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\Types.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileTool.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Player.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\GUILayout.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\Item.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\UseableItem.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Manager.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\SpriteShaderProperties.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
