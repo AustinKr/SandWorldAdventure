@@ -87,6 +87,9 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\SpriteShaderProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\PaintTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SandWorldAdventure\Shaders\TilemapShader.shader" />
@@ -129,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\SpriteShaderProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\PaintTool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

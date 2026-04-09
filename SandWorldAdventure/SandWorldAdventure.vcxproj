@@ -174,6 +174,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <ClCompile Include="SandWorldAdventure\src\Sources\Game.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Main.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inputs.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\PaintTool.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\TileItem.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\TileTool.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Player.cpp" />
@@ -194,6 +195,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inputs.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\PaintTool.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileItem.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileToolFlags.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\Types.h" />

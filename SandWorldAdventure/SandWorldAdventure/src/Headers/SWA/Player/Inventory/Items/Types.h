@@ -6,6 +6,7 @@ namespace SWA::Player::Inventory::Items
 	{
 		ITEM_EMPTY = 0,
 		ITEM_TILE_TOOL = 1,
-		ITEM_TILE = 2,
+		ITEM_PAINT_TOOL = 2,
+		ITEM_TILE = 4,
 	};
 }

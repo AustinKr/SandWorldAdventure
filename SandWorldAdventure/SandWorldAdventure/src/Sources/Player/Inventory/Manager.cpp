@@ -2,6 +2,7 @@
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
 #include "SWA/Player/Inventory/Items/TileItem.h"
 #include "SWA/Player/Inventory/Items/TileTool.h"
+#include "SWA/Player/Inventory/Items/PaintTool.h"
 
 using namespace SWAEngine::Math;
 
@@ -16,6 +17,7 @@ namespace SWA::Player::Inventory
 
 		ToolInventory = { {3,3} };
 		ToolInventory.SetItemAt({ 1,1 }, new Items::TileTool("water_tile_slot", Items::TILE_TOOL_ALL_TILES)); // TODO: Change image
+		ToolInventory.SetItemAt({ 1,2 }, new Items::PaintTool("water_tile_slot",0xff0000ff, .3f, 10)); // TODO: Change image
 	}
 
 	void Manager::TryUseSelectedItem(Inputs& rInputs, SWAEngine::Time time)
