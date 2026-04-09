@@ -16,8 +16,8 @@ namespace SWA::Player::Inventory
 		StorageInventory.SetItemAt({ 1,2 }, new Items::TileItem("water_tile_slot", 0x426dffff, 0x1147ffff, SWAEngine::Tilemap::TileBehavior::FLUID));
 
 		ToolInventory = { {3,3} };
-		ToolInventory.SetItemAt({ 1,1 }, new Items::TileTool("water_tile_slot", Items::TILE_TOOL_ALL_TILES)); // TODO: Change image
-		ToolInventory.SetItemAt({ 1,2 }, new Items::PaintTool("water_tile_slot",0xff0000ff, .3f, 10)); // TODO: Change image
+		ToolInventory.SetItemAt({ 1,1 }, new Items::TileTool(Items::TILE_TOOL_ALL_TILES));
+		ToolInventory.SetItemAt({ 1,2 }, new Items::PaintTool(0xff0000ff, .3f, 10));
 	}
 
 	void Manager::TryUseSelectedItem(Inputs& rInputs, SWAEngine::Time time)

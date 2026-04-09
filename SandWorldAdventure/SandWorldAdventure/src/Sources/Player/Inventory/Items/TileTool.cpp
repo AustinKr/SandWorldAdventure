@@ -16,8 +16,8 @@ namespace SWA::Player::Inventory::Items
 	TileTool::TileTool()
 		: UseableItem(), Flags(TILE_TOOL_NO_TILES)
 	{}
-	TileTool::TileTool(const char* textureName, TileToolFlags flags)
-		: UseableItem(ITEM_TILE_TOOL, textureName), Flags(flags)
+	TileTool::TileTool(TileToolFlags flags)
+		: UseableItem(ITEM_TILE_TOOL, "tile_tool_slot"), Flags(flags)
 	{}
 
 	void TileTool::TryUse(SWAEngine::Inventory::Inventory& rStorageInventory, Inputs& rInputs, SWAEngine::Time time)

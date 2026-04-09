@@ -10,7 +10,7 @@ namespace SWA::Player::Inventory::Items
 		TileToolFlags Flags;
 
 		TileTool();
-		TileTool(const char* textureName, TileToolFlags flags);
+		TileTool(TileToolFlags flags);
 
 		virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Time time) override;
 	};

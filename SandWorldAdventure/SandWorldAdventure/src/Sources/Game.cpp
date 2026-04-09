@@ -40,6 +40,9 @@ namespace SWA
 		GenericPipeline::s_Textures.RegisterTexture("sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/sand_tile_slot.bmp"));
 		GenericPipeline::s_Textures.RegisterTexture("wet_sand_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/wet_sand_tile_slot.bmp"));
 		GenericPipeline::s_Textures.RegisterTexture("water_tile_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/water_tile_slot.bmp"));
+
+		GenericPipeline::s_Textures.RegisterTexture("tile_tool_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/tile_tool_slot.bmp"));
+		GenericPipeline::s_Textures.RegisterTexture("paint_tool_slot", Pipeline::Texture::BitmapTexture::LoadBMPTextureFromFile(_SWA_RESOURCES_DIR"Textures/GUI/Slots/paint_tool_slot.bmp"));
 	}
 
 	void Game::AddShaders()

@@ -12,7 +12,7 @@ namespace SWA::Player::Inventory::Items
 		int Radius;
 
 		PaintTool();
-		PaintTool(const char* textureName, GP2D::GP2D_HEX_COLOR color, float strength, int radius);
+		PaintTool(GP2D::GP2D_HEX_COLOR color, float strength, int radius);
 
 		virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Time time) override;
 	};

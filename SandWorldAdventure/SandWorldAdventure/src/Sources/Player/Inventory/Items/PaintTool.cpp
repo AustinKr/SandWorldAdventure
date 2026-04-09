@@ -14,8 +14,8 @@ namespace SWA::Player::Inventory::Items
 	PaintTool::PaintTool()
 		: UseableItem(), Color(0xffffffff), Strength(.3f), Radius(5)
 	{}
-	PaintTool::PaintTool(const char* textureName, GP2D::GP2D_HEX_COLOR color, float strength, int radius)
-		: UseableItem(ITEM_PAINT_TOOL, textureName), Color(color), Strength(strength), Radius(radius)
+	PaintTool::PaintTool(GP2D::GP2D_HEX_COLOR color, float strength, int radius)
+		: UseableItem(ITEM_PAINT_TOOL, "paint_tool_slot"), Color(color), Strength(strength), Radius(radius)
 	{}
 
 	void PaintTool::TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Time time)
