@@ -30,16 +30,8 @@ namespace SWA::Player::Inventory::Items
 		if (pSelectedItem == nullptr || pSelectedItem->Type != ITEM_TILE)
 			return;
 
-		// TODO: make a function in GP2D::Camera to get cursor position
-		// Get cursor position
-		double cursorX, cursorY;
-		glfwGetCursorPos(Window::Window::sp_Window, &cursorX, &cursorY);
-		cursorY = GenericPipeline::s_ActiveCamera.GetScreenSize().Y - cursorY; // Invert so that now it's from the bottom left of the screen
-
-		// Do conversions
-		Float2 mouseWorldPosition =
-			GenericPipeline::s_ActiveCamera.ViewportToWorld(
-				GenericPipeline::s_ActiveCamera.ScreenToViewport({ int(cursorX), int(cursorY) }));
+		// Get the mouse
+		Float2 mouseWorldPosition = GenericPipeline::s_ActiveCamera.GetMouseWorld();
 		Vector2Int mouseTilePosition = Game::p_Tilemap->WorldToTile({ mouseWorldPosition.X, mouseWorldPosition.Y });
 
 		// remove/add tiles at cursor
