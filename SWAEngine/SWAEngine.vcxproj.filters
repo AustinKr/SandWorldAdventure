@@ -63,6 +63,9 @@
     <ClCompile Include="src\Sources\SWAEngine\Inventory\Inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\dllClause.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Math\ColorUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\FileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

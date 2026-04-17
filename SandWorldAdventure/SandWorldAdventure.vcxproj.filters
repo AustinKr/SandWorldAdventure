@@ -137,5 +137,11 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\PaintTool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\JSONManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

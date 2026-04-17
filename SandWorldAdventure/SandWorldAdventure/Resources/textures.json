@@ -1,0 +1,42 @@
+[
+	{
+		"alias": "default_sprite",
+		"path": "Textures/default_sprite.bmp"
+	},
+	{
+		"alias": "gui_background",
+		"path": "Textures/GUI/Background.bmp"
+	},
+	{
+		"alias": "lava_24",
+		"path": "Textures/GUI/Lava24.bmp"
+	},
+	{
+		"alias": "empty_slot",
+		"path": "Textures/GUI/Slots/empty_slot.bmp"
+	},
+	{
+		"alias": "sand_stone_tile_slot",
+		"path": "Textures/GUI/Slots/sand_stone_tile_slot.bmp"
+	},
+	{
+		"alias": "sand_tile_slot",
+		"path": "Textures/GUI/Slots/sand_tile_slot.bmp"
+	},
+	{
+		"alias": "wet_sand_tile_slot",
+		"path": "Textures/GUI/Slots/wet_sand_tile_slot.bmp"
+	},
+	{
+		"alias": "water_tile_slot",
+		"path": "Textures/GUI/Slots/water_tile_slot.bmp"
+	},
+	{
+		"alias": "tile_tool_slot",
+		"path": "Textures/GUI/Slots/tile_tool_slot.bmp"
+	},
+	{
+		"alias": "paint_tool_slot",
+		"path": "Textures/GUI/Slots/paint_tool_slot.bmp"
+	}
+]

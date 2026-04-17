@@ -1,3 +1,10 @@
+. Separate physics from player to reuse for other rigidbodies
+. Allow user to select tools using numbers on the keyboard
+. Create text display in GP2D
+. Create GUI input, slider, text display in GP2D
+
+
+
 . Make Scene objects that contain a registry of GameObjects. This will allow you to build worlds that contain NPCs, Tilemap(s), Player(s), Items, story elements, GUI, and other objects.
 
 

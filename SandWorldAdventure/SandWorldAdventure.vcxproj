@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_SWA_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/";_SWA_DEFAULT_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SWAEngine/Resources/";_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\Downloaded\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -99,7 +99,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_SWA_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/";_SWA_DEFAULT_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SWAEngine/Resources/";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\Downloaded\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -123,7 +123,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PreprocessorDefinitions>_SWA_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/";_SWA_DEFAULT_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SWAEngine/Resources/";_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\Downloaded\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -150,7 +150,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PreprocessorDefinitions>_SWA_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SandWorldAdventure/SandWorldAdventure/Resources/";_SWA_DEFAULT_RESOURCES_DIR="C:/dev/C++ Projects/SandWorldAdventure/SWAEngine/Resources/";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\C++ Projects\SandWorldAdventure\SandWorldAdventure\SandWorldAdventure\src\Headers;C:\dev\C++ Projects\Tools\GP2D\GP2D\src\include;C:\dev\C++ Projects\Tools\Downloaded\glew-2.2.0\include;C:\dev\C++ Projects\Tools\Downloaded\glfw-3.4.bin.WIN64\include;C:\dev\C++ Projects\SandWorldAdventure\SWAEngine\src\include;C:\dev\C++ Projects\Tools\Downloaded\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -194,6 +194,8 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\JSONManager.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\texture.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inputs.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\PaintTool.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileItem.h" />

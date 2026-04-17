@@ -12,7 +12,6 @@ namespace SWA
 	struct Game
 	{
 	private:
-		static void AddTextures();
 		static void AddShaders();
 		static void CreateRenderLayers();
 		static void InitializeGame();
