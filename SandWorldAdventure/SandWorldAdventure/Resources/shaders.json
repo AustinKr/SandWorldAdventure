@@ -1,0 +1,6 @@
+[
+	{
+		"name": "DefaultSpriteShader"
+		"path": "Shaders/TextureShader.shader"
+	}
+]

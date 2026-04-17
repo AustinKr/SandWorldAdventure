@@ -4,6 +4,7 @@
 #include "SWAEngine/SceneManager.h"
 #include "SWA/RenderLayerNames.h"
 #include "SWA/SpriteShaderProperties.h"
+
 #include <SWA/JSON/JSONManager.h>
 
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
@@ -114,7 +115,8 @@ namespace SWA
 	void Game::CreateResources()
 	{
 		// Register textures
-		JSON::JSONManager::LoadTextures();
+		JSON::JSONManager::LoadTextures("textures.json");
+
 		// Register shaders
 		AddShaders();
 	}
