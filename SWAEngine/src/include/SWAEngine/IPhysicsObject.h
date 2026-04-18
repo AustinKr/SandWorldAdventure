@@ -23,6 +23,7 @@ namespace SWAEngine
 		bool StepMove(SWAEngine::Math::Vector2 movement);
 		void TryApplyVelocity();
 
+		IPhysicsObject();
 	public:
 		static const int MAX_COLLISION_STEPS;
 

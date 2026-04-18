@@ -1,4 +1,5 @@
 #pragma once
+#include <SWAEngine/IPhysicsObject.h>
 #include "SWAEngine/BaseGameObject.h"
 #include "SWAEngine/Math/vector2.h"
 #include "SWA/Player/Inputs.h"
@@ -8,30 +9,15 @@
 
 namespace SWA::Player
 {
-	// TODO: Could create IPhysicsObject
 	// A player object that is associated with its mesh
-	struct Player : SWAEngine::BaseGameObject
+	struct Player : SWAEngine::BaseGameObject, SWAEngine::IPhysicsObject
 	{
 	private:
-		static const int MAX_COLLISION_STEPS;
-
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;
 
-		SWAEngine::Math::Vector2 m_LastVelocity;
-		SWAEngine::Math::Vector2 m_Velocity;
-		SWAEngine::Math::Vector2 m_Acceleration;
-
-		SWAEngine::Time m_Time;
-
-		double m_Dampening;
-
-		bool m_IsTouchingGround;
+		SWAEngine::Time m_Time; // Not sure this is needed
 
 		Inputs m_Inputs;
-
-		// Step move algorithm (only accurate for small movements)
-		bool StepMove(SWAEngine::Math::Vector2 movement);
-		void TryApplyVelocity();
 
 		static GP2D::GP2D_HEX_COLOR MixColor(GP2D::GP2D_HEX_COLOR colA, GP2D::GP2D_HEX_COLOR colB);
 	public:
@@ -48,32 +34,18 @@ namespace SWA::Player
 		Player();
 		void Move();
 
-
 		// Inherited via BaseGameObject
 		virtual void Update(SWAEngine::Time time) override;
 		virtual void Release() override;
 
 		// Retrieves the position of the player object. Note: The player shares its position with its mesh origin
-		SWAEngine::Math::Vector2 GetPosition();
-		void SetPosition(SWAEngine::Math::Vector2 newPosition);
+		SWAEngine::Math::Vector2 GetPosition() override;
+		void SetPosition(SWAEngine::Math::Vector2 newPosition) override;
 		// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
-		SWAEngine::Math::Vector2 GetScale();
-		void SetScale(SWAEngine::Math::Vector2 newScale);
-
-		// Returns the currently applied velocity
-		SWAEngine::Math::Vector2 GetVelocity();
-		// Moves by an impluse
-		// Note that this is only applied at the end of every Player::Update()
-		void AddVelocity(SWAEngine::Math::Vector2 vel);
-		// Continually accelerates by the given amount
-		void Accelerate(SWAEngine::Math::Vector2 acc);
-		// Returns the actual change in velocity over change in time
-		SWAEngine::Math::Vector2 GetAcceleration();
-
-		void Jump(double height);
-		bool IsTouchingGround();
+		SWAEngine::Math::Vector2 GetScale() override;
+		void SetScale(SWAEngine::Math::Vector2 newScale) override;
 
 		// Checks collision against the tilemap, bounds of tilemap, and other entities
-		bool IsColliding();
+		virtual bool IsColliding() override;
 	};
 }

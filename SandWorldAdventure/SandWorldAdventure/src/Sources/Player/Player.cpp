@@ -17,63 +17,10 @@ using namespace SWA::Player::Inventory;
 
 namespace SWA::Player
 {
-	const int Player::MAX_COLLISION_STEPS = 5;
-
-	bool Player::StepMove(Vector2 movement)
-	{
-		Vector2 origin = GetPosition();
-		double factor = 1.0;
-		for (int step = 0; step < MAX_COLLISION_STEPS; step++)
-		{
-			// Set to current position to try
-			SetPosition(origin + movement * factor);
-
-			if (IsColliding())
-				factor /= 2; // Move back
-			else if (factor < 1.0)
-				factor *= 1.5; // Move forward
-			else
-				return false; // Reached end without colliding
-		}
-
-		// Move back to start if collision wasn't resolved
-		if (IsColliding())
-			SetPosition(origin);
-
-		return true;
-	}
-	void Player::TryApplyVelocity()
-	{
-		//if (IsColliding())
-		//	return; // Fail; TODO: Handle when already colliding
-
-		Vector2 movement = m_Velocity * m_Time.RealDeltaTime;
-
-		// Step in each direction
-		if (StepMove({ movement.X, 0 }))
-		{
-			m_Velocity.X *= .01;
-			m_Acceleration.X = 0;
-		}
-		if (StepMove({ 0, movement.Y }))
-		{
-			m_Velocity.Y *= .01;
-			m_Acceleration.Y = 0;
-
-			if (movement.Y < 0)
-				m_IsTouchingGround = true;
-		}
-		else
-			m_IsTouchingGround = false;
-	}
-
-	
-
 	Player::Player() :
-		BaseGameObject("Player"),
+		BaseGameObject("Player"), IPhysicsObject(),
 		m_Inputs{},
-		Gravity(0.9), m_LastVelocity{}, m_Velocity{}, m_Dampening(.98), Speed(1.0), JumpHeight(0.6),
-		m_IsTouchingGround{}, m_Time{}, CameraFollowSpeed{5}
+		Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
 	{
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties(), true);
@@ -106,7 +53,7 @@ namespace SWA::Player
 		m_Inputs.SetInputs();
 		// Try jump
 		if (m_Inputs.TryJump && IsTouchingGround())
-			Jump(JumpHeight);
+			Jump(JumpHeight, Gravity);
 		// Move
 		AddVelocity(Vector2::Normalize(m_Inputs.Movement) * Speed * m_Time.RealDeltaTime); // Accerate but as an impulse
 		// Add gravity
@@ -121,14 +68,8 @@ namespace SWA::Player
 		Inventory.TryUseSelectedItem(m_Inputs, time);
 		
 		Move();
-
-		// Apply physics
-		m_Velocity += m_Acceleration * m_Time.RealDeltaTime;
-		m_Velocity *= m_Dampening;
-
-		m_LastVelocity = m_Velocity;
-
-		TryApplyVelocity();
+		
+		UpdatePhysics(time);
 
 		// Move camera
 		GenericPipeline::s_ActiveCamera.Origin += (mp_Mesh->Origin - GenericPipeline::s_ActiveCamera.Origin) * float(m_Time.RealDeltaTime * CameraFollowSpeed);
@@ -156,34 +97,6 @@ namespace SWA::Player
 	void Player::SetScale(Vector2 newScale)
 	{
 		mp_Mesh->Scale = { (float)newScale.X, (float)newScale.Y };
-	}
-
-
-	SWAEngine::Math::Vector2 Player::GetVelocity()
-	{
-		return m_Velocity;
-	}
-	void Player::AddVelocity(SWAEngine::Math::Vector2 vel)
-	{
-		m_Velocity += vel;
-	}
-	void Player::Accelerate(SWAEngine::Math::Vector2 acc)
-	{
-		m_Acceleration += acc;
-	}
-	SWAEngine::Math::Vector2 Player::GetAcceleration()
-	{
-		return (m_Velocity - m_LastVelocity) / m_Time.RealDeltaTime;
-	}
-
-	void Player::Jump(double height)
-	{
-		AddVelocity({ 0,sqrt(2.0 * Gravity * height) });
-		m_IsTouchingGround = false;
-	}
-	bool Player::IsTouchingGround()
-	{
-		return m_IsTouchingGround;
 	}
 
 	bool Player::IsColliding()

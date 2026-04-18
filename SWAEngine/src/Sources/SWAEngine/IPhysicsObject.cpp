@@ -6,6 +6,11 @@ using namespace SWAEngine::Math;
 namespace SWAEngine
 {
 	const int IPhysicsObject::MAX_COLLISION_STEPS = 5;
+	IPhysicsObject::IPhysicsObject() : m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
+		m_IsTouchingGround{}, m_Time{}
+	{
+
+	}
 
 	bool IPhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
 	{
