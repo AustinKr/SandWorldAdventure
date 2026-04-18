@@ -140,7 +140,10 @@
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\JSONManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\texture.h">
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

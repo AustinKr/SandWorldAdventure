@@ -195,7 +195,8 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
   <ItemGroup>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Game.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\JSONManager.h" />
-    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\texture.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\Resource.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\Shader.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inputs.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\PaintTool.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\TileItem.h" />

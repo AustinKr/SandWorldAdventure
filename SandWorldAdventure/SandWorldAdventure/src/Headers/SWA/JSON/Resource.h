@@ -4,15 +4,15 @@
 
 namespace SWA::JSON
 {
-	struct texture 
+	struct Resource 
 	{
 		std::string alias;
 		std::string path;
 
-		texture() = default;
+		Resource() = default;
 
 		// Convert from json
-		texture(const nlohmann::json& js)
+		Resource(const nlohmann::json& js)
 		{
 			alias = js.at("alias").get<std::string>();
 			path = js.at("path").get<std::string>();

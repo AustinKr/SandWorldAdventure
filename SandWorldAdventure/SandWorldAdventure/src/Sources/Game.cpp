@@ -30,38 +30,6 @@ namespace SWA
 	SWAEngine::Tilemap::Tilemap* Game::p_Tilemap = nullptr;
 	SWAEngine::Tilemap::TilemapMesh* Game::p_TilemapMesh = nullptr;
 
-	void Game::AddShaders()
-	{
-		auto pNewShader = new Shader::GeometryShader("DefaultSpriteShader", _SWA_RESOURCES_DIR"Shaders/TextureShader.shader");
-		pNewShader->UpdatePropertiesCallback = [](Shader::BaseShaderType* pShader, void* pProperties)
-		{
-			if (pProperties == nullptr)
-			{
-				pShader->PropertyManager.TrySetTexture("default_sprite", "Tex");
-				return;
-			}
-
-			SpriteShaderProperties properties = *static_cast<SpriteShaderProperties*>(pProperties);
-			
-			// Set outline related
-			glUniform2f(glGetUniformLocation(pShader->GetProgram(), "Outline_Thickness"), properties.OutlineThickness.X, properties.OutlineThickness.Y);
-			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Outline_Color"), properties.OutlineColor.X, properties.OutlineColor.Y, properties.OutlineColor.Z, properties.OutlineColor.W);
-			glUniform1f(glGetUniformLocation(pShader->GetProgram(), "Outline_Clip"), properties.OutlineClip);
-
-			// Texture related
-			const char* name = properties.TextureName != nullptr && GenericPipeline::s_Textures.ContainsTexture(properties.TextureName) ? (const char*)properties.TextureName : "default_sprite";
-			pShader->PropertyManager.TrySetTexture(name, "Tex");
-			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Color"), properties.TextureColor.X, properties.TextureColor.Y, properties.TextureColor.Z, properties.TextureColor.W);
-
-			Math::Int2 resolution = GenericPipeline::s_Textures.GetTexture(name).second.Size;
-			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Resolution"), resolution.X, resolution.Y, 0, 0);
-		};
-		GenericPipeline::s_Shaders.RegisterShader(pNewShader);
-
-		pNewShader = new Shader::GeometryShader("TilemapShader", _SWA_DEFAULT_RESOURCES_DIR"TilemapShader.shader");
-		GenericPipeline::s_Shaders.RegisterShader(pNewShader);
-	}
-
 	void Game::CreateRenderLayers()
 	{
 		// Create render layers
@@ -117,8 +85,35 @@ namespace SWA
 		// Register textures
 		JSON::JSONManager::LoadTextures("textures.json");
 
+
 		// Register shaders
-		AddShaders();
+		JSON::JSONManager::LoadShaders("shaders.json");
+
+		// Update callback
+		GenericPipeline::s_Shaders.TryGetShader<Shader::GeometryShader>("DefaultSpriteShader")->UpdatePropertiesCallback =
+			[](Shader::BaseShaderType* pShader, void* pProperties)
+		{
+			if (pProperties == nullptr)
+			{
+				pShader->PropertyManager.TrySetTexture("default_sprite", "Tex");
+				return;
+			}
+
+			SpriteShaderProperties properties = *static_cast<SpriteShaderProperties*>(pProperties);
+
+			// Set outline related
+			glUniform2f(glGetUniformLocation(pShader->GetProgram(), "Outline_Thickness"), properties.OutlineThickness.X, properties.OutlineThickness.Y);
+			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Outline_Color"), properties.OutlineColor.X, properties.OutlineColor.Y, properties.OutlineColor.Z, properties.OutlineColor.W);
+			glUniform1f(glGetUniformLocation(pShader->GetProgram(), "Outline_Clip"), properties.OutlineClip);
+
+			// Texture related
+			const char* name = properties.TextureName != nullptr && GenericPipeline::s_Textures.ContainsTexture(properties.TextureName) ? (const char*)properties.TextureName : "default_sprite";
+			pShader->PropertyManager.TrySetTexture(name, "Tex");
+			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Color"), properties.TextureColor.X, properties.TextureColor.Y, properties.TextureColor.Z, properties.TextureColor.W);
+
+			Math::Int2 resolution = GenericPipeline::s_Textures.GetTexture(name).second.Size;
+			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Resolution"), resolution.X, resolution.Y, 0, 0);
+		};
 	}
 	void Game::Initialize()
 	{

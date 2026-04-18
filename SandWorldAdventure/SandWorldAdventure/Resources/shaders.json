@@ -1,6 +1,16 @@
 [
 	{
-		"name": "DefaultSpriteShader"
-		"path": "Shaders/TextureShader.shader"
+		"resource": {
+			"alias": "DefaultSpriteShader",
+			"path": "Shaders/TextureShader.shader"
+		},
+		"type": 1
+	},
+	{
+		"resource": {
+			"alias": "TilemapShader",
+			"path": "TilemapShader.shader"
+		},
+		"type": 1
 	}
 ]
