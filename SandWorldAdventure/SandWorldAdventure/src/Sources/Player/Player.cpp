@@ -23,7 +23,7 @@ namespace SWA::Player
 		Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
 	{
 		// Create the mesh
-		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties(), true);
+		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("player"), true);
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
 		mp_Mesh->Vertices =
 		{

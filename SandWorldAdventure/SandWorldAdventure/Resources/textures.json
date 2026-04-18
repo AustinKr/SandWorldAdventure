@@ -38,5 +38,9 @@
 	{
 		"alias": "paint_tool_slot",
 		"path": "Textures/GUI/Slots/paint_tool_slot.bmp"
+	},
+	{
+		"alias": "player",
+		"path": "Textures/objects/player.bmp"
 	}
 ]

@@ -33,8 +33,15 @@ namespace SWA::JSON
 				SWAEngine::FileManager::ReadFile(std::string(_SWA_RESOURCES_DIR).append(filePath).c_str(), &code, &size))
 				throw std::runtime_error("Failed to read file!");
 
-			nlohmann::json file = nlohmann::json::parse(code);
-			return file;
+			try 
+			{
+				nlohmann::json file = nlohmann::json::parse(code);
+				return file;
+			}
+			catch (const std::exception&)
+			{
+				throw std::runtime_error(std::string("failed to parse .json file code: ").append(filePath));
+			}
 		}
 
 		static void LoadTextures(const char* filePath)
