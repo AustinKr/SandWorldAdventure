@@ -1,0 +1,103 @@
+#include <SWAEngine/IPhysicsObject.h>
+#include <algorithm>
+
+using namespace SWAEngine::Math;
+
+namespace SWAEngine
+{
+	const int IPhysicsObject::MAX_COLLISION_STEPS = 5;
+
+	bool IPhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
+	{
+		Vector2 origin = GetPosition();
+		double factor = 1.0;
+		for (int step = 0; step < MAX_COLLISION_STEPS; step++)
+		{
+			// Set to current position to try
+			SetPosition(origin + movement * factor);
+
+			if (IsColliding())
+				factor /= 2; // Move back
+			else if (factor < 1.0)
+				factor *= 1.5; // Move forward
+			else
+				return false; // Reached end without colliding
+		}
+
+		// Move back to start if collision wasn't resolved
+		if (IsColliding())
+			SetPosition(origin);
+
+		return true;
+	}
+	void IPhysicsObject::TryApplyVelocity()
+	{
+		//if (IsColliding())
+		//	return; // Fail; TODO: Handle when already colliding
+
+		Vector2 movement = m_Velocity * m_Time.RealDeltaTime;
+
+		// Step in each direction
+		if (StepMove({ movement.X, 0 }))
+		{
+			m_Velocity.X *= .01;
+			m_Acceleration.X = 0;
+		}
+		if (StepMove({ 0, movement.Y }))
+		{
+			m_Velocity.Y *= .01;
+			m_Acceleration.Y = 0;
+
+			if (movement.Y < 0)
+				m_IsTouchingGround = true;
+		}
+		else
+			m_IsTouchingGround = false;
+	}
+
+	void IPhysicsObject::UpdatePhysics(Time time)
+	{
+		m_Time = time;
+
+		// Apply physics
+		m_Velocity += m_Acceleration * m_Time.RealDeltaTime;
+		m_Velocity *= m_Dampening;
+
+		m_LastVelocity = m_Velocity;
+
+		TryApplyVelocity();
+	}
+
+	// Returns the currently applied velocity
+	SWAEngine::Math::Vector2 IPhysicsObject::GetVelocity()
+	{
+		return m_Velocity;
+	}
+	// Returns the actual change in velocity over change in time
+	SWAEngine::Math::Vector2 IPhysicsObject::GetAcceleration()
+	{
+		return (m_Velocity - m_LastVelocity) / m_Time.RealDeltaTime;
+	}
+
+	// Moves by an impluse
+	// Note that this is only applied at the end of every Player::Update()
+	void IPhysicsObject::AddVelocity(SWAEngine::Math::Vector2 vel)
+	{
+		m_Velocity += vel;
+	}
+	// Continually accelerates by the given amount
+	void IPhysicsObject::Accelerate(SWAEngine::Math::Vector2 acc)
+	{
+		m_Acceleration += acc;
+	}
+
+	void IPhysicsObject::Jump(double height, double gravity)
+	{
+		AddVelocity({ 0,sqrt(2.0 * gravity * height) });
+		m_IsTouchingGround = false;
+	}
+	bool IPhysicsObject::IsTouchingGround()
+	{
+		return m_IsTouchingGround;
+	}
+}

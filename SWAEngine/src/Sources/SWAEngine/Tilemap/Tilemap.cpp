@@ -2,7 +2,6 @@
 #include "SWAEngine/Tilemap/TilemapContainer.h"
 #include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
 #include <algorithm>
-#include <string> // TODO: Remove include
 
 namespace SWAEngine::Tilemap
 {

@@ -8,7 +8,6 @@ namespace SWAEngine::Tilemap
 {
 	// Stores the property data of tiles.
 	// Also contains functions to manage different kinds of properties stored in a Tile.
-	// TODO: Move out of namespace just to Tilemap
 	struct SWA_ENGINE_API PropertyManager
 	{
 		// TODO: I think this could be an unoreded set
