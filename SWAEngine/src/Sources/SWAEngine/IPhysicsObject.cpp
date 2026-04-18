@@ -7,19 +7,19 @@ namespace SWAEngine
 {
 	const int IPhysicsObject::MAX_COLLISION_STEPS = 5;
 	IPhysicsObject::IPhysicsObject() : m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
-		m_IsTouchingGround{}, m_Time{}
+		m_IsTouchingGround{}, m_Time{}, Coordinates{}
 	{
 
 	}
 
 	bool IPhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
 	{
-		Vector2 origin = GetPosition();
+		Vector2 origin = Coordinates.GetPosition();
 		double factor = 1.0;
 		for (int step = 0; step < MAX_COLLISION_STEPS; step++)
 		{
 			// Set to current position to try
-			SetPosition(origin + movement * factor);
+			Coordinates.SetPosition(origin + movement * factor);
 
 			if (IsColliding())
 				factor /= 2; // Move back
@@ -31,7 +31,7 @@ namespace SWAEngine
 
 		// Move back to start if collision wasn't resolved
 		if (IsColliding())
-			SetPosition(origin);
+			Coordinates.SetPosition(origin);
 
 		return true;
 	}

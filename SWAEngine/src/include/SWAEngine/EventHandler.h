@@ -15,6 +15,17 @@ namespace SWAEngine
 		std::unordered_map<UID, DelegateType> m_Events;
 
 	public:
+		EventHandler& operator +=(const DelegateType& event)
+		{
+			SubscribeEvent(event);
+			return *this;
+		}
+		EventHandler& operator -=(const UID& id)
+		{
+			TryUnsubscribeEvent(id);
+			return *this;
+		}
+
 		// event should be created by EVENT(pFunc);
 		inline UID SubscribeEvent(DelegateType event)
 		{

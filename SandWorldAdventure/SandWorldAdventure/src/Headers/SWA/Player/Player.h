@@ -9,6 +9,7 @@
 
 namespace SWA::Player
 {
+	// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
 	// A player object that is associated with its mesh
 	struct Player : SWAEngine::BaseGameObject, SWAEngine::IPhysicsObject
 	{
@@ -37,13 +38,6 @@ namespace SWA::Player
 		// Inherited via BaseGameObject
 		virtual void Update(SWAEngine::Time time) override;
 		virtual void Release() override;
-
-		// Retrieves the position of the player object. Note: The player shares its position with its mesh origin
-		SWAEngine::Math::Vector2 GetPosition() override;
-		void SetPosition(SWAEngine::Math::Vector2 newPosition) override;
-		// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
-		SWAEngine::Math::Vector2 GetScale() override;
-		void SetScale(SWAEngine::Math::Vector2 newScale) override;
 
 		// Checks collision against the tilemap, bounds of tilemap, and other entities
 		virtual bool IsColliding() override;

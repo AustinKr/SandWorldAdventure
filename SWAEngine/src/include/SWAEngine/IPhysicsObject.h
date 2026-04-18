@@ -1,7 +1,7 @@
 #pragma once
 #include "dllClause.h"
+#include "Transform.h"
 #include "Time.h"
-#include "Math/vector2.h"
 
 namespace SWAEngine
 {
@@ -26,6 +26,8 @@ namespace SWAEngine
 		IPhysicsObject();
 	public:
 		static const int MAX_COLLISION_STEPS;
+		
+		Transform Coordinates;
 
 		void UpdatePhysics(Time time);
 
@@ -45,11 +47,5 @@ namespace SWAEngine
 
 		// TODO: can replace with a collider object
 		virtual bool IsColliding() = 0;
-
-		// TODO Can replace with a transform object
-		virtual Math::Vector2 GetPosition() = 0;
-		virtual void SetPosition(Math::Vector2 newPosition) = 0;
-		virtual Math::Vector2 GetScale() = 0;
-		virtual void SetScale(Math::Vector2 newScale) = 0;
 	};
 }

@@ -76,7 +76,7 @@ namespace SWA
 
 		// Create the player
 		p_MainPlayer = new Player::Player();
-		p_MainPlayer->SetPosition({ 1, 2 });
+		p_MainPlayer->Coordinates.SetPosition({ 1, 2 });
 	}
 
 

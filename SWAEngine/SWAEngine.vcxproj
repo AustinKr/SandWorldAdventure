@@ -189,6 +189,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\PropertyManager.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\FileManager.h" />
@@ -218,6 +219,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\Tilemap\PropertyManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\SandManager.h" />
     <ClInclude Include="src\include\SWAEngine\Time.h" />
+    <ClInclude Include="src\include\SWAEngine\Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

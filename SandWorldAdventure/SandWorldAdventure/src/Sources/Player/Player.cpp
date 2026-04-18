@@ -25,7 +25,6 @@ namespace SWA::Player
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties(), true);
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
-		mp_Mesh->Scale = { 0.05f, 0.1f};
 		mp_Mesh->Vertices =
 		{
 			{{ 0, 0 }, {0, 0, 0}},
@@ -42,6 +41,14 @@ namespace SWA::Player
 		{
 			{0, 6, "DefaultSpriteShader"}
 		};
+
+		// Subscribe to update mesh
+		Coordinates.OnSetPosition += [&](SWAEngine::Math::Vector2 newPosition) { mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y }; };
+		Coordinates.OnSetScale += [&](SWAEngine::Math::Vector2 newScale) { mp_Mesh->Scale = { (float)newScale.X, (float)newScale.Y }; };
+
+		// Set default coordinates
+		Coordinates.SetPosition({ 0.0, 0.0});
+		Coordinates.SetScale({ 0.05, 0.1 });
 
 		// Create player inventory and gui
 		Inventory = {};
@@ -82,27 +89,10 @@ namespace SWA::Player
 		BaseGameObject::Release();
 	}
 
-	Vector2 Player::GetPosition()
-	{
-		return Vector2(mp_Mesh->Origin.X, mp_Mesh->Origin.Y);
-	}
-	void Player::SetPosition(Vector2 newPosition)
-	{
-		mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y };
-	}
-	Vector2 Player::GetScale()
-	{
-		return Vector2(mp_Mesh->Scale.X, mp_Mesh->Scale.Y);
-	}
-	void Player::SetScale(Vector2 newScale)
-	{
-		mp_Mesh->Scale = { (float)newScale.X, (float)newScale.Y };
-	}
-
 	bool Player::IsColliding()
 	{
 		return
-			GetPosition().X < Game::p_Tilemap->Origin.X || GetPosition().Y < Game::p_Tilemap->Origin.Y ||
-			Game::p_Tilemap->DetectCollisionRect(Game::p_Tilemap->WorldToTile(GetPosition()), Game::p_Tilemap->WorldToTile(GetPosition() + GetScale()));
+			Coordinates.GetPosition().X < Game::p_Tilemap->Origin.X || Coordinates.GetPosition().Y < Game::p_Tilemap->Origin.Y ||
+			Game::p_Tilemap->DetectCollisionRect(Game::p_Tilemap->WorldToTile(Coordinates.GetPosition()), Game::p_Tilemap->WorldToTile(Coordinates.GetPosition() + Coordinates.GetScale()));
 	}
 }
