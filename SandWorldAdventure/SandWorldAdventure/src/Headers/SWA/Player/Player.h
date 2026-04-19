@@ -1,5 +1,5 @@
 #pragma once
-#include <SWAEngine/Physics/IPhysicsObject.h>
+#include <SWAEngine/Physics/PhysicsObject.h>
 #include "SWAEngine/BaseGameObject.h"
 #include "SWA/Player/Inputs.h"
 #include "SWA/Player/Inventory/Manager.h"
@@ -11,7 +11,7 @@ namespace SWA::Player
 	// TODO: Checks collision against the tilemap, bounds of tilemap, and other entities
 	// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
 	// A player object that is associated with its mesh
-	struct Player : SWAEngine::BaseGameObject, SWAEngine::Physics::IPhysicsObject
+	struct Player : SWAEngine::BaseGameObject, SWAEngine::Physics::PhysicsObject
 	{
 	private:
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;

@@ -1,17 +1,17 @@
-#include <SWAEngine/Physics/IPhysicsObject.h>
+#include <SWAEngine/Physics/PhysicsObject.h>
 
 using namespace SWAEngine::Math;
 
 namespace SWAEngine::Physics
 {
-	const int IPhysicsObject::MAX_COLLISION_STEPS = 5;
-	IPhysicsObject::IPhysicsObject() : 
+	const int PhysicsObject::MAX_COLLISION_STEPS = 5;
+	PhysicsObject::PhysicsObject() : 
 		p_Collider(nullptr), m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
 		m_IsTouchingGround{}, m_Time{}, Coordinates{}
 	{
 	}
 
-	bool IPhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
+	bool PhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
 	{
 		Vector2 origin = Coordinates.GetPosition();
 		double factor = 1.0;
@@ -34,7 +34,7 @@ namespace SWAEngine::Physics
 
 		return true;
 	}
-	void IPhysicsObject::TryApplyVelocity()
+	void PhysicsObject::TryApplyVelocity()
 	{
 		//if (IsColliding())
 		//	return; // Fail; TODO: Handle when already colliding
@@ -59,7 +59,7 @@ namespace SWAEngine::Physics
 			m_IsTouchingGround = false;
 	}
 
-	void IPhysicsObject::UpdatePhysics(Math::Time time)
+	void PhysicsObject::UpdatePhysics(Math::Time time)
 	{
 		m_Time = time;
 
@@ -73,34 +73,34 @@ namespace SWAEngine::Physics
 	}
 
 	// Returns the currently applied velocity
-	Math::Vector2 IPhysicsObject::GetVelocity()
+	Math::Vector2 PhysicsObject::GetVelocity()
 	{
 		return m_Velocity;
 	}
 	// Returns the actual change in velocity over change in time
-	Math::Vector2 IPhysicsObject::GetAcceleration()
+	Math::Vector2 PhysicsObject::GetAcceleration()
 	{
 		return (m_Velocity - m_LastVelocity) / m_Time.RealDeltaTime;
 	}
 
 	// Moves by an impluse
 	// Note that this is only applied at the end of every Player::Update()
-	void IPhysicsObject::AddVelocity(Math::Vector2 vel)
+	void PhysicsObject::AddVelocity(Math::Vector2 vel)
 	{
 		m_Velocity += vel;
 	}
 	// Continually accelerates by the given amount
-	void IPhysicsObject::Accelerate(Math::Vector2 acc)
+	void PhysicsObject::Accelerate(Math::Vector2 acc)
 	{
 		m_Acceleration += acc;
 	}
 
-	void IPhysicsObject::Jump(double height, double gravity)
+	void PhysicsObject::Jump(double height, double gravity)
 	{
 		AddVelocity({ 0,sqrt(2.0 * gravity * height) });
 		m_IsTouchingGround = false;
 	}
-	bool IPhysicsObject::IsTouchingGround()
+	bool PhysicsObject::IsTouchingGround()
 	{
 		return m_IsTouchingGround;
 	}
