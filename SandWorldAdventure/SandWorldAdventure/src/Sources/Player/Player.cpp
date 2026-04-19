@@ -48,7 +48,7 @@ namespace SWA::Player
 
 		// Set default coordinates
 		Coordinates.SetPosition({ 0.0, 0.0});
-		Coordinates.SetScale({ 0.05, 0.1 });
+		Coordinates.SetScale({ 0.1, 0.2 });
 
 		// Create player inventory and gui
 		Inventory = {};

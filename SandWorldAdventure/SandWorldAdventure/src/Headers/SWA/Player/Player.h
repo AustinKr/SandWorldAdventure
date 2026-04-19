@@ -1,7 +1,6 @@
 #pragma once
 #include <SWAEngine/IPhysicsObject.h>
 #include "SWAEngine/BaseGameObject.h"
-#include "SWAEngine/Math/vector2.h"
 #include "SWA/Player/Inputs.h"
 #include "SWA/Player/Inventory/Manager.h"
 

@@ -42,13 +42,15 @@ namespace SWA
 
 	void Game::InitializeGame()
 	{
+		GenericPipeline::s_ActiveCamera.ScaleFactor = 1.5;
+
 		SWAEngine::SceneManager::CreateScene("ThisIsMyScene");
 		SWAEngine::SceneManager::CreateScene("ThisIsAnotherScene");
 
 		// TEst mesh
 		auto pNewMesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("lava_24"), true);
 		pNewMesh->Origin = { -0.1f, -.5f };
-		pNewMesh->Scale = { 0.25f, 0.25f };
+		pNewMesh->Scale = { 0.5f, 0.2f };
 		pNewMesh->Vertices = {
 			{{0, 0}, {0, 0}},
 			{{1, 0}, {1, 0}},
@@ -84,7 +86,6 @@ namespace SWA
 	{
 		// Register textures
 		JSON::JSONManager::LoadTextures("textures.json");
-
 
 		// Register shaders
 		JSON::JSONManager::LoadShaders("shaders.json");

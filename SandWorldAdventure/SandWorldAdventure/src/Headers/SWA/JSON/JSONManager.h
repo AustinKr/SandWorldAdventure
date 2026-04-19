@@ -67,6 +67,8 @@ namespace SWA::JSON
 
 				// Register texture
 				GenericPipeline::s_Textures.RegisterTexture(tex.alias.c_str(), std::move(bitmap));
+				if(GenericPipeline::s_Textures.ContainsTexture(tex.alias.c_str()))
+					fprintf(stdout, std::string("loaded texture ").append(tex.alias).append("\n").c_str());
 			}
 		}
 		static void LoadShaders(const char* filePath)
