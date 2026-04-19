@@ -176,7 +176,8 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\Inventory.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\Physics\ICollider.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Physics\BoxCollider.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Physics\Collider.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Physics\IPhysicsObject.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\ColorUtility.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp" />
@@ -196,8 +197,9 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\FileManager.h" />
     <ClInclude Include="src\include\SWAEngine\Math\ColorUtility.h" />
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h" />
+    <ClInclude Include="src\include\SWAEngine\Physics\BoxCollider.h" />
     <ClInclude Include="src\include\SWAEngine\Physics\ColliderTypes.h" />
-    <ClInclude Include="src\include\SWAEngine\Physics\ICollider.h" />
+    <ClInclude Include="src\include\SWAEngine\Physics\Collider.h" />
     <ClInclude Include="src\include\SWAEngine\Physics\IPhysicsObject.h" />
     <ClInclude Include="src\include\SWAEngine\Scene.h" />
     <ClInclude Include="src\include\SWAEngine\SceneManager.h" />

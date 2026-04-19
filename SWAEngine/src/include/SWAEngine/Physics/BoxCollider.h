@@ -1,0 +1,21 @@
+#pragma once
+#include "Collider.h"
+#include <SWAEngine/Math/Transform.h>
+
+namespace SWAEngine::Physics
+{
+	struct SWA_ENGINE_API BoxCollider : Collider
+	{
+		// Position is the origin, scale is the total width and height
+		Math::Transform Coordinates;
+		
+		// Creates an instance of box collider
+		static BoxCollider* const CreateCollider();
+
+		virtual ColliderTypes GetType() override;
+		virtual bool IsColliding(Collider* other, int tag = SELECT_ALL) override;
+
+		static bool DetectAABB(Math::Vector2 a_leftBottom, Math::Vector2 a_rightTop, Math::Vector2 b_leftBottom, Math::Vector2 b_rightTop);
+		static bool DetectAABB(Math::Transform a, Math::Transform b);
+	};
+}
