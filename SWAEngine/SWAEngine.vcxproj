@@ -172,7 +172,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\dllmain.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\BaseGameObject.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\GameObject.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\Inventory.cpp" />
@@ -206,7 +206,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\SceneManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\IPropertyManager.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\BaseGameObject.h" />
+    <ClInclude Include="src\include\SWAEngine\GameObject\GameObject.h" />
     <ClInclude Include="src\include\SWAEngine\dllClause.h" />
     <ClInclude Include="src\include\SWAEngine\EventHandler.h" />
     <ClInclude Include="src\include\SWAEngine\Inventory\BaseItem.h" />

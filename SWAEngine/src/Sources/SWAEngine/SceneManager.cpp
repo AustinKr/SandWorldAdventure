@@ -1,25 +1,26 @@
 #include "SWAEngine/SceneManager.h"
+#include <stdexcept>
 
 namespace SWAEngine
 {
-	std::unordered_map<const char*, Scene> SceneManager::ms_ScenesRegistry = {};
-	const char* SceneManager::ms_ActiveScene = nullptr;
+	std::unordered_map<std::string, Scene> SceneManager::ms_ScenesRegistry = {};
+	std::string SceneManager::ms_ActiveScene = "\0";
 
-	bool SceneManager::CreateScene(const char* name)
+	bool SceneManager::CreateScene(std::string name)
 	{
 		bool succeeded = ms_ScenesRegistry.insert(std::make_pair(name, Scene(name))).second;
-		if (ms_ActiveScene == nullptr && succeeded)
+		if (ms_ActiveScene.empty() && succeeded)
 			ms_ActiveScene = name;
 		return succeeded;
 	}
-	void SceneManager::ReleaseScene(const char* name)
+	void SceneManager::ReleaseScene(std::string name)
 	{
 		// Try release all
-		if (name == nullptr)
+		if (name.empty())
 		{
 			for (auto& scene : ms_ScenesRegistry)
 			{
-				scene.second.ReleaseObject();
+				scene.second.TryReleaseObject();
 			}
 			ms_ScenesRegistry.clear();
 			return;
@@ -28,24 +29,24 @@ namespace SWAEngine
 		// Try release given
 		if (!ms_ScenesRegistry.contains(name))
 			return;
-		ms_ScenesRegistry.at(name).ReleaseObject();
+		ms_ScenesRegistry.at(name).TryReleaseObject();
 		ms_ScenesRegistry.erase(name);
 	}
-	Scene& SceneManager::GetScene(const char* name)
+	Scene& SceneManager::GetScene(std::string name)
 	{
-		if (name == nullptr)
+		if (name.empty())
 		{
 			if (!ms_ScenesRegistry.contains(ms_ActiveScene))
-				throw std::exception("No active scene assigned!");
+				throw std::runtime_error("No active scene assigned!");
 
 			return ms_ScenesRegistry.at(ms_ActiveScene);
 		}
 		return ms_ScenesRegistry.at(name);
 	}
 
-	void SceneManager::SetActiveScene(const char* newScene)
+	void SceneManager::SetActiveScene(std::string newScene)
 	{
-		const char* oldScene = ms_ActiveScene;
+		std::string oldScene = ms_ActiveScene;
 
 		if (oldScene == newScene || !ms_ScenesRegistry.contains(newScene))
 			return;

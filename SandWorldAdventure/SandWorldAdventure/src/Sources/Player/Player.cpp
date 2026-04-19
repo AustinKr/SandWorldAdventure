@@ -18,7 +18,7 @@ using namespace SWA::Player::Inventory;
 namespace SWA::Player
 {
 	Player::Player() :
-		BaseGameObject("Player"), PhysicsObject(),
+		GameObject("Player"), PhysicsObject(),
 		m_Inputs{},
 		Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
 	{
@@ -89,7 +89,7 @@ namespace SWA::Player
 		Inventory.Release(); // Clears/releases everything associated with the player inventory
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).UnregisterMesh(mp_Mesh); // Unregister the mesh
 
-		BaseGameObject::Release();
+		GameObject::Release();
 	}
 
 	// TODO: Create tilemap collider in SWAEngine, possibly create PlayerCollider in SWA for world origin

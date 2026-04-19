@@ -7,36 +7,36 @@
 namespace SWAEngine::GameObject
 {
 	// TODO: Rename BaseGameObject to GameObject and make custom functionality through Components
-	// Should be created by new()
 	// A physical object inside of the game that requires functionality every frame
 	// (by default is an empty object that may be used to group other objects)
-	struct SWA_ENGINE_API BaseGameObject
+	struct SWA_ENGINE_API GameObject
 	{
 	private:
-		const char* m_Name; // TODO: can make name changeable
+		std::string m_Name; // TODO: can make name changeable
 		bool m_IsActive;
 
 		std::unordered_map<std::string, Component::IComponent*> m_Components;
 	public:
-		// Registers the component, returns nullptr if the alias is not available or it failed to insert for whatever reason
+		// Registers the component, returns nullptr if the component alias is not available or it failed to insert for whatever reason
 		template<typename TYPE>
-		TYPE* RegisterComponent(std::string alias, TYPE* pComp)
+		TYPE* RegisterComponent(TYPE* pComp)
 		{
-			if (m_Components.contains(alias))
+			if (m_Components.contains(pComp->GetName()))
 				return nullptr;
-			return m_Components.insert(std::make_pair(alias, pComp)).second ? pComp : nullptr;
+			return m_Components.insert(std::make_pair(pComp->GetName(), pComp)).second ? pComp : nullptr;
 		}
+		void TryUnregisterComponent(Component::IComponent* pComp);
 		template<typename TYPE>
-		TYPE* TryGetComponent(std::string alias)
+		TYPE* TryGetComponent(std::string name)
 		{
-			return m_Components.contains(alias) ? m_Components.at(alias) : nullptr;
+			return m_Components.contains(name) ? m_Components.at(name) : nullptr;
 		}
 
-		const char* const GetName();
+		std::string const GetName();
 		bool GetActive();
 
-		// Registers self (with the active scene if not specified)
-		BaseGameObject(const char* objName, const char* sceneName = nullptr);
+		// Creates an object
+		GameObject(std::string objName);
 
 		// Nothing by default
 		virtual void Update(Math::Time);

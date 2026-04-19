@@ -30,7 +30,7 @@
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\BaseGameObject.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp">
@@ -104,7 +104,7 @@
     <ClInclude Include="src\include\SWAEngine\Tilemap\TileBufferInformation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\GameObject\BaseGameObject.h">
+    <ClInclude Include="src\include\SWAEngine\GameObject\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Math\Time.h">

@@ -11,6 +11,28 @@ namespace SWAEngine::GameObject::Component::Physics
 	{
 	}
 
+	std::string const PhysicsObject::GetName()
+	{
+		return "physics";
+	}
+	void PhysicsObject::Update(Math::Time time)
+	{
+		m_Time = time;
+
+		// Apply physics
+		m_Velocity += m_Acceleration * m_Time.RealDeltaTime;
+		m_Velocity *= m_Dampening;
+
+		m_LastVelocity = m_Velocity;
+
+		TryApplyVelocity();
+	}
+	void PhysicsObject::Release()
+	{
+		delete(this);
+	}
+	
+
 	bool PhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
 	{
 		Vector2 origin = Coordinates.GetPosition();
@@ -57,19 +79,6 @@ namespace SWAEngine::GameObject::Component::Physics
 		}
 		else
 			m_IsTouchingGround = false;
-	}
-
-	void PhysicsObject::UpdatePhysics(Math::Time time)
-	{
-		m_Time = time;
-
-		// Apply physics
-		m_Velocity += m_Acceleration * m_Time.RealDeltaTime;
-		m_Velocity *= m_Dampening;
-
-		m_LastVelocity = m_Velocity;
-
-		TryApplyVelocity();
 	}
 
 	// Returns the currently applied velocity

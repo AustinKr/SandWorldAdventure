@@ -22,7 +22,7 @@ namespace SWAEngine::Tilemap
 	const int Tilemap::ACTIVE_TILES_ID = 1;
 	const int Tilemap::PENDING_TILES_ID = 2;
 
-	Tilemap::Tilemap(const char* name, Math::Vector2 origin, Math::Vector2 scale) : BaseGameObject(name)
+	Tilemap::Tilemap(const char* name, Math::Vector2 origin, Math::Vector2 scale)
 	{
 		PropertyManager = {};
 
@@ -32,6 +32,10 @@ namespace SWAEngine::Tilemap
 		mp_ActiveTilesContainer = new TilemapContainer();
 		mp_PendingTilesContainer = new TilemapContainer();
 	}
+	std::string const Tilemap::GetName()
+	{
+		return "tilemap";
+	}
 	void Tilemap::Update(Math::Time time)
 	{
 		UpdateTiles(time, ApplyPendingTiles(time));
@@ -40,8 +44,7 @@ namespace SWAEngine::Tilemap
 	{
 		delete(mp_ActiveTilesContainer);
 		delete(mp_PendingTilesContainer);
-		
-		BaseGameObject::Release();
+		delete(this);
 	}
 	bool Tilemap::IsEmpty()
 	{

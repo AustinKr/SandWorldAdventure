@@ -2,12 +2,15 @@
 #include <SWAEngine/dllClause.h>
 #include <SWAEngine/Math/Transform.h>
 #include <SWAEngine/Math/Time.h>
+
+#include <SWAEngine/GameObject/Component/IComponent.h>
 #include "Collider.h"
 
 namespace SWAEngine::GameObject::Component::Physics
 {
+	// TODO: rename to PhysicsComponent
 	// TODO: allow collision tags to be configured with physics objects
-	struct SWA_ENGINE_API PhysicsObject
+	struct SWA_ENGINE_API PhysicsObject : IComponent
 	{
 	private:
 		Math::Vector2 m_LastVelocity;
@@ -29,10 +32,12 @@ namespace SWAEngine::GameObject::Component::Physics
 	public:
 		static const int MAX_COLLISION_STEPS;
 		
-		Collider* p_Collider;
+		Collider* p_Collider; /// TODO: Make collider a component and have physics object check for it
 		Math::Transform Coordinates;
 		
-		void UpdatePhysics(Math::Time time);
+		virtual std::string const GetName() override;
+		virtual void Update(Math::Time time) override;
+		virtual void Release() override;
 
 		// Returns the currently applied velocity
 		Math::Vector2 GetVelocity();

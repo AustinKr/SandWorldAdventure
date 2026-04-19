@@ -1,5 +1,5 @@
 #pragma once
-#include "SWAEngine/GameObject/BaseGameObject.h"
+#include <SWAEngine/GameObject/Component/IComponent.h>
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
 #include "SWAEngine/Tilemap/PropertyManager.h"
 #include "SWAEngine/Math/Time.h"
@@ -7,8 +7,8 @@
 
 namespace SWAEngine::Tilemap
 {
-	// TODO: Move tilemap into GameObject
-	struct SWA_ENGINE_API Tilemap : GameObject::BaseGameObject
+	// TODO: Move tilemap into GameObject/component
+	struct SWA_ENGINE_API Tilemap : GameObject::Component::IComponent
 	{
 	public:
 		static const int ACTIVE_TILES_ID; // Used in PropertyManager
@@ -23,6 +23,8 @@ namespace SWAEngine::Tilemap
 		Math::Vector2 TileScale;
 
 		Tilemap(const char* name, Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
+
+		virtual std::string const GetName() override;
 		virtual void Update(Math::Time time) override;
 		virtual void Release() override;
 		bool IsEmpty();
@@ -30,7 +32,7 @@ namespace SWAEngine::Tilemap
 		// Returns a copy of the active tile
 		Tile GetActiveTile(Math::Vector2Int position);
 		// Returns a copy of the pending tile or the currently active tile (pending prioritized)
-		Tile GetTile(Math::Vector2Int position, __out int* containerID = nullptr);
+		Tile GetTile(Math::Vector2Int position, int* containerID = nullptr);
 
 		// Sets the tile (in the pending tiles container) and returns a copy
 		// Note: does not automatically release the tile if failed for whatever reason

@@ -3,10 +3,10 @@
 
 namespace SWAEngine
 {
-	Scene::Scene(const char* sceneName) : m_Name(sceneName)
+	Scene::Scene(std::string sceneName) : m_Name(sceneName)
 	{
 	}
-	const char* const Scene::GetName()
+	std::string const Scene::GetName()
 	{
 		return m_Name;
 	}
@@ -15,7 +15,7 @@ namespace SWAEngine
 		bool isActive = GetActive();
 		for (auto& obj : m_ObjectsRegistry)
 		{
-			obj.second->SetActive(isActive);
+			obj.second.SetActive(isActive);
 		}
 	}
 	bool Scene::GetActive()
@@ -23,43 +23,46 @@ namespace SWAEngine
 		return m_Name == SceneManager::GetScene().GetName();
 	}
 
-	GameObject::BaseGameObject* const Scene::GetObject(const char* name)
+	bool Scene::ContainsObject(std::string name)
 	{
-		if (!m_ObjectsRegistry.contains(name))
-			return nullptr;
-
+		return m_ObjectsRegistry.contains(name);
+	}
+	GameObject::GameObject& Scene::GetObject(std::string name)
+	{
 		return m_ObjectsRegistry.at(name);
 	}
-	bool Scene::RegisterObject(GameObject::BaseGameObject* pObj)
+	bool Scene::RegisterObject(GameObject::GameObject& obj)
 	{
-		return m_ObjectsRegistry.insert(std::make_pair(pObj->GetName(), pObj)).second;
-	}
+		RegisterObject(obj);
+		obj.SetActive(GetActive());
 
+		return m_ObjectsRegistry.insert(std::make_pair(obj.GetName(), obj)).second;
+	}
 
 	void Scene::UpdateObjects(Math::Time time)
 	{
 		for (auto& obj : m_ObjectsRegistry)
 		{
-			obj.second->Update(time);
+			obj.second.Update(time);
 		}
 	}
-	void Scene::ReleaseObject(const char* name)
+	void Scene::TryReleaseObject(const char* name)
 	{
 		// Try release all
 		if (name == nullptr)
 		{
 			for (auto& obj : m_ObjectsRegistry)
 			{
-				obj.second->Release();
+				obj.second.Release();
 			}
 			m_ObjectsRegistry.clear();
 			return;
 		}
 
 		// Try release given object
-		if (!m_ObjectsRegistry.contains(name))
+		if (!ContainsObject(name))
 			return;
-		m_ObjectsRegistry.at(name)->Release();
+		GetObject(name).Release();
 		m_ObjectsRegistry.erase(name);
 	}
 }
