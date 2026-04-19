@@ -4,7 +4,7 @@
 #include <SWAEngine/Math/Time.h>
 #include "Collider.h"
 
-namespace SWAEngine::Physics
+namespace SWAEngine::GameObject::Component::Physics
 {
 	// TODO: allow collision tags to be configured with physics objects
 	struct SWA_ENGINE_API PhysicsObject

@@ -66,16 +66,16 @@
     <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Physics\PhysicsObject.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\PhysicsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Physics\Transform.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Math\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Physics\Collider.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Physics\BoxCollider.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\BoxCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,19 +158,22 @@
     <ClInclude Include="src\include\SWAEngine\FileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Physics\PhysicsObject.h">
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\PhysicsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Math\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Physics\Collider.h">
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Physics\ColliderTypes.h">
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\ColliderTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Physics\BoxCollider.h">
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\BoxCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\IComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

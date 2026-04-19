@@ -1,6 +1,6 @@
-#include <SWAEngine/Physics/BoxCollider.h>
+#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
 
-namespace SWAEngine::Physics
+namespace SWAEngine::GameObject::Component::Physics
 {
 	BoxCollider* const BoxCollider::CreateCollider()
 	{

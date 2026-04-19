@@ -7,7 +7,7 @@
 #include "SWA/RenderLayerNames.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
 
-#include <SWAEngine/Physics/BoxCollider.h>
+#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
 
 using namespace GP2D::Pipeline;
 using namespace GP2D::Math;
@@ -23,7 +23,7 @@ namespace SWA::Player
 		Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
 	{
 		// Set collider
-		p_Collider = SWAEngine::Physics::BoxCollider::CreateCollider(this);
+		p_Collider = SWAEngine::GameObject::Component::Physics::BoxCollider::CreateCollider(this);
 
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("player"), true);

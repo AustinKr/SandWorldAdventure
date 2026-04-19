@@ -1,6 +1,6 @@
 #pragma once
 
-namespace SWAEngine::Physics
+namespace SWAEngine::GameObject::Component::Physics
 {
 	enum ColliderTypes
 	{

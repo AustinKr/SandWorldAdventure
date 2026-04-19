@@ -4,7 +4,7 @@
 
 #include "ColliderTypes.h"
 
-namespace SWAEngine::Physics
+namespace SWAEngine::GameObject::Component::Physics
 {
 	// TODO: For collision optimisation: use an acceleration structure like a Quadtree
 	struct SWA_ENGINE_API Collider

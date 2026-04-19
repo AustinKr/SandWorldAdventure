@@ -3,7 +3,7 @@
 #include "PhysicsObject.h"
 #include <SWAEngine/Math/Transform.h>
 
-namespace SWAEngine::Physics
+namespace SWAEngine::GameObject::Component::Physics
 {
 	struct SWA_ENGINE_API BoxCollider : Collider
 	{

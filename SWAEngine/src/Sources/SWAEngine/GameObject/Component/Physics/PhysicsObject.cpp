@@ -1,8 +1,8 @@
-#include <SWAEngine/Physics/PhysicsObject.h>
+#include <SWAEngine/GameObject/Component/Physics/PhysicsObject.h>
 
 using namespace SWAEngine::Math;
 
-namespace SWAEngine::Physics
+namespace SWAEngine::GameObject::Component::Physics
 {
 	const int PhysicsObject::MAX_COLLISION_STEPS = 5;
 	PhysicsObject::PhysicsObject() : 

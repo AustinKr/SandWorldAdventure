@@ -23,6 +23,12 @@ namespace SWAEngine::GameObject
 
 	void BaseGameObject::Release()
 	{
+		for (auto& pair : m_Components)
+		{
+			pair.second->Release();
+		}
+		m_Components.clear();
+
 		delete(this);
 	}
 
