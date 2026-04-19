@@ -20,6 +20,9 @@ namespace SWAEngine::GameObject::Component::Physics
 		static BoxCollider* const CreateCollider(Rigidbody* const pLinkedObj);
 
 		virtual ColliderTypes GetType() override;
+		virtual std::string const GetName() override;
+		virtual void Release() override;
+
 		virtual bool IsColliding(Collider* other, int tag = SELECT_ALL) override;
 
 		static bool DetectAABB(Math::Vector2 a_leftBottom, Math::Vector2 a_rightTop, Math::Vector2 b_leftBottom, Math::Vector2 b_rightTop);

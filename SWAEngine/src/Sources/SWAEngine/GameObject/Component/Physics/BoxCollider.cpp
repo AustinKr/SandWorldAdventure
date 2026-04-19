@@ -21,6 +21,15 @@ namespace SWAEngine::GameObject::Component::Physics
 	{
 		return COLLIDER_TYPE_BOX;
 	}
+	std::string const BoxCollider::GetName()
+	{
+		return "box_collider";
+	}
+	void BoxCollider::Release()
+	{
+		delete(this);
+	}
+
 	bool BoxCollider::IsColliding(Collider* other, int tag)
 	{
 		switch (other->GetType())

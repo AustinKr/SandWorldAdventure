@@ -32,7 +32,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		static const int MAX_COLLISION_STEPS;
 		
 		Collider* p_Collider; /// TODO: Make collider a component and have physics object check for it
-		Math::Transform Coordinates;
+		Math::Transform Coordinates; // TODO: Make a transform component for player
 		
 		virtual std::string const GetName() override;
 		virtual void Update(Math::Time time) override;
