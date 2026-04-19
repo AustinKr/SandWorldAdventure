@@ -1,9 +1,8 @@
-#include <SWAEngine/IPhysicsObject.h>
-#include <algorithm>
+#include <SWAEngine/Physics/IPhysicsObject.h>
 
 using namespace SWAEngine::Math;
 
-namespace SWAEngine
+namespace SWAEngine::Physics
 {
 	const int IPhysicsObject::MAX_COLLISION_STEPS = 5;
 	IPhysicsObject::IPhysicsObject() : m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
@@ -60,7 +59,7 @@ namespace SWAEngine
 			m_IsTouchingGround = false;
 	}
 
-	void IPhysicsObject::UpdatePhysics(Time time)
+	void IPhysicsObject::UpdatePhysics(Math::Time time)
 	{
 		m_Time = time;
 
@@ -74,24 +73,24 @@ namespace SWAEngine
 	}
 
 	// Returns the currently applied velocity
-	SWAEngine::Math::Vector2 IPhysicsObject::GetVelocity()
+	Math::Vector2 IPhysicsObject::GetVelocity()
 	{
 		return m_Velocity;
 	}
 	// Returns the actual change in velocity over change in time
-	SWAEngine::Math::Vector2 IPhysicsObject::GetAcceleration()
+	Math::Vector2 IPhysicsObject::GetAcceleration()
 	{
 		return (m_Velocity - m_LastVelocity) / m_Time.RealDeltaTime;
 	}
 
 	// Moves by an impluse
 	// Note that this is only applied at the end of every Player::Update()
-	void IPhysicsObject::AddVelocity(SWAEngine::Math::Vector2 vel)
+	void IPhysicsObject::AddVelocity(Math::Vector2 vel)
 	{
 		m_Velocity += vel;
 	}
 	// Continually accelerates by the given amount
-	void IPhysicsObject::Accelerate(SWAEngine::Math::Vector2 acc)
+	void IPhysicsObject::Accelerate(Math::Vector2 acc)
 	{
 		m_Acceleration += acc;
 	}

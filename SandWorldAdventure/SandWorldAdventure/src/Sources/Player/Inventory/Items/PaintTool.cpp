@@ -18,7 +18,7 @@ namespace SWA::Player::Inventory::Items
 		: UseableItem(ITEM_PAINT_TOOL, "paint_tool_slot"), Color(color), Strength(strength), Radius(radius)
 	{}
 
-	void PaintTool::TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Time time)
+	void PaintTool::TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Math::Time time)
 	{
 		Math::Float2 mouseWorld = Pipeline::GenericPipeline::s_ActiveCamera.GetMouseWorld();
 		Vector2Int mouseTile = Game::p_Tilemap->WorldToTile({ mouseWorld.X, mouseWorld.Y });

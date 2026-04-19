@@ -1,18 +1,18 @@
 #pragma once
-#include "dllClause.h"
-#include "Transform.h"
-#include "Time.h"
+#include <SWAEngine/dllClause.h>
+#include <SWAEngine/Math/Transform.h>
+#include <SWAEngine/Math/Time.h>
 
-namespace SWAEngine
+namespace SWAEngine::Physics
 {
 	struct SWA_ENGINE_API IPhysicsObject
 	{
 	private:
-		SWAEngine::Math::Vector2 m_LastVelocity;
-		SWAEngine::Math::Vector2 m_Velocity;
-		SWAEngine::Math::Vector2 m_Acceleration;
+		Math::Vector2 m_LastVelocity;
+		Math::Vector2 m_Velocity;
+		Math::Vector2 m_Acceleration;
 
-		SWAEngine::Time m_Time;
+		Math::Time m_Time;
 
 		double m_Dampening;
 
@@ -27,20 +27,20 @@ namespace SWAEngine
 	public:
 		static const int MAX_COLLISION_STEPS;
 		
-		Transform Coordinates;
+		Math::Transform Coordinates;
 
-		void UpdatePhysics(Time time);
+		void UpdatePhysics(Math::Time time);
 
 		// Returns the currently applied velocity
-		SWAEngine::Math::Vector2 GetVelocity();
+		Math::Vector2 GetVelocity();
 		// Returns the actual change in velocity over change in time
-		SWAEngine::Math::Vector2 GetAcceleration();
+		Math::Vector2 GetAcceleration();
 
 		// Moves by an impluse
 		// Note that this is only applied at the end of every Player::Update()
-		void AddVelocity(SWAEngine::Math::Vector2 vel);
+		void AddVelocity(Math::Vector2 vel);
 		// Continually accelerates by the given amount
-		void Accelerate(SWAEngine::Math::Vector2 acc);
+		void Accelerate(Math::Vector2 acc);
 
 		void Jump(double height, double gravity);
 		bool IsTouchingGround();

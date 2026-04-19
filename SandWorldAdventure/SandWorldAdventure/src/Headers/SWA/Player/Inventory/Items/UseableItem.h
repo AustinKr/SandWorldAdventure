@@ -2,7 +2,7 @@
 #include "SWA/Player/Inventory/Items/Types.h"
 #include "SWA/Player/Inputs.h"
 
-#include "SWAEngine/Time.h"
+#include <SWAEngine/Math/Time.h>
 #include "SWAEngine/Inventory/BaseItem.h"
 #include "SWAEngine/Inventory/Inventory.h"
 
@@ -14,6 +14,6 @@ namespace SWA::Player::Inventory::Items
 		inline UseableItem() : BaseItem() {}
 		inline UseableItem(Types type, const char* textureName) : BaseItem(type, textureName) {}
 
-		inline virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Time time) {}
+		inline virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Math::Time time) {}
 	};
 }

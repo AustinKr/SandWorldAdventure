@@ -20,7 +20,7 @@ namespace SWA::Player::Inventory::Items
 		: UseableItem(ITEM_TILE_TOOL, "tile_tool_slot"), Flags(flags)
 	{}
 
-	void TileTool::TryUse(SWAEngine::Inventory::Inventory& rStorageInventory, Inputs& rInputs, SWAEngine::Time time)
+	void TileTool::TryUse(SWAEngine::Inventory::Inventory& rStorageInventory, Inputs& rInputs, SWAEngine::Math::Time time)
 	{
 		if (!rInputs.AddTile && !rInputs.BreakTile)
 			return;

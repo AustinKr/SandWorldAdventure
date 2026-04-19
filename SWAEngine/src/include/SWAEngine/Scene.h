@@ -29,7 +29,7 @@ namespace SWAEngine
 		bool RegisterObject(BaseGameObject* pObj);
 
 		// Updates all registered objects
-		void UpdateObjects(Time time);
+		void UpdateObjects(Math::Time time);
 		// Releases the object (or all registered objects if nullptr)
 		void ReleaseObject(const char* name = nullptr);
 	};

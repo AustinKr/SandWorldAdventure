@@ -16,7 +16,7 @@ namespace SWAEngine
 		m_IsActive = rScene.GetActive();
 	}
 
-	void BaseGameObject::Update(Time)
+	void BaseGameObject::Update(Math::Time)
 	{
 		/*nothing*/
 	}

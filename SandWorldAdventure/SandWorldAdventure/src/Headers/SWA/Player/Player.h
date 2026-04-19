@@ -1,5 +1,5 @@
 #pragma once
-#include <SWAEngine/IPhysicsObject.h>
+#include <SWAEngine/Physics/IPhysicsObject.h>
 #include "SWAEngine/BaseGameObject.h"
 #include "SWA/Player/Inputs.h"
 #include "SWA/Player/Inventory/Manager.h"
@@ -10,12 +10,12 @@ namespace SWA::Player
 {
 	// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
 	// A player object that is associated with its mesh
-	struct Player : SWAEngine::BaseGameObject, SWAEngine::IPhysicsObject
+	struct Player : SWAEngine::BaseGameObject, SWAEngine::Physics::IPhysicsObject
 	{
 	private:
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;
 
-		SWAEngine::Time m_Time; // Not sure this is needed
+		SWAEngine::Math::Time m_Time; // Not sure this is needed
 
 		Inputs m_Inputs;
 
@@ -35,7 +35,7 @@ namespace SWA::Player
 		void Move();
 
 		// Inherited via BaseGameObject
-		virtual void Update(SWAEngine::Time time) override;
+		virtual void Update(SWAEngine::Math::Time time) override;
 		virtual void Release() override;
 
 		// Checks collision against the tilemap, bounds of tilemap, and other entities

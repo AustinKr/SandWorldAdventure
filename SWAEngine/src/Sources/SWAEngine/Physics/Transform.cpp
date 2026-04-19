@@ -1,6 +1,6 @@
-#include <SWAEngine/Transform.h>
+#include <SWAEngine/Math/Transform.h>
 
-namespace SWAEngine
+namespace SWAEngine::Math
 {
 	Transform::Transform() : m_Position{}, m_Scale{}, OnSetPosition{}, OnSetScale{}
 	{}

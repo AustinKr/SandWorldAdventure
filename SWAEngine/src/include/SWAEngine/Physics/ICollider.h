@@ -4,7 +4,7 @@
 #include "Time.h"
 #include "Math/vector2.h"
 
-namespace SWAEngine
+namespace SWAEngine::Physics
 {
 	struct SWA_ENGINE_API ICollider
 	{

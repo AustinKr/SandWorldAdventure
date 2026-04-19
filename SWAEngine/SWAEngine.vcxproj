@@ -176,7 +176,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\Inventory.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\IPhysicsObject.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Physics\IPhysicsObject.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\ColorUtility.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp" />
@@ -189,13 +189,13 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\PropertyManager.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\Transform.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Physics\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\FileManager.h" />
     <ClInclude Include="src\include\SWAEngine\Math\ColorUtility.h" />
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h" />
-    <ClInclude Include="src\include\SWAEngine\IPhysicsObject.h" />
+    <ClInclude Include="src\include\SWAEngine\Physics\IPhysicsObject.h" />
     <ClInclude Include="src\include\SWAEngine\Scene.h" />
     <ClInclude Include="src\include\SWAEngine\SceneManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h" />
@@ -218,8 +218,8 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapMesh.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\PropertyManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\SandManager.h" />
-    <ClInclude Include="src\include\SWAEngine\Time.h" />
-    <ClInclude Include="src\include\SWAEngine\Transform.h" />
+    <ClInclude Include="src\include\SWAEngine\Math\Time.h" />
+    <ClInclude Include="src\include\SWAEngine\Math\Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

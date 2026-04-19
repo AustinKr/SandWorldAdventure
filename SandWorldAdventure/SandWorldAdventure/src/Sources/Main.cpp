@@ -4,7 +4,7 @@ NOTE: can only run on Release
 */
 
 #include "SWA/Game.h"
-#include "SWAEngine/Time.h"
+#include "SWAEngine/Math/Time.h"
 
 #include "GP2D/Pipeline/Window/Window.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
@@ -64,7 +64,7 @@ void InitializeGame()
 	const auto fixedDuration = std::chrono::seconds((long)fixedDeltaTime);
 
 	// Used to track time
-	SWAEngine::Time frameTime = {};
+	SWAEngine::Math::Time frameTime = {};
 	auto timePoint = std::chrono::steady_clock::now();
 
 	while (!glfwWindowShouldClose(GP2D::Pipeline::Window::Window::sp_Window))

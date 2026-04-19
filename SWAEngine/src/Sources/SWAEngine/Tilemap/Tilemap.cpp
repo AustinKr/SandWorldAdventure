@@ -32,7 +32,7 @@ namespace SWAEngine::Tilemap
 		mp_ActiveTilesContainer = new TilemapContainer();
 		mp_PendingTilesContainer = new TilemapContainer();
 	}
-	void Tilemap::Update(Time time)
+	void Tilemap::Update(Math::Time time)
 	{
 		UpdateTiles(time, ApplyPendingTiles(time));
 	}
@@ -176,7 +176,7 @@ namespace SWAEngine::Tilemap
 		return tile.X >= 0 && tile.Y >= 0 && tile.X < GetBounds().X && tile.Y < GetBounds().Y;
 	}
 
-	Tilemap::TILES Tilemap::ApplyPendingTiles(Time time)
+	Tilemap::TILES Tilemap::ApplyPendingTiles(Math::Time time)
 	{
 		TILES tilesToUpdate = {};
 
@@ -225,7 +225,7 @@ namespace SWAEngine::Tilemap
 
 		return tilesToUpdate;
 	}
-	void Tilemap::UpdateTiles(Time time, TILES tiles)
+	void Tilemap::UpdateTiles(Math::Time time, TILES tiles)
 	{
 		for (auto& pair : tiles)
 		{

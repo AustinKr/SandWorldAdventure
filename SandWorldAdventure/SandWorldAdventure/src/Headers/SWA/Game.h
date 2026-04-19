@@ -2,7 +2,7 @@
 
 #include "SWAEngine/Tilemap/Tilemap.h"
 #include "SWAEngine/Tilemap/TilemapMesh.h"
-#include "SWAEngine/Time.h"
+#include <SWAEngine/Math/Time.h>
 
 #include "SWA/Player/Player.h"
 
@@ -24,7 +24,7 @@ namespace SWA
 
 		static void CreateResources();
 		static void Initialize();
-		static void Update(SWAEngine::Time time);
+		static void Update(SWAEngine::Math::Time time);
 		static void Release();
 	};
 }

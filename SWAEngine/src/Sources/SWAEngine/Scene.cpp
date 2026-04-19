@@ -36,7 +36,7 @@ namespace SWAEngine
 	}
 
 
-	void Scene::UpdateObjects(Time time)
+	void Scene::UpdateObjects(Math::Time time)
 	{
 		for (auto& obj : m_ObjectsRegistry)
 		{

@@ -20,7 +20,7 @@ namespace SWA::Player::Inventory
 		ToolInventory.SetItemAt({ 1,2 }, new Items::PaintTool(0xff0000ff, .3f, 10));
 	}
 
-	void Manager::TryUseSelectedItem(Inputs& rInputs, SWAEngine::Time time)
+	void Manager::TryUseSelectedItem(Inputs& rInputs, SWAEngine::Math::Time time)
 	{
 		auto selectedItem = ToolInventory.GetItemAt(ToolInventory.SelectedItemPosition);
 		if (selectedItem != nullptr)

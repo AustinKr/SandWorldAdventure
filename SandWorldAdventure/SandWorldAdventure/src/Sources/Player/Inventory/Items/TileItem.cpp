@@ -16,7 +16,7 @@ namespace SWA::Player::Inventory::Items
 	TileItem::TileItem(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior)
 		: BaseItem(ITEM_TILE, textureName), Color(color), ColorDeviation(colorDeviation), BehaviorUID(behavior) {}
 
-	SWAEngine::Tilemap::Tile TileItem::CreateTile(Time time)
+	SWAEngine::Tilemap::Tile TileItem::CreateTile(Math::Time time)
 	{
 		Tile tile = { SOLID, 0x0, true };
 		if (BehaviorUID != SOLID)

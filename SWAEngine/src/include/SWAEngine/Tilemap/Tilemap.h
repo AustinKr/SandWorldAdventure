@@ -2,7 +2,7 @@
 #include "SWAEngine/BaseGameObject.h"
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
 #include "SWAEngine/Tilemap/PropertyManager.h"
-#include "SWAEngine/Time.h"
+#include "SWAEngine/Math/Time.h"
 #include <unordered_map>
 
 namespace SWAEngine::Tilemap
@@ -22,7 +22,7 @@ namespace SWAEngine::Tilemap
 		Math::Vector2 TileScale;
 
 		Tilemap(const char* name, Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
-		virtual void Update(Time time) override;
+		virtual void Update(Math::Time time) override;
 		virtual void Release() override;
 		bool IsEmpty();
 
@@ -62,9 +62,9 @@ namespace SWAEngine::Tilemap
 		// Contains new override tiles or null tiles to replace any currently active in their place
 		ITilemapContainer* mp_PendingTilesContainer;
 
-		TILES ApplyPendingTiles(Time time);
+		TILES ApplyPendingTiles(Math::Time time);
 		// TODO: This is slow to update all tiles
-		void UpdateTiles(Time time, TILES tiles);
+		void UpdateTiles(Math::Time time, TILES tiles);
 
 	};
 }

@@ -12,6 +12,6 @@ namespace SWA::Player::Inventory::Items
 		TileTool();
 		TileTool(TileToolFlags flags);
 
-		virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Time time) override;
+		virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Math::Time time) override;
 	};
 }

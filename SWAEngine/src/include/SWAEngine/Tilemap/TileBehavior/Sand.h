@@ -7,9 +7,9 @@ namespace SWAEngine::Tilemap::TileBehavior
 	struct SWA_ENGINE_API Sand : IBehavior
 	{
 	public:
-		virtual void Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time) override;
+		virtual void Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Math::Time time) override;
 
-		virtual Tile CreateNew(Time time) override;
+		virtual Tile CreateNew(Math::Time time) override;
 	//private:
 		//void TryMove(Math::Vector2 movement, Math::Vector2Int pos, Tilemap* const pTilemap);
 	};

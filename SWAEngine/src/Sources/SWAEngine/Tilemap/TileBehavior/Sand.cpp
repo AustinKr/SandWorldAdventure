@@ -5,7 +5,7 @@
 
 namespace SWAEngine::Tilemap::TileBehavior
 {
-	void Sand::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time)
+	void Sand::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Math::Time time)
 	{
 		// Try get properties
 		if (tile.p_Properties == nullptr)
@@ -51,7 +51,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 		*/
 	}
 
-	Tile Sand::CreateNew(Time time)
+	Tile Sand::CreateNew(Math::Time time)
 	{
 		Tile tile = {SAND, 0x0, true};
 		tile.p_Properties = new TilePropertyData::SandData{ {1} };

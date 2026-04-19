@@ -66,10 +66,10 @@
     <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\IPhysicsObject.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Physics\IPhysicsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Transform.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Physics\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,7 +101,7 @@
     <ClInclude Include="src\include\SWAEngine\BaseGameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Time.h">
+    <ClInclude Include="src\include\SWAEngine\Math\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Inventory\BaseItem.h">
@@ -152,10 +152,10 @@
     <ClInclude Include="src\include\SWAEngine\FileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\IPhysicsObject.h">
+    <ClInclude Include="src\include\SWAEngine\Physics\IPhysicsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Transform.h">
+    <ClInclude Include="src\include\SWAEngine\Math\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

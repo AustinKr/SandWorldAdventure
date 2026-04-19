@@ -1,6 +1,6 @@
 #pragma once
-#include "SWAEngine/dllClause.h"
-#include "SWAEngine/Time.h"
+#include <SWAEngine/dllClause.h>
+#include <SWAEngine/Math/Time.h>
 
 namespace SWAEngine
 {
@@ -21,7 +21,7 @@ namespace SWAEngine
 		BaseGameObject(const char* objName, const char* sceneName = nullptr);
 
 		// Nothing by default
-		virtual void Update(Time);
+		virtual void Update(Math::Time);
 		// Release this by default
 		virtual void Release();
 		// Sets active state by default

@@ -14,6 +14,6 @@ namespace SWA::Player::Inventory::Items
 		PaintTool();
 		PaintTool(GP2D::GP2D_HEX_COLOR color, float strength, int radius);
 
-		virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Time time) override;
+		virtual void TryUse(SWAEngine::Inventory::Inventory& rItemInventory, Inputs& rInputs, SWAEngine::Math::Time time) override;
 	};
 }

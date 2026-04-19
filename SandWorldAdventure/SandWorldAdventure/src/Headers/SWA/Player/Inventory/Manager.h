@@ -1,7 +1,7 @@
 #pragma once
 #include "SWAEngine/Inventory/Inventory.h"
 #include "SWA/Player/Inputs.h"
-#include "SWAEngine/Time.h"
+#include <SWAEngine/Math/Time.h>
 
 namespace SWA::Player::Inventory
 {
@@ -14,7 +14,7 @@ namespace SWA::Player::Inventory
 		// Initializes the inventories with default items
 		Manager();
 
-		void TryUseSelectedItem(Inputs& rInputs, SWAEngine::Time time);
+		void TryUseSelectedItem(Inputs& rInputs, SWAEngine::Math::Time time);
 		
 		void Release();
 	};

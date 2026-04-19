@@ -124,7 +124,7 @@ namespace SWA
 		// Set up game
 		InitializeGame();
 	}
-	void Game::Update(SWAEngine::Time time)
+	void Game::Update(SWAEngine::Math::Time time)
 	{
 		auto camera = GP2D::Pipeline::GenericPipeline::s_ActiveCamera;
 		glViewport(0, 0, camera.GetScreenSize().X, camera.GetScreenSize().Y);

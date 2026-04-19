@@ -3,7 +3,7 @@
 
 namespace SWAEngine::Tilemap::TileBehavior
 {
-	void Fluid::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Time time)
+	void Fluid::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Math::Time time)
 	{
 		// Move down if empty space
 		auto pair = pTilemap->TryStepMoveTile(pos, Math::Vector2Int(0, -1));
@@ -29,7 +29,7 @@ namespace SWAEngine::Tilemap::TileBehavior
 		}
 	}
 
-	Tile Fluid::CreateNew(Time time)
+	Tile Fluid::CreateNew(Math::Time time)
 	{
 		Tile tile = { FLUID, 0x0, true };
 		//tile.p_Properties = new TilePropertyManager::Data::SandData();

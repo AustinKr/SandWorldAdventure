@@ -67,7 +67,7 @@ namespace SWA::Player
 		AddVelocity({ 0, -Gravity * m_Time.RealDeltaTime }); // Accerate but as an impulse
 	}
 
-	void Player::Update(SWAEngine::Time time)
+	void Player::Update(SWAEngine::Math::Time time)
 	{
 		m_Time = time;
 
