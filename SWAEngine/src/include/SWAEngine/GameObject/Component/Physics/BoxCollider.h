@@ -1,6 +1,6 @@
 #pragma once
 #include "Collider.h"
-#include "PhysicsObject.h"
+#include "Rigidbody.h"
 #include <SWAEngine/Math/Transform.h>
 
 namespace SWAEngine::GameObject::Component::Physics
@@ -17,7 +17,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		// Creates an instance of box collider
 		static BoxCollider* const CreateCollider();
 		// Creates an instance of box collider
-		static BoxCollider* const CreateCollider(PhysicsObject* const pLinkedObj);
+		static BoxCollider* const CreateCollider(Rigidbody* const pLinkedObj);
 
 		virtual ColliderTypes GetType() override;
 		virtual bool IsColliding(Collider* other, int tag = SELECT_ALL) override;

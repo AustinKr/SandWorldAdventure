@@ -1,21 +1,21 @@
-#include <SWAEngine/GameObject/Component/Physics/PhysicsObject.h>
+#include <SWAEngine/GameObject/Component/Physics/Rigidbody.h>
 
 using namespace SWAEngine::Math;
 
 namespace SWAEngine::GameObject::Component::Physics
 {
-	const int PhysicsObject::MAX_COLLISION_STEPS = 5;
-	PhysicsObject::PhysicsObject() : 
+	const int Rigidbody::MAX_COLLISION_STEPS = 5;
+	Rigidbody::Rigidbody() : 
 		p_Collider(nullptr), m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
 		m_IsTouchingGround{}, m_Time{}, Coordinates{}
 	{
 	}
 
-	std::string const PhysicsObject::GetName()
+	std::string const Rigidbody::GetName()
 	{
 		return "physics";
 	}
-	void PhysicsObject::Update(Math::Time time)
+	void Rigidbody::Update(Math::Time time)
 	{
 		m_Time = time;
 
@@ -27,13 +27,13 @@ namespace SWAEngine::GameObject::Component::Physics
 
 		TryApplyVelocity();
 	}
-	void PhysicsObject::Release()
+	void Rigidbody::Release()
 	{
 		delete(this);
 	}
 	
 
-	bool PhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
+	bool Rigidbody::StepMove(SWAEngine::Math::Vector2 movement)
 	{
 		Vector2 origin = Coordinates.GetPosition();
 		double factor = 1.0;
@@ -56,7 +56,7 @@ namespace SWAEngine::GameObject::Component::Physics
 
 		return true;
 	}
-	void PhysicsObject::TryApplyVelocity()
+	void Rigidbody::TryApplyVelocity()
 	{
 		//if (IsColliding())
 		//	return; // Fail; TODO: Handle when already colliding
@@ -82,34 +82,34 @@ namespace SWAEngine::GameObject::Component::Physics
 	}
 
 	// Returns the currently applied velocity
-	Math::Vector2 PhysicsObject::GetVelocity()
+	Math::Vector2 Rigidbody::GetVelocity()
 	{
 		return m_Velocity;
 	}
 	// Returns the actual change in velocity over change in time
-	Math::Vector2 PhysicsObject::GetAcceleration()
+	Math::Vector2 Rigidbody::GetAcceleration()
 	{
 		return (m_Velocity - m_LastVelocity) / m_Time.RealDeltaTime;
 	}
 
 	// Moves by an impluse
 	// Note that this is only applied at the end of every Player::Update()
-	void PhysicsObject::AddVelocity(Math::Vector2 vel)
+	void Rigidbody::AddVelocity(Math::Vector2 vel)
 	{
 		m_Velocity += vel;
 	}
 	// Continually accelerates by the given amount
-	void PhysicsObject::Accelerate(Math::Vector2 acc)
+	void Rigidbody::Accelerate(Math::Vector2 acc)
 	{
 		m_Acceleration += acc;
 	}
 
-	void PhysicsObject::Jump(double height, double gravity)
+	void Rigidbody::Jump(double height, double gravity)
 	{
 		AddVelocity({ 0,sqrt(2.0 * gravity * height) });
 		m_IsTouchingGround = false;
 	}
-	bool PhysicsObject::IsTouchingGround()
+	bool Rigidbody::IsTouchingGround()
 	{
 		return m_IsTouchingGround;
 	}

@@ -11,7 +11,7 @@ namespace SWA::Player
 	// TODO: Checks collision against the tilemap, bounds of tilemap, and other entities
 	// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
 	// A player object that is associated with its mesh
-	struct Player : SWAEngine::GameObject::GameObject, SWAEngine::GameObject::Component::Physics::PhysicsObject
+	struct Player : SWAEngine::GameObject::GameObject, SWAEngine::GameObject::Component::Physics::Rigidbody
 	{
 	private:
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;

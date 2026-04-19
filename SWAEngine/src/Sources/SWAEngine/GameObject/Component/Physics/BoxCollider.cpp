@@ -9,7 +9,7 @@ namespace SWAEngine::GameObject::Component::Physics
 
 		return newObject;
 	}
-	BoxCollider* const BoxCollider::CreateCollider(PhysicsObject* const pLinkedObj)
+	BoxCollider* const BoxCollider::CreateCollider(Rigidbody* const pLinkedObj)
 	{
 		BoxCollider* const pObj = CreateCollider();
 		pLinkedObj->Coordinates.OnSetPosition += [=](auto pos) {pObj->Coordinates.SetPosition(pos); };

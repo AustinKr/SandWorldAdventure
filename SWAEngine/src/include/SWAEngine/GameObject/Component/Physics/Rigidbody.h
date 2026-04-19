@@ -8,9 +8,8 @@
 
 namespace SWAEngine::GameObject::Component::Physics
 {
-	// TODO: rename to PhysicsComponent
 	// TODO: allow collision tags to be configured with physics objects
-	struct SWA_ENGINE_API PhysicsObject : IComponent
+	struct SWA_ENGINE_API Rigidbody : IComponent
 	{
 	private:
 		Math::Vector2 m_LastVelocity;
@@ -28,7 +27,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		bool StepMove(SWAEngine::Math::Vector2 movement);
 		void TryApplyVelocity();
 
-		PhysicsObject();
+		Rigidbody();
 	public:
 		static const int MAX_COLLISION_STEPS;
 		

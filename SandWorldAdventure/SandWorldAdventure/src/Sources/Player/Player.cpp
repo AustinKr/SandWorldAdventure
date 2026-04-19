@@ -18,7 +18,7 @@ using namespace SWA::Player::Inventory;
 namespace SWA::Player
 {
 	Player::Player() :
-		GameObject("Player"), PhysicsObject(),
+		GameObject("Player"), Rigidbody(),
 		m_Inputs{},
 		Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
 	{

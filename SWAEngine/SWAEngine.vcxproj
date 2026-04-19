@@ -178,7 +178,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\Inventory\Inventory.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\BoxCollider.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\Collider.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\PhysicsObject.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\Rigidbody.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\ColorUtility.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp" />
@@ -201,7 +201,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\BoxCollider.h" />
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\ColliderTypes.h" />
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\Collider.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\PhysicsObject.h" />
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\Rigidbody.h" />
     <ClInclude Include="src\include\SWAEngine\Scene.h" />
     <ClInclude Include="src\include\SWAEngine\SceneManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h" />
