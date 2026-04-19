@@ -9,6 +9,13 @@ namespace SWAEngine::Physics
 
 		return newObject;
 	}
+	BoxCollider* const BoxCollider::CreateCollider(IPhysicsObject* const pLinkedObj)
+	{
+		BoxCollider* const pObj = CreateCollider();
+		pLinkedObj->Coordinates.OnSetPosition += [=](auto pos) {pObj->Coordinates.SetPosition(pos); };
+		pLinkedObj->Coordinates.OnSetScale += [=](auto scale) {pObj->Coordinates.SetScale(scale); };
+		return pObj;
+	}
 
 	ColliderTypes BoxCollider::GetType()
 	{

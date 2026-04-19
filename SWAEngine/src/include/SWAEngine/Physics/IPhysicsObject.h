@@ -2,9 +2,12 @@
 #include <SWAEngine/dllClause.h>
 #include <SWAEngine/Math/Transform.h>
 #include <SWAEngine/Math/Time.h>
+#include "Collider.h"
 
 namespace SWAEngine::Physics
 {
+	// TODO: Rename
+	// TODO: allow collision tags to be configured with physics objects
 	struct SWA_ENGINE_API IPhysicsObject
 	{
 	private:
@@ -27,8 +30,9 @@ namespace SWAEngine::Physics
 	public:
 		static const int MAX_COLLISION_STEPS;
 		
+		Collider* p_Collider;
 		Math::Transform Coordinates;
-
+		
 		void UpdatePhysics(Math::Time time);
 
 		// Returns the currently applied velocity
@@ -44,8 +48,5 @@ namespace SWAEngine::Physics
 
 		void Jump(double height, double gravity);
 		bool IsTouchingGround();
-
-		// TODO: can replace with a collider object
-		virtual bool IsColliding() = 0;
 	};
 }

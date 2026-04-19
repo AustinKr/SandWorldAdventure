@@ -8,6 +8,7 @@
 
 namespace SWA::Player
 {
+	// TODO: Checks collision against the tilemap, bounds of tilemap, and other entities
 	// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
 	// A player object that is associated with its mesh
 	struct Player : SWAEngine::BaseGameObject, SWAEngine::Physics::IPhysicsObject
@@ -37,8 +38,5 @@ namespace SWA::Player
 		// Inherited via BaseGameObject
 		virtual void Update(SWAEngine::Math::Time time) override;
 		virtual void Release() override;
-
-		// Checks collision against the tilemap, bounds of tilemap, and other entities
-		virtual bool IsColliding() override;
 	};
 }

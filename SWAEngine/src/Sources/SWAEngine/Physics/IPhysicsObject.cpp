@@ -5,10 +5,10 @@ using namespace SWAEngine::Math;
 namespace SWAEngine::Physics
 {
 	const int IPhysicsObject::MAX_COLLISION_STEPS = 5;
-	IPhysicsObject::IPhysicsObject() : m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
+	IPhysicsObject::IPhysicsObject() : 
+		p_Collider(nullptr), m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
 		m_IsTouchingGround{}, m_Time{}, Coordinates{}
 	{
-
 	}
 
 	bool IPhysicsObject::StepMove(SWAEngine::Math::Vector2 movement)
@@ -20,7 +20,7 @@ namespace SWAEngine::Physics
 			// Set to current position to try
 			Coordinates.SetPosition(origin + movement * factor);
 
-			if (IsColliding())
+			if (p_Collider->IsColliding())
 				factor /= 2; // Move back
 			else if (factor < 1.0)
 				factor *= 1.5; // Move forward
@@ -29,7 +29,7 @@ namespace SWAEngine::Physics
 		}
 
 		// Move back to start if collision wasn't resolved
-		if (IsColliding())
+		if (p_Collider->IsColliding())
 			Coordinates.SetPosition(origin);
 
 		return true;

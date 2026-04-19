@@ -28,6 +28,6 @@ namespace SWAEngine::Physics
 
 		// Deletes memory and removes from internal registry
 		void Release();
-		static void ReleaseAll();
+		static void ReleaseAll(); // TODO: Call this inside game somewhere
 	};
 }

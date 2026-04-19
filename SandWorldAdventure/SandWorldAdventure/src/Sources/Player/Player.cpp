@@ -7,7 +7,7 @@
 #include "SWA/RenderLayerNames.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
 
-
+#include <SWAEngine/Physics/BoxCollider.h>
 
 using namespace GP2D::Pipeline;
 using namespace GP2D::Math;
@@ -22,6 +22,9 @@ namespace SWA::Player
 		m_Inputs{},
 		Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
 	{
+		// Set collider
+		p_Collider = SWAEngine::Physics::BoxCollider::CreateCollider(this);
+
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("player"), true);
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
@@ -89,10 +92,10 @@ namespace SWA::Player
 		BaseGameObject::Release();
 	}
 
-	bool Player::IsColliding()
+	/*bool Player::IsColliding()
 	{
 		return
 			Coordinates.GetPosition().X < Game::p_Tilemap->Origin.X || Coordinates.GetPosition().Y < Game::p_Tilemap->Origin.Y ||
 			Game::p_Tilemap->DetectCollisionRect(Game::p_Tilemap->WorldToTile(Coordinates.GetPosition()), Game::p_Tilemap->WorldToTile(Coordinates.GetPosition() + Coordinates.GetScale()));
-	}
+	}*/
 }
