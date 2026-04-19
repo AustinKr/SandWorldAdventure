@@ -1,4 +1,8 @@
-. Separate physics from player to reuse for other rigidbodies
+. Create componenets system for gameobjects
+. make rigidbody component
+. make collider component
+
+
 . Allow user to select tools using numbers on the keyboard
 . Create text display in GP2D
 . Create GUI input, slider, text display in GP2D

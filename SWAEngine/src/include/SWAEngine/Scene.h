@@ -1,6 +1,6 @@
 #pragma once
 #include "SWAEngine/dllClause.h"
-#include "BaseGameObject.h"
+#include "GameObject/BaseGameObject.h"
 #include <unordered_map>
 
 namespace SWAEngine
@@ -10,7 +10,7 @@ namespace SWAEngine
 	struct SWA_ENGINE_API Scene
 	{
 	private:
-		std::unordered_map<const char*, BaseGameObject*> m_ObjectsRegistry;
+		std::unordered_map<const char*, GameObject::BaseGameObject*> m_ObjectsRegistry;
 
 		// The name of the scene
 		const char* m_Name;
@@ -25,8 +25,8 @@ namespace SWAEngine
 		void SetActive();
 		bool GetActive();
 
-		BaseGameObject* const GetObject(const char* name);
-		bool RegisterObject(BaseGameObject* pObj);
+		GameObject::BaseGameObject* const GetObject(const char* name);
+		bool RegisterObject(GameObject::BaseGameObject* pObj);
 
 		// Updates all registered objects
 		void UpdateObjects(Math::Time time);

@@ -23,14 +23,14 @@ namespace SWAEngine
 		return m_Name == SceneManager::GetScene().GetName();
 	}
 
-	BaseGameObject* const Scene::GetObject(const char* name)
+	GameObject::BaseGameObject* const Scene::GetObject(const char* name)
 	{
 		if (!m_ObjectsRegistry.contains(name))
 			return nullptr;
 
 		return m_ObjectsRegistry.at(name);
 	}
-	bool Scene::RegisterObject(BaseGameObject* pObj)
+	bool Scene::RegisterObject(GameObject::BaseGameObject* pObj)
 	{
 		return m_ObjectsRegistry.insert(std::make_pair(pObj->GetName(), pObj)).second;
 	}

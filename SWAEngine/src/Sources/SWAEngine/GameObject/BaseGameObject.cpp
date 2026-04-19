@@ -1,7 +1,7 @@
-#include "SWAEngine/BaseGameObject.h"
+#include "SWAEngine/GameObject/BaseGameObject.h"
 #include "SWAEngine/SceneManager.h"
 
-namespace SWAEngine
+namespace SWAEngine::GameObject
 {
 	
 	const char* const BaseGameObject::GetName()

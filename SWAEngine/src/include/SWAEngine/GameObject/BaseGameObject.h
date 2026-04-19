@@ -1,8 +1,9 @@
 #pragma once
 #include <SWAEngine/dllClause.h>
 #include <SWAEngine/Math/Time.h>
+#include <unordered_map>
 
-namespace SWAEngine
+namespace SWAEngine::GameObject
 {
 	// Should be created by new()
 	// A physical object inside of the game that requires functionality every frame
@@ -13,6 +14,7 @@ namespace SWAEngine
 		const char* m_Name; // TODO: can make name changeable
 		bool m_IsActive;
 
+		//std::unordered_map<int, Component*>
 	public:
 		const char* const GetName();
 		bool GetActive();

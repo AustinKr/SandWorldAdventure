@@ -1,5 +1,5 @@
 #pragma once
-#include "SWAEngine/BaseGameObject.h"
+#include "SWAEngine/GameObject/BaseGameObject.h"
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
 #include "SWAEngine/Tilemap/PropertyManager.h"
 #include "SWAEngine/Math/Time.h"
@@ -7,7 +7,8 @@
 
 namespace SWAEngine::Tilemap
 {
-	struct SWA_ENGINE_API Tilemap : BaseGameObject
+	// TODO: Move tilemap into GameObject
+	struct SWA_ENGINE_API Tilemap : GameObject::BaseGameObject
 	{
 	public:
 		static const int ACTIVE_TILES_ID; // Used in PropertyManager
