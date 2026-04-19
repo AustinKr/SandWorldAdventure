@@ -24,7 +24,7 @@ namespace SWAEngine::Physics
 
 		/// <summary> Checks collision with all registered colliders with one of the given tags </summary>
 		/// <param name="tag">Used to select colliders with one of the given tags to test collision</param>
-		bool IsColliding(int tag = SELECT_ALL);
+		virtual bool IsColliding(int tag = SELECT_ALL);
 
 		// Deletes memory and removes from internal registry
 		void Release();

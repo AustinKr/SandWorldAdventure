@@ -92,6 +92,7 @@ namespace SWA::Player
 		BaseGameObject::Release();
 	}
 
+	// TODO: Create tilemap collider in SWAEngine, possibly create PlayerCollider in SWA for world origin
 	/*bool Player::IsColliding()
 	{
 		return
