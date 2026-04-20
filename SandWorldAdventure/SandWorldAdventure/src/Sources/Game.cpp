@@ -77,8 +77,10 @@ namespace SWA
 		p_Tilemap->SetTile({ 3, 3 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xffFFffFF, true });
 
 		// Create the player
-		p_MainPlayer = new Player::Player();
-		p_MainPlayer->Coordinates.SetPosition({ 1, 2 });
+		SWAEngine::GameObject::GameObject obj = { "Player" };
+		SWAEngine::SceneManager::GetScene().RegisterObject(obj); // TODO: Make scene.createobject instead of register
+		p_MainPlayer = Player::Player::CreateInstance(obj);
+		p_MainPlayer->p_LinkedCollider->p_LinkedTransform->SetPosition({ 1, 2 });
 	}
 
 

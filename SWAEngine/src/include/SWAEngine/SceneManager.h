@@ -16,9 +16,9 @@ namespace SWAEngine
 		// Creates and registers the scene, and if there is no active scene assigns it
 		static bool CreateScene(std::string name);
 		// Releases the scene (or all in nullptr)
-		static void ReleaseScene(std::string name = nullptr);
-		// Gets the scene (or active if nullptr)
-		static Scene& GetScene(std::string name = nullptr);
+		static void ReleaseScene(std::string name = "\0");
+		// Gets the scene (or active if empty)
+		static Scene& GetScene(std::string name = "\0");
 
 		static void SetActiveScene(std::string name);
 	};

@@ -27,6 +27,8 @@ namespace SWAEngine::GameObject::Component::Physics
 	{
 		return "physics";
 	}
+	void Rigidbody::SetActive(bool state) {}
+	bool Rigidbody::GetActive() { return true; }
 	void Rigidbody::Update(std::string objectName, Math::Time time)
 	{
 		// Update some variables

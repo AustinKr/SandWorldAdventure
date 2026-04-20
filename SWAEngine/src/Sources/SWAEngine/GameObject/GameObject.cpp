@@ -18,11 +18,13 @@ namespace SWAEngine::GameObject
 	{
 	}
 
-	void GameObject::Update(Math::Time)
+	void GameObject::Update(Math::Time time)
 	{
-		/*nothing*/
+		for (auto& pair : m_Components)
+		{
+			pair.second->Update(GetName(), time);
+		}
 	}
-
 	void GameObject::Release()
 	{
 		for (auto& pair : m_Components)
@@ -30,14 +32,16 @@ namespace SWAEngine::GameObject
 			pair.second->Release();
 		}
 		m_Components.clear();
-
-		delete(this);
 	}
 
 
 	void GameObject::SetActive(bool state)
 	{
 		m_IsActive = state;
+		for (auto& pair : m_Components)
+		{
+			pair.second->SetActive(state);
+		}
 	}
 	bool GameObject::GetActive()
 	{

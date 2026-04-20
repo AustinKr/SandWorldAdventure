@@ -35,13 +35,15 @@ namespace SWAEngine::GameObject::Component::Physics
 	public:
 		static const int MAX_COLLISION_STEPS;
 
-		Transform* const p_LinkedTransform;
+		Transform* p_LinkedTransform;
 
 		// Creates an instance of the rigidbody. Automatically creates a transform component if needed
 		static Rigidbody* const CreateRigidbody(GameObject& linkedObject);
 
 		virtual std::string const GetName() override;
-		virtual void Update(std::string objectName, Math::Time time) override;
+		virtual void SetActive(bool state) override;
+		virtual bool GetActive() override; // Returns true by default
+		virtual void Update(std::string objectName, Math::Time time) override; // TODO: Make rigidbody update after all other components
 		virtual void Release() override;
 
 		// Returns the currently applied velocity

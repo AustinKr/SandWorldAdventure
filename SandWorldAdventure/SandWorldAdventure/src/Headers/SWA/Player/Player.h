@@ -1,17 +1,21 @@
 #pragma once
-#include <SWAEngine/GameObject/Component/Physics/PhysicsObject.h>
-#include "SWAEngine/GameObject/BaseGameObject.h"
+#include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/GameObject/Component/IComponent.h>
+#include <SWAEngine/GameObject/Component/Physics/Rigidbody.h>
+#include <SWAEngine/GameObject/Component/Physics/Collider.h>
 #include "SWA/Player/Inputs.h"
 #include "SWA/Player/Inventory/Manager.h"
 
 #include "GP2D/Pipeline/Mesh/Mesh.h"
+
+#include <string>
 
 namespace SWA::Player
 {
 	// TODO: Checks collision against the tilemap, bounds of tilemap, and other entities
 	// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
 	// A player object that is associated with its mesh
-	struct Player : SWAEngine::GameObject::GameObject, SWAEngine::GameObject::Component::Physics::Rigidbody
+	struct Player : SWAEngine::GameObject::Component::IComponent
 	{
 	private:
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;
@@ -20,8 +24,14 @@ namespace SWA::Player
 
 		Inputs m_Inputs;
 
-		static GP2D::GP2D_HEX_COLOR MixColor(GP2D::GP2D_HEX_COLOR colA, GP2D::GP2D_HEX_COLOR colB);
+		// TODO: Could pass reference to its Transform along to player
+		Player(
+			SWAEngine::GameObject::Component::Physics::Rigidbody* const pRigidbody,
+			SWAEngine::GameObject::Component::Physics::Collider* const pCollider);
 	public:
+		SWAEngine::GameObject::Component::Physics::Rigidbody* p_LinkedRigidbody;
+		SWAEngine::GameObject::Component::Physics::Collider* p_LinkedCollider;
+
 		Inventory::Manager Inventory;
 
 		double Gravity;
@@ -32,11 +42,15 @@ namespace SWA::Player
 		// This should only be called once when the application begins and is the only instance used
 		// Creates the mesh with default size
 		// Creates the inventory and gui
-		Player();
+		static Player* const CreateInstance(SWAEngine::GameObject::GameObject& linkedObject);
+
 		void Move();
 
-		// Inherited via BaseGameObject
-		virtual void Update(SWAEngine::Math::Time time) override;
+		// Inherited via IComponent
+		virtual std::string const GetName() override;
+		virtual void SetActive(bool state) override;
+		virtual bool GetActive() override;
+		virtual void Update(std::string objectName, SWAEngine::Math::Time time) override;
 		virtual void Release() override;
 	};
 }

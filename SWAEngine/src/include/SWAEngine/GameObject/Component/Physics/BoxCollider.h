@@ -13,7 +13,6 @@ namespace SWAEngine::GameObject::Component::Physics
 		BoxCollider(Transform* const pTransform);
 
 	public:
-		Transform* const p_LinkedTransform;
 		
 		// Creates an instance of box collider. Automatically creates a transform component if needed
 		static BoxCollider* const CreateCollider(GameObject& linkedObject);

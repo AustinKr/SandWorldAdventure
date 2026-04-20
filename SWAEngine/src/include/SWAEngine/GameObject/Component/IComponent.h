@@ -5,11 +5,13 @@
 
 namespace SWAEngine::GameObject::Component
 {
-	struct IComponent
+	struct SWA_ENGINE_API IComponent
 	{
 		// The alias used for this component. 
 		// Note: GameObjects can only have one of each Component
 		virtual std::string const GetName() = 0; // TODO: Maybe make component names static
+		virtual void SetActive(bool state) = 0;
+		virtual bool GetActive() = 0;
 		// Used for physics and other
 		virtual void Update(std::string objectName, Math::Time) = 0;
 		// Release this component and all data created within it

@@ -1,6 +1,7 @@
 #pragma once
 #include <SWAEngine/dllClause.h>
 #include <SWAEngine/GameObject/Component/IComponent.h>
+#include <SWAEngine/GameObject/Component/Transform.h>
 #include <set>
 
 #include "ColliderTypes.h"
@@ -14,12 +15,16 @@ namespace SWAEngine::GameObject::Component::Physics
 	protected:
 		static std::set<Collider*> ms_CollidersRegistry;
 
-		Collider() = default;
+		Collider(Transform* const pTransform);
 	public:
 		static const int SELECT_ALL = 0;
 
+		Transform* p_LinkedTransform;
+
 		virtual ColliderTypes GetType() = 0; 
 		virtual std::string const GetName() = 0;
+		virtual void SetActive(bool state) override {}; // Nothing by default
+		virtual bool GetActive() override { return true; } // Returns true by default
 		virtual void Update(std::string, Math::Time) override {} // Nothing by default
 
 		/// <summary/>

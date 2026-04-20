@@ -28,7 +28,7 @@ namespace SWAEngine::GameObject
 		}
 		void TryUnregisterComponent(Component::IComponent* pComp);
 		template<typename TYPE>
-		TYPE* const TryGetComponent(std::string name)
+		TYPE* const TryGetComponent(std::string name) // TODO: MAke this only require the template
 		{
 			return m_Components.contains(name) ? static_cast<TYPE*>(m_Components.at(name)) : nullptr;
 		}
@@ -39,11 +39,10 @@ namespace SWAEngine::GameObject
 		// Creates an object
 		GameObject(std::string objName);
 
-		// Nothing by default
-		virtual void Update(Math::Time);
-		// Release this by default
-		virtual void Release();
-		// Sets active state by default
-		virtual void SetActive(bool state);
+		// Updates registered components
+		void Update(Math::Time time);
+		// Releases registered components
+		void Release();
+		void SetActive(bool state);
 	};
 }

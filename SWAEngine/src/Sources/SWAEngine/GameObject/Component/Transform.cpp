@@ -30,6 +30,8 @@ namespace SWAEngine::GameObject::Component
 	{
 		return "transform";
 	}
+	void Transform::SetActive(bool state) {}
+	bool Transform::GetActive() { return true; }
 	void Transform::Update(std::string, Math::Time)
 	{
 		/*nothing*/

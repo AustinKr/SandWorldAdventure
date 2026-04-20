@@ -1,8 +1,6 @@
-. make gameobject have factory functions for creating components and automatically registry
-. Make basegameobject just gameobject not on heap, use components for custom funtionality
-. Make player a component
-. make rigidbody component
-. make collider component
+. make gameobject have factory functions for creating components and automatically registry template<COMP> {new COMP(*this); }; components can friend player for constructor
+. make GetComponent() that creates componet or retrieves
+. Make TryGetComponent() only require a template type( so make component names static and say TYPE::GetName() or TYPE::s_Name)
 
 
 . Allow user to select tools using numbers on the keyboard

@@ -4,6 +4,9 @@ namespace SWAEngine::GameObject::Component::Physics
 {
 	std::set<Collider*> Collider::ms_CollidersRegistry = {};
 
+	Collider::Collider(Transform* const pTransform) : p_LinkedTransform(pTransform)
+	{}
+
 	bool Collider::IsColliding(int tag)
 	{
 		// Compare all objects other than this with this

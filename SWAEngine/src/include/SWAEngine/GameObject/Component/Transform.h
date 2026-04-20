@@ -25,6 +25,8 @@ namespace SWAEngine::GameObject::Component
 		void SetScale(Math::Vector2 newScale);
 
 		virtual std::string const GetName() override;
+		virtual void SetActive(bool state) override;
+		virtual bool GetActive() override; // Returns true by default
 		virtual void Update(std::string, Math::Time) override;
 		virtual void Release() override;
 	};

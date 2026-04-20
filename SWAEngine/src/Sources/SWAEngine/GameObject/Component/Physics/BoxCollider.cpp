@@ -2,14 +2,14 @@
 
 namespace SWAEngine::GameObject::Component::Physics
 {
-	BoxCollider::BoxCollider(Transform* const pTransform) : p_LinkedTransform(pTransform) {}
+	BoxCollider::BoxCollider(Transform* const pTransform) : Collider(pTransform) {}
 
 	BoxCollider* const BoxCollider::CreateCollider(GameObject& linkedObject)
 	{
 		// Get transform
 		Transform* pTransform = linkedObject.TryGetComponent<Transform>("transform");
 		if (pTransform == nullptr)
-			pTransform = linkedObject.RegisterComponent(new Transform()); // TODO: Use facotry function
+			pTransform = linkedObject.RegisterComponent(new Transform());
 
 		// Create
 		BoxCollider* const newObject = new BoxCollider(pTransform);

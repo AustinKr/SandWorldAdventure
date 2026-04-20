@@ -33,9 +33,7 @@ namespace SWAEngine
 	}
 	bool Scene::RegisterObject(GameObject::GameObject& obj)
 	{
-		RegisterObject(obj);
 		obj.SetActive(GetActive());
-
 		return m_ObjectsRegistry.insert(std::make_pair(obj.GetName(), obj)).second;
 	}
 
