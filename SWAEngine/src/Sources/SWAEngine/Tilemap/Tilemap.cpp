@@ -36,7 +36,7 @@ namespace SWAEngine::Tilemap
 	{
 		return "tilemap";
 	}
-	void Tilemap::Update(Math::Time time)
+	void Tilemap::Update(std::string, Math::Time time)
 	{
 		UpdateTiles(time, ApplyPendingTiles(time));
 	}

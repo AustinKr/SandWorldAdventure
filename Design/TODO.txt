@@ -1,4 +1,4 @@
-
+. make gameobject have factory functions for creating components and automatically registry
 . Make basegameobject just gameobject not on heap, use components for custom funtionality
 . Make player a component
 . make rigidbody component

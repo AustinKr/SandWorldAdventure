@@ -1,6 +1,6 @@
-#include <SWAEngine/Math/Transform.h>
+#include <SWAEngine/GameObject/Component/Transform.h>
 
-namespace SWAEngine::Math
+namespace SWAEngine::GameObject::Component
 {
 	Transform::Transform() : m_Position{}, m_Scale{}, OnSetPosition{}, OnSetScale{}
 	{}
@@ -24,5 +24,18 @@ namespace SWAEngine::Math
 	{
 		OnSetScale.InvokeEvents(newScale);
 		m_Scale = newScale;
+	}
+
+	std::string const Transform::GetName()
+	{
+		return "transform";
+	}
+	void Transform::Update(std::string, Math::Time)
+	{
+		/*nothing*/
+	}
+	void Transform::Release() 
+	{
+		delete(this);
 	}
 }

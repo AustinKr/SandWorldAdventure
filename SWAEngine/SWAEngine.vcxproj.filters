@@ -69,7 +69,7 @@
     <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\Rigidbody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Math\Transform.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\Collider.cpp">
@@ -161,7 +161,7 @@
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\Rigidbody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Math\Transform.h">
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\Collider.h">

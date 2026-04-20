@@ -18,9 +18,9 @@ namespace SWAEngine::GameObject::Component::Physics
 	public:
 		static const int SELECT_ALL = 0;
 
-		virtual ColliderTypes GetType() = 0;
+		virtual ColliderTypes GetType() = 0; 
 		virtual std::string const GetName() = 0;
-		virtual void Update(Math::Time) {} // Nothing by default
+		virtual void Update(std::string, Math::Time) override {} // Nothing by default
 
 		/// <summary/>
 		/// <param name="other">The other collider</param>

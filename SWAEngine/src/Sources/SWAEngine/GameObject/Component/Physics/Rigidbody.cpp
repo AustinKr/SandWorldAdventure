@@ -1,22 +1,36 @@
 #include <SWAEngine/GameObject/Component/Physics/Rigidbody.h>
+#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/SceneManager.h>
 
 using namespace SWAEngine::Math;
 
 namespace SWAEngine::GameObject::Component::Physics
 {
 	const int Rigidbody::MAX_COLLISION_STEPS = 5;
-	Rigidbody::Rigidbody() : 
-		p_Collider(nullptr), m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
-		m_IsTouchingGround{}, m_Time{}, Coordinates{}
+	Rigidbody::Rigidbody(Transform* const pTransform) :
+		p_LinkedTransform(pTransform), m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
+		m_IsTouchingGround{}, m_Time{}
 	{
+	}
+	Rigidbody* const Rigidbody::CreateRigidbody(GameObject& linkedObject)
+	{
+		// Get transform
+		Transform* pTransform = linkedObject.TryGetComponent<Transform>("transform");
+		if (pTransform == nullptr)
+			pTransform = linkedObject.RegisterComponent(new Transform()); // TODO: Use facotry function
+
+		// Create and return
+		return new Rigidbody(pTransform);
 	}
 
 	std::string const Rigidbody::GetName()
 	{
 		return "physics";
 	}
-	void Rigidbody::Update(Math::Time time)
+	void Rigidbody::Update(std::string objectName, Math::Time time)
 	{
+		// Update some variables
+		m_ObjectName = objectName;
 		m_Time = time;
 
 		// Apply physics
@@ -35,14 +49,19 @@ namespace SWAEngine::GameObject::Component::Physics
 
 	bool Rigidbody::StepMove(SWAEngine::Math::Vector2 movement)
 	{
-		Vector2 origin = Coordinates.GetPosition();
+		// Get collider (assumed to have a value)
+		Collider* pCollider = SceneManager::GetScene().GetObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider");
+
+		Vector2 origin = p_LinkedTransform->GetPosition();
 		double factor = 1.0;
+		
+		// Iterate
 		for (int step = 0; step < MAX_COLLISION_STEPS; step++)
 		{
 			// Set to current position to try
-			Coordinates.SetPosition(origin + movement * factor);
+			p_LinkedTransform->SetPosition(origin + movement * factor);
 
-			if (p_Collider->IsColliding())
+			if (pCollider->IsColliding())
 				factor /= 2; // Move back
 			else if (factor < 1.0)
 				factor *= 1.5; // Move forward
@@ -51,8 +70,8 @@ namespace SWAEngine::GameObject::Component::Physics
 		}
 
 		// Move back to start if collision wasn't resolved
-		if (p_Collider->IsColliding())
-			Coordinates.SetPosition(origin);
+		if (pCollider->IsColliding())
+			p_LinkedTransform->SetPosition(origin);
 
 		return true;
 	}
@@ -62,6 +81,14 @@ namespace SWAEngine::GameObject::Component::Physics
 		//	return; // Fail; TODO: Handle when already colliding
 
 		Vector2 movement = m_Velocity * m_Time.RealDeltaTime;
+
+		// Try get collider
+		if (SceneManager::GetScene().GetObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider") == nullptr)
+		{
+			// Just move because we couldn't possibly collide
+			p_LinkedTransform->SetPosition(p_LinkedTransform->GetPosition() + movement);
+			return;
+		}
 
 		// Step in each direction
 		if (StepMove({ movement.X, 0 }))

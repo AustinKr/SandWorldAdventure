@@ -6,6 +6,7 @@
 
 namespace SWAEngine::GameObject
 {
+	// TODO: Could make all component factory static functions into methods of gameobject that automatically registers
 	// TODO: Rename BaseGameObject to GameObject and make custom functionality through Components
 	// A physical object inside of the game that requires functionality every frame
 	// (by default is an empty object that may be used to group other objects)
@@ -19,7 +20,7 @@ namespace SWAEngine::GameObject
 	public:
 		// Registers the component, returns nullptr if the component alias is not available or it failed to insert for whatever reason
 		template<typename TYPE>
-		TYPE* RegisterComponent(TYPE* pComp)
+		TYPE* const RegisterComponent(TYPE* pComp)
 		{
 			if (m_Components.contains(pComp->GetName()))
 				return nullptr;
@@ -27,9 +28,9 @@ namespace SWAEngine::GameObject
 		}
 		void TryUnregisterComponent(Component::IComponent* pComp);
 		template<typename TYPE>
-		TYPE* TryGetComponent(std::string name)
+		TYPE* const TryGetComponent(std::string name)
 		{
-			return m_Components.contains(name) ? m_Components.at(name) : nullptr;
+			return m_Components.contains(name) ? static_cast<TYPE*>(m_Components.at(name)) : nullptr;
 		}
 
 		std::string const GetName();

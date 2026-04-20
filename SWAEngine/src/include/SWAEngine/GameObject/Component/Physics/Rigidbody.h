@@ -1,14 +1,17 @@
 #pragma once
 #include <SWAEngine/dllClause.h>
-#include <SWAEngine/Math/Transform.h>
+#include <SWAEngine/Math/vector2.h>
 #include <SWAEngine/Math/Time.h>
 
 #include <SWAEngine/GameObject/Component/IComponent.h>
+#include <SWAEngine/GameObject/Component/Transform.h>
+#include <SWAEngine/GameObject/GameObject.h>
 #include "Collider.h"
 
 namespace SWAEngine::GameObject::Component::Physics
 {
 	// TODO: allow collision tags to be configured with physics objects
+	// Requires a Transform component
 	struct SWA_ENGINE_API Rigidbody : IComponent
 	{
 	private:
@@ -17,6 +20,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		Math::Vector2 m_Acceleration;
 
 		Math::Time m_Time;
+		std::string m_ObjectName; // The name of the linked GameObject
 
 		double m_Dampening;
 
@@ -27,15 +31,17 @@ namespace SWAEngine::GameObject::Component::Physics
 		bool StepMove(SWAEngine::Math::Vector2 movement);
 		void TryApplyVelocity();
 
-		Rigidbody();
+		Rigidbody(Transform* const pTransform);
 	public:
 		static const int MAX_COLLISION_STEPS;
-		
-		Collider* p_Collider; /// TODO: Make collider a component and have physics object check for it
-		Math::Transform Coordinates; // TODO: Make a transform component for player
-		
+
+		Transform* const p_LinkedTransform;
+
+		// Creates an instance of the rigidbody. Automatically creates a transform component if needed
+		static Rigidbody* const CreateRigidbody(GameObject& linkedObject);
+
 		virtual std::string const GetName() override;
-		virtual void Update(Math::Time time) override;
+		virtual void Update(std::string objectName, Math::Time time) override;
 		virtual void Release() override;
 
 		// Returns the currently applied velocity
