@@ -17,7 +17,7 @@ namespace SWAEngine::GameObject::Component
 		EventHandler<Math::Vector2> OnSetPosition;
 		EventHandler<Math::Vector2> OnSetScale;
 		
-		Transform(std::string, Math::Vector2 position = {}, Math::Vector2 scale = {});
+		Transform(Math::Vector2 position = {}, Math::Vector2 scale = {});
 
 		Math::Vector2 GetPosition() const;
 		void SetPosition(Math::Vector2 newPosition);
@@ -25,6 +25,7 @@ namespace SWAEngine::GameObject::Component
 		void SetScale(Math::Vector2 newScale);
 
 		virtual std::string const GetName() override;
+		virtual void Initialize(std::string objName) override;
 		virtual void SetActive(bool state) override;
 		virtual bool GetActive() override; // Returns true by default
 		virtual void Update(std::string, Math::Time) override;

@@ -22,13 +22,14 @@ namespace SWAEngine::Tilemap
 		// In world coordinates
 		Math::Vector2 TileScale;
 
-		Tilemap(std::string objName, Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
+		Tilemap(Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
 
 		virtual std::string const GetName() override;
+		virtual void Initialize(std::string objName) override;
+		virtual void Release() override;
+		virtual void Update(std::string, Math::Time time) override;
 		virtual void SetActive(bool state) override;
 		virtual bool GetActive() override; // Returns true by default
-		virtual void Update(std::string, Math::Time time) override;
-		virtual void Release() override;
 		bool IsEmpty();
 
 		// Returns a copy of the active tile

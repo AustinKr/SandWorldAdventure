@@ -38,13 +38,14 @@ namespace SWAEngine::GameObject::Component::Physics
 
 		Transform* p_LinkedTransform;
 
-		Rigidbody(std::string objName);
+		Rigidbody();
 
 		virtual std::string const GetName() override;
+		virtual void Initialize(std::string objName) override;
+		virtual void Release() override; 
+		virtual void Update(std::string objectName, Math::Time time) override; // TODO: Make rigidbody update after all other components
 		virtual void SetActive(bool state) override;
 		virtual bool GetActive() override; // Returns true by default
-		virtual void Update(std::string objectName, Math::Time time) override; // TODO: Make rigidbody update after all other components
-		virtual void Release() override;
 
 		// Returns the currently applied velocity
 		Math::Vector2 GetVelocity();

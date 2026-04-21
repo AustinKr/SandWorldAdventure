@@ -1,8 +1,4 @@
-(current notes)
-Create Scene::CreateObject() instead of RegisterObject()
-Create GameObject::GetComponent()
-Remove component factory functions. New system utilizes GameObject::GetComponent() which automatically registers or returns an existing component
-Rename Scene:: Get/Create Object to GameObject
+
 
 
 

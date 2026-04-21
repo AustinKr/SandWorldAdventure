@@ -2,8 +2,6 @@
 
 namespace SWAEngine::GameObject::Component::Physics
 {
-	BoxCollider::BoxCollider(std::string objName) : Collider(objName) {}
-
 	ColliderTypes BoxCollider::GetType()
 	{
 		return COLLIDER_TYPE_BOX;

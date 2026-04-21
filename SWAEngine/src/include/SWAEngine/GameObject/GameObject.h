@@ -31,7 +31,7 @@ namespace SWAEngine
 			// Creates an object
 			GameObject(std::string objName);
 		public:
-			// Registers the component, returns nullptr if the component alias is not available or it failed to insert for whatever reason
+			// Only registers the component, returns nullptr if the component alias is not available or it failed to insert for whatever reason
 			template<typename TYPE>
 			TYPE* const TryRegisterComponent(TYPE* pComp)
 			{
@@ -45,14 +45,17 @@ namespace SWAEngine
 			{
 				return m_Components.contains(name) ? static_cast<TYPE*>(m_Components.at(name)) : nullptr;
 			}
-			// Gets the current component, or creates one if it doesn't already exist
+			// Gets the current component, or create and initalizes one if it doesn't already exist
+			// Note the alias must match TYPE::GetName();
 			template<typename TYPE>
 			TYPE* const GetComponent(std::string alias)
 			{
 				TYPE* comp = TryGetComponent<TYPE>(alias);
 				if (comp == nullptr)
-					comp = static_cast<TYPE*>(m_Components.insert(std::make_pair(alias, new TYPE(GetName()))).first->second);
-
+				{
+					comp = static_cast<TYPE*>(m_Components.insert(std::make_pair(alias, new TYPE())).first->second);
+					comp->Initialize(GetName());
+				}
 				return comp;
 			}
 

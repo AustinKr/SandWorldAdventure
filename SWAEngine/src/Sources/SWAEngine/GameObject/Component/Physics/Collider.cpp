@@ -6,12 +6,17 @@ namespace SWAEngine::GameObject::Component::Physics
 {
 	std::set<Collider*> Collider::ms_CollidersRegistry = {};
 
-	Collider::Collider(std::string objName)
+	void Collider::Initialize(std::string objName)
 	{
 		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
 
 		ms_CollidersRegistry.insert(this);
+	}
+	void Collider::Release()
+	{
+		ms_CollidersRegistry.erase(this);
+		delete(this);
 	}
 
 	bool Collider::IsColliding(int tag)
@@ -28,9 +33,5 @@ namespace SWAEngine::GameObject::Component::Physics
 		return false;
 	}
 
-	void Collider::Release() 
-	{
-		ms_CollidersRegistry.erase(this);
-		delete(this);
-	}
+	
 }

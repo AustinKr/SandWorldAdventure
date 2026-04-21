@@ -67,10 +67,13 @@ namespace SWA
 
 		// Create tilemap
 		SWAEngine::GameObject::GameObject& tilemapObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Tilemap");
-		p_Tilemap = new SWAEngine::Tilemap::Tilemap(tilemapObj.GetName(), {0, 0}, {0.01f,0.01f});
+		p_Tilemap = tilemapObj.GetComponent<SWAEngine::Tilemap::Tilemap>("tilemap");
+		p_Tilemap->Origin = { 0,0 }; p_Tilemap->TileScale = { .01f, .01f };
+		// Create mesh
 		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);
 
+		// Set some tiles
 		p_Tilemap->SetTile({ 2, 2 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
 		p_Tilemap->SetTile({ 0, 0 }, { SWAEngine::Tilemap::TileBehavior::SAND, 0xff0000ff, true });
 		p_Tilemap->SetTile({ 1, 2 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
@@ -79,7 +82,7 @@ namespace SWA
 
 		// Create the player
 		SWAEngine::GameObject::GameObject& playerObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Player");
-		p_MainPlayer = playerObj.GetComponent<Player::Player>(playerObj.GetName());
+		p_MainPlayer = playerObj.GetComponent<Player::Player>("player");
 		p_MainPlayer->p_LinkedCollider->p_LinkedTransform->SetPosition({ 1, 2 });
 	}
 

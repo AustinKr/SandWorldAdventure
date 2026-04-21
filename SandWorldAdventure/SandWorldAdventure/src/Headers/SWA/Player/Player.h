@@ -32,7 +32,7 @@ namespace SWA::Player
 		// This should only be called once when the application begins and is the only instance used
 		// Creates the mesh with default size
 		// Creates the inventory and gui
-		Player(std::string objName);
+		Player();
 
 		Inventory::Manager Inventory;
 
@@ -45,9 +45,10 @@ namespace SWA::Player
 
 		// Inherited via IComponent
 		virtual std::string const GetName() override;
+		virtual void Initialize(std::string objName) override;
+		virtual void Release() override; 
+		virtual void Update(std::string objectName, SWAEngine::Math::Time time) override;
 		virtual void SetActive(bool state) override;
 		virtual bool GetActive() override;
-		virtual void Update(std::string objectName, SWAEngine::Math::Time time) override;
-		virtual void Release() override;
 	};
 }

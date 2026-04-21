@@ -7,21 +7,25 @@ using namespace SWAEngine::Math;
 namespace SWAEngine::GameObject::Component::Physics
 {
 	const int Rigidbody::MAX_COLLISION_STEPS = 5;
-	Rigidbody::Rigidbody(std::string objName) :
+	Rigidbody::Rigidbody() :
 		m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
 		m_IsTouchingGround{}, m_Time{}
+	{}
+
+	std::string const Rigidbody::GetName()
+	{
+		return "physics";
+	} 
+	void Rigidbody::Initialize(std::string objName)
 	{
 		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 
 		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
 	}
-
-	std::string const Rigidbody::GetName()
+	void Rigidbody::Release()
 	{
-		return "physics";
+		delete(this);
 	}
-	void Rigidbody::SetActive(bool state) {}
-	bool Rigidbody::GetActive() { return true; }
 	void Rigidbody::Update(std::string objectName, Math::Time time)
 	{
 		// Update some variables
@@ -36,12 +40,9 @@ namespace SWAEngine::GameObject::Component::Physics
 
 		TryApplyVelocity();
 	}
-	void Rigidbody::Release()
-	{
-		delete(this);
-	}
+	void Rigidbody::SetActive(bool state) {}
+	bool Rigidbody::GetActive() { return true; }
 	
-
 	bool Rigidbody::StepMove(SWAEngine::Math::Vector2 movement)
 	{
 		// Get collider (assumed to have a value)

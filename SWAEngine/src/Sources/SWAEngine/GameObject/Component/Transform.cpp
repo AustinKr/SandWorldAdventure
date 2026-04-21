@@ -2,7 +2,7 @@
 
 namespace SWAEngine::GameObject::Component
 {
-	Transform::Transform(std::string, Math::Vector2 position, Math::Vector2 scale) : m_Position(position), m_Scale(scale), OnSetPosition{}, OnSetScale{}
+	Transform::Transform(Math::Vector2 position, Math::Vector2 scale) : m_Position(position), m_Scale(scale), OnSetPosition{}, OnSetScale{}
 	{}
 
 	Math::Vector2 Transform::GetPosition() const
@@ -28,14 +28,16 @@ namespace SWAEngine::GameObject::Component
 	{
 		return "transform";
 	}
-	void Transform::SetActive(bool state) {}
-	bool Transform::GetActive() { return true; }
+	void Transform::Initialize(std::string objName)
+	{}
+	void Transform::Release()
+	{
+		delete(this);
+	}
 	void Transform::Update(std::string, Math::Time)
 	{
 		/*nothing*/
 	}
-	void Transform::Release() 
-	{
-		delete(this);
-	}
+	void Transform::SetActive(bool state) {}
+	bool Transform::GetActive() { return true; }
 }
