@@ -2,9 +2,7 @@
 
 namespace SWAEngine::GameObject::Component
 {
-	Transform::Transform() : m_Position{}, m_Scale{}, OnSetPosition{}, OnSetScale{}
-	{}
-	Transform::Transform(Math::Vector2 position, Math::Vector2 scale) : m_Position(position), m_Scale(scale), OnSetPosition{}, OnSetScale{}
+	Transform::Transform(std::string, Math::Vector2 position, Math::Vector2 scale) : m_Position(position), m_Scale(scale), OnSetPosition{}, OnSetScale{}
 	{}
 
 	Math::Vector2 Transform::GetPosition() const

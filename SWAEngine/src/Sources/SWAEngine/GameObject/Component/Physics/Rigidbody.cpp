@@ -7,20 +7,13 @@ using namespace SWAEngine::Math;
 namespace SWAEngine::GameObject::Component::Physics
 {
 	const int Rigidbody::MAX_COLLISION_STEPS = 5;
-	Rigidbody::Rigidbody(Transform* const pTransform) :
-		p_LinkedTransform(pTransform), m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
+	Rigidbody::Rigidbody(std::string objName) :
+		m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
 		m_IsTouchingGround{}, m_Time{}
 	{
-	}
-	Rigidbody* const Rigidbody::CreateRigidbody(GameObject& linkedObject)
-	{
-		// Get transform
-		Transform* pTransform = linkedObject.TryGetComponent<Transform>("transform");
-		if (pTransform == nullptr)
-			pTransform = linkedObject.RegisterComponent(new Transform()); // TODO: Use facotry function
+		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 
-		// Create and return
-		return new Rigidbody(pTransform);
+		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
 	}
 
 	std::string const Rigidbody::GetName()
@@ -52,7 +45,7 @@ namespace SWAEngine::GameObject::Component::Physics
 	bool Rigidbody::StepMove(SWAEngine::Math::Vector2 movement)
 	{
 		// Get collider (assumed to have a value)
-		Collider* pCollider = SceneManager::GetScene().GetObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider");
+		Collider* pCollider = SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider");
 
 		Vector2 origin = p_LinkedTransform->GetPosition();
 		double factor = 1.0;
@@ -85,7 +78,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		Vector2 movement = m_Velocity * m_Time.RealDeltaTime;
 
 		// Try get collider
-		if (SceneManager::GetScene().GetObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider") == nullptr)
+		if (SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider") == nullptr)
 		{
 			// Just move because we couldn't possibly collide
 			p_LinkedTransform->SetPosition(p_LinkedTransform->GetPosition() + movement);

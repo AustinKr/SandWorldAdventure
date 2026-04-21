@@ -5,6 +5,8 @@
 
 namespace SWAEngine::GameObject::Component
 {
+	// User should create Components through GameObject
+	// Note: Component constructors should be in the form COMP(std::string objName)
 	struct SWA_ENGINE_API IComponent
 	{
 		// The alias used for this component. 

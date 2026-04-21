@@ -8,6 +8,7 @@
 #include "GP2D/Pipeline/GenericPipeline.h"
 
 #include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/SceneManager.h>
 
 using namespace GP2D::Pipeline;
 using namespace GP2D::Math;
@@ -21,12 +22,16 @@ using namespace Physics;
 
 namespace SWA::Player
 {
-	Player::Player(
-		SWAEngine::GameObject::Component::Physics::Rigidbody* const pRigidbody,
-		SWAEngine::GameObject::Component::Physics::Collider* const pCollider) :
-		p_LinkedCollider(pCollider), p_LinkedRigidbody(pRigidbody),
+	Player::Player(std::string objName) :
 		m_Inputs{}, Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
 	{
+		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
+
+		// Get/create linked components
+		p_LinkedCollider = linkedObject.GetComponent<BoxCollider>("box_collider"); // TODO: use any collider
+		p_LinkedRigidbody = linkedObject.GetComponent<Rigidbody>("rigidbody");
+		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
+
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("player"), true);
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
@@ -48,33 +53,16 @@ namespace SWA::Player
 		};
 
 		// Subscribe to update mesh
-		pCollider->p_LinkedTransform->OnSetPosition += [&](SWAEngine::Math::Vector2 newPosition) { mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y }; };
-		pCollider->p_LinkedTransform->OnSetScale += [&](SWAEngine::Math::Vector2 newScale) { mp_Mesh->Scale = { (float)newScale.X, (float)newScale.Y }; };
+		p_LinkedTransform->OnSetPosition += [&](SWAEngine::Math::Vector2 newPosition) { mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y }; };
+		p_LinkedTransform->OnSetScale += [&](SWAEngine::Math::Vector2 newScale) { mp_Mesh->Scale = { (float)newScale.X, (float)newScale.Y }; };
 
 		// Set default coordinates
-		pCollider->p_LinkedTransform->SetPosition({ 0.0, 0.0});
-		pCollider->p_LinkedTransform->SetScale({ 0.1, 0.2 });
+		p_LinkedTransform->SetPosition({ 0.0, 0.0});
+		p_LinkedTransform->SetScale({ 0.1, 0.2 });
 
 		// Create player inventory and gui
 		Inventory = {};
 		GUILayout::Initialize(Inventory);
-	}
-	Player* const Player::CreateInstance(GameObject& linkedObject)
-	{
-		// TODO: COuld make a function that creates a component if it doesnt exist
-
-		// Get collider
-		Collider* pCollider = linkedObject.TryGetComponent<BoxCollider>("box_collider"); // TODO: use any collider
-		if (pCollider == nullptr)
-			pCollider = linkedObject.RegisterComponent(BoxCollider::CreateCollider(linkedObject));
-		
-		// Get rigidboy
-		Rigidbody* pRigidbody = linkedObject.TryGetComponent<Rigidbody>("rigidbody");
-		if (pRigidbody == nullptr)
-			pRigidbody = linkedObject.RegisterComponent(Rigidbody::CreateRigidbody(linkedObject));
-
-		// Create and return
-		return new Player(pRigidbody, pCollider);
 	}
 
 	void Player::Move()

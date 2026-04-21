@@ -1,11 +1,18 @@
 #include <SWAEngine/GameObject/Component/Physics/Collider.h>
+#include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/SceneManager.h>
 
 namespace SWAEngine::GameObject::Component::Physics
 {
 	std::set<Collider*> Collider::ms_CollidersRegistry = {};
 
-	Collider::Collider(Transform* const pTransform) : p_LinkedTransform(pTransform)
-	{}
+	Collider::Collider(std::string objName)
+	{
+		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
+		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
+
+		ms_CollidersRegistry.insert(this);
+	}
 
 	bool Collider::IsColliding(int tag)
 	{
@@ -25,13 +32,5 @@ namespace SWAEngine::GameObject::Component::Physics
 	{
 		ms_CollidersRegistry.erase(this);
 		delete(this);
-	}
-	void Collider::ReleaseAll()
-	{
-		for (auto& iter : ms_CollidersRegistry)
-		{
-			delete(iter);
-		}
-		ms_CollidersRegistry.clear();
 	}
 }

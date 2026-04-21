@@ -22,7 +22,7 @@ namespace SWAEngine::Tilemap
 		// In world coordinates
 		Math::Vector2 TileScale;
 
-		Tilemap(const char* name, Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
+		Tilemap(std::string objName, Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
 
 		virtual std::string const GetName() override;
 		virtual void SetActive(bool state) override;

@@ -1,3 +1,11 @@
+(current notes)
+Create Scene::CreateObject() instead of RegisterObject()
+Create GameObject::GetComponent()
+Remove component factory functions. New system utilizes GameObject::GetComponent() which automatically registers or returns an existing component
+Rename Scene:: Get/Create Object to GameObject
+
+
+
 . make gameobject have factory functions for creating components and automatically registry template<COMP> {new COMP(*this); }; components can friend player for constructor
 . make GetComponent() that creates componet or retrieves
 . Make TryGetComponent() only require a template type( so make component names static and say TYPE::GetName() or TYPE::s_Name)

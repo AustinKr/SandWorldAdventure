@@ -1,5 +1,6 @@
-#include "SWAEngine/Scene.h"
-#include "SWAEngine/SceneManager.h"
+#include <SWAEngine/Scene.h>
+#include <SWAEngine/SceneManager.h>
+#include <SWAEngine/GameObject/GameObject.h>
 
 namespace SWAEngine
 {
@@ -27,14 +28,15 @@ namespace SWAEngine
 	{
 		return m_ObjectsRegistry.contains(name);
 	}
-	GameObject::GameObject& Scene::GetObject(std::string name)
+	GameObject::GameObject& Scene::GetGameObject(std::string name)
 	{
 		return m_ObjectsRegistry.at(name);
 	}
-	bool Scene::RegisterObject(GameObject::GameObject& obj)
+	GameObject::GameObject& Scene::CreateGameObject(std::string name)
 	{
+		GameObject::GameObject obj(name);
 		obj.SetActive(GetActive());
-		return m_ObjectsRegistry.insert(std::make_pair(obj.GetName(), obj)).second;
+		return m_ObjectsRegistry.insert(std::make_pair(name, std::move(obj))).first->second;
 	}
 
 	void Scene::UpdateObjects(Math::Time time)
@@ -60,7 +62,7 @@ namespace SWAEngine
 		// Try release given object
 		if (!ContainsObject(name))
 			return;
-		GetObject(name).Release();
+		GetGameObject(name).Release();
 		m_ObjectsRegistry.erase(name);
 	}
 }

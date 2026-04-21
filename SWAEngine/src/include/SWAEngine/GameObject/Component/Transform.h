@@ -2,6 +2,7 @@
 #include <SWAEngine/dllClause.h>
 #include <SWAEngine/EventHandler.h>
 #include <SWAEngine/Math/vector2.h>
+#include <string>
 #include "IComponent.h"
 
 namespace SWAEngine::GameObject::Component
@@ -16,8 +17,7 @@ namespace SWAEngine::GameObject::Component
 		EventHandler<Math::Vector2> OnSetPosition;
 		EventHandler<Math::Vector2> OnSetScale;
 		
-		Transform();
-		Transform(Math::Vector2 position, Math::Vector2 scale);
+		Transform(std::string, Math::Vector2 position = {}, Math::Vector2 scale = {});
 
 		Math::Vector2 GetPosition() const;
 		void SetPosition(Math::Vector2 newPosition);

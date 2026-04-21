@@ -2,22 +2,7 @@
 
 namespace SWAEngine::GameObject::Component::Physics
 {
-	BoxCollider::BoxCollider(Transform* const pTransform) : Collider(pTransform) {}
-
-	BoxCollider* const BoxCollider::CreateCollider(GameObject& linkedObject)
-	{
-		// Get transform
-		Transform* pTransform = linkedObject.TryGetComponent<Transform>("transform");
-		if (pTransform == nullptr)
-			pTransform = linkedObject.RegisterComponent(new Transform());
-
-		// Create
-		BoxCollider* const newObject = new BoxCollider(pTransform);
-		ms_CollidersRegistry.insert(newObject);
-
-		// Return
-		return newObject;
-	}
+	BoxCollider::BoxCollider(std::string objName) : Collider(objName) {}
 
 	ColliderTypes BoxCollider::GetType()
 	{

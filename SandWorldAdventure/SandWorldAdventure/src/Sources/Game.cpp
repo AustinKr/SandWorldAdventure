@@ -66,7 +66,8 @@ namespace SWA
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(pNewMesh);
 
 		// Create tilemap
-		p_Tilemap = new SWAEngine::Tilemap::Tilemap("MainTilemap", { 0, 0 }, {0.01f,0.01f});
+		SWAEngine::GameObject::GameObject& tilemapObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Tilemap");
+		p_Tilemap = new SWAEngine::Tilemap::Tilemap(tilemapObj.GetName(), {0, 0}, {0.01f,0.01f});
 		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);
 
@@ -77,9 +78,8 @@ namespace SWA
 		p_Tilemap->SetTile({ 3, 3 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xffFFffFF, true });
 
 		// Create the player
-		SWAEngine::GameObject::GameObject obj = { "Player" };
-		SWAEngine::SceneManager::GetScene().RegisterObject(obj); // TODO: Make scene.createobject instead of register
-		p_MainPlayer = Player::Player::CreateInstance(obj);
+		SWAEngine::GameObject::GameObject& playerObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Player");
+		p_MainPlayer = playerObj.GetComponent<Player::Player>(playerObj.GetName());
 		p_MainPlayer->p_LinkedCollider->p_LinkedTransform->SetPosition({ 1, 2 });
 	}
 

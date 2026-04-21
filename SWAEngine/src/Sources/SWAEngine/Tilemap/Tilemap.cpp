@@ -22,7 +22,7 @@ namespace SWAEngine::Tilemap
 	const int Tilemap::ACTIVE_TILES_ID = 1;
 	const int Tilemap::PENDING_TILES_ID = 2;
 
-	Tilemap::Tilemap(const char* name, Math::Vector2 origin, Math::Vector2 scale)
+	Tilemap::Tilemap(std::string objName, Math::Vector2 origin, Math::Vector2 scale)
 	{
 		PropertyManager = {};
 

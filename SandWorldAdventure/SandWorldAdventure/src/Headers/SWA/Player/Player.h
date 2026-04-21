@@ -24,13 +24,15 @@ namespace SWA::Player
 
 		Inputs m_Inputs;
 
-		// TODO: Could pass reference to its Transform along to player
-		Player(
-			SWAEngine::GameObject::Component::Physics::Rigidbody* const pRigidbody,
-			SWAEngine::GameObject::Component::Physics::Collider* const pCollider);
 	public:
 		SWAEngine::GameObject::Component::Physics::Rigidbody* p_LinkedRigidbody;
 		SWAEngine::GameObject::Component::Physics::Collider* p_LinkedCollider;
+		SWAEngine::GameObject::Component::Transform* p_LinkedTransform;
+
+		// This should only be called once when the application begins and is the only instance used
+		// Creates the mesh with default size
+		// Creates the inventory and gui
+		Player(std::string objName);
 
 		Inventory::Manager Inventory;
 
@@ -38,11 +40,6 @@ namespace SWA::Player
 		double Speed;
 		double CameraFollowSpeed;
 		double JumpHeight;
-
-		// This should only be called once when the application begins and is the only instance used
-		// Creates the mesh with default size
-		// Creates the inventory and gui
-		static Player* const CreateInstance(SWAEngine::GameObject::GameObject& linkedObject);
 
 		void Move();
 

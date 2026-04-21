@@ -5,7 +5,9 @@
 
 #include <SWAEngine/GameObject/Component/IComponent.h>
 #include <SWAEngine/GameObject/Component/Transform.h>
+
 #include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/Scene.h>
 #include "Collider.h"
 
 namespace SWAEngine::GameObject::Component::Physics
@@ -31,14 +33,12 @@ namespace SWAEngine::GameObject::Component::Physics
 		bool StepMove(SWAEngine::Math::Vector2 movement);
 		void TryApplyVelocity();
 
-		Rigidbody(Transform* const pTransform);
 	public:
 		static const int MAX_COLLISION_STEPS;
 
 		Transform* p_LinkedTransform;
 
-		// Creates an instance of the rigidbody. Automatically creates a transform component if needed
-		static Rigidbody* const CreateRigidbody(GameObject& linkedObject);
+		Rigidbody(std::string objName);
 
 		virtual std::string const GetName() override;
 		virtual void SetActive(bool state) override;

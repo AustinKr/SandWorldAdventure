@@ -2,17 +2,17 @@
 #include "Collider.h"
 #include "Rigidbody.h"
 #include <SWAEngine/GameObject/Component/Transform.h>
+
 #include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/Scene.h>
 
 namespace SWAEngine::GameObject::Component::Physics
 {
 	// Requires a Transform component
 	struct SWA_ENGINE_API BoxCollider : Collider
 	{
-	private:
-		BoxCollider(Transform* const pTransform);
-
 	public:
+		BoxCollider(std::string objName);
 		
 		// Creates an instance of box collider. Automatically creates a transform component if needed
 		static BoxCollider* const CreateCollider(GameObject& linkedObject);

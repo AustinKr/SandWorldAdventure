@@ -1,4 +1,5 @@
 #include "SWAEngine/SceneManager.h"
+#include "SWAEngine/GameObject/GameObject.h"
 #include <stdexcept>
 
 namespace SWAEngine

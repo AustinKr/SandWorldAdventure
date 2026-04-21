@@ -15,7 +15,8 @@ namespace SWAEngine::GameObject::Component::Physics
 	protected:
 		static std::set<Collider*> ms_CollidersRegistry;
 
-		Collider(Transform* const pTransform);
+		// Registers with colliders and links transform by default
+		Collider(std::string objName);
 	public:
 		static const int SELECT_ALL = 0;
 
@@ -36,7 +37,6 @@ namespace SWAEngine::GameObject::Component::Physics
 		/// <param name="tag">Used to select colliders with one of the given tags to test collision</param>
 		virtual bool IsColliding(int tag = SELECT_ALL);
 
-		static void ReleaseAll(); // TODO: Call this inside game somewhere
 		// Deletes memory and removes from internal registry
 		virtual void Release() override;
 	};
