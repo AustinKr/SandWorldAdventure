@@ -23,7 +23,9 @@ using namespace Physics;
 namespace SWA::Player
 {
 	Player::Player() :
-		m_Inputs{}, Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1)
+		m_Inputs{}, Gravity(0.9), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1),
+		p_LinkedCollider(nullptr), p_LinkedTransform(nullptr), p_LinkedRigidbody(nullptr),
+		mp_Mesh(nullptr)
 	{
 		// Create the mesh
 		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("player"), true);

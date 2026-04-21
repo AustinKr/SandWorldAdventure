@@ -9,7 +9,7 @@ namespace SWAEngine::GameObject::Component::Physics
 	const int Rigidbody::MAX_COLLISION_STEPS = 5;
 	Rigidbody::Rigidbody() :
 		m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
-		m_IsTouchingGround{}, m_Time{}
+		m_IsTouchingGround{}, m_Time{}, p_LinkedTransform(nullptr)
 	{}
 
 	std::string const Rigidbody::GetName()
