@@ -1,6 +1,6 @@
 #pragma once
 
-namespace SWAEngine::Tilemap::TileBehavior
+namespace SWAEngine::Component::Tilemap::TileBehavior
 {
 	enum Type
 	{

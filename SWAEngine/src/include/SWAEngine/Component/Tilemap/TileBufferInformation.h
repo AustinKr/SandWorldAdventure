@@ -1,8 +1,8 @@
 #pragma once
-#include "GP2D/Math/vector2.h"
-#include "GP2D/GraphicsTypes.h"
+#include <GP2D/Math/vector2.h>
+#include <GP2D/GraphicsTypes.h>
 
-namespace SWAEngine::Tilemap
+namespace SWAEngine::Component::Tilemap
 {
 	struct TileBufferInformation
 	{

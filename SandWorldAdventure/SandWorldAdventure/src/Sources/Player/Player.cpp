@@ -14,7 +14,6 @@
 using namespace GP2D::Pipeline;
 using namespace GP2D::Math;
 using namespace SWAEngine::Math;
-using namespace SWAEngine::Tilemap;
 using namespace SWA::Player::Inventory;
 
 using namespace SWAEngine::Component;

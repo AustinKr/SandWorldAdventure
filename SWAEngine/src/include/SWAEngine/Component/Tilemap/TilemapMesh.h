@@ -1,13 +1,13 @@
 #pragma once
-#include "SWAEngine/dllClause.h"
-#include "SWAEngine/Tilemap/Tilemap.h"
-#include "SWAEngine/Tilemap/TileBufferInformation.h"
+#include <SWAEngine/dllClause.h>
+#include "Tilemap.h"
+#include "TileBufferInformation.h"
 
-#include "GP2D/Pipeline/Mesh/IMesh.h"
-#include "GP2D/Math/Vertex2D.h"
-#include "GP2D/Pipeline/Shader/BaseShaderType.h"
+#include <GP2D/Pipeline/Mesh/IMesh.h>
+#include <GP2D/Math/Vertex2D.h>
+#include <GP2D/Pipeline/Shader/BaseShaderType.h>
 
-namespace SWAEngine::Tilemap
+namespace SWAEngine::Component::Tilemap
 {
 	// The mesh for the tilemap
 	// Takes up the entire screen

@@ -1,8 +1,8 @@
 #pragma once
-#include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
-#include "SWAEngine/Math/vector2.h"
+#include "IBehavior.h"
+#include <SWAEngine/Math/vector2.h>
 
-namespace SWAEngine::Tilemap::TileBehavior
+namespace SWAEngine::Component::Tilemap::TileBehavior
 {
 	struct SWA_ENGINE_API Sand : IBehavior
 	{

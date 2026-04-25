@@ -1,10 +1,10 @@
 #pragma once
-#include "SWAEngine/dllclause.h"
-#include "SWAEngine/Math/Int3.h"
+#include <SWAEngine/dllclause.h>
+#include <SWAEngine/Math/Int3.h>
 #include <unordered_map>
 #include <set>
 
-namespace SWAEngine::Tilemap
+namespace SWAEngine::Component::Tilemap
 {
 	// Stores the property data of tiles.
 	// Also contains functions to manage different kinds of properties stored in a Tile.

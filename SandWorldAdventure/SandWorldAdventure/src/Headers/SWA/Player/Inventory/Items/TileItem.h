@@ -1,6 +1,6 @@
 #pragma once
-#include "SWAEngine/Inventory/BaseItem.h"
-#include "SWAEngine/Tilemap/Tile.h"
+#include <SWAEngine/Inventory/BaseItem.h>
+#include <SWAEngine/Component/Tilemap/Tile.h>
 #include <SWAEngine/Math/Time.h>
 
 #include "GP2D/GraphicsTypes.h"
@@ -18,6 +18,6 @@ namespace SWA::Player::Inventory::Items
 		TileItem(const char* textureName, GP2D::GP2D_HEX_COLOR color, GP2D::GP2D_HEX_COLOR colorDeviation, unsigned int behavior);
 	
 		// Creates a tile with the stored information
-		SWAEngine::Tilemap::Tile CreateTile(SWAEngine::Math::Time time);
+		SWAEngine::Component::Tilemap::Tile CreateTile(SWAEngine::Math::Time time);
 	};
 }

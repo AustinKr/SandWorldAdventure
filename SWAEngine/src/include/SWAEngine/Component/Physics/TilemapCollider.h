@@ -1,6 +1,6 @@
 #pragma once
 #include "Collider.h"
-#include <SWAEngine/Tilemap/Tilemap.h>
+#include <SWAEngine/Component/Tilemap/Tilemap.h>
 
 namespace SWAEngine::Component::Physics
 {

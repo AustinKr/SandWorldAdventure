@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SWAEngine/Component/Physics/TilemapCollider.h>
-#include "SWAEngine/Tilemap/Tilemap.h"
-#include "SWAEngine/Tilemap/TilemapMesh.h"
+#include <SWAEngine/Component/Tilemap/Tilemap.h>
+#include <SWAEngine/Component/Tilemap/TilemapMesh.h>
 #include <SWAEngine/Math/Time.h>
 
 #include "SWA/Player/Player.h"
@@ -18,12 +18,13 @@ namespace SWA
 		static void InitializeGame();
 
 	public:
+		// TODO: Rename to TARGET_FPS
 		static const unsigned int FPS; // TODO: Can be configured by user in future
 
 		static Player::Player* p_MainPlayer;
-		static SWAEngine::Tilemap::Tilemap* p_Tilemap;
+		static SWAEngine::Component::Tilemap::Tilemap* p_Tilemap;
 		static SWAEngine::Component::Physics::TilemapCollider* p_TilemapCollider;
-		static SWAEngine::Tilemap::TilemapMesh* p_TilemapMesh;
+		static SWAEngine::Component::Tilemap::TilemapMesh* p_TilemapMesh;
 
 		static void CreateResources();
 		static void Initialize();

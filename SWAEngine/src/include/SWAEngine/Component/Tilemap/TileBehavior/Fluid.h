@@ -1,7 +1,7 @@
 #pragma once
-#include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
+#include "IBehavior.h"
 
-namespace SWAEngine::Tilemap::TileBehavior
+namespace SWAEngine::Component::Tilemap::TileBehavior
 {
 	struct SWA_ENGINE_API Fluid : IBehavior
 	{

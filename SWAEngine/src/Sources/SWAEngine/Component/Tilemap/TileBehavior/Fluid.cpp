@@ -1,7 +1,7 @@
-#include "SWAEngine/Tilemap/TileBehavior/Fluid.h"
-#include "SWAEngine/Tilemap/TileBehavior/Types.h"
+#include <SWAEngine/Component/Tilemap/TileBehavior/Fluid.h>
+#include <SWAEngine/Component/Tilemap/TileBehavior/Types.h>
 
-namespace SWAEngine::Tilemap::TileBehavior
+namespace SWAEngine::Component::Tilemap::TileBehavior
 {
 	void Fluid::Update(Tile tile, Math::Vector2Int pos, Tilemap* const pTilemap, Math::Time time)
 	{

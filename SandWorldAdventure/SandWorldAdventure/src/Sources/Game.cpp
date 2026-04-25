@@ -7,7 +7,7 @@
 
 #include <SWA/JSON/JSONManager.h>
 
-#include "SWAEngine/Tilemap/TileBehavior/Types.h"
+#include <SWAEngine/Component/Tilemap/TileBehavior/Types.h>
 #include <SWAEngine/Component/Physics/BoxCollider.h>
 
 // Graphics
@@ -61,15 +61,15 @@ namespace SWA
 		p_Tilemap = p_TilemapCollider->p_LinkedTilemap;
 		p_Tilemap->Origin = { 0,0 }; p_Tilemap->TileScale = { .01f, .01f };
 		// Create mesh
-		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
+		p_TilemapMesh = new Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);
 
 		// Set some tiles
-		p_Tilemap->SetTile({ 2, 2 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 0, 0 }, { SWAEngine::Tilemap::TileBehavior::SAND, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 1, 2 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 0, 1 }, { SWAEngine::Tilemap::TileBehavior::SAND, 0xff0000ff, true });
-		p_Tilemap->SetTile({ 3, 3 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xffFFffFF, true });
+		p_Tilemap->SetTile({ 2, 2 }, { Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 0, 0 }, { Tilemap::TileBehavior::SAND, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 1, 2 }, { Tilemap::TileBehavior::SOLID, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 0, 1 }, { Tilemap::TileBehavior::SAND, 0xff0000ff, true });
+		p_Tilemap->SetTile({ 3, 3 }, { Tilemap::TileBehavior::SOLID, 0xffFFffFF, true });
 
 		// Create the player
 		GameObject& playerObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Player");

@@ -18,16 +18,16 @@
     <ClCompile Include="src\Sources\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\Tilemap.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Component\Tilemap\Tilemap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Component\Tilemap\TilemapContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Component\Tilemap\TilemapMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\GameObject.cpp">
@@ -36,16 +36,16 @@
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Sand.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Component\Tilemap\TileBehavior\Sand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Behaviors.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Component\Tilemap\TileBehavior\Behaviors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\TileBehavior\Fluid.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Component\Tilemap\TileBehavior\Fluid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sources\SWAEngine\Tilemap\PropertyManager.cpp">
+    <ClCompile Include="src\Sources\SWAEngine\Component\Tilemap\PropertyManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp">
@@ -86,25 +86,25 @@
     <ClInclude Include="src\include\SWAEngine\dllClause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\Tilemap.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\Tilemap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\Tile.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\ITilemapContainer.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\ITilemapContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapContainer.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TilemapContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Math\vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TilemapMesh.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TilemapMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBufferInformation.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBufferInformation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\GameObject.h">
@@ -122,16 +122,16 @@
     <ClInclude Include="src\include\SWAEngine\EventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\IBehavior.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBehavior\IBehavior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Types.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBehavior\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Sand.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBehavior\Sand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TileBehavior\Fluid.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBehavior\Fluid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\IPropertyManager.h">
@@ -140,10 +140,10 @@
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\SandManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TilePropertyData\SandData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Tilemap\PropertyManager.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\PropertyManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h">

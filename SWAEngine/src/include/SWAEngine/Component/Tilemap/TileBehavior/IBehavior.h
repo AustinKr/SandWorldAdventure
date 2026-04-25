@@ -1,11 +1,11 @@
 #pragma once
-#include "SWAEngine/dllClause.h"
-#include "SWAEngine/Math/vector2.h"
-#include "SWAEngine/Math/Time.h"
-#include "SWAEngine/Tilemap/Tilemap.h"
+#include <SWAEngine/dllClause.h>
+#include <SWAEngine/Math/vector2.h>
+#include <SWAEngine/Math/Time.h>
+#include <SWAEngine/Component/Tilemap/Tilemap.h>
 #include <unordered_map>
 
-namespace SWAEngine::Tilemap::TileBehavior
+namespace SWAEngine::Component::Tilemap::TileBehavior
 {
 	struct SWA_ENGINE_API IBehavior
 	{

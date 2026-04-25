@@ -1,11 +1,11 @@
 #pragma once
 #include <SWAEngine/Component/IComponent.h>
-#include "SWAEngine/Tilemap/ITilemapContainer.h"
-#include "SWAEngine/Tilemap/PropertyManager.h"
-#include "SWAEngine/Math/Time.h"
+#include "ITilemapContainer.h"
+#include "PropertyManager.h"
+#include <SWAEngine/Math/Time.h>
 #include <unordered_map>
 
-namespace SWAEngine::Tilemap
+namespace SWAEngine::Component::Tilemap
 {
 	// TODO: Move tilemap into GameObject/component
 	// TODO: Make tilemap use Transform component, or else make Colliders not require a transform

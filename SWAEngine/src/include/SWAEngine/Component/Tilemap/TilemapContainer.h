@@ -1,8 +1,8 @@
 #pragma once
-#include "SWAEngine/Tilemap/ITilemapContainer.h"
+#include "ITilemapContainer.h"
 #include <unordered_map>
 
-namespace SWAEngine::Tilemap
+namespace SWAEngine::Component::Tilemap
 {
 	struct SWA_ENGINE_API TilemapContainer : public ITilemapContainer
 	{

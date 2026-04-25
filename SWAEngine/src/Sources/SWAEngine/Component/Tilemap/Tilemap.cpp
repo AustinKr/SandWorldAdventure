@@ -1,9 +1,9 @@
-#include "SWAEngine/Tilemap/Tilemap.h"
-#include "SWAEngine/Tilemap/TilemapContainer.h"
-#include "SWAEngine/Tilemap/TileBehavior/IBehavior.h"
+#include <SWAEngine/Component/Tilemap/Tilemap.h>
+#include <SWAEngine/Component/Tilemap/TilemapContainer.h>
+#include <SWAEngine/Component/Tilemap/TileBehavior/IBehavior.h>
 #include <algorithm>
 
-namespace SWAEngine::Tilemap
+namespace SWAEngine::Component::Tilemap
 {
 	const unsigned int Tilemap::MAX_MOVE_STEPS = 50;
 

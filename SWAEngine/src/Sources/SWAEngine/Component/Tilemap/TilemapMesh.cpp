@@ -1,6 +1,6 @@
-#include "SWAEngine/Tilemap/TilemapMesh.h"
-#include "GP2D/Pipeline/Window/Window.h"
-#include "GP2D/Pipeline/GenericPipeline.h"
+#include <SWAEngine/Component/Tilemap/TilemapMesh.h>
+#include <GP2D/Pipeline/Window/Window.h>
+#include <GP2D/Pipeline/GenericPipeline.h>
 
 #include <algorithm>
 #include <malloc.h>
@@ -14,7 +14,7 @@ using namespace GP2D::Math;
 using namespace GP2D::Pipeline;
 using namespace GP2D::Pipeline::Shader;
 
-namespace SWAEngine::Tilemap
+namespace SWAEngine::Component::Tilemap
 {
 	const Vertex2D TilemapMesh::MESH_VERTICES[6] =
 	{

@@ -1,6 +1,7 @@
 . Either make Collider not require a Transform component, or make Tilemap utilize it
 . In the future, after all else fails, Colliders will return an approximation of the collision.
 
+. Rename tilemap directory or struct
 . Move tilemap to proper directory
 . Rename GameObject directory or struct
 . make PlayerCollider that prevents him from falling through the world
