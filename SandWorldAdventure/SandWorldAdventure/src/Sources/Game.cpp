@@ -21,14 +21,22 @@
 
 using namespace GP2D;
 using namespace GP2D::Pipeline;
+
+using namespace SWAEngine;
+using namespace GameObject;
+using namespace Component;
+using namespace Physics;
+
+
 // TODO: Go through all includes and use <> instead of "" where appropriate
 namespace SWA
 {
 	const unsigned int Game::FPS = 60;
 
 	Player::Player* Game::p_MainPlayer = nullptr;
-	SWAEngine::Tilemap::Tilemap* Game::p_Tilemap = nullptr;
-	SWAEngine::Tilemap::TilemapMesh* Game::p_TilemapMesh = nullptr;
+	Tilemap::Tilemap* Game::p_Tilemap = nullptr;
+	TilemapCollider* Game::p_TilemapCollider = nullptr;
+	Tilemap::TilemapMesh* Game::p_TilemapMesh = nullptr;
 
 	void Game::CreateRenderLayers()
 	{
@@ -67,7 +75,8 @@ namespace SWA
 
 		// Create tilemap
 		SWAEngine::GameObject::GameObject& tilemapObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Tilemap");
-		p_Tilemap = tilemapObj.GetComponent<SWAEngine::Tilemap::Tilemap>();
+		p_TilemapCollider = tilemapObj.GetComponent<SWAEngine::GameObject::Component::Physics::TilemapCollider>();
+		p_Tilemap = p_TilemapCollider->p_LinkedTilemap;
 		p_Tilemap->Origin = { 0,0 }; p_Tilemap->TileScale = { .01f, .01f };
 		// Create mesh
 		p_TilemapMesh = new SWAEngine::Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
@@ -117,7 +126,7 @@ namespace SWA
 			pShader->PropertyManager.TrySetTexture(name, "Tex");
 			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Color"), properties.TextureColor.X, properties.TextureColor.Y, properties.TextureColor.Z, properties.TextureColor.W);
 
-			Math::Int2 resolution = GenericPipeline::s_Textures.GetTexture(name).second.Size;
+			GP2D::Math::Int2 resolution = GenericPipeline::s_Textures.GetTexture(name).second.Size;
 			glUniform4f(glGetUniformLocation(pShader->GetProgram(), "Tex_Resolution"), resolution.X, resolution.Y, 0, 0);
 		};
 	}

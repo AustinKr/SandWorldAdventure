@@ -172,6 +172,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\dllmain.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\TilemapCollider.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\GameObject\GameObject.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp" />

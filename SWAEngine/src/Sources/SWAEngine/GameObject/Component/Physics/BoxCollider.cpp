@@ -1,5 +1,4 @@
 #include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
-#include <SWAEngine/Scene.h> // GameObject.h uses forward decl
 
 namespace SWAEngine::GameObject::Component::Physics
 {
@@ -12,7 +11,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		delete(this);
 	}
 
-	bool BoxCollider::IsColliding(Collider* other, int tag)
+	bool BoxCollider::IsColliding(Collider* other)
 	{
 		switch (other->GetType())
 		{
@@ -20,8 +19,17 @@ namespace SWAEngine::GameObject::Component::Physics
 			return DetectAABB(*p_LinkedTransform, *static_cast<BoxCollider*>(other)->p_LinkedTransform);
 
 		default:
+			bool isOtherColliding = other->IsColliding(this);
+
 			// TODO: handle other. Could use test points to be semi-accurate with unknown colliders
-			break;
+			//if (!isOtherColliding)
+			//{
+			//	// try handle other
+			//	//...
+			//	return approximate;
+			//}
+
+			return isOtherColliding;
 		}
 		
 		return false;

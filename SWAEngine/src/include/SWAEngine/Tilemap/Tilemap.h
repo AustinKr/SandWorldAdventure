@@ -8,6 +8,7 @@
 namespace SWAEngine::Tilemap
 {
 	// TODO: Move tilemap into GameObject/component
+	// TODO: Make tilemap use Transform component, or else make Colliders not require a transform
 	struct SWA_ENGINE_API Tilemap : GameObject::Component::IComponent
 	{
 	public:

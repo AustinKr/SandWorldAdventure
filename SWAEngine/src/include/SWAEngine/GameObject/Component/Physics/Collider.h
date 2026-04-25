@@ -31,10 +31,7 @@ namespace SWAEngine::GameObject::Component::Physics
 
 		virtual ColliderTypes GetType() = 0;
 
-		/// <summary/>
-		/// <param name="other">The other collider</param>
-		/// <param name="tag">Used to select colliders with one of the given tags to test collision</param>
-		virtual bool IsColliding(Collider* other, int tag = SELECT_ALL) = 0;
+		virtual bool IsColliding(Collider* other) = 0;
 
 		/// <summary> Checks collision with all registered colliders with one of the given tags </summary>
 		/// <param name="tag">Used to select colliders with one of the given tags to test collision</param>

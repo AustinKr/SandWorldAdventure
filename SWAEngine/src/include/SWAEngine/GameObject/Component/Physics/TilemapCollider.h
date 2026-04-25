@@ -1,25 +1,23 @@
 #pragma once
 #include "Collider.h"
+#include <SWAEngine/Tilemap/Tilemap.h>
 
 namespace SWAEngine::GameObject::Component::Physics
 {
-	// Requires a Transform component
-	struct SWA_ENGINE_API BoxCollider : Collider
+	struct SWA_ENGINE_API TilemapCollider : Collider
 	{
 	public:
+		Tilemap::Tilemap* p_LinkedTilemap;
+
 		// Inherited/Required by IComponent
-		
+
 		static std::string const GetName();
+		virtual void Initialize(std::string objName) override; // Calls Collider::Initialize() and requires the Tilemap Component
 		virtual void Release() override;
 		virtual bool IsColliding(Collider* other) override;
 
 		// Inherited by Collider
 
 		virtual ColliderTypes GetType() override;
-
-		// Collision methods
-
-		static bool DetectAABB(Math::Vector2 a_leftBottom, Math::Vector2 a_rightTop, Math::Vector2 b_leftBottom, Math::Vector2 b_rightTop);
-		static bool DetectAABB(Transform& a, Transform& b);
 	};
 }

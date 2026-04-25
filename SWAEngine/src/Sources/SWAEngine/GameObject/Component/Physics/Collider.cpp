@@ -26,8 +26,10 @@ namespace SWAEngine::GameObject::Component::Physics
 		{
 			if (iter == this)
 				continue;
+			if (tag != SELECT_ALL && !(iter->GetType() & tag))
+				continue;
 
-			if (iter->IsColliding(this, tag))
+			if (iter->IsColliding(this))
 				return true;
 		}
 		return false;

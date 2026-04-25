@@ -1,10 +1,12 @@
 #pragma once
 
+#include <SWAEngine/GameObject/Component/Physics/TilemapCollider.h>
 #include "SWAEngine/Tilemap/Tilemap.h"
 #include "SWAEngine/Tilemap/TilemapMesh.h"
 #include <SWAEngine/Math/Time.h>
 
 #include "SWA/Player/Player.h"
+
 
 namespace SWA
 {
@@ -20,6 +22,7 @@ namespace SWA
 
 		static Player::Player* p_MainPlayer;
 		static SWAEngine::Tilemap::Tilemap* p_Tilemap;
+		static SWAEngine::GameObject::Component::Physics::TilemapCollider* p_TilemapCollider;
 		static SWAEngine::Tilemap::TilemapMesh* p_TilemapMesh;
 
 		static void CreateResources();
