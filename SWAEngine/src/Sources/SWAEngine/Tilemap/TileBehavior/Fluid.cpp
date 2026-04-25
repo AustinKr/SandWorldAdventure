@@ -1,9 +1,9 @@
-#include <SWAEngine/Component/Tilemap/TileBehavior/Fluid.h>
-#include <SWAEngine/Component/Tilemap/TileBehavior/Types.h>
+#include <SWAEngine/Tilemap/TileBehavior/Fluid.h>
+#include <SWAEngine/Tilemap/TileBehavior/Types.h>
 
-namespace SWAEngine::Component::Tilemap::TileBehavior
+namespace SWAEngine::Tilemap::TileBehavior
 {
-	void Fluid::Update(Tile tile, Math::Vector2Int pos, TilemapComponent* const pTilemap, Math::Time time)
+	void Fluid::Update(Tile tile, Math::Vector2Int pos, Component::TilemapComponent* const pTilemap, Math::Time time)
 	{
 		// Move down if empty space
 		auto pair = pTilemap->TryStepMoveTile(pos, Math::Vector2Int(0, -1));
@@ -36,7 +36,7 @@ namespace SWAEngine::Component::Tilemap::TileBehavior
 		return tile;
 	}
 
-	Tile Fluid::TryMoveSideways(Math::Vector2Int pos, int dir, TilemapComponent* const pTilemap)
+	Tile Fluid::TryMoveSideways(Math::Vector2Int pos, int dir, Component::TilemapComponent* const pTilemap)
 	{
 		Math::Vector2Int otherPos = pos + Math::Vector2Int(dir, 0);
 		if (!pTilemap->IsInBounds(otherPos))

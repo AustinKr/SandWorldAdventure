@@ -1,9 +1,9 @@
-#include <SWAEngine/Component/Tilemap/TilemapComponent.h>
-#include <SWAEngine/Component/Tilemap/TilemapContainer.h>
-#include <SWAEngine/Component/Tilemap/TileBehavior/IBehavior.h>
+#include <SWAEngine/Component/TilemapComponent.h>
+#include <SWAEngine/Tilemap/TilemapContainer.h>
+#include <SWAEngine/Tilemap/TileBehavior/IBehavior.h>
 #include <algorithm>
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Component
 {
 	const unsigned int TilemapComponent::MAX_MOVE_STEPS = 50;
 
@@ -29,8 +29,8 @@ namespace SWAEngine::Component::Tilemap
 		Origin = origin;
 		TileScale = scale;
 
-		mp_ActiveTilesContainer = new TilemapContainer();
-		mp_PendingTilesContainer = new TilemapContainer();
+		mp_ActiveTilesContainer = new Tilemap::TilemapContainer();
+		mp_PendingTilesContainer = new Tilemap::TilemapContainer();
 	}
 	std::string const TilemapComponent::GetName()
 	{
@@ -56,14 +56,14 @@ namespace SWAEngine::Component::Tilemap
 		return mp_ActiveTilesContainer->Size() == 0;
 	}
 
-	Tile TilemapComponent::GetActiveTile(Math::Vector2Int position)
+	Tilemap::Tile TilemapComponent::GetActiveTile(Math::Vector2Int position)
 	{
 		if (!mp_ActiveTilesContainer->Contains(position))
 			return {};
 
 		return mp_ActiveTilesContainer->Get(position);
 	}
-	Tile TilemapComponent::GetTile(Math::Vector2Int position, __out int* containerID)
+	Tilemap::Tile TilemapComponent::GetTile(Math::Vector2Int position, __out int* containerID)
 	{
 		// Try get pending
 		if (mp_PendingTilesContainer->Contains(position))
@@ -79,7 +79,7 @@ namespace SWAEngine::Component::Tilemap
 		return GetActiveTile(position);
 	}
 
-	Tile TilemapComponent::SetTile(Math::Vector2Int position, Tile tile)
+	Tilemap::Tile TilemapComponent::SetTile(Math::Vector2Int position, Tilemap::Tile tile)
 	{
 		if (position.X < 0 || position.Y < 0)
 			throw std::exception(); // TODO: Allow expansion of tilemap
@@ -88,8 +88,8 @@ namespace SWAEngine::Component::Tilemap
 	}
 	void TilemapComponent::SwapTiles(Math::Vector2Int a, Math::Vector2Int b)
 	{
-		Tile tileA = GetTile(a);
-		Tile tileB = GetTile(b);
+		Tilemap::Tile tileA = GetTile(a);
+		Tilemap::Tile tileB = GetTile(b);
 
 		if (!tileA.HasValue && !tileB.HasValue)
 			return;
@@ -107,12 +107,12 @@ namespace SWAEngine::Component::Tilemap
 		// Set b to a
 		mp_PendingTilesContainer->Set(PropertyManager, { b.X, b.Y, PENDING_TILES_ID }, tileA, true);
 	}
-	std::pair<Math::Vector2Int, Tile> TilemapComponent::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
+	std::pair<Math::Vector2Int, Tilemap::Tile> TilemapComponent::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
 	{
 		float magnitude = sqrt(movement.GetMagnitudeSqrd());
 		Math::Vector2 direction = movement / magnitude;
 
-		Tile hitTile = {}; // Default: hit nothing
+		Tilemap::Tile hitTile = {}; // Default: hit nothing
 		Math::Vector2Int start = origin + direction, current = start; // Default: starts at the start which is one step ahead of the original tile
 		
 		int step = 0, end = std::min(maxSteps, (int)floor(magnitude));
@@ -150,7 +150,7 @@ namespace SWAEngine::Component::Tilemap
 
 		// Make sure we didn't run out of steps or didn't actually move
 		if (step == maxSteps || current == origin)
-			return std::make_pair(origin, Tile());
+			return std::make_pair(origin, Tilemap::Tile());
 
 		// Can successfully move!
 		return std::make_pair(current, hitTile);
@@ -189,7 +189,7 @@ namespace SWAEngine::Component::Tilemap
 		TILES tilesToUpdate = {};
 
 		// Iterate
-		mp_PendingTilesContainer->ReplaceIterate([&](Math::Vector2Int pos, Tile& rPendingTile)
+		mp_PendingTilesContainer->ReplaceIterate([&](Math::Vector2Int pos, Tilemap::Tile& rPendingTile)
 		{
 			if (rPendingTile.HasValue) // Add
 			{
@@ -215,7 +215,7 @@ namespace SWAEngine::Component::Tilemap
 			// Queue update surrounding
 			for (auto& off : SURROUNDING_TILES)
 			{
-				Tile tile = GetTile(off + pos); // Active or pending because they haven't all been applied yet
+				Tilemap::Tile tile = GetTile(off + pos); // Active or pending because they haven't all been applied yet
 				if (tile.HasValue && tile.BehaviorUID != NULL)
 					tilesToUpdate.insert(std::make_pair(off + pos, tile));
 			}
@@ -237,7 +237,7 @@ namespace SWAEngine::Component::Tilemap
 	{
 		for (auto& pair : tiles)
 		{
-			TileBehavior::IBehavior::s_Behaviors.at(pair.second.BehaviorUID)->Update(pair.second, pair.first, this, time);
+			Tilemap::TileBehavior::IBehavior::s_Behaviors.at(pair.second.BehaviorUID)->Update(pair.second, pair.first, this, time);
 		}
 	}
 }

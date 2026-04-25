@@ -1,13 +1,14 @@
 #include <SWA/Player/Inventory/Items/TileItem.h>
 #include <SWA/Player/Inventory/Items/Types.h>
 
-#include <SWAEngine/Component/Tilemap/Tile.h>
-#include <SWAEngine/Component/Tilemap/TileBehavior/IBehavior.h>
-#include <SWAEngine/Component/Tilemap/TileBehavior/Types.h>
+#include <SWAEngine/Tilemap/Tile.h>
+#include <SWAEngine/Tilemap/TileBehavior/IBehavior.h>
+#include <SWAEngine/Tilemap/TileBehavior/Types.h>
 #include <SWAEngine/Math/ColorUtility.h>
 
 using namespace SWAEngine;
-using namespace SWAEngine::Component::Tilemap;
+using namespace SWAEngine::Component;
+using namespace Tilemap;
 using namespace TileBehavior;
 
 namespace SWA::Player::Inventory::Items

@@ -1,11 +1,11 @@
-#include <SWAEngine/Component/Tilemap/TileBehavior/Sand.h>
-#include <SWAEngine/Component/Tilemap/TileBehavior/Types.h>
-#include <SWAEngine/Component/Tilemap/TilePropertyData/SandData.h>
+#include <SWAEngine/Tilemap/TileBehavior/Sand.h>
+#include <SWAEngine/Tilemap/TileBehavior/Types.h>
+#include <SWAEngine/Tilemap/TilePropertyData/SandData.h>
 #include <utility>
 
-namespace SWAEngine::Component::Tilemap::TileBehavior
+namespace SWAEngine::Tilemap::TileBehavior
 {
-	void Sand::Update(Tile tile, Math::Vector2Int pos, TilemapComponent* const pTilemap, Math::Time time)
+	void Sand::Update(Tile tile, Math::Vector2Int pos, Component::TilemapComponent* const pTilemap, Math::Time time)
 	{
 		// Try get properties
 		if (tile.p_Properties == nullptr)

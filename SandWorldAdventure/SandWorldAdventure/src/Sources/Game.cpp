@@ -7,7 +7,7 @@
 
 #include <SWA/JSON/JSONManager.h>
 
-#include <SWAEngine/Component/Tilemap/TileBehavior/Types.h>
+#include <SWAEngine/Tilemap/TileBehavior/Types.h>
 #include <SWAEngine/Component/Physics/BoxCollider.h>
 
 // Graphics
@@ -34,7 +34,7 @@ namespace SWA
 	const unsigned int Game::FPS = 60;
 
 	Player::Player* Game::p_MainPlayer = nullptr;
-	Tilemap::TilemapComponent* Game::p_Tilemap = nullptr;
+	TilemapComponent* Game::p_Tilemap = nullptr;
 	TilemapCollider* Game::p_TilemapCollider = nullptr;
 	Tilemap::TilemapMesh* Game::p_TilemapMesh = nullptr;
 

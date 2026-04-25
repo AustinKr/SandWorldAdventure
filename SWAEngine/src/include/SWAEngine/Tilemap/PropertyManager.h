@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <set>
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Tilemap
 {
 	// Stores the property data of tiles.
 	// Also contains functions to manage different kinds of properties stored in a Tile.

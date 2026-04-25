@@ -1,6 +1,7 @@
-#include <SWAEngine/Component/Tilemap/TilemapMesh.h>
+#include <SWAEngine/Tilemap/TilemapMesh.h>
 #include <GP2D/Pipeline/Window/Window.h>
 #include <GP2D/Pipeline/GenericPipeline.h>
+#include <SWAEngine/Math/vector2.h>
 
 #include <algorithm>
 #include <malloc.h>
@@ -14,7 +15,7 @@ using namespace GP2D::Math;
 using namespace GP2D::Pipeline;
 using namespace GP2D::Pipeline::Shader;
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Tilemap
 {
 	const Vertex2D TilemapMesh::MESH_VERTICES[6] =
 	{
@@ -32,7 +33,7 @@ namespace SWAEngine::Component::Tilemap
 	const char* TilemapMesh::TextureSizeCoordName = "TexSizeCoord";
 	const char* TilemapMesh::TextureSizeName = "TexSize";
 
-	TilemapMesh::TilemapMesh(TilemapComponent* const pTilemap, const char* shader) : mp_Tilemap(pTilemap), ShaderName(shader)
+	TilemapMesh::TilemapMesh(Component::TilemapComponent* const pTilemap, const char* shader) : mp_Tilemap(pTilemap), ShaderName(shader)
 	{
 		IsActive = true;
 

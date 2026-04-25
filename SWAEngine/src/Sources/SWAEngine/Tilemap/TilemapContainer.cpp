@@ -1,6 +1,7 @@
-#include <SWAEngine/Component/Tilemap/TilemapContainer.h>
+#include <SWAEngine/Tilemap/TilemapContainer.h>
+#include <SWAEngine/Math/vector2.h>
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Tilemap
 {
 	TilemapContainer::TilemapContainer()
 	{

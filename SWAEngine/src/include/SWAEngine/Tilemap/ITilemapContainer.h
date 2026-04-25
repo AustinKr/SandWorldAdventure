@@ -1,10 +1,12 @@
 #pragma once
 #include <SWAEngine/dllClause.h>
+#include <functional>
+#include <SWAEngine/Math/vector2.h>
+
 #include "Tile.h"
 #include "PropertyManager.h"
-#include <functional>
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Tilemap
 {
 	struct SWA_ENGINE_API ITilemapContainer
 	{

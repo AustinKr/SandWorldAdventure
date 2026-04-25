@@ -1,7 +1,7 @@
 #pragma once
-#include <SWAEngine/Math/vector2.h>
+//#include <SWAEngine/Math/vector2.h>
 
-namespace SWAEngine::Component::Tilemap::TilePropertyData
+namespace SWAEngine::Tilemap::TilePropertyData
 {
 	// Defines extra properties to store with sand Tiles
 	struct SandData

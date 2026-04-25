@@ -12,7 +12,7 @@ namespace SWAEngine::Component::Physics
 	void TilemapCollider::Initialize(std::string objName)
 	{
 		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
-		p_LinkedTilemap = linkedObject.GetComponent<Tilemap::TilemapComponent>();
+		p_LinkedTilemap = linkedObject.GetComponent<TilemapComponent>();
 
 		Collider::Initialize(objName);
 	}

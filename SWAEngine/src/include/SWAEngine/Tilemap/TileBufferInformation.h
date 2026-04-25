@@ -2,7 +2,7 @@
 #include <GP2D/Math/vector2.h>
 #include <GP2D/GraphicsTypes.h>
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Tilemap
 {
 	struct TileBufferInformation
 	{

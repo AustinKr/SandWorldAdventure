@@ -1,9 +1,7 @@
 #pragma once
 #include <GP2D/GraphicsTypes.h>
-#include <SWAEngine/Math/vector2.h>
-#include <utility>
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Tilemap
 {
 	struct Tile
 	{

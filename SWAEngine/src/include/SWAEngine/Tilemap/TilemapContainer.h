@@ -2,7 +2,7 @@
 #include "ITilemapContainer.h"
 #include <unordered_map>
 
-namespace SWAEngine::Component::Tilemap
+namespace SWAEngine::Tilemap
 {
 	struct SWA_ENGINE_API TilemapContainer : public ITilemapContainer
 	{
