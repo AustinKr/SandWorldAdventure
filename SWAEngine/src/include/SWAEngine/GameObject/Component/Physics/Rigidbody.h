@@ -39,6 +39,8 @@ namespace SWAEngine::GameObject::Component::Physics
 		Transform* p_LinkedTransform;
 
 		Rigidbody();
+		
+		// Inherited/Required by IComponent
 
 		static std::string const GetName();
 		virtual void Initialize(std::string objName) override;

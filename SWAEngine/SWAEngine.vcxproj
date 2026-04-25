@@ -196,6 +196,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\FileManager.h" />
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\IComponent.h" />
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\TilemapCollider.h" />
     <ClInclude Include="src\include\SWAEngine\Math\ColorUtility.h" />
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h" />
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\BoxCollider.h" />

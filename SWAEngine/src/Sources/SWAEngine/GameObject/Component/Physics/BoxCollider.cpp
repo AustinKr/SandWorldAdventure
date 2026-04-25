@@ -3,10 +3,6 @@
 
 namespace SWAEngine::GameObject::Component::Physics
 {
-	ColliderTypes BoxCollider::GetType()
-	{
-		return COLLIDER_TYPE_BOX;
-	}
 	std::string const BoxCollider::GetName()
 	{
 		return "box_collider";
@@ -29,6 +25,11 @@ namespace SWAEngine::GameObject::Component::Physics
 		}
 		
 		return false;
+	}
+
+	ColliderTypes BoxCollider::GetType()
+	{
+		return COLLIDER_TYPE_BOX;
 	}
 
 	bool BoxCollider::DetectAABB(Math::Vector2 a_leftBottom, Math::Vector2 a_rightTop, Math::Vector2 b_leftBottom, Math::Vector2 b_rightTop)

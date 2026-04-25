@@ -176,5 +176,8 @@
     <ClInclude Include="src\include\SWAEngine\GameObject\Component\IComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\TilemapCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
