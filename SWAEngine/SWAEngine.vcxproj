@@ -221,7 +221,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBehavior\Sand.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBehavior\Types.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TileBufferInformation.h" />
-    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\Tilemap.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TilemapComponent.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TilemapContainer.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TilemapMesh.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Tilemap\PropertyManager.h" />

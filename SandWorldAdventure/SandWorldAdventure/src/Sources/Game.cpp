@@ -34,7 +34,7 @@ namespace SWA
 	const unsigned int Game::FPS = 60;
 
 	Player::Player* Game::p_MainPlayer = nullptr;
-	Tilemap::Tilemap* Game::p_Tilemap = nullptr;
+	Tilemap::TilemapComponent* Game::p_Tilemap = nullptr;
 	TilemapCollider* Game::p_TilemapCollider = nullptr;
 	Tilemap::TilemapMesh* Game::p_TilemapMesh = nullptr;
 

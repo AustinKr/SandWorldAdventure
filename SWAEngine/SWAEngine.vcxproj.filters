@@ -86,7 +86,7 @@
     <ClInclude Include="src\include\SWAEngine\dllClause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\Tilemap.h">
+    <ClInclude Include="src\include\SWAEngine\Component\Tilemap\TilemapComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\SWAEngine\Component\Tilemap\Tile.h">

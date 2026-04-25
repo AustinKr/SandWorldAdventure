@@ -32,7 +32,7 @@ namespace SWAEngine::Component::Tilemap
 	const char* TilemapMesh::TextureSizeCoordName = "TexSizeCoord";
 	const char* TilemapMesh::TextureSizeName = "TexSize";
 
-	TilemapMesh::TilemapMesh(Tilemap* const pTilemap, const char* shader) : mp_Tilemap(pTilemap), ShaderName(shader)
+	TilemapMesh::TilemapMesh(TilemapComponent* const pTilemap, const char* shader) : mp_Tilemap(pTilemap), ShaderName(shader)
 	{
 		IsActive = true;
 

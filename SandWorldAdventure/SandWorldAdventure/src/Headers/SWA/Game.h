@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SWAEngine/Component/Physics/TilemapCollider.h>
-#include <SWAEngine/Component/Tilemap/Tilemap.h>
+#include <SWAEngine/Component/Tilemap/TilemapComponent.h>
 #include <SWAEngine/Component/Tilemap/TilemapMesh.h>
 #include <SWAEngine/Math/Time.h>
 
@@ -22,7 +22,7 @@ namespace SWA
 		static const unsigned int FPS; // TODO: Can be configured by user in future
 
 		static Player::Player* p_MainPlayer;
-		static SWAEngine::Component::Tilemap::Tilemap* p_Tilemap;
+		static SWAEngine::Component::Tilemap::TilemapComponent* p_Tilemap;
 		static SWAEngine::Component::Physics::TilemapCollider* p_TilemapCollider;
 		static SWAEngine::Component::Tilemap::TilemapMesh* p_TilemapMesh;
 

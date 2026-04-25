@@ -1,6 +1,6 @@
 #pragma once
 #include <SWAEngine/dllClause.h>
-#include "Tilemap.h"
+#include "TilemapComponent.h"
 #include "TileBufferInformation.h"
 
 #include <GP2D/Pipeline/Mesh/IMesh.h>
@@ -22,14 +22,14 @@ namespace SWAEngine::Component::Tilemap
 		const char* ShaderName;
 
 		// Initializes the mesh and generates a texture to send to the shader
-		TilemapMesh(Tilemap* const pTilemap, const char* shader);
+		TilemapMesh(TilemapComponent* const pTilemap, const char* shader);
 
 		virtual void Release() override;
 
 		virtual bool Render(GP2D::Pipeline::IPipeline* pPipeline, GP2D::UINT vertexBufferName, GP2D::UINT pVertexArray) override;
 
 	private:
-		Tilemap* const mp_Tilemap;
+		TilemapComponent* const mp_Tilemap;
 		GP2D::UINT m_TextureBufferName;
 
 		// The verts for the mesh. Takes up the entire screen

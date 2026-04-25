@@ -1,13 +1,13 @@
 #pragma once
 #include "Collider.h"
-#include <SWAEngine/Component/Tilemap/Tilemap.h>
+#include <SWAEngine/Component/Tilemap/TilemapComponent.h>
 
 namespace SWAEngine::Component::Physics
 {
 	struct SWA_ENGINE_API TilemapCollider : Collider
 	{
 	public:
-		Tilemap::Tilemap* p_LinkedTilemap;
+		Tilemap::TilemapComponent* p_LinkedTilemap;
 
 		// Inherited/Required by IComponent
 

@@ -9,7 +9,7 @@ namespace SWAEngine::Component::Tilemap
 {
 	// TODO: Move tilemap into GameObject/component
 	// TODO: Make tilemap use Transform component, or else make Colliders not require a transform
-	struct SWA_ENGINE_API Tilemap : Component::IComponent
+	struct SWA_ENGINE_API TilemapComponent : Component::IComponent
 	{
 	public:
 		static const int ACTIVE_TILES_ID; // Used in PropertyManager
@@ -23,7 +23,7 @@ namespace SWAEngine::Component::Tilemap
 		// In world coordinates
 		Math::Vector2 TileScale;
 
-		Tilemap(Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
+		TilemapComponent(Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
 
 		static std::string const GetName();
 		virtual void Initialize(std::string objName) override;

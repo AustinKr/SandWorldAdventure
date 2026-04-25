@@ -1,13 +1,13 @@
-#include <SWAEngine/Component/Tilemap/Tilemap.h>
+#include <SWAEngine/Component/Tilemap/TilemapComponent.h>
 #include <SWAEngine/Component/Tilemap/TilemapContainer.h>
 #include <SWAEngine/Component/Tilemap/TileBehavior/IBehavior.h>
 #include <algorithm>
 
 namespace SWAEngine::Component::Tilemap
 {
-	const unsigned int Tilemap::MAX_MOVE_STEPS = 50;
+	const unsigned int TilemapComponent::MAX_MOVE_STEPS = 50;
 
-	const Math::Vector2Int Tilemap::SURROUNDING_TILES[8] =
+	const Math::Vector2Int TilemapComponent::SURROUNDING_TILES[8] =
 	{
 		Math::Vector2Int(-1, 1),
 		Math::Vector2Int(-1, 0),
@@ -19,10 +19,10 @@ namespace SWAEngine::Component::Tilemap
 		Math::Vector2Int(0, 1),
 	};
 
-	const int Tilemap::ACTIVE_TILES_ID = 1;
-	const int Tilemap::PENDING_TILES_ID = 2;
+	const int TilemapComponent::ACTIVE_TILES_ID = 1;
+	const int TilemapComponent::PENDING_TILES_ID = 2;
 
-	Tilemap::Tilemap(Math::Vector2 origin, Math::Vector2 scale)
+	TilemapComponent::TilemapComponent(Math::Vector2 origin, Math::Vector2 scale)
 	{
 		PropertyManager = {};
 
@@ -32,38 +32,38 @@ namespace SWAEngine::Component::Tilemap
 		mp_ActiveTilesContainer = new TilemapContainer();
 		mp_PendingTilesContainer = new TilemapContainer();
 	}
-	std::string const Tilemap::GetName()
+	std::string const TilemapComponent::GetName()
 	{
 		return "tilemap";
 	}
-	void Tilemap::Initialize(std::string objName)
+	void TilemapComponent::Initialize(std::string objName)
 	{}
-	void Tilemap::Update(std::string, Math::Time time)
+	void TilemapComponent::Update(std::string, Math::Time time)
 	{
 		UpdateTiles(time, ApplyPendingTiles(time));
 	}
-	void Tilemap::Release()
+	void TilemapComponent::Release()
 	{
 		delete(mp_ActiveTilesContainer);
 		delete(mp_PendingTilesContainer);
 		delete(this);
 	}
-	void Tilemap::SetActive(bool state)
+	void TilemapComponent::SetActive(bool state)
 	{}
-	bool Tilemap::GetActive() { return true; }
-	bool Tilemap::IsEmpty()
+	bool TilemapComponent::GetActive() { return true; }
+	bool TilemapComponent::IsEmpty()
 	{
 		return mp_ActiveTilesContainer->Size() == 0;
 	}
 
-	Tile Tilemap::GetActiveTile(Math::Vector2Int position)
+	Tile TilemapComponent::GetActiveTile(Math::Vector2Int position)
 	{
 		if (!mp_ActiveTilesContainer->Contains(position))
 			return {};
 
 		return mp_ActiveTilesContainer->Get(position);
 	}
-	Tile Tilemap::GetTile(Math::Vector2Int position, __out int* containerID)
+	Tile TilemapComponent::GetTile(Math::Vector2Int position, __out int* containerID)
 	{
 		// Try get pending
 		if (mp_PendingTilesContainer->Contains(position))
@@ -79,14 +79,14 @@ namespace SWAEngine::Component::Tilemap
 		return GetActiveTile(position);
 	}
 
-	Tile Tilemap::SetTile(Math::Vector2Int position, Tile tile)
+	Tile TilemapComponent::SetTile(Math::Vector2Int position, Tile tile)
 	{
 		if (position.X < 0 || position.Y < 0)
 			throw std::exception(); // TODO: Allow expansion of tilemap
 
 		return mp_PendingTilesContainer->Set(PropertyManager, { position.X, position.Y, PENDING_TILES_ID}, tile, true);
 	}
-	void Tilemap::SwapTiles(Math::Vector2Int a, Math::Vector2Int b)
+	void TilemapComponent::SwapTiles(Math::Vector2Int a, Math::Vector2Int b)
 	{
 		Tile tileA = GetTile(a);
 		Tile tileB = GetTile(b);
@@ -107,7 +107,7 @@ namespace SWAEngine::Component::Tilemap
 		// Set b to a
 		mp_PendingTilesContainer->Set(PropertyManager, { b.X, b.Y, PENDING_TILES_ID }, tileA, true);
 	}
-	std::pair<Math::Vector2Int, Tile> Tilemap::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
+	std::pair<Math::Vector2Int, Tile> TilemapComponent::TryStepMoveTile(Math::Vector2Int origin, Math::Vector2 movement, int maxSteps)
 	{
 		float magnitude = sqrt(movement.GetMagnitudeSqrd());
 		Math::Vector2 direction = movement / magnitude;
@@ -156,35 +156,35 @@ namespace SWAEngine::Component::Tilemap
 		return std::make_pair(current, hitTile);
 	}
 
-	bool Tilemap::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight) // TODO: Make tilemap collision detection only check for certain tiles
+	bool TilemapComponent::DetectCollisionRect(Math::Vector2Int bottomLeft, Math::Vector2Int topRight) // TODO: Make tilemap collision detection only check for certain tiles
 	{
 		return mp_ActiveTilesContainer->DetectCollisionRect(bottomLeft, topRight);
 	}
 
-	Math::Vector2 Tilemap::TileToWorld(Math::Vector2Int tile, bool applyOffsets)
+	Math::Vector2 TilemapComponent::TileToWorld(Math::Vector2Int tile, bool applyOffsets)
 	{
 		Math::Vector2 world = (Math::Vector2)tile * TileScale;
 		if (applyOffsets)
 			world += Origin;
 		return world;
 	}
-	Math::Vector2Int Tilemap::WorldToTile(Math::Vector2 world, bool applyOffsets)
+	Math::Vector2Int TilemapComponent::WorldToTile(Math::Vector2 world, bool applyOffsets)
 	{
 		if (applyOffsets)
 			world -= Origin;
 		return world / TileScale;
 	}
 
-	Math::Vector2Int Tilemap::GetBounds()
+	Math::Vector2Int TilemapComponent::GetBounds()
 	{
 		return mp_ActiveTilesContainer->GetBounds();
 	}
-	bool Tilemap::IsInBounds(Math::Vector2Int tile)
+	bool TilemapComponent::IsInBounds(Math::Vector2Int tile)
 	{
 		return tile.X >= 0 && tile.Y >= 0 && tile.X < GetBounds().X && tile.Y < GetBounds().Y;
 	}
 
-	Tilemap::TILES Tilemap::ApplyPendingTiles(Math::Time time)
+	TilemapComponent::TILES TilemapComponent::ApplyPendingTiles(Math::Time time)
 	{
 		TILES tilesToUpdate = {};
 
@@ -233,7 +233,7 @@ namespace SWAEngine::Component::Tilemap
 
 		return tilesToUpdate;
 	}
-	void Tilemap::UpdateTiles(Math::Time time, TILES tiles)
+	void TilemapComponent::UpdateTiles(Math::Time time, TILES tiles)
 	{
 		for (auto& pair : tiles)
 		{
