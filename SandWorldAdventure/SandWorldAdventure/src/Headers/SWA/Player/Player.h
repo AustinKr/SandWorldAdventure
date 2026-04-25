@@ -43,8 +43,8 @@ namespace SWA::Player
 
 		void Move();
 
+		static std::string const GetName();
 		// Inherited via IComponent
-		virtual std::string const GetName() override;
 		virtual void Initialize(std::string objName) override;
 		virtual void Release() override; 
 		virtual void Update(std::string objectName, SWAEngine::Math::Time time) override;

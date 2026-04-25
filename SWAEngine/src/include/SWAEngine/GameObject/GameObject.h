@@ -14,10 +14,9 @@ namespace SWAEngine
 
 	namespace GameObject
 	{
-		// TODO: Could make all component factory static functions into methods of gameobject that automatically registers
-		// TODO: Rename BaseGameObject to GameObject and make custom functionality through Components
 		// A physical object inside of the game that requires functionality every frame
 		// (by default is an empty object that may be used to group other objects)
+		// GameObjects can only have one of each Component
 		class SWA_ENGINE_API GameObject
 		{
 			friend SWAEngine::Scene;
@@ -39,21 +38,22 @@ namespace SWAEngine
 					return nullptr;
 				return m_Components.insert(std::make_pair(pComp->GetName(), pComp)).second ? pComp : nullptr;
 			}
-			void TryUnregisterComponent(Component::IComponent* pComp);
+			void TryUnregisterComponent(std::string name);
+			// Expects TYPE to be of IComponent and contain a static std::string GetName()
 			template<typename TYPE>
-			TYPE* const TryGetComponent(std::string name) // TODO: MAke this only require the template
+			TYPE* const TryGetComponent()
 			{
-				return m_Components.contains(name) ? static_cast<TYPE*>(m_Components.at(name)) : nullptr;
+				return m_Components.contains(TYPE::GetName()) ? static_cast<TYPE*>(m_Components.at(TYPE::GetName())) : nullptr;
 			}
 			// Gets the current component, or create and initalizes one if it doesn't already exist
-			// Note the alias must match TYPE::GetName();
+			// Expects TYPE to be of IComponent and contain a static std::string GetName()
 			template<typename TYPE>
-			TYPE* const GetComponent(std::string alias)
+			TYPE* const GetComponent()
 			{
-				TYPE* comp = TryGetComponent<TYPE>(alias);
+				TYPE* comp = TryGetComponent<TYPE>();
 				if (comp == nullptr)
 				{
-					comp = static_cast<TYPE*>(m_Components.insert(std::make_pair(alias, new TYPE())).first->second);
+					comp = static_cast<TYPE*>(m_Components.insert(std::make_pair(TYPE::GetName(), new TYPE())).first->second);
 					comp->Initialize(GetName());
 				}
 				return comp;

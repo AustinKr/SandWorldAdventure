@@ -9,7 +9,7 @@ namespace SWAEngine::GameObject::Component::Physics
 	void Collider::Initialize(std::string objName)
 	{
 		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
-		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
+		p_LinkedTransform = linkedObject.GetComponent<Transform>();
 
 		ms_CollidersRegistry.insert(this);
 	}

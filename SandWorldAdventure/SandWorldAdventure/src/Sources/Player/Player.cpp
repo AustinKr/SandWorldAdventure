@@ -72,9 +72,9 @@ namespace SWA::Player
 		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 
 		// Get/create linked components
-		p_LinkedCollider = linkedObject.GetComponent<BoxCollider>("box_collider"); // TODO: use any collider
-		p_LinkedRigidbody = linkedObject.GetComponent<Rigidbody>("rigidbody");
-		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
+		p_LinkedCollider = linkedObject.GetComponent<BoxCollider>(); // TODO: use any collider
+		p_LinkedRigidbody = linkedObject.GetComponent<Rigidbody>();
+		p_LinkedTransform = linkedObject.GetComponent<Transform>();
 
 		// Subscribe to update mesh
 		p_LinkedTransform->OnSetPosition += [&](SWAEngine::Math::Vector2 newPosition) { mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y }; };

@@ -24,7 +24,7 @@ namespace SWAEngine::Tilemap
 
 		Tilemap(Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
 
-		virtual std::string const GetName() override;
+		static std::string const GetName();
 		virtual void Initialize(std::string objName) override;
 		virtual void Release() override;
 		virtual void Update(std::string, Math::Time time) override;

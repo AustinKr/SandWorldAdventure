@@ -40,7 +40,7 @@ namespace SWAEngine::GameObject::Component::Physics
 
 		Rigidbody();
 
-		virtual std::string const GetName() override;
+		static std::string const GetName();
 		virtual void Initialize(std::string objName) override;
 		virtual void Release() override; 
 		virtual void Update(std::string objectName, Math::Time time) override; // TODO: Make rigidbody update after all other components

@@ -21,7 +21,6 @@ namespace SWAEngine::GameObject::Component::Physics
 		Transform* p_LinkedTransform;
 
 		virtual ColliderTypes GetType() = 0; 
-		virtual std::string const GetName() = 0;
 
 		virtual void Initialize(std::string objName) override; // Registers with internal registry and links transform by default
 		virtual void Release() override; // Deletes memory and removes from internal registry by default

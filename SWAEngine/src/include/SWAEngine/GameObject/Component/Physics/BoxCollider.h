@@ -15,7 +15,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		static BoxCollider* const CreateCollider(GameObject& linkedObject);
 
 		virtual ColliderTypes GetType() override;
-		virtual std::string const GetName() override;
+		static std::string const GetName();
 		virtual void Release() override;
 
 		virtual bool IsColliding(Collider* other, int tag = SELECT_ALL) override;

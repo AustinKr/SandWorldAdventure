@@ -14,13 +14,13 @@ namespace SWAEngine::GameObject::Component::Physics
 
 	std::string const Rigidbody::GetName()
 	{
-		return "physics";
-	} 
+		return "rigidbody";
+	}
 	void Rigidbody::Initialize(std::string objName)
 	{
 		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 
-		p_LinkedTransform = linkedObject.GetComponent<Transform>("transform");
+		p_LinkedTransform = linkedObject.GetComponent<Transform>();
 	}
 	void Rigidbody::Release()
 	{
@@ -46,7 +46,7 @@ namespace SWAEngine::GameObject::Component::Physics
 	bool Rigidbody::StepMove(SWAEngine::Math::Vector2 movement)
 	{
 		// Get collider (assumed to have a value)
-		Collider* pCollider = SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider");
+		Collider* pCollider = SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>();
 
 		Vector2 origin = p_LinkedTransform->GetPosition();
 		double factor = 1.0;
@@ -79,7 +79,7 @@ namespace SWAEngine::GameObject::Component::Physics
 		Vector2 movement = m_Velocity * m_Time.RealDeltaTime;
 
 		// Try get collider
-		if (SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>("box_collider") == nullptr)
+		if (SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>() == nullptr)
 		{
 			// Just move because we couldn't possibly collide
 			p_LinkedTransform->SetPosition(p_LinkedTransform->GetPosition() + movement);
