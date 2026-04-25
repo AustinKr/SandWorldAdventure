@@ -3,7 +3,6 @@
 #include <SWAEngine/GameObject/Component/Transform.h>
 
 #include <SWAEngine/GameObject/GameObject.h>
-#include <SWAEngine/Scene.h>
 
 namespace SWAEngine::GameObject::Component::Physics
 {
@@ -11,9 +10,6 @@ namespace SWAEngine::GameObject::Component::Physics
 	struct SWA_ENGINE_API BoxCollider : Collider
 	{
 	public:
-		// Creates an instance of box collider. Automatically creates a transform component if needed
-		static BoxCollider* const CreateCollider(GameObject& linkedObject);
-
 		virtual ColliderTypes GetType() override;
 		static std::string const GetName();
 		virtual void Release() override;

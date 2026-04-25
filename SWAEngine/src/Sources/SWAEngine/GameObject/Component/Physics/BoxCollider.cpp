@@ -1,4 +1,5 @@
 #include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Scene.h> // GameObject.h uses forward decl
 
 namespace SWAEngine::GameObject::Component::Physics
 {
