@@ -30,8 +30,6 @@ namespace SWA::Player
 		SWAEngine::GameObject::Component::Transform* p_LinkedTransform;
 
 		// This should only be called once when the application begins and is the only instance used
-		// Creates the mesh with default size
-		// Creates the inventory and gui
 		Player();
 
 		Inventory::Manager Inventory;
@@ -45,7 +43,7 @@ namespace SWA::Player
 
 		static std::string const GetName();
 		// Inherited via IComponent
-		virtual void Initialize(std::string objName) override;
+		virtual void Initialize(std::string objName) override; // Creates the mesh with default size, links components, and creates the inventory and its gui
 		virtual void Release() override; 
 		virtual void Update(std::string objectName, SWAEngine::Math::Time time) override;
 		virtual void SetActive(bool state) override;

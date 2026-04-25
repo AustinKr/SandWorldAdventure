@@ -1,4 +1,8 @@
-. Make TryGetComponent/GetComponent() only require a template type( so make component names static and say TYPE::GetName() or TYPE::s_Name)
+
+. Look at commit log for top level TODOS
+. Move tilemap to proper directory
+. Rename GameObject directory or struct
+. make PlayerCollider that prevents him from falling through the world
 
 
 . Allow user to select tools using numbers on the keyboard

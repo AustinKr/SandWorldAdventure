@@ -26,30 +26,7 @@ namespace SWA::Player
 		m_Inputs{}, Gravity(1), m_Time{}, CameraFollowSpeed{5}, Speed(1), JumpHeight(1),
 		p_LinkedCollider(nullptr), p_LinkedTransform(nullptr), p_LinkedRigidbody(nullptr),
 		mp_Mesh(nullptr)
-	{
-		// Create the mesh
-		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("player"), true);
-		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
-		mp_Mesh->Vertices =
-		{
-			{{ 0, 0 }, {0, 0, 0}},
-			{{ 1, 0 }, {1, 0, 0}},
-			{{ 1, 1 }, {1, 1, 0}},
-			{{ 0, 1 }, {0, 1, 0}},
-		};
-		mp_Mesh->Triangles =
-		{
-			0, 1, 2,
-			0, 2, 3
-		};
-		mp_Mesh->Shaders =
-		{
-			{0, 6, "DefaultSpriteShader"}
-		};
-		// Create player inventory and gui
-		Inventory = {};
-		GUILayout::Initialize(Inventory);
-	}
+	{}
 
 	void Player::Move()
 	{
@@ -69,6 +46,11 @@ namespace SWA::Player
 	}
 	void Player::Initialize(std::string objName)
 	{
+		// Create player inventory and gui
+		Inventory = {};
+		GUILayout::Initialize(Inventory);
+
+		// Link components
 		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 
 		// Get/create linked components
@@ -76,6 +58,26 @@ namespace SWA::Player
 		p_LinkedRigidbody = linkedObject.GetComponent<Rigidbody>();
 		p_LinkedTransform = linkedObject.GetComponent<Transform>();
 
+		// Create the mesh
+		mp_Mesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("player"), true);
+		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Characters).RegisterMesh(mp_Mesh);
+		mp_Mesh->Vertices =
+		{
+			{{ 0, 0 }, {0, 0, 0}},
+			{{ 1, 0 }, {1, 0, 0}},
+			{{ 1, 1 }, {1, 1, 0}},
+			{{ 0, 1 }, {0, 1, 0}},
+		};
+		mp_Mesh->Triangles =
+		{
+			0, 1, 2,
+			0, 2, 3
+		};
+		mp_Mesh->Shaders =
+		{
+			{0, 6, "DefaultSpriteShader"}
+		};
+		
 		// Subscribe to update mesh
 		p_LinkedTransform->OnSetPosition += [&](SWAEngine::Math::Vector2 newPosition) { mp_Mesh->Origin = { (float)newPosition.X, (float)newPosition.Y }; };
 		p_LinkedTransform->OnSetScale += [&](SWAEngine::Math::Vector2 newScale) { mp_Mesh->Scale = { (float)newScale.X, (float)newScale.Y }; };

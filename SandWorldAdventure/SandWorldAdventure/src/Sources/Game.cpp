@@ -8,6 +8,7 @@
 #include <SWA/JSON/JSONManager.h>
 
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
+#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
 
 // Graphics
 #include "GP2D/Pipeline/GenericPipeline.h"
@@ -55,26 +56,8 @@ namespace SWA
 		SWAEngine::SceneManager::CreateScene("ThisIsMyScene");
 		SWAEngine::SceneManager::CreateScene("ThisIsAnotherScene");
 
-		// TEst mesh
-		auto pNewMesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("lava_24"), true);
-		pNewMesh->Origin = { -0.1f, -.5f };
-		pNewMesh->Scale = { 0.5f, 0.2f };
-		pNewMesh->Vertices = {
-			{{0, 0}, {0, 0}},
-			{{1, 0}, {1, 0}},
-			{{1, 1}, {1, 1}},
-			{{0, 1}, {0, 1}} };
-		pNewMesh->Triangles = {
-			0, 1, 2,
-			0, 2, 3
-		};
-		pNewMesh->Shaders = {
-			{0, 6, "DefaultSpriteShader"}
-		};
-		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(pNewMesh);
-
 		// Create tilemap
-		SWAEngine::GameObject::GameObject& tilemapObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Tilemap");
+		SWAEngine::GameObject::GameObject& tilemapObj = SceneManager::GetScene().CreateGameObject("Tilemap");
 		p_TilemapCollider = tilemapObj.GetComponent<SWAEngine::GameObject::Component::Physics::TilemapCollider>();
 		p_Tilemap = p_TilemapCollider->p_LinkedTilemap;
 		p_Tilemap->Origin = { 0,0 }; p_Tilemap->TileScale = { .01f, .01f };
@@ -92,7 +75,33 @@ namespace SWA
 		// Create the player
 		SWAEngine::GameObject::GameObject& playerObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Player");
 		p_MainPlayer = playerObj.GetComponent<Player::Player>();
-		p_MainPlayer->p_LinkedCollider->p_LinkedTransform->SetPosition({ 1, 2 });
+		p_MainPlayer->p_LinkedTransform->SetPosition({ 1, 2 });
+
+
+		// TODO: remove test collision object
+		SWAEngine::GameObject::GameObject& testObj = SWAEngine::SceneManager::GetScene().CreateGameObject("MyTestObj");
+		BoxCollider* testCollider = testObj.GetComponent<BoxCollider>();
+		// Test mesh
+		auto testMesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("lava_24"), true);
+		testMesh->Vertices = {
+			{{0, 0}, {0, 0}},
+			{{1, 0}, {1, 0}},
+			{{1, 1}, {1, 1}},
+			{{0, 1}, {0, 1}} };
+		testMesh->Triangles = {
+			0, 1, 2,
+			0, 2, 3
+		};
+		testMesh->Shaders = {
+			{0, 6, "DefaultSpriteShader"}
+		};
+		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Objects).RegisterMesh(testMesh);
+		// Make mesh follow object
+		testCollider->p_LinkedTransform->OnSetPosition += [&](SWAEngine::Math::Vector2 newPosition) { testMesh->Origin = { (float)newPosition.X, (float)newPosition.Y }; };
+		testCollider->p_LinkedTransform->OnSetScale += [&](SWAEngine::Math::Vector2 newScale) { testMesh->Scale = { (float)newScale.X, (float)newScale.Y }; };
+		// Set coordinates
+		testCollider->p_LinkedTransform->SetPosition({ 1, 1 });
+		testCollider->p_LinkedTransform->SetScale({ .5, 1 });
 	}
 
 
