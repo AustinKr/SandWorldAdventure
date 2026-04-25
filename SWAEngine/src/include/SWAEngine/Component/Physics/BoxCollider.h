@@ -1,7 +1,7 @@
 #pragma once
 #include "Collider.h"
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	// Requires a Transform component
 	struct SWA_ENGINE_API BoxCollider : Collider

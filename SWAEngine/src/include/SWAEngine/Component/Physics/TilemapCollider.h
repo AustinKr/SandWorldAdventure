@@ -2,7 +2,7 @@
 #include "Collider.h"
 #include <SWAEngine/Tilemap/Tilemap.h>
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	struct SWA_ENGINE_API TilemapCollider : Collider
 	{

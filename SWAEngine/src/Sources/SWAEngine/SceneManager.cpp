@@ -1,6 +1,6 @@
-#include "SWAEngine/SceneManager.h"
-#include "SWAEngine/GameObject/GameObject.h"
+#include <SWAEngine/SceneManager.h>
 #include <stdexcept>
+#include <SWAEngine/GameObject.h> // Scene.h has a forward decl to GameObject, and it must be defined at this point
 
 namespace SWAEngine
 {

@@ -3,7 +3,7 @@
 #include <SWAEngine/dllClause.h>
 #include <string>
 
-namespace SWAEngine::GameObject::Component
+namespace SWAEngine::Component
 {
 	
 	// User should create Components through GameObject

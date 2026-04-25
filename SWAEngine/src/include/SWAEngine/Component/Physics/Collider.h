@@ -1,12 +1,12 @@
 #pragma once
 #include <SWAEngine/dllClause.h>
-#include <SWAEngine/GameObject/Component/IComponent.h>
-#include <SWAEngine/GameObject/Component/Transform.h>
+#include <SWAEngine/Component/IComponent.h>
+#include <SWAEngine/Component/Transform.h>
 #include <set>
 
 #include "ColliderTypes.h"
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	// TODO: For collision optimisation: use an acceleration structure like a Quadtree
 	struct SWA_ENGINE_API Collider : IComponent

@@ -1,9 +1,9 @@
-#include <SWAEngine/GameObject/Component/Physics/TilemapCollider.h>
-#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/TilemapCollider.h>
+#include <SWAEngine/Component/Physics/BoxCollider.h>
 #include <SWAEngine/SceneManager.h>
-#include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/GameObject.h>
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	std::string const TilemapCollider::GetName()
 	{

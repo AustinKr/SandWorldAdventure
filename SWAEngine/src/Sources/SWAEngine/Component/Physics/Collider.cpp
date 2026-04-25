@@ -1,8 +1,8 @@
-#include <SWAEngine/GameObject/Component/Physics/Collider.h>
-#include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/Component/Physics/Collider.h>
+#include <SWAEngine/GameObject.h>
 #include <SWAEngine/SceneManager.h>
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	std::set<Collider*> Collider::ms_CollidersRegistry = {};
 

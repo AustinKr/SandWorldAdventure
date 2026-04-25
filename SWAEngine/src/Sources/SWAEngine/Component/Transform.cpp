@@ -1,6 +1,6 @@
-#include <SWAEngine/GameObject/Component/Transform.h>
+#include <SWAEngine/Component/Transform.h>
 
-namespace SWAEngine::GameObject::Component
+namespace SWAEngine::Component
 {
 	Transform::Transform(Math::Vector2 position, Math::Vector2 scale) : m_Position(position), m_Scale(scale), OnSetPosition{}, OnSetScale{}
 	{}

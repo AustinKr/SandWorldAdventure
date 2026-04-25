@@ -1,8 +1,8 @@
 #pragma once
-#include <SWAEngine/GameObject/GameObject.h>
-#include <SWAEngine/GameObject/Component/IComponent.h>
-#include <SWAEngine/GameObject/Component/Physics/Rigidbody.h>
-#include <SWAEngine/GameObject/Component/Physics/Collider.h>
+#include <SWAEngine/GameObject.h>
+#include <SWAEngine/Component/IComponent.h>
+#include <SWAEngine/Component/Physics/Rigidbody.h>
+#include <SWAEngine/Component/Physics/Collider.h>
 #include "SWA/Player/Inputs.h"
 #include "SWA/Player/Inventory/Manager.h"
 
@@ -15,7 +15,7 @@ namespace SWA::Player
 	// TODO: Checks collision against the tilemap, bounds of tilemap, and other entities
 	// Retrieves the scale of the player object. Note: The player shares its scale with its mesh origin
 	// A player object that is associated with its mesh
-	struct Player : SWAEngine::GameObject::Component::IComponent
+	struct Player : SWAEngine::Component::IComponent
 	{
 	private:
 		GP2D::Pipeline::Mesh::Mesh *mp_Mesh;
@@ -25,9 +25,9 @@ namespace SWA::Player
 		Inputs m_Inputs;
 
 	public:
-		SWAEngine::GameObject::Component::Physics::Rigidbody* p_LinkedRigidbody;
-		SWAEngine::GameObject::Component::Physics::Collider* p_LinkedCollider;
-		SWAEngine::GameObject::Component::Transform* p_LinkedTransform;
+		SWAEngine::Component::Physics::Rigidbody* p_LinkedRigidbody;
+		SWAEngine::Component::Physics::Collider* p_LinkedCollider;
+		SWAEngine::Component::Transform* p_LinkedTransform;
 
 		// This should only be called once when the application begins and is the only instance used
 		Player();

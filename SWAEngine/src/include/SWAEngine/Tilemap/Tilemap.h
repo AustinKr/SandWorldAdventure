@@ -1,5 +1,5 @@
 #pragma once
-#include <SWAEngine/GameObject/Component/IComponent.h>
+#include <SWAEngine/Component/IComponent.h>
 #include "SWAEngine/Tilemap/ITilemapContainer.h"
 #include "SWAEngine/Tilemap/PropertyManager.h"
 #include "SWAEngine/Math/Time.h"
@@ -9,7 +9,7 @@ namespace SWAEngine::Tilemap
 {
 	// TODO: Move tilemap into GameObject/component
 	// TODO: Make tilemap use Transform component, or else make Colliders not require a transform
-	struct SWA_ENGINE_API Tilemap : GameObject::Component::IComponent
+	struct SWA_ENGINE_API Tilemap : Component::IComponent
 	{
 	public:
 		static const int ACTIVE_TILES_ID; // Used in PropertyManager

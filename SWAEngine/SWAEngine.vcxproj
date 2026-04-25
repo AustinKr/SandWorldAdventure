@@ -172,14 +172,14 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\dllmain.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\TilemapCollider.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\GameObject.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Component\Physics\TilemapCollider.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\GameObject.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\FileManager.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\BaseItem.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Inventory\Inventory.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\BoxCollider.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\Collider.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Physics\Rigidbody.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Component\Physics\BoxCollider.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Component\Physics\Collider.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Component\Physics\Rigidbody.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\ColorUtility.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\Int3.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Math\vector2.cpp" />
@@ -192,23 +192,23 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapContainer.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\TilemapMesh.cpp" />
     <ClCompile Include="src\Sources\SWAEngine\Tilemap\PropertyManager.cpp" />
-    <ClCompile Include="src\Sources\SWAEngine\GameObject\Component\Transform.cpp" />
+    <ClCompile Include="src\Sources\SWAEngine\Component\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\SWAEngine\FileManager.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\IComponent.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\TilemapCollider.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\IComponent.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\Physics\TilemapCollider.h" />
     <ClInclude Include="src\include\SWAEngine\Math\ColorUtility.h" />
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\BoxCollider.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\ColliderTypes.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\Collider.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Physics\Rigidbody.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\Physics\BoxCollider.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\Physics\ColliderTypes.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\Physics\Collider.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\Physics\Rigidbody.h" />
     <ClInclude Include="src\include\SWAEngine\Scene.h" />
     <ClInclude Include="src\include\SWAEngine\SceneManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyData\SandData.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\IPropertyManager.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\GameObject.h" />
+    <ClInclude Include="src\include\SWAEngine\GameObject.h" />
     <ClInclude Include="src\include\SWAEngine\dllClause.h" />
     <ClInclude Include="src\include\SWAEngine\EventHandler.h" />
     <ClInclude Include="src\include\SWAEngine\Inventory\BaseItem.h" />
@@ -227,7 +227,7 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClInclude Include="src\include\SWAEngine\Tilemap\PropertyManager.h" />
     <ClInclude Include="src\include\SWAEngine\Tilemap\TilePropertyManager\SandManager.h" />
     <ClInclude Include="src\include\SWAEngine\Math\Time.h" />
-    <ClInclude Include="src\include\SWAEngine\GameObject\Component\Transform.h" />
+    <ClInclude Include="src\include\SWAEngine\Component\Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

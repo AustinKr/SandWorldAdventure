@@ -7,8 +7,9 @@
 #include "SWA/RenderLayerNames.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
 
-#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/BoxCollider.h>
 #include <SWAEngine/SceneManager.h>
+#include <SWAEngine/GameObject.h>
 
 using namespace GP2D::Pipeline;
 using namespace GP2D::Math;
@@ -16,8 +17,7 @@ using namespace SWAEngine::Math;
 using namespace SWAEngine::Tilemap;
 using namespace SWA::Player::Inventory;
 
-using namespace SWAEngine::GameObject;
-using namespace Component;
+using namespace SWAEngine::Component;
 using namespace Physics;
 
 namespace SWA::Player
@@ -51,7 +51,7 @@ namespace SWA::Player
 		GUILayout::Initialize(Inventory);
 
 		// Link components
-		GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
+		SWAEngine::GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 
 		// Get/create linked components
 		p_LinkedCollider = linkedObject.GetComponent<BoxCollider>(); // TODO: use any collider

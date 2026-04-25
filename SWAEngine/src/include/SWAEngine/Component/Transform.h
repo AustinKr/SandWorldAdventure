@@ -5,7 +5,7 @@
 #include <string>
 #include "IComponent.h"
 
-namespace SWAEngine::GameObject::Component
+namespace SWAEngine::Component
 {
 	struct SWA_ENGINE_API Transform : IComponent
 	{

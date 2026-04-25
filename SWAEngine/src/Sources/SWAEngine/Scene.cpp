@@ -1,6 +1,6 @@
 #include <SWAEngine/Scene.h>
 #include <SWAEngine/SceneManager.h>
-#include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/GameObject.h>
 
 namespace SWAEngine
 {
@@ -28,13 +28,13 @@ namespace SWAEngine
 	{
 		return m_ObjectsRegistry.contains(name);
 	}
-	GameObject::GameObject& Scene::GetGameObject(std::string name)
+	GameObject& Scene::GetGameObject(std::string name)
 	{
 		return m_ObjectsRegistry.at(name);
 	}
-	GameObject::GameObject& Scene::CreateGameObject(std::string name)
+	GameObject& Scene::CreateGameObject(std::string name)
 	{
-		GameObject::GameObject obj(name);
+		GameObject obj(name);
 		obj.SetActive(GetActive());
 		return m_ObjectsRegistry.insert(std::make_pair(name, std::move(obj))).first->second;
 	}

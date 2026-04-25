@@ -1,6 +1,6 @@
-#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/BoxCollider.h>
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	std::string const BoxCollider::GetName()
 	{

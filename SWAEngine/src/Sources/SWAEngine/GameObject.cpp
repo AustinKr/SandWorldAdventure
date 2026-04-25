@@ -1,7 +1,7 @@
-#include "SWAEngine/GameObject/GameObject.h"
-#include "SWAEngine/SceneManager.h"
+#include <SWAEngine/GameObject.h>
+#include <SWAEngine/SceneManager.h>
 
-namespace SWAEngine::GameObject
+namespace SWAEngine
 {
 	void GameObject::TryUnregisterComponent(std::string name)
 	{

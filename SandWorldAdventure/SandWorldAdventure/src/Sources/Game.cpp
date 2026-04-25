@@ -8,7 +8,7 @@
 #include <SWA/JSON/JSONManager.h>
 
 #include "SWAEngine/Tilemap/TileBehavior/Types.h"
-#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/BoxCollider.h>
 
 // Graphics
 #include "GP2D/Pipeline/GenericPipeline.h"
@@ -24,7 +24,6 @@ using namespace GP2D;
 using namespace GP2D::Pipeline;
 
 using namespace SWAEngine;
-using namespace GameObject;
 using namespace Component;
 using namespace Physics;
 
@@ -57,8 +56,8 @@ namespace SWA
 		SWAEngine::SceneManager::CreateScene("ThisIsAnotherScene");
 
 		// Create tilemap
-		SWAEngine::GameObject::GameObject& tilemapObj = SceneManager::GetScene().CreateGameObject("Tilemap");
-		p_TilemapCollider = tilemapObj.GetComponent<SWAEngine::GameObject::Component::Physics::TilemapCollider>();
+		GameObject& tilemapObj = SceneManager::GetScene().CreateGameObject("Tilemap");
+		p_TilemapCollider = tilemapObj.GetComponent<Component::Physics::TilemapCollider>();
 		p_Tilemap = p_TilemapCollider->p_LinkedTilemap;
 		p_Tilemap->Origin = { 0,0 }; p_Tilemap->TileScale = { .01f, .01f };
 		// Create mesh
@@ -73,13 +72,13 @@ namespace SWA
 		p_Tilemap->SetTile({ 3, 3 }, { SWAEngine::Tilemap::TileBehavior::SOLID, 0xffFFffFF, true });
 
 		// Create the player
-		SWAEngine::GameObject::GameObject& playerObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Player");
+		GameObject& playerObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Player");
 		p_MainPlayer = playerObj.GetComponent<Player::Player>();
 		p_MainPlayer->p_LinkedTransform->SetPosition({ 1, 2 });
 
 
 		// TODO: remove test collision object
-		SWAEngine::GameObject::GameObject& testObj = SWAEngine::SceneManager::GetScene().CreateGameObject("MyTestObj");
+		GameObject& testObj = SWAEngine::SceneManager::GetScene().CreateGameObject("MyTestObj");
 		BoxCollider* testCollider = testObj.GetComponent<BoxCollider>();
 		// Test mesh
 		auto testMesh = new Mesh::Mesh(true, SpriteShaderProperties::CreateProperties("lava_24"), true);

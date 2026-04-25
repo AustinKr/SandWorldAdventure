@@ -1,10 +1,10 @@
-#include <SWAEngine/GameObject/Component/Physics/Rigidbody.h>
-#include <SWAEngine/GameObject/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/Rigidbody.h>
+#include <SWAEngine/Component/Physics/BoxCollider.h>
 #include <SWAEngine/SceneManager.h>
 
 using namespace SWAEngine::Math;
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	const int Rigidbody::MAX_COLLISION_STEPS = 5;
 	Rigidbody::Rigidbody() :

@@ -3,14 +3,14 @@
 #include <SWAEngine/Math/vector2.h>
 #include <SWAEngine/Math/Time.h>
 
-#include <SWAEngine/GameObject/Component/IComponent.h>
-#include <SWAEngine/GameObject/Component/Transform.h>
+#include <SWAEngine/Component/IComponent.h>
+#include <SWAEngine/Component/Transform.h>
 
-#include <SWAEngine/GameObject/GameObject.h>
+#include <SWAEngine/GameObject.h>
 #include <SWAEngine/Scene.h>
 #include "Collider.h"
 
-namespace SWAEngine::GameObject::Component::Physics
+namespace SWAEngine::Component::Physics
 {
 	// TODO: allow collision tags to be configured with physics objects
 	// Requires a Transform component
