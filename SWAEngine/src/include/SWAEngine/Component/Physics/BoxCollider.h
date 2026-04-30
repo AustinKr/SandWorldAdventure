@@ -10,7 +10,6 @@ namespace SWAEngine::Component::Physics
 		// Inherited/Required by IComponent
 		
 		static std::string const GetName();
-		virtual void Release() override;
 		virtual bool IsColliding(Collider* other) override;
 
 		// Inherited by Collider

@@ -6,10 +6,6 @@ namespace SWAEngine::Component::Physics
 	{
 		return "box_collider";
 	}
-	void BoxCollider::Release()
-	{
-		delete(this);
-	}
 
 	bool BoxCollider::IsColliding(Collider* other)
 	{
