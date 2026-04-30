@@ -59,7 +59,8 @@ namespace SWA
 		GameObject& tilemapObj = SceneManager::GetScene().CreateGameObject("Tilemap");
 		p_TilemapCollider = tilemapObj.GetComponent<Component::Physics::TilemapCollider>();
 		p_Tilemap = p_TilemapCollider->p_LinkedTilemap;
-		p_Tilemap->Origin = { 0,0 }; p_Tilemap->TileScale = { .01f, .01f };
+		p_Tilemap->p_LinkedTransform->SetPosition({0, 0});
+		p_Tilemap->p_LinkedTransform->SetScale({.01f, .01f});
 		// Create mesh
 		p_TilemapMesh = new Tilemap::TilemapMesh(p_Tilemap, "TilemapShader");
 		GenericPipeline::s_Hierarchy.GetLayer(RENDERLAYERS_Tilemap0).RegisterMesh(p_TilemapMesh);

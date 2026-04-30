@@ -1,6 +1,8 @@
 #include <SWAEngine/Component/TilemapComponent.h>
 #include <SWAEngine/Tilemap/TilemapContainer.h>
 #include <SWAEngine/Tilemap/TileBehavior/IBehavior.h>
+#include <SWAEngine/SceneManager.h>
+#include <SWAEngine/GameObject.h>
 #include <algorithm>
 
 namespace SWAEngine::Component
@@ -22,22 +24,22 @@ namespace SWAEngine::Component
 	const int TilemapComponent::ACTIVE_TILES_ID = 1;
 	const int TilemapComponent::PENDING_TILES_ID = 2;
 
-	TilemapComponent::TilemapComponent(Math::Vector2 origin, Math::Vector2 scale)
-	{
-		PropertyManager = {};
+	TilemapComponent::TilemapComponent() : 
+		PropertyManager{},
+		p_LinkedTransform(nullptr), 
+		mp_ActiveTilesContainer(new Tilemap::TilemapContainer()),
+		mp_PendingTilesContainer(new Tilemap::TilemapContainer())
+	{}
 
-		Origin = origin;
-		TileScale = scale;
-
-		mp_ActiveTilesContainer = new Tilemap::TilemapContainer();
-		mp_PendingTilesContainer = new Tilemap::TilemapContainer();
-	}
 	std::string const TilemapComponent::GetName()
 	{
 		return "tilemap";
 	}
 	void TilemapComponent::Initialize(std::string objName)
-	{}
+	{
+		GameObject& obj = SceneManager::GetScene().GetGameObject(objName);
+		p_LinkedTransform = obj.GetComponent<Transform>();
+	}
 	void TilemapComponent::Update(std::string, Math::Time time)
 	{
 		UpdateTiles(time, ApplyPendingTiles(time));
@@ -163,16 +165,16 @@ namespace SWAEngine::Component
 
 	Math::Vector2 TilemapComponent::TileToWorld(Math::Vector2Int tile, bool applyOffsets)
 	{
-		Math::Vector2 world = (Math::Vector2)tile * TileScale;
+		Math::Vector2 world = (Math::Vector2)tile * p_LinkedTransform->GetScale();
 		if (applyOffsets)
-			world += Origin;
+			world += p_LinkedTransform->GetPosition();
 		return world;
 	}
 	Math::Vector2Int TilemapComponent::WorldToTile(Math::Vector2 world, bool applyOffsets)
 	{
 		if (applyOffsets)
-			world -= Origin;
-		return world / TileScale;
+			world -= p_LinkedTransform->GetPosition();
+		return world / p_LinkedTransform->GetScale();
 	}
 
 	Math::Vector2Int TilemapComponent::GetBounds()

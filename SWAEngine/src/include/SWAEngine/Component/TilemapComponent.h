@@ -1,5 +1,6 @@
 #pragma once
 #include <SWAEngine/Component/IComponent.h>
+#include <SWAEngine/Component/Transform.h>
 #include <SWAEngine/Tilemap/ITilemapContainer.h>
 #include <SWAEngine/Tilemap/PropertyManager.h>
 #include <SWAEngine/Math/Time.h>
@@ -7,8 +8,6 @@
 
 namespace SWAEngine::Component
 {
-	// TODO: Move tilemap into GameObject/component
-	// TODO: Make tilemap use Transform component, or else make Colliders not require a transform
 	struct SWA_ENGINE_API TilemapComponent : Component::IComponent
 	{
 	public:
@@ -18,15 +17,13 @@ namespace SWAEngine::Component
 
 		Tilemap::PropertyManager PropertyManager;
 
-		// In world coordinates
-		Math::Vector2 Origin;
-		// In world coordinates
-		Math::Vector2 TileScale;
+		// Contains the origin and tile scale (both in world coordinates)
+		Transform* p_LinkedTransform;
 
-		TilemapComponent(Math::Vector2 origin = {}, Math::Vector2 scale = {1,1});
+		TilemapComponent();
 
 		static std::string const GetName();
-		virtual void Initialize(std::string objName) override;
+		virtual void Initialize(std::string objName) override; // Links a transform component
 		virtual void Release() override;
 		virtual void Update(std::string, Math::Time time) override;
 		virtual void SetActive(bool state) override;
