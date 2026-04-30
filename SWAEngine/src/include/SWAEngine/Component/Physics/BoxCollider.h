@@ -14,7 +14,7 @@ namespace SWAEngine::Component::Physics
 
 		// Inherited by Collider
 
-		virtual ColliderTypes GetType() override;
+		virtual unsigned int GetType() override;
 
 		// Collision methods
 

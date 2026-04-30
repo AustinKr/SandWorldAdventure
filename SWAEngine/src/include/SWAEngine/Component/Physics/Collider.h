@@ -4,8 +4,6 @@
 #include <SWAEngine/Component/Transform.h>
 #include <set>
 
-#include "ColliderTypes.h"
-
 namespace SWAEngine::Component::Physics
 {
 	// TODO: For collision optimisation: use an acceleration structure like a Quadtree
@@ -29,7 +27,7 @@ namespace SWAEngine::Component::Physics
 
 		// Member methods
 
-		virtual ColliderTypes GetType() = 0;
+		virtual unsigned int GetType() = 0;
 
 		virtual bool IsColliding(Collider* other) = 0;
 

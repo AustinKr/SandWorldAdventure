@@ -1,5 +1,6 @@
 #include <SWAEngine/Component/Physics/TilemapCollider.h>
 #include <SWAEngine/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/ColliderTypes.h>
 #include <SWAEngine/SceneManager.h>
 #include <SWAEngine/GameObject.h>
 
@@ -50,7 +51,7 @@ namespace SWAEngine::Component::Physics
 		return false;
 	}
 
-	ColliderTypes TilemapCollider::GetType()
+	unsigned int TilemapCollider::GetType()
 	{
 		return COLLIDER_TYPE_TILEMAP;
 	}

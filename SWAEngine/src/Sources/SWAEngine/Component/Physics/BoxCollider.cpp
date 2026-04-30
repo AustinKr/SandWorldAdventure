@@ -1,4 +1,5 @@
 #include <SWAEngine/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/ColliderTypes.h>
 
 namespace SWAEngine::Component::Physics
 {
@@ -31,7 +32,7 @@ namespace SWAEngine::Component::Physics
 		return false;
 	}
 
-	ColliderTypes BoxCollider::GetType()
+	unsigned int BoxCollider::GetType()
 	{
 		return COLLIDER_TYPE_BOX;
 	}
