@@ -24,6 +24,16 @@ namespace SWAEngine::Component
 		OnSetScale.InvokeEvents(newScale);
 		m_Scale = newScale;
 	}
+	Transform& Transform::Translate(Math::Vector2 movement)
+	{
+		SetPosition(m_Position + movement);
+		return *this;
+	}
+	Transform& Transform::Scale(Math::Vector2 factor)
+	{
+		SetScale(m_Scale * factor); 
+		return *this;
+	}
 
 	unsigned int const Transform::GetTag()
 	{

@@ -81,7 +81,7 @@ namespace SWAEngine::Component::Physics
 		// Try to just move if we couldn't possibly collide
 		if (!SceneManager::GetScene().GetGameObject(m_ObjectName).ContainsComponent<Collider>())
 		{
-			p_LinkedTransform->SetPosition(p_LinkedTransform->GetPosition() + movement);
+			p_LinkedTransform->Translate(movement);
 			return;
 		}
 
