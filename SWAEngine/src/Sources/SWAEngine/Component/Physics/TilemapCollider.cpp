@@ -47,4 +47,8 @@ namespace SWAEngine::Component::Physics
 
 		return isOtherColliding;
 	}
+	bool TilemapCollider::IsColliding(Math::Vector2 point)
+	{
+		return p_LinkedTilemap->GetActiveTile(p_LinkedTilemap->WorldToTile(point)).HasValue;
+	}
 }

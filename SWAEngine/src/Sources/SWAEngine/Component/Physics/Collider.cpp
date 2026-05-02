@@ -26,6 +26,8 @@ namespace SWAEngine::Component::Physics
 	
 	bool Collider::IsColliding(Collider* other)
 	{ return false; }
+	bool Collider::IsColliding(Math::Vector2 point)
+	{ return false; }
 	bool Collider::IsColliding(unsigned int tag)
 	{
 		// Compare all objects other than this with this

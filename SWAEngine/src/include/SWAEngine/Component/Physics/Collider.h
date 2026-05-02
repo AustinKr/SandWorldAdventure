@@ -28,8 +28,9 @@ namespace SWAEngine::Component::Physics
 		virtual bool GetActive() override { return true; } // Returns true by default
 
 		// Member methods
-		 // Returns false by default
-		virtual bool IsColliding(Collider* other);
+		
+		virtual bool IsColliding(Collider* other); // Returns false by default
+		virtual bool IsColliding(Math::Vector2 point); // Returns false by default
 		/// <summary> Checks collision with all registered Colliders with one of the given Tags </summary>
 		/// <param name="tag">Used to select Colliders with one of the given Tags to test collision</param>
 		virtual bool IsColliding(unsigned int tag = SELECT_ALL);

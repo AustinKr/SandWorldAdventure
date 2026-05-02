@@ -17,5 +17,6 @@ namespace SWAEngine::Component::Physics
 
 		// Inherited by Collider
 		virtual bool IsColliding(Collider* other) override;
+		virtual bool IsColliding(Math::Vector2 point) override;
 	};
 }
