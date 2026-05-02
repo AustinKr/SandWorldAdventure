@@ -75,7 +75,7 @@ namespace SWA
 		// Create the player
 		GameObject& playerObj = SWAEngine::SceneManager::GetScene().CreateGameObject("Player");
 		p_MainPlayer = playerObj.GetComponent<Player::Player>();
-		p_MainPlayer->p_LinkedTransform->SetPosition({ 1, 2 });
+		p_MainPlayer->p_LinkedTransform->SetPosition({ 3, 2 });
 
 
 		// TODO: remove test collision object

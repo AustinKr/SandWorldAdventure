@@ -14,7 +14,7 @@ namespace SWA::Player
 	}
 	bool PlayerCollider::IsColliding(unsigned int tag)
 	{
-		if (p_LinkedTransform->GetPosition().X < Game::p_Tilemap->p_LinkedTransform->GetPosition().X
+		if (p_LinkedTransform->GetPosition().X < Game::p_Tilemap->p_LinkedTransform->GetPosition().X + PLAYER_WORLD_BOUNDS
 			|| p_LinkedTransform->GetPosition().Y < Game::p_Tilemap->p_LinkedTransform->GetPosition().Y)
 			return true;
 		

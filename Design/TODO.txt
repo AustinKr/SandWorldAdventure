@@ -1,12 +1,4 @@
-
-Renovate Component system
-	. Replace static GetName in components to be virtual GetTag()
-	. Instead of assuming the GetName() exists, GameObject now creates an instance of the TYPE and uses its overloaded GetTag().
-	. New functionality allows for accessing base Components, stored in a GameObject, from derived Components
-	. Simplified Component management
-. make PlayerCollider inhert BoxCollider
-
-
+. Make transform have Move(...) and Scale(...)
 
 . Create LIBRARYNAME.h
 . In the future, after all else fails, Colliders will return an approximation of the collision.
