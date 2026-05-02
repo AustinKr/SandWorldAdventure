@@ -42,7 +42,7 @@ namespace SWAEngine::Component::Physics
 		
 		// Inherited/Required by IComponent
 
-		static std::string const GetName();
+		virtual unsigned int const GetTag() override;
 		virtual void Initialize(std::string objName) override;
 		virtual void Release() override; 
 		virtual void Update(std::string objectName, Math::Time time) override; // TODO: Make rigidbody update after all other components

@@ -23,8 +23,9 @@ namespace SWAEngine::Component
 		void SetPosition(Math::Vector2 newPosition);
 		Math::Vector2 GetScale() const;
 		void SetScale(Math::Vector2 newScale);
+		// TODO: Make Move(...) and Scale(...)
 
-		static std::string const GetName();
+		virtual unsigned int const GetTag() override;
 		virtual void Initialize(std::string objName) override;
 		virtual void SetActive(bool state) override;
 		virtual bool GetActive() override; // Returns true by default

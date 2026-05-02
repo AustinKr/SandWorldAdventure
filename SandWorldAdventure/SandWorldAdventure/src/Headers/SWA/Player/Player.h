@@ -2,9 +2,9 @@
 #include <SWAEngine/GameObject.h>
 #include <SWAEngine/Component/IComponent.h>
 #include <SWAEngine/Component/Physics/Rigidbody.h>
-#include <SWAEngine/Component/Physics/Collider.h>
-#include "SWA/Player/Inputs.h"
-#include "SWA/Player/Inventory/Manager.h"
+#include "Inputs.h"
+#include "PlayerCollider.h"
+#include "Inventory/Manager.h"
 
 #include "GP2D/Pipeline/Mesh/Mesh.h"
 
@@ -25,8 +25,10 @@ namespace SWA::Player
 		Inputs m_Inputs;
 
 	public:
+		static const unsigned int PLAYER_TAG = 1024; // TODO: This will conflict if there are 10 Components in SWAEngine
+
 		SWAEngine::Component::Physics::Rigidbody* p_LinkedRigidbody;
-		SWAEngine::Component::Physics::Collider* p_LinkedCollider;
+		PlayerCollider *p_LinkedCollider;
 		SWAEngine::Component::Transform* p_LinkedTransform;
 
 		// This should only be called once when the application begins and is the only instance used
@@ -41,8 +43,8 @@ namespace SWA::Player
 
 		void Move();
 
-		static std::string const GetName();
 		// Inherited via IComponent
+		virtual unsigned int const GetTag() override;
 		virtual void Initialize(std::string objName) override; // Creates the mesh with default size, links components, and creates the inventory and its gui
 		virtual void Release() override; 
 		virtual void Update(std::string objectName, SWAEngine::Math::Time time) override;

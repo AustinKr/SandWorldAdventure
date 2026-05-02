@@ -1,6 +1,7 @@
 #include <SWAEngine/Component/Physics/Rigidbody.h>
-#include <SWAEngine/Component/Physics/BoxCollider.h>
+#include <SWAEngine/Component/Physics/Collider.h>
 #include <SWAEngine/SceneManager.h>
+#include <SWAEngine/Component/ComponentTags.h>
 
 using namespace SWAEngine::Math;
 
@@ -11,10 +12,9 @@ namespace SWAEngine::Component::Physics
 		m_LastVelocity{}, m_Velocity{}, m_Acceleration{}, m_Dampening(.98),
 		m_IsTouchingGround{}, m_Time{}, p_LinkedTransform(nullptr)
 	{}
-
-	std::string const Rigidbody::GetName()
+	unsigned int const Rigidbody::GetTag()
 	{
-		return "rigidbody";
+		return COMP_TAG_RIGIDBODY;
 	}
 	void Rigidbody::Initialize(std::string objName)
 	{
@@ -46,7 +46,7 @@ namespace SWAEngine::Component::Physics
 	bool Rigidbody::StepMove(SWAEngine::Math::Vector2 movement)
 	{
 		// Get collider (assumed to have a value)
-		Collider* pCollider = SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>();
+		Collider* pCollider = SceneManager::GetScene().GetGameObject(m_ObjectName).TryFindComponent<Collider>();
 
 		Vector2 origin = p_LinkedTransform->GetPosition();
 		double factor = 1.0;
@@ -78,10 +78,9 @@ namespace SWAEngine::Component::Physics
 
 		Vector2 movement = m_Velocity * m_Time.RealDeltaTime;
 
-		// Try get collider
-		if (SceneManager::GetScene().GetGameObject(m_ObjectName).TryGetComponent<BoxCollider>() == nullptr)
+		// Try to just move if we couldn't possibly collide
+		if (!SceneManager::GetScene().GetGameObject(m_ObjectName).ContainsComponent<Collider>())
 		{
-			// Just move because we couldn't possibly collide
 			p_LinkedTransform->SetPosition(p_LinkedTransform->GetPosition() + movement);
 			return;
 		}

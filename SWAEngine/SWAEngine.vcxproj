@@ -195,13 +195,13 @@ copy /Y "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)Build\libraries\$(Projec
     <ClCompile Include="src\Sources\SWAEngine\Component\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\SWAEngine\Component\ComponentTags.h" />
     <ClInclude Include="src\include\SWAEngine\FileManager.h" />
     <ClInclude Include="src\include\SWAEngine\Component\IComponent.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Physics\TilemapCollider.h" />
     <ClInclude Include="src\include\SWAEngine\Math\ColorUtility.h" />
     <ClInclude Include="src\include\SWAEngine\Math\Int3.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Physics\BoxCollider.h" />
-    <ClInclude Include="src\include\SWAEngine\Component\Physics\ColliderTypes.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Physics\Collider.h" />
     <ClInclude Include="src\include\SWAEngine\Component\Physics\Rigidbody.h" />
     <ClInclude Include="src\include\SWAEngine\Scene.h" />

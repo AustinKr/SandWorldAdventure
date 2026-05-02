@@ -11,13 +11,11 @@ namespace SWAEngine::Component::Physics
 
 		// Inherited/Required by IComponent
 
-		static std::string const GetName();
+		virtual unsigned int const GetTag() override;
 		virtual void Initialize(std::string objName) override; // Calls Collider::Initialize() and requires the Tilemap Component
 		virtual void Release() override;
-		virtual bool IsColliding(Collider* other) override;
 
 		// Inherited by Collider
-
-		virtual unsigned int GetType() override;
+		virtual bool IsColliding(Collider* other) override;
 	};
 }

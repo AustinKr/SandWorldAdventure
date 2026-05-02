@@ -8,13 +8,10 @@ namespace SWAEngine::Component::Physics
 	{
 	public:
 		// Inherited/Required by IComponent
-		
-		static std::string const GetName();
-		virtual bool IsColliding(Collider* other) override;
+		virtual unsigned int const GetTag() override;
 
 		// Inherited by Collider
-
-		virtual unsigned int GetType() override;
+		virtual bool IsColliding(Collider* other) override;
 
 		// Collision methods
 

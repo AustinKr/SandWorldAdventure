@@ -23,39 +23,56 @@ namespace SWAEngine
 		std::string m_Name; // TODO: can make name changeable
 		bool m_IsActive;
 
-		std::unordered_map<std::string, Component::IComponent*> m_Components;
+		// Collection of Components with Tags as keys
+		std::unordered_map<unsigned int, Component::IComponent*> m_Components;
 	private:
 		// Creates an object
 		GameObject(std::string objName);
 	public:
-		// Only registers the component, returns nullptr if the component alias is not available or it failed to insert for whatever reason
+		
+		// Returns the first Component with the given Tag, or else nullptr
+		// Expects TYPE to be of IComponent
 		template<typename TYPE>
-		TYPE* const TryRegisterComponent(TYPE* pComp)
+		TYPE* const TryFindComponent()
 		{
-			if (m_Components.contains(pComp->GetName()))
-				return nullptr;
-			return m_Components.insert(std::make_pair(pComp->GetName(), pComp)).second ? pComp : nullptr;
+			unsigned int tag = TYPE{}.GetTag(); // Create temporary object to obtain tag
+
+			for (auto& comp : m_Components)
+			{
+				if (comp.second->GetTag() & tag)
+					return static_cast<TYPE*>(comp.second);
+			}
+			return nullptr;
 		}
-		void TryUnregisterComponent(std::string name);
-		// Expects TYPE to be of IComponent and contain a static std::string GetName()
+		// Evaluates to TryFindComponent<TYPE>() != nullptr
 		template<typename TYPE>
-		TYPE* const TryGetComponent()
+		bool ContainsComponent()
 		{
-			return m_Components.contains(TYPE::GetName()) ? static_cast<TYPE*>(m_Components.at(TYPE::GetName())) : nullptr;
+			return TryFindComponent<TYPE>() != nullptr;
 		}
-		// Gets the current component, or create and initalizes one if it doesn't already exist
-		// Expects TYPE to be of IComponent and contain a static std::string GetName()
+		// Expects TYPE to be of IComponent
+		template<typename TYPE>
+		TYPE* const TryUnregister()
+		{
+			TYPE* pComp = TryFindComponent<TYPE>();
+			pComp->Release();
+			m_Components.erase(pComp->GetTag());
+		}
+		// Gets the existing Component, or creates and initalizes one if it doesn't already exist
+		// Expects TYPE to be of IComponent
 		template<typename TYPE>
 		TYPE* const GetComponent()
 		{
-			TYPE* comp = TryGetComponent<TYPE>();
+			TYPE* comp = TryFindComponent<TYPE>();
 			if (comp == nullptr)
 			{
-				comp = static_cast<TYPE*>(m_Components.insert(std::make_pair(TYPE::GetName(), new TYPE())).first->second);
+				TYPE* newComp = new TYPE();
+				comp = static_cast<TYPE*>(m_Components.insert(std::make_pair(newComp->GetTag(), newComp)).first->second);
 				comp->Initialize(GetName());
 			}
 			return comp;
 		}
+
 
 		std::string const GetName();
 		bool GetActive();

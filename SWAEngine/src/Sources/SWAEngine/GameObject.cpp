@@ -3,21 +3,13 @@
 
 namespace SWAEngine
 {
-	void GameObject::TryUnregisterComponent(std::string name)
-	{
-		Component::IComponent* pComp = m_Components.at(name);
-		pComp->Release();
-		m_Components.erase(name);
-	}
-
 	std::string const GameObject::GetName()
 	{
 		return m_Name;
 	}
 
 	GameObject::GameObject(std::string name) : m_Name(name), m_IsActive(false)
-	{
-	}
+	{}
 
 	void GameObject::Update(Math::Time time)
 	{

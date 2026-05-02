@@ -1,14 +1,14 @@
 #include <SWAEngine/Component/Physics/TilemapCollider.h>
 #include <SWAEngine/Component/Physics/BoxCollider.h>
-#include <SWAEngine/Component/Physics/ColliderTypes.h>
 #include <SWAEngine/SceneManager.h>
 #include <SWAEngine/GameObject.h>
+#include <SWAEngine/Component/ComponentTags.h>
 
 namespace SWAEngine::Component::Physics
 {
-	std::string const TilemapCollider::GetName()
+	unsigned int const TilemapCollider::GetTag()
 	{
-		return "tilemap_collider";
+		return COMP_TAG_COLLIDER | COMP_TAG_TILEMAP_COLLIDER;
 	}
 	void TilemapCollider::Initialize(std::string objName)
 	{
@@ -24,9 +24,8 @@ namespace SWAEngine::Component::Physics
 
 	bool TilemapCollider::IsColliding(Collider* other)
 	{
-		switch (other->GetType())
-		{
-		case COLLIDER_TYPE_BOX:
+		unsigned int tag = other->GetTag();
+		if (tag & COMP_TAG_BOX_COLLIDER)
 		{
 			BoxCollider* pBox = static_cast<BoxCollider*>(other);
 			Math::Vector2Int bottomLeft = p_LinkedTilemap->WorldToTile(pBox->p_LinkedTransform->GetPosition());
@@ -34,25 +33,18 @@ namespace SWAEngine::Component::Physics
 
 			return p_LinkedTilemap->DetectCollisionRect(bottomLeft, topRight);
 		}
-		default:
-			bool isOtherColliding = other->IsColliding(this);
 
-			// TODO: handle other. Could use test points to be semi-accurate with unknown colliders
-			//if (!isOtherColliding)
-			//{
-			//	// try handle other
-			//	//...
-			//	return approximate;
-			//}
+		// Handle default
+		bool isOtherColliding = other->IsColliding(this);
 
-			return isOtherColliding;
-		}
+		// TODO: handle other. Could use test points to be semi-accurate with unknown colliders
+		//if (!isOtherColliding)
+		//{
+		//	// try handle other
+		//	//...
+		//	return approximate;
+		//}
 
-		return false;
-	}
-
-	unsigned int TilemapCollider::GetType()
-	{
-		return COLLIDER_TYPE_TILEMAP;
+		return isOtherColliding;
 	}
 }

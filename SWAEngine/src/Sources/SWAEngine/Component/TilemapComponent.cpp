@@ -3,6 +3,7 @@
 #include <SWAEngine/Tilemap/TileBehavior/IBehavior.h>
 #include <SWAEngine/SceneManager.h>
 #include <SWAEngine/GameObject.h>
+#include <SWAEngine/Component/ComponentTags.h>
 #include <algorithm>
 
 namespace SWAEngine::Component
@@ -31,9 +32,9 @@ namespace SWAEngine::Component
 		mp_PendingTilesContainer(new Tilemap::TilemapContainer())
 	{}
 
-	std::string const TilemapComponent::GetName()
+	unsigned int const TilemapComponent::GetTag()
 	{
-		return "tilemap";
+		return COMP_TAG_TILEMAP;
 	}
 	void TilemapComponent::Initialize(std::string objName)
 	{

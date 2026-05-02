@@ -1,4 +1,5 @@
 #include <SWAEngine/Component/Transform.h>
+#include <SWAEngine/Component/ComponentTags.h>
 
 namespace SWAEngine::Component
 {
@@ -24,9 +25,9 @@ namespace SWAEngine::Component
 		m_Scale = newScale;
 	}
 
-	std::string const Transform::GetName()
+	unsigned int const Transform::GetTag()
 	{
-		return "transform";
+		return COMP_TAG_TRANSFORM;
 	}
 	void Transform::Initialize(std::string objName)
 	{}

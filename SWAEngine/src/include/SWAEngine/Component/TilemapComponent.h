@@ -22,7 +22,7 @@ namespace SWAEngine::Component
 
 		TilemapComponent();
 
-		static std::string const GetName();
+		virtual unsigned int const GetTag() override;
 		virtual void Initialize(std::string objName) override; // Links a transform component
 		virtual void Release() override;
 		virtual void Update(std::string, Math::Time time) override;

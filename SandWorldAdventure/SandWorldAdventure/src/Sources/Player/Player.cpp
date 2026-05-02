@@ -1,4 +1,5 @@
 #include "SWA/Player/Player.h"
+#include <SWA/Player/PlayerCollider.h>
 #include "SWA/Player/Inventory/GUILayout.h"
 #include "SWA/SpriteShaderProperties.h"
 
@@ -7,7 +8,6 @@
 #include "SWA/RenderLayerNames.h"
 #include "GP2D/Pipeline/GenericPipeline.h"
 
-#include <SWAEngine/Component/Physics/BoxCollider.h>
 #include <SWAEngine/SceneManager.h>
 #include <SWAEngine/GameObject.h>
 
@@ -39,9 +39,9 @@ namespace SWA::Player
 		p_LinkedRigidbody->AddVelocity({ 0, -Gravity * m_Time.RealDeltaTime }); // Accerate but as an impulse
 	}
 
-	std::string const Player::GetName()
+	unsigned int const Player::GetTag()
 	{
-		return "player";
+		return PLAYER_TAG;
 	}
 	void Player::Initialize(std::string objName)
 	{
@@ -53,7 +53,7 @@ namespace SWA::Player
 		SWAEngine::GameObject& linkedObject = SWAEngine::SceneManager::GetScene().GetGameObject(objName);
 
 		// Get/create linked components
-		p_LinkedCollider = linkedObject.GetComponent<BoxCollider>(); // TODO: use any collider
+		p_LinkedCollider = linkedObject.GetComponent<PlayerCollider>();
 		p_LinkedRigidbody = linkedObject.GetComponent<Rigidbody>();
 		p_LinkedTransform = linkedObject.GetComponent<Transform>();
 
@@ -105,12 +105,4 @@ namespace SWA::Player
 	}
 	void Player::SetActive(bool state) {}
 	bool Player::GetActive() { return true; }
-
-	// TODO: Create tilemap collider in SWAEngine, possibly create PlayerCollider in SWA for world origin
-	/*bool Player::IsColliding()
-	{
-		return
-			Coordinates.GetPosition().X < Game::p_Tilemap->Origin.X || Coordinates.GetPosition().Y < Game::p_Tilemap->Origin.Y ||
-			Game::p_Tilemap->DetectCollisionRect(Game::p_Tilemap->WorldToTile(Coordinates.GetPosition()), Game::p_Tilemap->WorldToTile(Coordinates.GetPosition() + Coordinates.GetScale()));
-	}*/
 }

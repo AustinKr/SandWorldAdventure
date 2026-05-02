@@ -180,6 +180,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Player.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\GUILayout.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Manager.cpp" />
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerCollider.cpp" />
     <ClCompile Include="SandWorldAdventure\src\Sources\SpriteShaderProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +208,7 @@ copy /Y "C:\dev\C++ Projects\Tools\GP2D\Build\libraries\GP2D.lib" "$(SolutionDir
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\GUILayout.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Items\UseableItem.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\Inventory\Manager.h" />
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerCollider.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\RenderLayerNames.h" />
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\SpriteShaderProperties.h" />
   </ItemGroup>

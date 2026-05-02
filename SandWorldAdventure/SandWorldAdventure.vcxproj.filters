@@ -90,6 +90,9 @@
     <ClCompile Include="SandWorldAdventure\src\Sources\Player\Inventory\Items\PaintTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SandWorldAdventure\src\Sources\Player\PlayerCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SandWorldAdventure\Shaders\TilemapShader.shader" />
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SandWorldAdventure\src\Headers\SWA\JSON\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandWorldAdventure\src\Headers\SWA\Player\PlayerCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
